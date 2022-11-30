@@ -1,0 +1,74 @@
+# (c) Meta Platforms, Inc. and affiliates. Confidential and proprietary.
+
+# Ensure correct AST creation given units defined under: https://docs.python.org/3/library/ast.html :: 3.10.7 grammar
+# Note: the guide referenced above is not complete, so we've extended it here wher appropriate
+
+
+## match_case(pattern, guard, body)
+match xx:
+    case [x] if x >0:
+        something()
+    case tuple():
+        atuple()
+
+## MatchValue(value)
+match x:
+    case "Relevant":
+        thing()
+
+
+match x:
+    case "Relevant":
+        thing()
+    case "Relevant2":
+        thing()
+
+## MatchSingleton(value)
+match x:
+    case None:
+        thing()
+match x:
+    case None:
+        thing1()
+    case True:
+        thing2()
+    case False:
+        thing3()
+
+## MatchSequence(patterns)
+match x:
+    case [1, 2]:
+        seqmatch()
+
+## MatchStar(name)
+match x:
+    case [1, 2, *rest]:
+        thecase1()
+    case [*_]:
+        thecase2()
+
+## MatchMapping(keys, patterns, rest)
+match x:
+    case {1: _, 2: _}:
+        dsfsdfsdF()
+    case {**rest}:
+        serser()
+
+## MatchClass(cls, patterns, kwd_attrs, kwd_patterns)
+match x:
+    case Point2D(0, 0):
+        somethign()
+    case Point3D(x=0, y=0, z=0):
+        somethign2()
+
+## MatchAs(pattern, name)
+match x:
+    case [x] as y:
+        sdfsdfsdf234234()
+    case _:
+        sdfsdfsdf()
+
+## MatchOr(patterns)
+match x:
+    case [x] | (y):
+        orthing()

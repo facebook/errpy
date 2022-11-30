@@ -1,0 +1,46 @@
+@generated
+
+##Milestone 1 - Error correction for powering navigation on unsaved files
+class Thing:
+
+    def ok1(self, slice_elements: MyObject) -> str:
+        thing = slice_elements.thing()
+        return thing
+
+    def broken(self):
+        this_is_ok = [a for a in [1, 2, 3]]
+        thing = [a for a in in[1, 2, 3]]
+        this_part_is_ok = 34 + 8
+
+    def ok2(self, slice_elements: MyObject, b) -> None:
+        thing = slice_elements.something(b)
+
+##M2 - Autocomplete on trailing `.`
+def myfunc():
+
+##M2 - autocomplete common case
+def myfunc():
+    thing = slice_elements.pop()
+    return thing
+
+##Milestone 3 - Signature help for Function and Method Signatures
+class Thing:
+
+    def ok1(self, slice_elements: MyObject) -> str:
+        thing = slice_elements.thing()
+        return thing
+
+    def broken(self):
+
+##M3 - we must gracefully handle this...
+apple = 55
+
+##M3 - this must also be gracefully handled
+apple = 55
+
+##M3 - we must gracefully handle this...
+apple = 55
+
+##M3 - this must also be gracefully handled
+apple = 55
+

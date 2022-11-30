@@ -1,0 +1,222 @@
+# (c) Meta Platforms, Inc. and affiliates. Confidential and proprietary.
+
+# Ensure correct AST creation given units defined under: https://docs.python.org/3/library/ast.html :: 3.10.7 grammar
+# Note: the guide referenced above is not complete, so we've extended it here wher appropriate
+
+
+## Constant(value)
+123123
+123.4124
+'a string'
+
+## FormattedValue(value, conversion, format_spec)
+f"sin({a}) is {sin(a):.3}"
+
+## JoinedStr(values)
+f"sin({a}) is {sin(a):.3}"
+
+## List(elts, ctx)
+[1, 2, 3]
+
+## List assign
+# [a,b] = 2, 3
+
+## Tuple(elts, ctx)
+(1, 2, 3)
+
+## Set(elts)
+{1, 2, 3}
+
+## Dict(keys, values)
+{'a':1, 'd':5}
+
+## strings with nested ' or "
+
+x='bb "a" cc'
+y="bb 'a' cc"
+
+## string variants
+a='a string'
+b="a string" # should be converted to 'a string'
+
+## more tricky string variants
+x='bb "a" cc'
+y="bb 'a' cc"
+
+y="bb \"a\" cc" # should be converted to 'bb "a" cc'
+y="bb \'a\' cc" # \ should be removed
+z = "\n"
+
+## complex string variants with multiline
+
+x='''bb "a" cc'''
+y="""bb 'a' cc"""
+
+a = 'baaa'
+b = "baaa"
+c = '''baaa'''
+d = """baaa"""
+multiline = '''
+asdas
+
+asdads
+
+    pass
+
+'''
+
+multiline2 = """
+asdas
+
+asdads
+
+    pass
+
+"""
+
+## Ellipsis
+...
+
+## None
+None
+
+
+## fstring which behave like normal strings
+f'nothing'
+f"nothing"
+
+f'nothing "thing" '
+f"nothing 'thing' "
+
+## f string simple cases
+f"sin({a+b}) is {sin(a):.3}"
+f'sin({a+b}) is {sin(a):.3}'
+
+## f string simple cases with initial offset
+m = f"something{sin(a)} "
+m = f"something"
+
+## f string simple cases
+f"sin({a+b}) i's {sin(a):.3}"
+f'sin({a+b}) i"s {sin(a):.3}'
+
+## f string simple cases w remainder at end
+f"sin({a+b}) is {sin(a):.3} plus remainder"
+f'sin({a+b}) is {sin(a):.3} plus remainder'
+
+f"Magic wand: {bag['wand']:^10}"
+f'Magic wand: {bag["wand"]:^10}'
+
+## f string these f strings require special quote treatment
+f"{a['b']}"
+f'{a["b"]}'
+
+f"a '' {b} c"
+f'a "" {b} c'
+f"a  {b} c"
+f'a  {b} c'
+
+## f string more examples
+f'He said his name is {name!r}.'
+f"sin({a}) is {sin(a):.3}" # nothing after final }
+f'Results of the {year} {event}'
+f"{a} is {sin(a):.3}" # at start
+
+## f strings - nested
+f" f'hi' "
+f" {f'hi'} "
+
+## f strings - multi-line
+f"""sin({a}) is {sin(a):.3} plus remainder {also} something else {here}"""
+f"""sin({a}) is {sin(a):.3} plus remainder {also} something else {here} """
+f"""sin({a}) is {sin(a):.3} plus remainder {also} something else {here} remainder"""
+
+f"""is plus remainder something else something else """
+
+f"""is
+ plus remainder
+ something else
+ something else"""
+
+f"""is
+ plus remainder
+ something else
+ something else """
+
+## potential CPython bug here,
+# column offsets for interpolation nodes for
+# nodes on the nth (where n>0) line are off by one
+f'''{sin(a+b)} is
+    {cos(b+c):.3} plus remainder
+    {tan(a):.3} plus remainder'''
+
+
+f"""sin({a}) is
+{ccos(a):.3} plus remainder
+something else {here}
+something
+else {here}
+{also
+} something else {here}"""
+
+f"""sin({a}) is
+ {sin(a):.3} plus remainder
+ something else {here}
+ something
+ else {here}
+ {also
+ } something else {here}"""
+
+## string concatinated - regular strings
+
+message = "something " \
+          "another {a} line"
+
+message = "something " \
+          "another ' line" # stored with double quote " in ast
+
+message = 'something ' \
+          'another {a} line'
+
+message = 'something ' \
+          'another \' line' # stored with double quote " in ast
+
+
+## string concatinated - f strings
+message = f"something " \
+          f"another ' {a} line"
+
+message = f"something{sin(a)} " \
+          f"another {a} line" \
+          f"another line" \
+          "another line with no f string" \
+
+
+message = "something " \
+          f"another {a} line"
+
+message = "something " \
+          f"another ' {a} line"
+
+
+## f-string concatinated
+
+message = f"Hi {name}. " \
+          f"You are a {profession}. " \
+          f"You were in {affiliation}."
+
+## f-string concatinated tricky cases with {} escape formatting
+
+message = f"something " \
+          "another {{a}} line"
+
+message = f"something " \
+          "another {a} line"
+
+## f-string {{}} escape formatting
+"{{{a}}}"
+f"{{{{55}}}}"
+f"{{55}}"
+f"{k} {{55}}"
+f"{{{55}}}"
+f"{{{{70 + 4}}}}"

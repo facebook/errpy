@@ -1,0 +1,129 @@
+# (c) Meta Platforms, Inc. and affiliates. Confidential and proprietary.
+
+# Ensure correct AST creation given units defined under: https://docs.python.org/3/library/ast.html :: 3.10.7 grammar
+# Note: the guide referenced above is not complete, so we've extended it here wher appropriate
+
+
+## If(test, body, orelse)
+# Parsers can struggle here...
+if x:
+    doSomething()
+    doSomething()
+
+if x:
+    doSomething()
+    doSomething()
+else:
+    somethignElse()
+    somethignElse()
+
+if x:
+    doSomething()
+    doSomething()
+elif y:
+    somethignElse()
+    somethignElse()
+else:
+    uhoh()
+    uhoh()
+
+if x:
+    doSomething()
+    doSomething()
+elif y:
+    somethignElse()
+    somethignElse()
+elif y2:
+    somethignElse2()
+    somethignElse2()
+else:
+    uhoh()
+    uhoh()
+
+## if with nested nodes of if type
+# seems unlikely that there could be a bug here but had a hunch (there was no bug ;))
+if x > 3:
+    something()
+elif y < 5:
+    if xx == 3:
+        another_thing()
+    else:
+        thing()
+else:
+    giveup()
+
+## For(target, iter, body, orelse, type_comment)
+for a in y:
+    somethign()
+
+for a in y:
+    somethign()
+else:
+    ysss()
+
+
+## While(test, body, orelse)
+while x:
+    dosomething()
+
+while x:
+    dosomething()
+else:
+    ohuph()
+
+while x > 34:
+    dosomething()
+else:
+    ohuph()
+
+## Break
+for a in b:
+    if a > 5:
+        break
+    else:
+        continue
+## Continue
+for a in b:
+    if a > 5:
+        break
+    else:
+        continue
+
+## Try(body, handlers, orelse, finalbody)
+try:
+    something()
+except Exception:
+    pass
+except OtherException as e:
+    react()
+except (OtherException, Another):
+    react2()
+except (OtherException, Another) as ee:
+    react3()
+else:
+    elablock()
+finally:
+    andForver()
+
+## ExceptHandler(type, name, body)
+try:
+    a+1
+except TypeError:
+    pass
+
+## With(items, body, type_comment)
+with a:
+   something(b)
+
+## withitem(context_expr, optional_vars)
+with a, c as d:
+   something(b, c, d)
+
+with a as b, c as d:
+   something(b, d)
+
+with open('file_path', 'w') as file:
+    file.write('hello world !')
+
+with A() as a, B() as b, C() as c:
+    doSomething(a,b,c)

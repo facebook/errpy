@@ -1,0 +1,40 @@
+# (c) Meta Platforms, Inc. and affiliates. Confidential and proprietary.
+
+# Ensure correct AST creation given units defined under: https://docs.python.org/3/library/ast.html :: 3.10.7 grammar
+# Note: the guide referenced above is not complete, so we've extended it here wher appropriate
+
+
+## Raise(exc, cause)
+raise
+raise gg
+raise x from y
+
+## Assert(test, msg)
+assert x
+assert x,y
+
+
+## Delete(targets)
+del x,y,z
+
+## Pass
+def thing():
+    pass
+
+## Import(names)
+import x,y,z
+
+## ImportFrom(module, names, level)
+from y import x,y,z
+
+## import from with params
+from y import (x,y,z)
+
+## alias(name, asname)
+from ..foo.bar import a as b, c
+from .foo.bar import a as b, c
+from ...foo.bar import a as b, c
+
+## future import from (yes, we use this in fbcode)
+from __future__ import annotations
+from __future__ import absolute_import, division, print_function, unicode_literals

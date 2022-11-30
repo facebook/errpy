@@ -1,0 +1,20 @@
+# (c) Meta Platforms, Inc. and affiliates. Confidential and proprietary.
+
+# Bugs which have been found, mostly in the grammar definition, which will need changing
+# and feeding back to the os community
+
+# Expressions
+
+## boolean operators with params
+
+# the parentheses matter and change the outcomes of the following...
+a or (b or c)
+a or b or c
+a or (b and c)
+a or b and c
+
+# there is a bug in the gammar definition, see: Grammar_bugs: Boolean operators
+# Because of this bug we cannot differentiate between: `a or b or c` vs `a or (b or c)`
+# as these end up resolving to the same representation. Once this is resolved in the ast
+# pretty printer we will need to do a special trick with insering params in order to
+# correctly represent the AST as code
