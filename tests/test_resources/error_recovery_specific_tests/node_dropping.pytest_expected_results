@@ -1,0 +1,37 @@
+@generated
+
+##Avoid panic on function artuments having incorrect expression syntax
+def testcase():
+    f = 9
+    foo(1, 2, a, 4, identifier1, 6, 7, identifier, 9, 10)
+    d = 9
+
+3 Recoverable errors detected:
+UnexpectedExpression: "unexpected argument handling: Error" at [3:15 - 3:17]
+CST Stack:
+    {Node ERROR (2, 15) - (2, 17)}
+    {Node argument_list (2, 7) - (2, 73)}
+    {Node call (2, 4) - (2, 73)}
+    {Node expression_statement (2, 4) - (2, 73)}
+    {Node block (1, 4) - (3, 7)}
+    {Node function_definition (0, 0) - (3, 7)}
+    {Node module (0, 0) - (4, 0)}
+UnexpectedExpression: "unexpected argument handling: Error" at [3:34 - 3:45]
+CST Stack:
+    {Node ERROR (2, 34) - (2, 45)}
+    {Node argument_list (2, 7) - (2, 73)}
+    {Node call (2, 4) - (2, 73)}
+    {Node expression_statement (2, 4) - (2, 73)}
+    {Node block (1, 4) - (3, 7)}
+    {Node function_definition (0, 0) - (3, 7)}
+    {Node module (0, 0) - (4, 0)}
+UnexpectedExpression: "unexpected argument handling: Error" at [3:64 - 3:65]
+CST Stack:
+    {Node ERROR (2, 64) - (2, 65)}
+    {Node argument_list (2, 7) - (2, 73)}
+    {Node call (2, 4) - (2, 73)}
+    {Node expression_statement (2, 4) - (2, 73)}
+    {Node block (1, 4) - (3, 7)}
+    {Node function_definition (0, 0) - (3, 7)}
+    {Node module (0, 0) - (4, 0)}
+

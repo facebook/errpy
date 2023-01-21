@@ -1,0 +1,12 @@
+@generated
+
+##Confusion with dot operator and def
+def something():
+    doith()
+
+##lhs assignment is incorrect
+9
+
+##Used to blow up the parser
+a = g = 7
+

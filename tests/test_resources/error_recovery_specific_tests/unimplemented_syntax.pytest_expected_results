@@ -1,0 +1,18 @@
+@generated
+
+##match statement
+1 Recoverable error detected:
+UnimplementedStatement: "{Node match_statement (0, 0) - (4, 12)}" at [1:0 - 5:12]
+CST Stack:
+    {Node match_statement (0, 0) - (4, 12)}
+    {Node module (0, 0) - (5, 0)}
+
+##match statement with other code
+a = 100
+b = 200
+1 Recoverable error detected:
+UnimplementedStatement: "{Node match_statement (1, 0) - (5, 12)}" at [2:0 - 6:12]
+CST Stack:
+    {Node match_statement (1, 0) - (5, 12)}
+    {Node module (0, 0) - (7, 0)}
+

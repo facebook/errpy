@@ -1,0 +1,54 @@
+@generated
+
+##Milestone 1 - Error correction for powering navigation on unsaved files
+class Thing:
+
+    def ok1(self, slice_elements: MyObject) -> str:
+        thing = slice_elements.thing()
+        return thing
+
+    def broken(self):
+        this_is_ok = [a for a in [1, 2, 3]]
+        thing = [a for a in in[1, 2, 3]]
+        this_part_is_ok = 34 + 8
+
+    def ok2(self, slice_elements: MyObject, b) -> None:
+        thing = slice_elements.something(b)
+
+
+Output AST is not valid according to CPython: invalid syntax (<unknown>, line 9)
+
+##M2 - Autocomplete on trailing `.`
+def myfunc():
+
+Output AST is not valid according to CPython: expected an indented block after function definition on line 1 (<unknown>, line 2)
+
+##M2 - autocomplete common case
+def myfunc():
+    thing = slice_elements.pop()
+    return thing
+
+##Milestone 3 - Signature help for Function and Method Signatures
+class Thing:
+
+    def ok1(self, slice_elements: MyObject) -> str:
+        thing = slice_elements.thing()
+        return thing
+
+    def broken(self):
+
+
+Output AST is not valid according to CPython: expected an indented block after function definition on line 7 (<unknown>, line 9)
+
+##M3 - we must gracefully handle this...
+apple = 55
+
+##M3 - this must also be gracefully handled
+apple = 55
+
+##M3 - we must gracefully handle this...
+apple = 55
+
+##M3 - this must also be gracefully handled
+apple = 55
+
