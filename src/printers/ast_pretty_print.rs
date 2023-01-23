@@ -616,6 +616,7 @@ pub fn format_funcdef(
         pprint_output.push_str("@");
         (*item.desc).pprint(pprint_output);
         pprint_output.push_str("\n");
+        pprint_output.push_ident();
     }
     if is_async {
         pprint_output.push_str("async def ");

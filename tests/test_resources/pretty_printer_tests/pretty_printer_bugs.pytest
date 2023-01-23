@@ -119,3 +119,22 @@ class Foo:
 
     async def bar(self):
         pass
+
+## indentation for functions with annotations
+class Bar:
+    @annot
+    def bar(self):
+        pass
+
+    @annot
+    def bar(self):
+        pass
+
+class Foo:
+    @annot
+    async def bar(self):
+        pass
+
+    @annot
+    async def bar(self):
+        pass
