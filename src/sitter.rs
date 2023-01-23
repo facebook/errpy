@@ -237,7 +237,7 @@ pub enum ProductionKind {
     GENERATOR_EXPRESSION,
     ELLIPSIS,
 
-    COMPREHENSION,
+    FOR_IN_CLAUSE,
     IF_CLAUSE,
 
     TYPED_PARAMETER,
@@ -516,7 +516,7 @@ pub fn get_node_type<'a>(node: &'a Node) -> NodeType<'a> {
         }
 
         "for_in_clause" => {
-            NodeType::Production(Production::new(ProductionKind::COMPREHENSION, node))
+            NodeType::Production(Production::new(ProductionKind::FOR_IN_CLAUSE, node))
         }
         "if_clause" => NodeType::Production(Production::new(ProductionKind::IF_CLAUSE, node)),
 

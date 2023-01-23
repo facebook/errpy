@@ -189,6 +189,12 @@ a[b][c] = d
 (n**2 for n in it if n>5 if n<10)
 [i async for i in soc]
 
+## generator expression in function calls
+x = sum( x for x in items )
+
+## generator expression in function calls with guard
+x = sum( x for x in items if x > 2 )
+
 ## Return(value)
 return 6
 

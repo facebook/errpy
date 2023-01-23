@@ -10636,41 +10636,32 @@ def somethingelse():                          | def somethingelse():
     pass                                      |     pass                                      
                                               |                                               
 def format_a_string(astring: str) -> str:     | def format_a_string(astring: str) -> str:     
-    return ','.join(x for x in astring])      |                                               
-                                              | def main() -> int:                            
-def main() -> int:                            |     """DOC_STRING"""                          
-    """DOC_STRING"""                          |     somethingelse()                           
-    somethingelse()                           |     fib(12)                                   
-    fib(12)                                   |     astring = format_a_string()               
-    astring = format_a_string()               |     return 0                                  
-    return 0                                  | if __name__ == '__main__':                    
-if __name__ == '__main__':                    |     main()                                    
-    main()                                    | 
+    return ','.join(x for x in astring])      |     return ','.join((x for x in astring))     
+                                              |                                               
+def main() -> int:                            | def main() -> int:                            
+    """DOC_STRING"""                          |     """DOC_STRING"""                          
+    somethingelse()                           |     somethingelse()                           
+    fib(12)                                   |     fib(12)                                   
+    astring = format_a_string()               |     astring = format_a_string()               
+    return 0                                  |     return 0                                  
+if __name__ == '__main__':                    | if __name__ == '__main__':                    
+    main()                                    |     main()                                    
                                               | 
 
-1 Recoverable error detected:
-UnexpectedExpression: "unexpected token: {Node for_in_clause (15, 22) - (15, 38)}" at [16:22 - 16:38]
-CST Stack:
-    {Node for_in_clause (15, 22) - (15, 38)}
-    {Node generator_expression (15, 19) - (15, 40)}
-    {Node call (15, 11) - (15, 40)}
-    {Node return_statement (15, 4) - (15, 40)}
-    {Node block (15, 4) - (15, 40)}
-    {Node function_definition (14, 0) - (15, 40)}
-    {Node module (0, 0) - (25, 0)}
-Output AST is not valid according to CPython: expected an indented block after function definition on line 15 (<unknown>, line 17)
+
 ERRPY Recovered AST diff:
 --- 
 +++ 
-@@ -13,6 +13,7 @@
+@@ -13,7 +13,7 @@
      pass
  
  def format_a_string(astring: str) -> str:
+-    return ','.join((x for x in astring))
 +    return ','.join(x for x in astring])
  
  def main() -> int:
      """DOC_STRING"""
-@@ -21,4 +22,4 @@
+@@ -22,4 +22,4 @@
      astring = format_a_string()
      return 0
  if __name__ == '__main__':

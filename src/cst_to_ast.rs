@@ -2117,7 +2117,7 @@ impl Parser {
                     })?;
                     return self.expression(&child);
                 }
-                GENERATOR_EXPRESSION => self.generator_expr(rule.node)?,
+                GENERATOR_EXPRESSION => self.generator_expression(rule.node)?,
                 ELLIPSIS => self.constant(ConstantDesc::Ellipsis),
                 _ => {
                     return Err(self.record_recoverable_error(
@@ -2192,7 +2192,7 @@ impl Parser {
     //   $._comprehension_clauses,
     //   ')'
     // ),
-    fn generator_expr(&mut self, node: &Node) -> ErrorableResult<ExprDesc> {
+    fn generator_expression(&mut self, node: &Node) -> ErrorableResult<ExprDesc> {
         let mut generators = vec![];
         let elt = self.comprehension_core(node, &mut generators)?;
         Ok(ExprDesc::GeneratorExp { elt, generators })
@@ -2235,7 +2235,7 @@ impl Parser {
             .expect("missing value in pair node of dictionary");
         let value = self.expression(&value_node)?;
 
-        self.comprehension_core_gennerator(node, generators)?;
+        self.comprehension_clauses(node, generators)?;
         Ok((key, value))
     }
 
@@ -2249,11 +2249,18 @@ impl Parser {
             .expect("missing body in comprehension");
         let elt = self.expression(&body_node)?;
 
-        self.comprehension_core_gennerator(node, generators)?;
+        self.comprehension_clauses(node, generators)?;
         Ok(elt)
     }
 
-    fn comprehension_core_gennerator(
+    // _comprehension_clauses: $ => seq(
+    //  $.for_in_clause,
+    //  repeat(choice(
+    //    $.for_in_clause,
+    //    $.if_clause
+    //  ))
+    // ),
+    fn comprehension_clauses(
         &mut self,
         node: &Node,
         generators: &mut Vec<Comprehension>,
@@ -2266,7 +2273,7 @@ impl Parser {
             match child_type {
                 // for_in_clause
                 NodeType::Production(prod) => match prod.production_kind {
-                    COMPREHENSION => {
+                    FOR_IN_CLAUSE => {
                         let comp = self.comprehension_clause(&child_node)?;
                         generators.push(comp);
                     }
@@ -2650,12 +2657,23 @@ impl Parser {
             .child_by_field_name("function")
             .expect("missing function in call");
         let func = self.expression(&function)?;
-        let args_node = node
+
+        let argument_or_generator = node
             .child_by_field_name("arguments")
-            .expect("missing arguments in call");
+            .expect("missing arguments (or generator) in call");
+
         let mut args = vec![];
         let mut keywords = vec![];
-        self.argument_list(&args_node, &mut args, &mut keywords)?;
+
+        match argument_or_generator.kind() {
+            "generator_expression" => {
+                let generator_expression = self.generator_expression(&argument_or_generator)?;
+                args.push(self.new_expr(generator_expression, &argument_or_generator));
+            }
+            _ => {
+                self.argument_list(&argument_or_generator, &mut args, &mut keywords)?;
+            }
+        }
 
         Ok(ExprDesc::Call {
             func,
