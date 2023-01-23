@@ -138,3 +138,18 @@ class Foo:
     @annot
     async def bar(self):
         pass
+
+## formatting of if-else starting with an if
+if cond1 == 2:
+    pass
+else: # this is turned into an elif
+    if cond2 == "py2":
+        pass
+    # as the block just contains an if
+
+if cond1 == 2:
+    pass
+else: # this is not turned into elif
+    if cond2 == "py2":
+        pass
+    x = 3 # because the block contains other things besides an if

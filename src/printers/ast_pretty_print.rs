@@ -792,29 +792,47 @@ pub fn format_if_stmt(
     format_block(body, pprint_output);
 
     let mut isfirst = true;
-    for orelse in orelse.iter() {
-        match &orelse.desc {
-            StmtDesc::If { test, body, orelse } => {
-                if isfirst {
+    let orelse_len = orelse.len();
+
+    for orelse_statement in orelse.iter() {
+        // Python has an interesting way to represent elif instances. "elif
+        // clauses don’t have a special representation in the AST, but rather
+        // appear as extra If nodes within the orelse section of the previous
+        // one." - https://docs.python.org/3/library/ast.html
+        // Hence if an orelse field of an If node contains a single if
+        // statement then the parent else of the If node gets turned into an
+        // elif block with the contents of the if. However, if there is more
+        // than one item in the orelse field block (even if the first item is
+        // an if) then this logic does not apply and the else of the If node
+        //stays as an else.
+        if orelse_len == 1 {
+            match &orelse_statement.desc {
+                StmtDesc::If { test, body, orelse } => {
+                    if isfirst {
+                        pprint_output.push_str("\n");
+                        pprint_output.push_ident();
+                        pprint_output.push_str("el");
+                    }
+                    isfirst = false;
+                    format_if_stmt(test, body, orelse, pprint_output);
+
                     pprint_output.push_str("\n");
-                    pprint_output.push_ident();
-                    pprint_output.push_str("el");
+                    continue;
                 }
-                isfirst = false;
-                format_if_stmt(test, body, orelse, pprint_output)
-            }
-            _ => {
-                if isfirst {
-                    pprint_output.push_str("\n");
-                    pprint_output.push_ident();
-                    pprint_output.push_str("else:\n");
-                }
-                isfirst = false;
-                pprint_output.inc_ident();
-                orelse.pprint(pprint_output);
-                pprint_output.dec_ident();
+                _ => (),
             }
         }
+
+        if isfirst {
+            pprint_output.push_str("\n");
+            pprint_output.push_ident();
+            pprint_output.push_str("else:\n");
+        }
+        isfirst = false;
+        pprint_output.inc_ident();
+        orelse_statement.pprint(pprint_output);
+        pprint_output.dec_ident();
+
         pprint_output.push_str("\n");
     }
     if !isfirst {
