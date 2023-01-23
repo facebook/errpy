@@ -749,6 +749,12 @@ pub fn cpython_float_to_string(value: &f64, is_complex: bool) -> String {
     if value.log10().ceil() >= 17. {
         // 17 digits or more requires exponent representation with + after the e
         format!("{:e}", value).replace('e', "e+")
+    } else if value <= &0.00001 {
+        // <= 0.00001 requires exponent representation
+        let mut little_formatted = format!("{:e}", value);
+        let exp = little_formatted.split_off(little_formatted.find('e').unwrap());
+        little_formatted.push_str(&format!("e-{:0>pad$}", &exp[2..], pad = 2));
+        little_formatted
     } else {
         // normal f64 in normal way...
         if !is_complex && value.fract() == 0.0 {
