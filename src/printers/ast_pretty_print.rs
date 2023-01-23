@@ -159,7 +159,9 @@ fn process_module_class_functiondef_block(
                 // for first statement in a block
                 if !at_module_level {
                     match targ_elm.desc {
-                        StmtDesc::ClassDef { .. } | StmtDesc::FunctionDef { .. } => {
+                        StmtDesc::ClassDef { .. }
+                        | StmtDesc::FunctionDef { .. }
+                        | StmtDesc::AsyncFunctionDef { .. } => {
                             pprint_output.push_str("\n");
                         }
                         _ => (),
@@ -187,7 +189,9 @@ fn process_module_class_functiondef_block(
                 pprint_output.strip_all_but_one_trailing_newline();
 
                 match targ_elm.desc {
-                    StmtDesc::ClassDef { .. } | StmtDesc::FunctionDef { .. } => {
+                    StmtDesc::ClassDef { .. }
+                    | StmtDesc::FunctionDef { .. }
+                    | StmtDesc::AsyncFunctionDef { .. } => {
                         pprint_output.push_str("\n");
                     }
                     _ => (),
@@ -564,7 +568,7 @@ fn format_class_def(
         pprint_output.dec_ident();
 
         match &body.last().unwrap().desc {
-            StmtDesc::FunctionDef { .. } => (),
+            StmtDesc::FunctionDef { .. } | StmtDesc::AsyncFunctionDef { .. } => (),
             _ => {
                 pprint_output.push_str("\n");
             }

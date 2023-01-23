@@ -104,3 +104,18 @@ def do_thing2():
  	    something_err()
     else:
         something_else(e)
+
+## improve newline placement for async functions
+class Bar:
+    def bar(self):
+        pass
+
+    def bar(self):
+        pass
+
+class Foo:
+    async def bar(self):
+        pass
+
+    async def bar(self):
+        pass
