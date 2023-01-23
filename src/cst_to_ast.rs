@@ -1120,6 +1120,37 @@ impl Parser {
         })
     }
 
+    // expressions: $ => choice(
+    //  $.expression,
+    //  $.expression_list
+    // ),
+    fn expressions(&mut self, node: &Node) -> ErrorableResult<Expr> {
+        match node.kind() {
+            "expression_list" => {
+                let mut expressions: Vec<Expr> = vec![];
+                self.expression_list(node, &mut expressions);
+
+                let tuple_desc = ExprDesc::Tuple {
+                    elts: expressions,
+                    ctx: self.get_expression_context(),
+                };
+
+                Ok(self.new_expr(tuple_desc, node))
+            }
+            _ => self.expression(node),
+        }
+    }
+
+    fn expression_list(&mut self, node: &Node, expressions: &mut Vec<Expr>) {
+        for child in node.named_children(&mut node.walk()) {
+            // it is ok to leave out a subexpression if there is a problem with it
+            match self.expression(&child) {
+                Ok(arg) => expressions.push(arg),
+                _ => (),
+            };
+        }
+    }
+
     // Process Return StmtDesc
     //
     // return_statement: $ => seq(
@@ -1128,14 +1159,8 @@ impl Parser {
     // ),
     fn return_statement(&mut self, node: &Node) -> ErrorableResult<StmtDesc> {
         let mut expr = None;
-        for child in node.children(&mut node.walk()) {
-            let node_type = get_node_type(&child);
-            match &node_type {
-                NodeType::Production(_) => {
-                    expr = Some(self.expression(&child)?);
-                }
-                _ => (), // skip other nodes, error recovery may play a role here
-            }
+        if node.child_count() == 2 {
+            expr = Some(self.expressions(&node.child(1).unwrap())?);
         }
 
         Ok(StmtDesc::Return(expr))
@@ -1229,18 +1254,15 @@ impl Parser {
 
         self.set_expression_context(ExprContext::Del);
 
-        for child in node.children(&mut node.walk()) {
-            let node_type = get_node_type(&child);
-            match node_type {
-                NodeType::Production(ref rule) => match &rule.production_kind {
-                    ProductionKind::EXPRESSION_LIST => {
-                        self.primary_expression_sequence(&child, &mut expressions)?;
-                    }
-                    _ => expressions.push(self.expression(&child)?),
-                },
-                _ => (), //del keyword
+        let expressions_node = node.child(1).unwrap();
+
+        match expressions_node.kind() {
+            "expression_list" => self.expression_list(&expressions_node, &mut expressions),
+            _ => {
+                let expression = self.expression(&expressions_node)?;
+                expressions.push(expression);
             }
-        }
+        };
 
         self.pop_expression_context();
 
@@ -1268,7 +1290,7 @@ impl Parser {
         let iter_node = for_node
             .child_by_field_name("right")
             .expect("missing right in for statement");
-        let iter = self.expression(&iter_node)?;
+        let iter = self.expressions(&iter_node)?;
 
         let body_node = for_node
             .child_by_field_name("body")
@@ -1636,7 +1658,7 @@ impl Parser {
         let yield_statement = match node.child_count() {
             2 => {
                 let rhs_expr = node.child(1).expect("expected yield rhs");
-                let expr = self.expression(&rhs_expr)?;
+                let expr = self.expressions(&rhs_expr)?;
 
                 ExprDesc::Yield(Some(expr))
             }
@@ -2443,21 +2465,6 @@ impl Parser {
             },
             _ => ExprContext::Load,
         }
-    }
-
-    fn primary_expression_sequence(
-        &mut self,
-        node: &Node,
-        exp_list: &mut Vec<Expr>,
-    ) -> ErrorableResult<()> {
-        for child in node.named_children(&mut node.walk()) {
-            // it is ok to leave out a subexpression if there is a problem with it
-            match self.expression(&child) {
-                Ok(arg) => exp_list.push(arg),
-                _ => (),
-            };
-        }
-        Ok(())
     }
 
     // _collection_elements: $ => seq(

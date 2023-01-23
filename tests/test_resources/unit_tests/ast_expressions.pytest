@@ -260,3 +260,16 @@ a4 = (a, (b, c), d)
 x = ["string", "another", identifier, *overrides]
 z = {"string", "another", identifier, *overrides}
 x = ("string", "another", identifier, *overrides)
+
+## comma seperated expressions - return
+return a, b
+
+## comma seperated expressions - yield
+yield a, b
+
+## comma seperated expressions - delete
+del a, b
+
+## comma seperated expressions - for
+for a in a, b:
+    pass

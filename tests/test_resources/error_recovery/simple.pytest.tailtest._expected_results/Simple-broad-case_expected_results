@@ -4708,26 +4708,17 @@ def somethingelse():                          | def somethingelse():
     pass                                      |     pass                                      
                                               |                                               
 def format_a_string(astring: str) -> str:     | def format_a_string(astring: str) -> str:     
-    return ',                                 | 
+    return ',                                 |     return (',)                               
 
-1 Recoverable error detected:
-UnexpectedExpression: "unexpected token: {Node expression_list (15, 11) - (15, 13)}" at [16:11 - 16:13]
-CST Stack:
-    {Node expression_list (15, 11) - (15, 13)}
-    {Node return_statement (15, 4) - (15, 13)}
-    {Node block (15, 4) - (15, 13)}
-    {Node function_definition (14, 0) - (15, 13)}
-    {Node module (0, 0) - (16, 0)}
-Output AST is not valid according to CPython: expected an indented block after function definition on line 15 (<unknown>, line 15)
+Output AST is not valid according to CPython: unterminated string literal (detected at line 16) (<unknown>, line 16)
 ERRPY Recovered AST diff:
 --- 
 +++ 
-@@ -12,4 +12,5 @@
- def somethingelse():
+@@ -13,4 +13,4 @@
      pass
  
--def format_a_string(astring: str) -> str:+def format_a_string(astring: str) -> str:
-+    return ',
+ def format_a_string(astring: str) -> str:
+-    return (',)+    return ',
 
 ===============================================================================
 295. Input. char of interest: ''':
