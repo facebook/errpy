@@ -18,9 +18,32 @@ fn test_simple() {
 }
 
 #[test]
+fn test_strings_simple() {
+    test_harness("'#a'", "'#a'\n");
+    test_harness("\"#a\"", "\"#a\"\n");
+    test_harness("\"a\" #a", "\"a\" \n");
+    test_harness("'a' #a", "'a' \n");
+}
+
+#[test]
+fn test_strings_complex() {
+    test_harness("'#a' #b", "'#a' \n");
+    test_harness("'''\n#a\n'''", "'''\n#a\n'''\n");
+    test_harness("\"\"\"\n#a\n\"\"\"", "\"\"\"\n#a\n\"\"\"\n");
+}
+
+#[test]
+fn test_strings_escaping() {
+    test_harness("'#a\\' #b'", "'#a\\' #b'\n");
+    test_harness("\"#a\\\" #b\"", "\"#a\\\" #b\"\n");
+    test_harness("'#a\\\n#b'", "'#a\\\n#b'\n");
+    test_harness("\"#a\\\n#b\"", "\"#a\\\n#b\"\n");
+}
+
+#[test]
 fn test_pre_comments() {
     // we expect just newlines in place of comments
-    // to preseve line and column information
+    // to preserve line and column information
     test_harness(
         "# comment before
 # the main body of code

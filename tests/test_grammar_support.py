@@ -10,7 +10,7 @@ from python.errpy.tests.utils.test_common import ASTTestCommon
 
 
 class AllGrammarTests(ASTTestCommon):
-    """These tests focs on individual aspects of Python syntax"""
+    """These tests focus on individual aspects of Python syntax"""
 
     def test_ast_expressions(self) -> None:
         self.check_many_cases_in_file("ast_expressions.pytest")

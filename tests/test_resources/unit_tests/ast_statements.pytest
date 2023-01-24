@@ -57,3 +57,10 @@ def foo(
 
 a = (# comment in strange place
      1 , 2, 3)
+
+"some # comment (hash) character in a string"
+'another # comment (hash) character in a string'
+
+"""
+some multiline string # this is not a comment
+"""
