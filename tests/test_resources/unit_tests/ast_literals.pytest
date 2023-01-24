@@ -358,6 +358,22 @@ b\
 c
 """
 
+## strings wrapping ' and "
+a = '"'
+b = "'"
+
+## b strings wrapping ' and "
+a = b'"'
+b = b"'"
+
+## raw strings wrapping ' and "
+a = r'"'
+b = r"'"
+
+## raw strings backslashes
+a = r'\"'
+b = r'\''
+
 ## small floating point numbers need scientific representation
 p =  0.1
 p =  0.01

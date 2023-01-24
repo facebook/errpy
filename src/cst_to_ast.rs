@@ -3512,10 +3512,11 @@ impl Parser {
     ///  via single quote marks) and insert newlines with escapes for newlines
     ///  4. We remove all quote mark escape characters \' -> ', \" -> "
     ///  5. Strings created via double quotes ("") are converted to single
-    ///  quote (''), unless they contain a single quote (')
+    ///  quote (''), unless they contain a single quote ('). Whereas strings
+    ///  created with single quotes ('') containing other single quotes are converted
+    ///  to double quoted strings.
     fn process_string(&mut self, string_contents: String) -> ExprDesc {
         let mut string_contents = string_contents;
-
         let byte = string_contents.starts_with('b');
         let raw = string_contents.starts_with('r');
         let prefix = if byte { "b" } else { "" };
@@ -3525,11 +3526,12 @@ impl Parser {
         }
 
         if raw {
-            // escape line continuations and newlines
-            string_contents = string_contents.replace("\\\n", "\\\\\\n");
+            string_contents = string_contents.replace('\\', "\\\\");
         } else {
             // ignore line continuations
             string_contents = string_contents.replace("\\\n", "");
+            string_contents = string_contents.replace("\\\'", "\'");
+            string_contents = string_contents.replace("\\\"", "\"");
         }
         string_contents = string_contents.replace('\n', "\\n");
 
@@ -3538,13 +3540,28 @@ impl Parser {
         }
 
         string_contents = {
-            string_contents = string_contents.replace("\\\'", "\'");
-            string_contents = string_contents.replace("\\\"", "\"");
-
-            if string_contents.starts_with('\"') && !string_contents.contains('\'') {
-                // convert string to being wrapped in '' unless there are inner ' s
+            // convert string to being wrapped in '' (or "") unless there are inner ' s (or " s)
+            if string_contents.starts_with('\"')
+                && !string_contents.contains('\'')
+                && string_contents.len() > 1
+            {
                 string_contents = string_contents[1..string_contents.len() - 1].to_string();
                 format!("'{}'", string_contents)
+            } else if string_contents.starts_with('\'')
+                && !string_contents.contains('\"')
+                && string_contents.len() > 1
+            {
+                // wrap only if there is a ' in the middle of the string
+                // e.g. '\\''  -> "\\'"
+                let index: Option<usize> = string_contents[1..].find('\'').map(|i| i + 1);
+                match index {
+                    Some(i) if i > 0 && i < string_contents.len() - 1 => {
+                        string_contents = string_contents[1..string_contents.len() - 1].to_string();
+
+                        format!("\"{}\"", string_contents)
+                    }
+                    _ => string_contents,
+                }
             } else {
                 string_contents
             }
