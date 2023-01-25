@@ -64,3 +64,6 @@ a = (# comment in strange place
 """
 some multiline string # this is not a comment
 """
+
+## Tuple unpacking inside list comprehension
+a = [f"{i}{j}" for (i, j) in [("alpha", "beta"), ("one", "two")]]

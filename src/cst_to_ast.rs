@@ -2319,6 +2319,11 @@ impl Parser {
     //   ))
     // ),
     //
+    // _expression_within_for_in_clause: $ => choice(
+    //     $.expression,
+    //     alias($.lambda_within_for_in_clause, $.lambda)
+    //   ),
+    //
     // for_in_clause: $ => prec.left(seq(
     //   optional('async'),
     //   'for',
@@ -2337,11 +2342,11 @@ impl Parser {
             .expect("comprehension_clause missing right field");
 
         self.set_expression_context(ExprContext::Store);
-        let target = self.expression(left_node)?;
+        let target = self.assign_left_hand_side(left_node)?;
         self.pop_expression_context();
 
         self.set_expression_context(ExprContext::Load);
-        let iter = self.expression(right_node)?;
+        let iter = self.expression(right_node)?; // TODO this should call _expression_within_for_in_clause, which takes lambda too
         self.pop_expression_context();
 
         let ifs = vec![];
@@ -3001,6 +3006,13 @@ impl Parser {
         Ok(ExprDesc::Await(arg))
     }
 
+    // lambda_within_for_in_clause: $ => seq(
+    //     'lambda',
+    //     field('parameters', optional($.lambda_parameters)),
+    //     ':',
+    //     field('body', $._expression_within_for_in_clause)
+    //   ),
+    //
     // lambda: $ => prec(PREC.lambda, seq(
     //   'lambda',
     //   field('parameters', optional($.lambda_parameters)),
