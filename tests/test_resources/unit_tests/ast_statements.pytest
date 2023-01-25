@@ -67,3 +67,20 @@ some multiline string # this is not a comment
 
 ## Tuple unpacking inside list comprehension
 a = [f"{i}{j}" for (i, j) in [("alpha", "beta"), ("one", "two")]]
+
+## multiline format string with format on first line
+format_string = f"""{a}
+"""
+
+## multiline format string with format on second line
+format_string = f"""
+{b}
+"""
+
+format_string = f"""
+{b} {c}
+"""
+
+format_string = f'''{sin(a+b)} is
+    {cos(b+c):.3} plus remainder
+    {tan(a):.3} plus remainder'''

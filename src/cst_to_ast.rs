@@ -3192,7 +3192,7 @@ impl Parser {
         let is_multiline = if node_text.starts_with("f\"\"\"") || node_text.starts_with("f\'\'\'") {
             // multiline f strings are interesting and require some giggling around so
             // that we can consistantly extract substring strings from the string.
-            // Essnetially we must:
+            // Essentially we must:
             // Offset 2 extra chars off start of String (""" is 2 more chars wider than ")
             // we also need to remove newlines and do some offset calculations
             // keep track of column offsets on a per line basis
@@ -3221,22 +3221,27 @@ impl Parser {
         let mut has_interpolation_nodes = false;
 
         for interpolation_node in format_node.named_children(&mut format_node.walk()) {
-            //walk all interpolated nodes and
+            // walk all interpolated nodes and
             // push each one to expressions as FormattedValue's
             // push any intervening string chunks to expressions as strings
             if interpolation_node.kind() == "interpolation" {
                 has_interpolation_nodes = true;
-                let mut start_col = interpolation_node.start_position().column - base_col;
-                let mut end_col = interpolation_node.end_position().column - base_col;
 
-                if is_multiline {
+                let start_row = interpolation_node.start_position().row;
+                let mut start_col = interpolation_node.start_position().column;
+                let mut end_col = interpolation_node.end_position().column;
+                if is_multiline && start_row > base_row {
                     // if multiline, we need line column offset adjustment
                     // might be a CPython bug
-                    let start_row = interpolation_node.start_position().row;
                     start_col += multiline_offsets.get(&start_row).unwrap();
                     end_col += multiline_offsets
                         .get(&interpolation_node.end_position().row)
                         .unwrap();
+                } else {
+                    // single line f-literal or first line of multiline f-literal
+                    // => decrease by code before the f-literal
+                    start_col -= base_col;
+                    end_col -= base_col;
                 }
 
                 if start_col > prev_idx {
@@ -3263,8 +3268,9 @@ impl Parser {
                     if is_multiline && interpolation_expression.start_position().row > base_row {
                         // potential CPython bug here, column offsets for interpolation nodes for
                         // nodes on the nth (where n>0) line are off by one, so we must correct them
+                        // and add the base col (code before the literal, e.g. assignment statement)
                         let prev_offset = self.increment_expression_column_offset;
-                        self.increment_expression_column_offset = 1;
+                        self.increment_expression_column_offset = 1 + (base_col as isize);
                         let expr_node = self.expression(&interpolation_expression)?;
                         self.increment_expression_column_offset = prev_offset;
                         expr_node
