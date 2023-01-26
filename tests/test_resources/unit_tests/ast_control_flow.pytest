@@ -211,3 +211,19 @@ with something() as [a, [b, c], d]:
 
 with something() as (a, (b, c), d):
     pass
+
+## with having withitems having extra comma
+with (foo as a, bar as b,):
+    c = a + b
+
+## with having many comma seperated as
+with open('d') as d, open('e') as e:
+    f
+
+## with having many as cluases within tuple-like syntax
+with (open('d') as d, open('e') as e):
+    f
+
+## with having many as cluases within tuple-like syntax plus normal expression
+with (open('d') as d, open('e') as e, bar(), open('f') as f):
+    f

@@ -1327,6 +1327,53 @@ impl Parser {
         }
     }
 
+    fn process_withitem_as_pattern_or_expression(
+        &mut self,
+        items: &mut Vec<Withitem>,
+        pattern_or_expression: &Node,
+    ) -> ErrorableResult<()> {
+        let mut optional_vars: Option<Expr> = None;
+        let pattern_or_expression_type = &get_node_type(pattern_or_expression);
+
+        match pattern_or_expression_type {
+            NodeType::Production(rule) => match &rule.production_kind {
+                ProductionKind::AS_PATTERN => {
+                    let node = rule.node;
+                    let lhs_expression = pattern_or_expression
+                        .child(0)
+                        .expect("expression for with_item");
+                    let target_expression = node
+                        .child(2)
+                        .expect("target for with_item")
+                        .child(0)
+                        .expect("pattern target");
+
+                    self.set_expression_context(ExprContext::Store);
+                    optional_vars = Some(self.expression(&target_expression)?);
+                    self.pop_expression_context();
+
+                    let context_expr: Expr = self.expression(&lhs_expression)?;
+
+                    items.push(Withitem {
+                        context_expr,
+                        optional_vars,
+                    });
+                }
+                _ => {
+                    let context_expr: Expr = self.expression(pattern_or_expression)?;
+                    items.push(Withitem {
+                        context_expr,
+                        optional_vars,
+                    });
+                }
+            },
+
+            _ => (),
+        }
+
+        Ok(())
+    }
+
     // with_statement: $ => seq(
     //   optional('async'),
     //   'with',
@@ -1357,45 +1404,41 @@ impl Parser {
         let with_clause_node = with_node.child(with_clause_node_idx).unwrap();
 
         for with_item_node in with_clause_node.named_children(&mut with_node.walk()) {
-            let mut optional_vars: Option<Expr> = None;
-
-            let expr_node = &with_item_node
+            let expression_node = &with_item_node
                 .child(0)
                 .expect("with_item to wrap an expression or as_pattern");
 
-            let expr_type = &get_node_type(expr_node);
+            let expression_node_type = &get_node_type(expression_node);
 
-            let context_expr: Expr = match expr_type {
+            match expression_node_type {
                 NodeType::Production(rule) => match &rule.production_kind {
-                    ProductionKind::AS_PATTERN => {
-                        let node = rule.node;
-                        let lhs_expression = node.child(0).expect("expression for with_item");
-                        let target_expression = node
-                            .child(2)
-                            .expect("target for with_item")
-                            .child(0)
-                            .expect("pattern target");
-
-                        self.set_expression_context(ExprContext::Store);
-                        optional_vars = Some(self.expression(&target_expression)?);
-                        self.pop_expression_context();
-
-                        self.expression(&lhs_expression)?
+                    ProductionKind::TUPLE => {
+                        for tuple_child_node in
+                            expression_node.named_children(&mut with_node.walk())
+                        {
+                            match self.process_withitem_as_pattern_or_expression(
+                                &mut items,
+                                &tuple_child_node,
+                            ) {
+                                Ok(_) => (),
+                                Err(error) => return Err(error),
+                            }
+                        }
                     }
-                    _ => self.expression(expr_node)?,
+                    _ => {
+                        self.process_withitem_as_pattern_or_expression(
+                            &mut items,
+                            expression_node,
+                        )?;
+                    }
                 },
                 _ => {
-                    return Err(self.record_recoverable_error(
-                        RecoverableError::UnexpectedExpression(format!("{:?}", expr_node)),
-                        expr_node,
-                    ));
+                    self.record_recoverable_error(
+                        RecoverableError::UnexpectedExpression(format!("{:?}", expression_node)),
+                        expression_node,
+                    );
                 }
             };
-
-            items.push(Withitem {
-                context_expr,
-                optional_vars,
-            });
         }
 
         if is_async {
@@ -2024,7 +2067,6 @@ impl Parser {
     //   $.primary_expression,
     //   $.conditional_expression,
     //   $.named_expression,
-    //   $.as_pattern
     // ),
     fn expression(&mut self, node: &Node) -> ErrorableResult<Expr> {
         use ProductionKind::*;
@@ -2061,10 +2103,6 @@ impl Parser {
                     let named_desc = self.named_expression(rule.node)?;
                     self.new_expr(named_desc, rule.node)
                 }
-                AS_PATTERN => panic!(
-                    "AS_PATTERN not expected to be handled at expression level {:?}",
-                    rule.node
-                ),
                 _ => self.primary_expression(node_type, rule.node)?,
             },
             _ => {
