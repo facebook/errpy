@@ -2878,28 +2878,31 @@ impl Parser {
             }
         }
 
-        let slice = match slices.len() {
-            1 => slices.pop().expect("should be at least one slice"),
-            _ => {
-                let start_position = node.child(1).expect("'[' node in subscript").end_position();
+        let ends_in_comma = node.child(node.child_count() - 2).unwrap().kind() == ",";
 
-                let end_position = node
-                    .child(node.child_count() - 2)
-                    .expect("']' node in subscript")
-                    .end_position();
+        let slice = if !ends_in_comma && slices.len() == 1 {
+            slices.pop().expect("should be at least one slice")
+        } else {
+            // if ends in comma or if there are more than one slice
+            let start_position = node.child(1).expect("'[' node in subscript").end_position();
 
-                Expr::new(
-                    ExprDesc::Tuple {
-                        elts: slices,
-                        ctx: self.get_expression_context(),
-                    },
-                    start_position.row as isize + 1,
-                    start_position.column as isize + self.increment_expression_column_offset,
-                    end_position.row as isize + 1,
-                    end_position.column as isize + self.increment_expression_column_offset,
-                )
-            }
+            let end_position = node
+                .child(node.child_count() - 2)
+                .expect("']' node in subscript")
+                .end_position();
+
+            Expr::new(
+                ExprDesc::Tuple {
+                    elts: slices,
+                    ctx: self.get_expression_context(),
+                },
+                start_position.row as isize + 1,
+                start_position.column as isize + self.increment_expression_column_offset,
+                end_position.row as isize + 1,
+                end_position.column as isize + self.increment_expression_column_offset,
+            )
         };
+
         self.pop_expression_context();
 
         Ok(ExprDesc::Subscript {

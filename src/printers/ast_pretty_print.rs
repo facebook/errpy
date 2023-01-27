@@ -964,7 +964,18 @@ impl ExprDesc {
 
                 match &(*slice.desc) {
                     ExprDesc::Tuple { elts, ctx: _ } => {
-                        format_vec_expr(elts, pprint_output);
+                        let mut count = 0;
+                        for expr in elts.iter() {
+                            count += 1;
+                            (*expr.desc).pprint(pprint_output);
+                            pprint_output.push_str(", ");
+                        }
+
+                        pprint_output.pop(); // always remove the space
+                        if count > 1 {
+                            // when there is only one item, then leave the , at the end
+                            pprint_output.pop();
+                        }
                     }
                     _ => (*slice.desc).pprint(pprint_output),
                 }

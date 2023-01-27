@@ -154,6 +154,12 @@ lalala[::-1]
 lalala[1::-1]
 lalala[:]
 
+## subscript slices may be tuples
+oool = a[b,]
+oool = a[b ,]
+oool = a[b, ]
+oool = a[(b,)]
+
 ## subscript value is always with ctx=Load even if on lhs or on rhs of assignment
 a[1] = 6
 a[1] = a[2]
