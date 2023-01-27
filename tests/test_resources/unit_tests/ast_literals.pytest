@@ -403,3 +403,6 @@ m = -0.0001
 m = -0.001
 m = -0.01
 m = -0.1
+
+# zero should not be shown in scientific format
+xx = 0.0 # not to be shown in scientific format
