@@ -3312,25 +3312,57 @@ impl Parser {
                     end_col -= base_col;
                 }
 
+                // add next FormattedValue corresponding to {} region
+                let interpolation_expression = interpolation_node
+                    .child(1)
+                    .expect("expression node of interpolation node");
+
+                let mut format_spec: Option<Expr> = None;
+                let mut conversion: Option<isize> = Some(-1);
+                let mut has_equals = false;
+
+                // format_specifier and/or type_conversion may be specified for interpolation_node
+                self.extract_interpolation_node_optionals(
+                    &interpolation_node,
+                    origin_node,
+                    &mut format_spec,
+                    &mut conversion,
+                    &mut has_equals,
+                );
+
                 if start_col > prev_idx {
                     // indicates that there is a string at one of the following two locations
                     // start of the f-string before the first {} (formatted value)
                     // in between two {}'s
                     // strings after the last {} are handled after iterating through
                     //the interpolation nodes
-                    let tidy_braces =
+                    let mut tidy_braces =
                         self.tidy_double_braces(node_text[prev_idx..start_col].to_string());
+
+                    if has_equals {
+                        tidy_braces = tidy_braces
+                            + interpolation_expression
+                                .utf8_text(self.code.as_bytes())
+                                .expect("Could not fetch param name")
+                            + "="
+                    }
+
                     let string_desc = self.process_string(format!(
                         "{}{}{}",
                         apostrophe_or_quote, tidy_braces, apostrophe_or_quote
                     ));
                     expressions.push(self.new_expr(string_desc, origin_node));
-                }
+                } else if has_equals {
+                    // Create new const expression
+                    let expr = interpolation_expression
+                        .utf8_text(self.code.as_bytes())
+                        .expect("Could not fetch param name")
+                        .to_string()
+                        + "=";
 
-                // add next FormattedValue corresponding to {} region
-                let interpolation_expression = interpolation_node
-                    .child(1)
-                    .expect("expression node of interpolation node");
+                    let expr = self.string(format!("'{}'", expr));
+                    expressions.push(self.new_expr(expr, origin_node));
+                }
 
                 let value =
                     if is_multiline && interpolation_expression.start_position().row > base_row {
@@ -3345,17 +3377,6 @@ impl Parser {
                     } else {
                         self.expression(&interpolation_expression)?
                     };
-
-                let mut format_spec: Option<Expr> = None;
-                let mut conversion: Option<isize> = Some(-1);
-
-                // format_specifier and/or type_conversion may be specified for interpolation_node
-                self.extract_interpolation_node_optionals(
-                    &interpolation_node,
-                    origin_node,
-                    &mut format_spec,
-                    &mut conversion,
-                );
 
                 expressions.push(self.new_expr(
                     ExprDesc::FormattedValue {
@@ -3414,8 +3435,10 @@ impl Parser {
         origin_node: &Node,
         format_spec: &mut Option<Expr>,
         conversion: &mut Option<isize>,
+        has_equals: &mut bool,
     ) {
         let interpolation_node_count = interpolation_node.child_count();
+        *has_equals = false;
         if interpolation_node_count > 3 {
             for node_id in 2..(interpolation_node_count - 1) {
                 let interpolation_component_node = &interpolation_node
@@ -3446,8 +3469,14 @@ impl Parser {
                                 _ => -1,
                             });
                     }
+                    "=" => *has_equals = true,
                     _ => (),
                 }
+            }
+
+            // Only set conversion by = if neither explicit conversion nor explicit formatters are set.
+            if *has_equals && format_spec.is_none() && conversion == &mut Some(-1isize) {
+                *conversion = Some(114)
             }
         }
     }

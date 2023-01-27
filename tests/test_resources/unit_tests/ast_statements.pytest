@@ -84,3 +84,22 @@ format_string = f"""
 format_string = f'''{sin(a+b)} is
     {cos(b+c):.3} plus remainder
     {tan(a):.3} plus remainder'''
+
+## formatted value test
+format_string = f"{v=!r:->8s}"
+format_string = f"{v=:->8s}"
+format_string = f"{v=!r}"
+format_string = f"{v=}"
+format_string = f"{v!r:->8s}"
+format_string = f"{v:->8s}"
+format_string = f"{v!r}"
+format_string = f"{v}"
+
+format_string = f"sometext {v=!r:->8s}"
+format_string = f"sometext {v=:->8s}"
+format_string = f"sometext {v=!r}"
+format_string = f"sometext {v=}"
+format_string = f"sometext {v!r:->8s}"
+format_string = f"sometext {v:->8s}"
+format_string = f"sometext {v!r}"
+format_string = f"sometext {v}"
