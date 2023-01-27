@@ -256,6 +256,11 @@ a4 = (a, (b, c), d)
 [a, [b, c], d] = a3
 (a, (b, c), d) = a4
 
+## Assign - tuple assign with and without parentheses
+a, z = d
+a, (b, c) = d
+(a, (b, c)) = d
+
 ## list_splat_pattern four versions
 *a = b
 *print = b

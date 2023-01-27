@@ -1846,10 +1846,6 @@ impl Parser {
         Ok(rhs)
     }
 
-    // _left_hand_side: $ => choice(
-    //   $.pattern,
-    //   $.pattern_list,
-    // ),
     //
     // pattern_list: $ => seq(
     //   $.pattern,
@@ -1864,6 +1860,32 @@ impl Parser {
     //     )
     //   )
     // ),
+    //
+    fn pattern_list(&mut self, pattern_list_node: &Node) -> Expr {
+        // pattern lists are processed like tuples of patterns
+        let mut patterns = vec![];
+
+        for pattern_node in pattern_list_node.named_children(&mut pattern_list_node.walk()) {
+            match self.pattern(&pattern_node) {
+                Ok(expression) => patterns.push(expression),
+                _ => (),
+            }
+        }
+
+        let tuple_desc = ExprDesc::Tuple {
+            elts: patterns,
+            ctx: self.get_expression_context(),
+        };
+
+        self.new_expr(tuple_desc, pattern_list_node)
+    }
+
+    //
+    // _left_hand_side: $ => choice(
+    //   $.pattern,
+    //   $.pattern_list,
+    // ),
+    //
     fn assign_left_hand_side(&mut self, lhs: &Node) -> ErrorableResult<Expr> {
         self.set_expression_context(ExprContext::Store);
         let lhs_type = &get_node_type(lhs);
@@ -1871,13 +1893,18 @@ impl Parser {
         let lhs_expr = match lhs_type {
             NodeType::Production(rule) => match &rule.production_kind {
                 // we can treat pattern_list as a tuple
-                ProductionKind::PATTERN_LIST => {
-                    let tuple_desc = self.tuple(rule.node)?;
-                    self.new_expr(tuple_desc, rule.node)
-                }
+                ProductionKind::PATTERN_LIST => self.pattern_list(lhs),
                 _ => self.pattern(lhs)?,
             },
-            _ => panic!("unexpected assignment left hand side {:?}", lhs),
+            _ => {
+                return Err(self.record_recoverable_error(
+                    RecoverableError::UnexpectedExpression(format!(
+                        "unexpected assignment left hand side: {:?}",
+                        lhs
+                    )),
+                    lhs,
+                ));
+            }
         };
         self.pop_expression_context();
         Ok(lhs_expr)
