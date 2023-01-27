@@ -153,3 +153,6 @@ else: # this is not turned into elif
     if cond2 == "py2":
         pass
     x = 3 # because the block contains other things besides an if
+
+## no comma popping for empty tuples
+a[b] = ((), c)

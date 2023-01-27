@@ -17976,10 +17976,10 @@ def main() -> int:                            | def main() -> int:
     astring = format_a_string()               |     astring = format_a_string()               
     return 0                                  |     return 0                                  
 if __name__ == '__main__':                    | if __name__ == '__main__':                    
-    ma def in()                               |     ma in )                                   
+    ma def in()                               |     ma in ()                                  
                                               | 
 
-Output AST is not valid according to CPython: unmatched ')' (<unknown>, line 25)
+
 ERRPY Recovered AST diff:
 --- 
 +++ 
@@ -17987,7 +17987,7 @@ ERRPY Recovered AST diff:
      astring = format_a_string()
      return 0
  if __name__ == '__main__':
--    ma in )+    ma def in()
+-    ma in ()+    ma def in()
 
 
 ===============================================================================

@@ -878,10 +878,12 @@ impl ExprDesc {
                     pprint_output.push_str(", ");
                 }
 
-                pprint_output.pop();
-                if count > 1 {
-                    // leave the last comma if ther is only one item in the tuple
+                if count > 0 {
                     pprint_output.pop();
+                    if count > 1 {
+                        // leave the last comma if ther is only one item in the tuple
+                        pprint_output.pop();
+                    }
                 }
 
                 right_parenthesis(pprint_output, current_priority_level, priority_level);
