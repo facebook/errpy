@@ -276,7 +276,7 @@ impl Parser {
     /// Code is defined at construction time (`new`) but it could also be passed
     /// to this function. We could also pass a delta
     ///
-    pub fn parse(&mut self, internal_ast: bool) -> Result<(), ParserError> {
+    pub fn parse(&mut self) -> Result<(), ParserError> {
         let mut cst_to_ast = SitterParser::new();
         cst_to_ast.set_language(tree_sitter_python::language())?;
         let tree = match cst_to_ast.parse(&self.code, None) {
@@ -284,11 +284,6 @@ impl Parser {
             None => return Err(ParserError::DidNotComplete),
         };
         let root = tree.root_node();
-
-        if internal_ast {
-            println!(">>> SITTER DERIVED AST :\n");
-            print_internal_ast(&root, "");
-        }
 
         self.parse_module(&root);
         Ok(())
@@ -3902,20 +3897,5 @@ impl From<AugAssignOperator> for Operator {
             AugAssignOperator::DOUBLE_SLASH_EQUAL => Self::FloorDiv,
             AugAssignOperator::DOUBLE_STAR_EQUAL => Self::Pow,
         }
-    }
-}
-
-// Prints the sitter nodes transformed in their internal representation.
-// It only prints proper AST nodes as opposed to the tree sitter CST nodes
-// (no syntax nodes)
-fn print_internal_ast(node: &Node, indent: &str) {
-    let node_type = get_node_type(node);
-    match node_type {
-        NodeType::Production(rule) => println!("{}{}", indent, rule.node.kind()),
-        _ => (),
-    }
-    for child in node.children(&mut node.walk()) {
-        let new_indent = format!("  {}", indent);
-        print_internal_ast(&child, new_indent.as_str());
     }
 }

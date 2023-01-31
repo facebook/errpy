@@ -58,7 +58,7 @@ fn py_parse_module_print_ast_pretty_and_errors(
 #[pyfunction]
 fn py_parse_module(input_code: String) -> PyResult<()> {
     let mut cst_to_ast = CSTToASTParser::new(input_code);
-    _ = cst_to_ast.parse(false);
+    _ = cst_to_ast.parse();
 
     Ok(())
 }

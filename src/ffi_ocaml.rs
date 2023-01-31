@@ -20,7 +20,7 @@ ocamlrep_ocamlpool::ocaml_ffi! {
         let input_without_comments = remove_comments(input_code_as_rust_string);
 
         let mut cst_to_ast = CSTToASTParser::new(input_without_comments);
-        match cst_to_ast.parse(false) {
+        match cst_to_ast.parse() {
             Ok(_) => {
                 let ast = cst_to_ast.ast_and_metadata.ast.unwrap();
                 Ok(ast)

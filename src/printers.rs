@@ -71,7 +71,7 @@ impl ParsingAndPrinter {
     pub fn new(input_code: String) -> Self {
         let input_without_comments = remove_comments(input_code);
         let mut cst_to_ast = CSTToASTParser::new(input_without_comments);
-        let parse_result = cst_to_ast.parse(false);
+        let parse_result = cst_to_ast.parse();
         ParsingAndPrinter {
             cst_to_ast,
             parse_result,
