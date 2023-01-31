@@ -14,9 +14,12 @@ open OUnit2
 *)
 
 
-let test_parser_ast input_code expected_ast =
-  match Parser.parse input_code with
-  | Ok mod_ -> assert_equal expected_ast mod_ ~printer:( Ast.show_mod_  )
+let test_parser_ast input_code ?(expected_recoverable_errors = []) expected_ast =
+  let print_recoverable_errors recoverable_errors =
+    recoverable_errors |> List.map Ast.show_recoverableerrorwithlocation |> String.concat ", " |> Format.asprintf "[%s]"
+  in
+  match Parser.parse_module input_code with
+  | Ok(mod_, recoverable_errors)  -> assert_equal expected_ast mod_ ~printer:( Ast.show_mod_  ); assert_equal expected_recoverable_errors recoverable_errors ~printer:( print_recoverable_errors  )
   | Error err -> assert_failure err
 
 
@@ -83,3 +86,31 @@ let () = test_parser_ast "def foo(
     skip_loads=True,
 ):
     pass" expected_output_comments
+
+
+let expected_output_resolvable_error = Ast.Module {
+  body =
+  [{ Ast.desc =
+     (Ast.Expr
+        { Ast.desc =
+          Ast.Tuple {
+            elts =
+            [{ Ast.desc = Ast.Name {id = "garbage"; ctx = Ast.Load};
+               lineno = 1; col_offset = 2; end_lineno = (Some 1);
+               end_col_offset = (Some 9) };
+              { Ast.desc = Ast.Name {id = "a"; ctx = Ast.Load}; lineno = 1;
+                col_offset = 13; end_lineno = (Some 1);
+                end_col_offset = (Some 14) }
+              ];
+            ctx = Ast.Load};
+          lineno = 1; col_offset = 0; end_lineno = (Some 1);
+          end_col_offset = (Some 15) });
+     lineno = 1; col_offset = 0; end_lineno = (Some 1);
+     end_col_offset = (Some 15) }
+    ];
+  type_ignores = []}
+
+let expected_errors_resolvable_error = [{ Ast.error = "UnexpectedExpression: \"Error\"";
+lineno = 1; col_offset = 10;  end_lineno = 1; end_col_offset = 11 } ]
+
+let () = test_parser_ast "( garbage a, a)" ~expected_recoverable_errors:expected_errors_resolvable_error expected_output_resolvable_error

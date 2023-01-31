@@ -10,6 +10,16 @@ use ocamlrep::ToOcamlRep;
 use serde::Deserialize;
 use serde::Serialize;
 
+#[derive(ToOcamlRep, FromOcamlRep)]
+#[rust_to_ocaml(attr = "deriving show")]
+pub struct RecoverableErrorWithLocation {
+    pub error: String,
+    pub lineno: isize,
+    pub col_offset: isize,
+    pub end_lineno: isize,
+    pub end_col_offset: isize,
+}
+
 #[derive(Clone, Debug, PartialEq, PartialOrd)]
 #[derive(Serialize, Deserialize, ToOcamlRep, FromOcamlRep)]
 #[rust_to_ocaml(attr = "deriving show")]

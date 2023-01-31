@@ -8,6 +8,9 @@
 print_endline ("Running on OCaml version: " ^ Sys.ocaml_version)
 
 let () =
-  match Parser.parse Sys.argv.(1) with
-  | Ok mod_ -> Printf.printf "Parser produced AST:\n%s\n" (Ast.show_mod_ mod_)
+  let print_recoverable_errors recoverable_errors =
+    recoverable_errors |> List.map Ast.show_recoverableerrorwithlocation |> String.concat ", " |> Format.asprintf "[%s]"
+  in
+  match Parser.parse_module Sys.argv.(1) with
+  | Ok(mod_, recoverable_errors)  -> Printf.printf "Parser produced AST:\n%s\nRecoverable Errors:\n%s\n" (Ast.show_mod_ mod_) (print_recoverable_errors recoverable_errors)
   | Error err -> Printf.eprintf "Parser error: %s\n" err
