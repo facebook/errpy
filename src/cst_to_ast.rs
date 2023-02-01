@@ -3263,19 +3263,26 @@ impl Parser {
             multiline_offsets.insert(cur_row, 0);
             // move chars across one at a time and update offsets as approperiate
             let mut new_node_text = String::from("");
+            let mut prev_char_is_backslash = false;
+
             for ch in node_text.chars() {
                 if ch == '\n' {
-                    new_node_text.push('\\');
-                    new_node_text.push('n');
+                    if !prev_char_is_backslash {
+                        new_node_text.push('\\');
+                        new_node_text.push('n');
+                    } else {
+                        new_node_text.pop();
+                    }
+
                     cur_row += 1;
                     multiline_offsets.insert(cur_row, new_node_text.len());
                 } else {
                     new_node_text.push(ch);
                 }
+                prev_char_is_backslash = ch == '\\';
             }
             node_text = new_node_text;
             prev_idx += 2;
-
             true
         } else {
             false

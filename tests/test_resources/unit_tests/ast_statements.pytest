@@ -85,6 +85,13 @@ format_string = f'''{sin(a+b)} is
     {cos(b+c):.3} plus remainder
     {tan(a):.3} plus remainder'''
 
+## multiline format string with format on second line continuation
+
+format_string = f"""
+{b} {c} \
+"""
+
+
 ## formatted value test
 format_string = f"{v=!r:->8s}"
 format_string = f"{v=:->8s}"
