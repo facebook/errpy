@@ -415,5 +415,19 @@ m = -0.001
 m = -0.01
 m = -0.1
 
-# zero should not be shown in scientific format
+## zero should not be shown in scientific format
 xx = 0.0 # not to be shown in scientific format
+
+## complex type annotation
+# this was the source of a few bugs
+
+SearchUnion = Union[
+    List[
+        Union[
+            Dict[str, Union[List[FlowRunStatus], str]],
+            Dict[str, Union[List[str], str]],
+            Dict[str, str],
+        ],
+    ],
+    str,
+]
