@@ -10,9 +10,9 @@ type num =
   | Float of float
   | Complex of float
   | Big_int of string
-      (** pyast uses Py.Object.t for Big_int, but this is presumably not what we * want (if it's an
-          opaque wrapper for a CPython object). Just have the * source text representing the integer
-          digits for now instead. *)
+      (** pyast uses Py.Object.t for Big_int, but this is presumably not what we
+       * want (if it's an opaque wrapper for a CPython object). Just have the
+       * source text representing the integer digits for now instead. *)
 [@@deriving show]
 
 type object_ = num [@@deriving show]
@@ -25,6 +25,7 @@ type constant_desc =
 [@@deriving show]
 
 type constant = constant_desc option [@@deriving show]
+
 type singleton = bool option [@@deriving show]
 
 type withitem = {
@@ -32,7 +33,7 @@ type withitem = {
   optional_vars: expr option;
 }
 
-and recoverableerrorwithlocation = {
+and  recoverableerrorwithlocation = {
   error: string;
   lineno: int;
   col_offset: int;
