@@ -2901,7 +2901,10 @@ impl Parser {
             slices.pop().expect("should be at least one slice")
         } else {
             // if ends in comma or if there are more than one slice
-            let start_position = node.child(1).expect("'[' node in subscript").end_position();
+            let start_position = node
+                .child(2)
+                .expect("first element of tuple")
+                .start_position();
 
             let end_position = node
                 .child(node.child_count() - 2)
