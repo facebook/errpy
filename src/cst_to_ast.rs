@@ -2598,11 +2598,6 @@ impl Parser {
         let mut expressions = vec![];
         self.collection_elements(node, &mut expressions);
 
-        if expressions.len() == 1 && node.child(node.child_count() - 2).unwrap().kind() != "," {
-            // if only one and there is no comma
-            return Ok(*expressions.pop().unwrap().desc);
-        }
-
         Ok(ExprDesc::Tuple {
             elts: expressions,
             ctx: self.get_expression_context(),

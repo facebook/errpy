@@ -27,6 +27,10 @@ f"sin({a}) is {sin(a):.3}"
 ## Tuple(elts, ctx)
 (1, 2, 3)
 
+## single element tuple
+thing = 1,
+thing = (1,)
+
 ## Set(elts)
 {1, 2, 3}
 
