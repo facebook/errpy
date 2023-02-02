@@ -1231,7 +1231,27 @@ impl Parser {
                         StmtDesc::Expr(self.new_expr(yeild_desc, node))
                     }
                     // TODO: do sequences of expression come here?
-                    _ => StmtDesc::Expr(self.expression(&child_expression)?),
+                    _ => {
+                        let expression = self.expression(&child_expression)?;
+
+                        // If the expression statement has a trailing comma we
+                        // should treat it as a tuple of size one, otherwise
+                        // it is a plain expression.
+                        let ends_in_comma =
+                            node.child(node.child_count() - 1).unwrap().kind() == ",";
+                        if ends_in_comma {
+                            let mut expressions = vec![];
+                            expressions.push(expression);
+                            let tuple_desc = ExprDesc::Tuple {
+                                elts: expressions,
+                                ctx: self.get_expression_context(),
+                            };
+
+                            StmtDesc::Expr(self.new_expr(tuple_desc, node))
+                        } else {
+                            StmtDesc::Expr(expression)
+                        }
+                    }
                 }
             }
             _ => panic!("should be unreachable for expression"),
