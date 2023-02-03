@@ -3670,8 +3670,19 @@ impl Parser {
         } else {
             // ignore line continuations
             string_contents = string_contents.replace("\\\n", "");
-            string_contents = string_contents.replace("\\\'", "\'");
-            string_contents = string_contents.replace("\\\"", "\"");
+
+            // replace \' and \" except at the end
+            if let Some(i) = string_contents.find("\\\'") {
+                if i < string_contents.len() - 2 {
+                    string_contents = string_contents.replace("\\\'", "\'");
+                }
+            }
+
+            if let Some(i) = string_contents.find("\\\"") {
+                if i < string_contents.len() - 2 {
+                    string_contents = string_contents.replace("\\\"", "\"");
+                }
+            }
         }
         string_contents = string_contents.replace('\n', "\\n");
 

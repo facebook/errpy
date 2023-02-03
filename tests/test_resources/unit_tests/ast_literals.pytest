@@ -381,6 +381,18 @@ b = b"'"
 a = r'"'
 b = r"'"
 
+## strings backslashes
+a = '\\'
+b = "\\"
+c = '\"'
+d = "\'"
+
+## b-strings backslashes
+a = b'\\'
+b = b"\\"
+c = b'\"'
+d = b"\'"
+
 ## raw strings backslashes
 a = r'\"'
 b = r'\''
