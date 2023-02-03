@@ -289,12 +289,6 @@ impl Parser {
         Ok(())
     }
 
-    //
-    //
-    // Functions that consumes the tree-sitter productions
-    //
-    //
-
     // Process a module.
     // module: $ => repeat($._statement),
     fn parse_module(&mut self, root: &Node) {
@@ -313,6 +307,12 @@ impl Parser {
             type_ignores: vec![],
         });
     }
+
+    //
+    //
+    // Functions that consumes the tree-sitter productions
+    //
+    //
 
     // Process a generic block updating `statements`.
     // Generally sequences of `repeat($._statement)`
