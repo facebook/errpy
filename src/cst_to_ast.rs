@@ -3270,7 +3270,10 @@ impl Parser {
 
         let mut prev_idx = 2;
 
-        let is_multiline = if node_text.starts_with("f\"\"\"") || node_text.starts_with("f\'\'\'") {
+        let is_multiline = if node_text.contains('\n')
+            || node_text.starts_with("f\"\"\"")
+            || node_text.starts_with("f\'\'\'")
+        {
             // multiline f strings are interesting and require some giggling around so
             // that we can consistantly extract substring strings from the string.
             // Essentially we must:
@@ -3300,7 +3303,9 @@ impl Parser {
                 prev_char_is_backslash = ch == '\\';
             }
             node_text = new_node_text;
-            prev_idx += 2;
+            if node_text.starts_with("f\"\"\"") || node_text.starts_with("f\'\'\'") {
+                prev_idx += 2;
+            }
             true
         } else {
             false

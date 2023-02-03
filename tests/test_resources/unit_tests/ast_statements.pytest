@@ -91,6 +91,10 @@ format_string = f"""
 {b} {c} \
 """
 
+format_string = f" a \
+b {c} \
+d {e}"
+
 
 ## formatted value test
 format_string = f"{v=!r:->8s}"
