@@ -23,4 +23,6 @@ pub enum RecoverableError {
     MissingLhs,
     #[error("expected BinaryOperator node, but got unexpected node kind: {0}")]
     MissingOperator(String),
+    #[error("Syntax error resulted in ERROR node")]
+    SyntaxError(String),
 }

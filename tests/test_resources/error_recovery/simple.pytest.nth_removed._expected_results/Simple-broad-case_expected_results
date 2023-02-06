@@ -113,6 +113,11 @@ if __name__ == '__main__':                    |
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 25:11]
+CST Stack:
+    {Node ERROR (0, 0) - (24, 10)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -177,6 +182,11 @@ if __name__ == '__main__':                    |
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 25:11]
+CST Stack:
+    {Node ERROR (0, 0) - (24, 10)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -241,6 +251,11 @@ if __name__ == '__main__':                    |
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 25:11]
+CST Stack:
+    {Node ERROR (0, 0) - (24, 10)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -434,6 +449,11 @@ if __name__ == '__main__':                    |
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 10:39]
+CST Stack:
+    {Node ERROR (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -492,6 +512,13 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:9 - 1:10]
+CST Stack:
+    {Node ERROR (0, 8) - (0, 9)}
+    {Node parameters (0, 7) - (0, 14)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -541,6 +568,13 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:9 - 1:10]
+CST Stack:
+    {Node ERROR (0, 8) - (0, 9)}
+    {Node parameters (0, 7) - (0, 14)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -721,6 +755,16 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:17 - 1:18]
+CST Stack:
+    {Node ERROR (0, 16) - (0, 17)}
+    {Node binary_operator (0, 11) - (0, 21)}
+    {Node type (0, 11) - (0, 21)}
+    {Node typed_parameter (0, 8) - (0, 21)}
+    {Node parameters (0, 7) - (0, 21)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -771,6 +815,12 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:17 - 1:22]
+CST Stack:
+    {Node ERROR (0, 16) - (0, 21)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -821,6 +871,12 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:17 - 1:22]
+CST Stack:
+    {Node ERROR (0, 16) - (0, 21)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -1003,6 +1059,11 @@ if __name__ == '__main__':                    |
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 25:11]
+CST Stack:
+    {Node ERROR (0, 0) - (24, 10)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -1318,6 +1379,13 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [2:15 - 2:16]
+CST Stack:
+    {Node ERROR (1, 14) - (1, 15)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -1370,7 +1438,7 @@ if __name__ == '__main__':                    |     main()
                                               | 
 
 1 Recoverable error detected:
-UnexpectedExpression: "Error" at [2:12 - 2:13]
+SyntaxError: "invalid syntax" at [2:12 - 2:13]
 CST Stack:
     {Node ERROR (1, 11) - (1, 12)}
     {Node parenthesized_expression (1, 10) - (1, 15)}
@@ -1429,6 +1497,16 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [2:14 - 2:15]
+CST Stack:
+    {Node ERROR (1, 13) - (1, 14)}
+    {Node parenthesized_expression (1, 10) - (1, 15)}
+    {Node assignment (1, 4) - (1, 15)}
+    {Node expression_statement (1, 4) - (1, 15)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -1531,6 +1609,15 @@ if __name__ == '__main__':                    |     main()
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [2:9 - 3:13]
+CST Stack:
+    {Node ERROR (1, 8) - (2, 12)}
+    {Node assignment (1, 4) - (2, 18)}
+    {Node expression_statement (1, 4) - (2, 18)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -1581,6 +1668,15 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [2:11 - 2:31]
+CST Stack:
+    {Node ERROR (1, 10) - (1, 30)}
+    {Node assignment (1, 4) - (1, 34)}
+    {Node expression_statement (1, 4) - (1, 34)}
+    {Node block (1, 4) - (8, 38)}
+    {Node function_definition (0, 0) - (8, 38)}
+    {Node module (0, 0) - (24, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -1632,6 +1728,14 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [3:9 - 3:14]
+CST Stack:
+    {Node ERROR (2, 8) - (2, 13)}
+    {Node expression_statement (2, 4) - (2, 17)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -1773,7 +1877,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-UnexpectedExpression: "unexpected token in pattern: {Node ERROR (2, 5) - (2, 7)}" at [3:6 - 3:8]
+SyntaxError: "invalid syntax" at [3:6 - 3:8]
 CST Stack:
     {Node ERROR (2, 5) - (2, 7)}
     {Node tuple_pattern (2, 4) - (2, 11)}
@@ -1923,6 +2027,11 @@ if __name__ == '__main__':                    |
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 25:11]
+CST Stack:
+    {Node ERROR (0, 0) - (24, 10)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -2171,6 +2280,15 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [3:16 - 3:19]
+CST Stack:
+    {Node ERROR (2, 15) - (2, 18)}
+    {Node assignment (2, 4) - (2, 41)}
+    {Node expression_statement (2, 4) - (2, 41)}
+    {Node block (1, 4) - (8, 38)}
+    {Node function_definition (0, 0) - (8, 38)}
+    {Node module (0, 0) - (24, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -2442,6 +2560,15 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [4:12 - 4:13]
+CST Stack:
+    {Node ERROR (3, 11) - (3, 12)}
+    {Node comparison_operator (3, 4) - (3, 22)}
+    {Node expression_statement (3, 4) - (3, 22)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -2494,6 +2621,15 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [4:14 - 4:16]
+CST Stack:
+    {Node ERROR (3, 13) - (3, 15)}
+    {Node assignment (3, 4) - (3, 22)}
+    {Node expression_statement (3, 4) - (3, 22)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -2547,6 +2683,15 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [4:13 - 4:16]
+CST Stack:
+    {Node ERROR (3, 12) - (3, 15)}
+    {Node assignment (3, 4) - (3, 22)}
+    {Node expression_statement (3, 4) - (3, 22)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -2600,6 +2745,15 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [4:13 - 4:16]
+CST Stack:
+    {Node ERROR (3, 12) - (3, 15)}
+    {Node assignment (3, 4) - (3, 22)}
+    {Node expression_statement (3, 4) - (3, 22)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -2653,6 +2807,13 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [4:22 - 4:23]
+CST Stack:
+    {Node ERROR (3, 21) - (3, 22)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -2707,7 +2868,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-UnexpectedExpression: "Error" at [4:19 - 4:20]
+SyntaxError: "invalid syntax" at [4:19 - 4:20]
 CST Stack:
     {Node ERROR (3, 18) - (3, 19)}
     {Node set (3, 17) - (3, 22)}
@@ -2771,7 +2932,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-UnexpectedExpression: "Error" at [4:21 - 4:22]
+SyntaxError: "invalid syntax" at [4:21 - 4:22]
 CST Stack:
     {Node ERROR (3, 20) - (3, 21)}
     {Node set (3, 17) - (3, 22)}
@@ -2887,6 +3048,11 @@ if __name__ == '__main__':                    |
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 25:11]
+CST Stack:
+    {Node ERROR (0, 0) - (24, 10)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -2950,6 +3116,48 @@ if __name__ == '__main__':                          |
     main()                                          | 
                                                     | 
 
+5 Recoverable errors detected:
+SyntaxError: "invalid syntax" at [4:11 - 4:47]
+CST Stack:
+    {Node ERROR (3, 10) - (3, 46)}
+    {Node assignment (3, 4) - (4, 16)}
+    {Node expression_statement (3, 4) - (4, 16)}
+    {Node block (1, 4) - (8, 38)}
+    {Node function_definition (0, 0) - (8, 38)}
+    {Node module (0, 0) - (24, 0)}
+SyntaxError: "invalid syntax" at [5:9 - 5:15]
+CST Stack:
+    {Node ERROR (4, 8) - (4, 14)}
+    {Node assignment (3, 4) - (4, 16)}
+    {Node expression_statement (3, 4) - (4, 16)}
+    {Node block (1, 4) - (8, 38)}
+    {Node function_definition (0, 0) - (8, 38)}
+    {Node module (0, 0) - (24, 0)}
+SyntaxError: "invalid syntax" at [6:5 - 6:9]
+CST Stack:
+    {Node ERROR (5, 4) - (5, 8)}
+    {Node block (1, 4) - (8, 38)}
+    {Node function_definition (0, 0) - (8, 38)}
+    {Node module (0, 0) - (24, 0)}
+SyntaxError: "invalid syntax" at [7:9 - 7:15]
+CST Stack:
+    {Node ERROR (6, 8) - (6, 14)}
+    {Node assignment (5, 9) - (6, 16)}
+    {Node expression_statement (5, 9) - (6, 16)}
+    {Node block (1, 4) - (8, 38)}
+    {Node function_definition (0, 0) - (8, 38)}
+    {Node module (0, 0) - (24, 0)}
+SyntaxError: "invalid syntax" at [9:16 - 9:19]
+CST Stack:
+    {Node ERROR (8, 15) - (8, 18)}
+    {Node call (8, 8) - (8, 25)}
+    {Node binary_operator (8, 8) - (8, 38)}
+    {Node type (8, 8) - (8, 38)}
+    {Node assignment (7, 4) - (8, 38)}
+    {Node expression_statement (7, 4) - (8, 38)}
+    {Node block (1, 4) - (8, 38)}
+    {Node function_definition (0, 0) - (8, 38)}
+    {Node module (0, 0) - (24, 0)}
 Output AST is not valid according to CPython: invalid syntax (<unknown>, line 6)
 ERRPY Recovered AST diff:
 --- 
@@ -3010,6 +3218,11 @@ if __name__ == '__main__':                    |
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 25:11]
+CST Stack:
+    {Node ERROR (0, 0) - (24, 10)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -3075,6 +3288,11 @@ if __name__ == '__main__':                    |
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 25:11]
+CST Stack:
+    {Node ERROR (0, 0) - (24, 10)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -3140,6 +3358,14 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [5:9 - 5:11]
+CST Stack:
+    {Node ERROR (4, 8) - (4, 10)}
+    {Node if_statement (4, 4) - (9, 38)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -3193,6 +3419,14 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [5:8 - 5:11]
+CST Stack:
+    {Node ERROR (4, 7) - (4, 10)}
+    {Node if_statement (4, 4) - (9, 38)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -3288,6 +3522,15 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [5:17 - 5:18]
+CST Stack:
+    {Node ERROR (4, 16) - (4, 17)}
+    {Node comparison_operator (4, 7) - (4, 22)}
+    {Node if_statement (4, 4) - (9, 38)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 Output AST is not valid according to CPython: invalid syntax (<unknown>, line 5)
 ERRPY Recovered AST diff:
 --- 
@@ -3341,6 +3584,15 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [5:15 - 5:18]
+CST Stack:
+    {Node ERROR (4, 14) - (4, 17)}
+    {Node comparison_operator (4, 7) - (4, 22)}
+    {Node if_statement (4, 4) - (9, 38)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -3394,6 +3646,15 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [5:15 - 5:18]
+CST Stack:
+    {Node ERROR (4, 14) - (4, 17)}
+    {Node comparison_operator (4, 7) - (4, 22)}
+    {Node if_statement (4, 4) - (9, 38)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -3447,6 +3708,15 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [5:19 - 5:21]
+CST Stack:
+    {Node ERROR (4, 18) - (4, 20)}
+    {Node boolean_operator (4, 7) - (4, 22)}
+    {Node if_statement (4, 4) - (9, 38)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -3500,6 +3770,14 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [5:20 - 5:23]
+CST Stack:
+    {Node ERROR (4, 19) - (4, 22)}
+    {Node if_statement (4, 4) - (9, 38)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -3553,6 +3831,14 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [5:20 - 5:23]
+CST Stack:
+    {Node ERROR (4, 19) - (4, 22)}
+    {Node if_statement (4, 4) - (9, 38)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -3606,6 +3892,14 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [5:20 - 5:22]
+CST Stack:
+    {Node ERROR (4, 19) - (4, 21)}
+    {Node if_statement (4, 4) - (9, 38)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -3659,6 +3953,16 @@ if __name__ == '__main__':                    |
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [5:23 - 7:9]
+CST Stack:
+    {Node ERROR (4, 22) - (6, 8)}
+    {Node comparison_operator (4, 17) - (6, 14)}
+    {Node boolean_operator (4, 7) - (6, 14)}
+    {Node if_statement (4, 4) - (9, 38)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -3767,6 +4071,14 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [6:9 - 6:14]
+CST Stack:
+    {Node ERROR (5, 8) - (5, 13)}
+    {Node if_statement (4, 4) - (9, 38)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -3821,6 +4133,14 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [6:9 - 6:14]
+CST Stack:
+    {Node ERROR (5, 8) - (5, 13)}
+    {Node if_statement (4, 4) - (9, 38)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -3874,6 +4194,14 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [6:9 - 6:14]
+CST Stack:
+    {Node ERROR (5, 8) - (5, 13)}
+    {Node if_statement (4, 4) - (9, 38)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -3927,6 +4255,14 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [6:9 - 6:14]
+CST Stack:
+    {Node ERROR (5, 8) - (5, 13)}
+    {Node if_statement (4, 4) - (9, 38)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -3980,6 +4316,14 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [6:9 - 6:14]
+CST Stack:
+    {Node ERROR (5, 8) - (5, 13)}
+    {Node if_statement (4, 4) - (9, 38)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -4033,6 +4377,14 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [6:9 - 6:14]
+CST Stack:
+    {Node ERROR (5, 8) - (5, 13)}
+    {Node if_statement (4, 4) - (9, 38)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -4137,6 +4489,16 @@ if __name__ == '__main__':                    |     main()
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [6:16 - 7:15]
+CST Stack:
+    {Node ERROR (5, 15) - (6, 14)}
+    {Node return_statement (5, 8) - (6, 16)}
+    {Node block (5, 8) - (6, 16)}
+    {Node if_statement (4, 4) - (8, 38)}
+    {Node block (1, 4) - (8, 38)}
+    {Node function_definition (0, 0) - (8, 38)}
+    {Node module (0, 0) - (24, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -4191,6 +4553,32 @@ if __name__ == '__main__':                    |
     main()                                    | 
                                               | 
 
+3 Recoverable errors detected:
+SyntaxError: "invalid syntax" at [7:5 - 7:8]
+CST Stack:
+    {Node ERROR (6, 4) - (6, 7)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
+SyntaxError: "invalid syntax" at [8:9 - 8:15]
+CST Stack:
+    {Node ERROR (7, 8) - (7, 14)}
+    {Node assignment (6, 8) - (7, 16)}
+    {Node expression_statement (6, 8) - (7, 16)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
+SyntaxError: "invalid syntax" at [10:16 - 10:19]
+CST Stack:
+    {Node ERROR (9, 15) - (9, 18)}
+    {Node call (9, 8) - (9, 25)}
+    {Node binary_operator (9, 8) - (9, 38)}
+    {Node type (9, 8) - (9, 38)}
+    {Node assignment (8, 4) - (9, 38)}
+    {Node expression_statement (8, 4) - (9, 38)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 Output AST is not valid according to CPython: invalid syntax (<unknown>, line 8)
 ERRPY Recovered AST diff:
 --- 
@@ -4249,6 +4637,32 @@ if __name__ == '__main__':                    |
     main()                                    | 
                                               | 
 
+3 Recoverable errors detected:
+SyntaxError: "invalid syntax" at [7:5 - 7:8]
+CST Stack:
+    {Node ERROR (6, 4) - (6, 7)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
+SyntaxError: "invalid syntax" at [8:9 - 8:15]
+CST Stack:
+    {Node ERROR (7, 8) - (7, 14)}
+    {Node assignment (6, 8) - (7, 16)}
+    {Node expression_statement (6, 8) - (7, 16)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
+SyntaxError: "invalid syntax" at [10:16 - 10:19]
+CST Stack:
+    {Node ERROR (9, 15) - (9, 18)}
+    {Node call (9, 8) - (9, 25)}
+    {Node binary_operator (9, 8) - (9, 38)}
+    {Node type (9, 8) - (9, 38)}
+    {Node assignment (8, 4) - (9, 38)}
+    {Node expression_statement (8, 4) - (9, 38)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 Output AST is not valid according to CPython: invalid syntax (<unknown>, line 8)
 ERRPY Recovered AST diff:
 --- 
@@ -4307,6 +4721,32 @@ if __name__ == '__main__':                    |
     main()                                    | 
                                               | 
 
+3 Recoverable errors detected:
+SyntaxError: "invalid syntax" at [7:5 - 7:8]
+CST Stack:
+    {Node ERROR (6, 4) - (6, 7)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
+SyntaxError: "invalid syntax" at [8:9 - 8:15]
+CST Stack:
+    {Node ERROR (7, 8) - (7, 14)}
+    {Node assignment (6, 8) - (7, 16)}
+    {Node expression_statement (6, 8) - (7, 16)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
+SyntaxError: "invalid syntax" at [10:16 - 10:19]
+CST Stack:
+    {Node ERROR (9, 15) - (9, 18)}
+    {Node call (9, 8) - (9, 25)}
+    {Node binary_operator (9, 8) - (9, 38)}
+    {Node type (9, 8) - (9, 38)}
+    {Node assignment (8, 4) - (9, 38)}
+    {Node expression_statement (8, 4) - (9, 38)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 Output AST is not valid according to CPython: invalid syntax (<unknown>, line 8)
 ERRPY Recovered AST diff:
 --- 
@@ -4365,6 +4805,32 @@ if __name__ == '__main__':                    |
     main()                                    | 
                                               | 
 
+3 Recoverable errors detected:
+SyntaxError: "invalid syntax" at [7:5 - 7:8]
+CST Stack:
+    {Node ERROR (6, 4) - (6, 7)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
+SyntaxError: "invalid syntax" at [8:9 - 8:15]
+CST Stack:
+    {Node ERROR (7, 8) - (7, 14)}
+    {Node assignment (6, 8) - (7, 16)}
+    {Node expression_statement (6, 8) - (7, 16)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
+SyntaxError: "invalid syntax" at [10:16 - 10:19]
+CST Stack:
+    {Node ERROR (9, 15) - (9, 18)}
+    {Node call (9, 8) - (9, 25)}
+    {Node binary_operator (9, 8) - (9, 38)}
+    {Node type (9, 8) - (9, 38)}
+    {Node assignment (8, 4) - (9, 38)}
+    {Node expression_statement (8, 4) - (9, 38)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 Output AST is not valid according to CPython: invalid syntax (<unknown>, line 8)
 ERRPY Recovered AST diff:
 --- 
@@ -4643,6 +5109,15 @@ if __name__ == '__main__':                    |
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [8:9 - 9:9]
+CST Stack:
+    {Node ERROR (7, 8) - (8, 8)}
+    {Node elif_clause (6, 4) - (9, 38)}
+    {Node if_statement (4, 4) - (9, 38)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -4751,6 +5226,15 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [8:9 - 8:14]
+CST Stack:
+    {Node ERROR (7, 8) - (7, 13)}
+    {Node elif_clause (6, 4) - (7, 15)}
+    {Node if_statement (4, 4) - (9, 38)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -4805,6 +5289,15 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [8:9 - 8:14]
+CST Stack:
+    {Node ERROR (7, 8) - (7, 13)}
+    {Node elif_clause (6, 4) - (7, 15)}
+    {Node if_statement (4, 4) - (9, 38)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -4858,6 +5351,15 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [8:9 - 8:14]
+CST Stack:
+    {Node ERROR (7, 8) - (7, 13)}
+    {Node elif_clause (6, 4) - (7, 15)}
+    {Node if_statement (4, 4) - (9, 38)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -4911,6 +5413,15 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [8:9 - 8:14]
+CST Stack:
+    {Node ERROR (7, 8) - (7, 13)}
+    {Node elif_clause (6, 4) - (7, 15)}
+    {Node if_statement (4, 4) - (9, 38)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -4964,6 +5475,15 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [8:9 - 8:14]
+CST Stack:
+    {Node ERROR (7, 8) - (7, 13)}
+    {Node elif_clause (6, 4) - (7, 15)}
+    {Node if_statement (4, 4) - (9, 38)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -5017,6 +5537,15 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [8:9 - 8:14]
+CST Stack:
+    {Node ERROR (7, 8) - (7, 13)}
+    {Node elif_clause (6, 4) - (7, 15)}
+    {Node if_statement (4, 4) - (9, 38)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -5122,6 +5651,21 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [9:16 - 9:19]
+CST Stack:
+    {Node ERROR (8, 15) - (8, 18)}
+    {Node call (8, 8) - (8, 25)}
+    {Node binary_operator (8, 8) - (8, 38)}
+    {Node type (8, 8) - (8, 38)}
+    {Node assignment (7, 20) - (8, 38)}
+    {Node expression_statement (7, 20) - (8, 38)}
+    {Node block (7, 8) - (8, 38)}
+    {Node elif_clause (6, 4) - (8, 38)}
+    {Node if_statement (4, 4) - (8, 38)}
+    {Node block (1, 4) - (8, 38)}
+    {Node function_definition (0, 0) - (8, 38)}
+    {Node module (0, 0) - (24, 0)}
 Output AST is not valid according to CPython: invalid syntax (<unknown>, line 9)
 ERRPY Recovered AST diff:
 --- 
@@ -5178,6 +5722,18 @@ if __name__ == '__main__':                    |     main()
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [10:16 - 10:19]
+CST Stack:
+    {Node ERROR (9, 15) - (9, 18)}
+    {Node call (9, 8) - (9, 25)}
+    {Node binary_operator (9, 8) - (9, 38)}
+    {Node type (9, 8) - (9, 38)}
+    {Node assignment (8, 4) - (9, 38)}
+    {Node expression_statement (8, 4) - (9, 38)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 Output AST is not valid according to CPython: invalid syntax (<unknown>, line 9)
 ERRPY Recovered AST diff:
 --- 
@@ -5233,6 +5789,18 @@ if __name__ == '__main__':                    |     main()
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [10:16 - 10:19]
+CST Stack:
+    {Node ERROR (9, 15) - (9, 18)}
+    {Node call (9, 8) - (9, 25)}
+    {Node binary_operator (9, 8) - (9, 38)}
+    {Node type (9, 8) - (9, 38)}
+    {Node assignment (8, 4) - (9, 38)}
+    {Node expression_statement (8, 4) - (9, 38)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 Output AST is not valid according to CPython: invalid syntax (<unknown>, line 9)
 ERRPY Recovered AST diff:
 --- 
@@ -5288,6 +5856,18 @@ if __name__ == '__main__':                    |     main()
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [10:16 - 10:19]
+CST Stack:
+    {Node ERROR (9, 15) - (9, 18)}
+    {Node call (9, 8) - (9, 25)}
+    {Node binary_operator (9, 8) - (9, 38)}
+    {Node type (9, 8) - (9, 38)}
+    {Node assignment (8, 4) - (9, 38)}
+    {Node expression_statement (8, 4) - (9, 38)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 Output AST is not valid according to CPython: invalid syntax (<unknown>, line 9)
 ERRPY Recovered AST diff:
 --- 
@@ -5343,6 +5923,18 @@ if __name__ == '__main__':                    |     main()
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [10:16 - 10:19]
+CST Stack:
+    {Node ERROR (9, 15) - (9, 18)}
+    {Node call (9, 8) - (9, 25)}
+    {Node binary_operator (9, 8) - (9, 38)}
+    {Node type (9, 8) - (9, 38)}
+    {Node assignment (8, 4) - (9, 38)}
+    {Node expression_statement (8, 4) - (9, 38)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 Output AST is not valid according to CPython: invalid syntax (<unknown>, line 9)
 ERRPY Recovered AST diff:
 --- 
@@ -5398,6 +5990,13 @@ if __name__ == '__main__':                    |     main()
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [9:5 - 9:9]
+CST Stack:
+    {Node ERROR (8, 4) - (8, 8)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -5505,6 +6104,19 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [10:15 - 10:18]
+CST Stack:
+    {Node ERROR (9, 14) - (9, 17)}
+    {Node call (9, 8) - (9, 24)}
+    {Node binary_operator (9, 8) - (9, 37)}
+    {Node expression_statement (9, 8) - (9, 37)}
+    {Node block (9, 8) - (9, 37)}
+    {Node else_clause (8, 4) - (9, 37)}
+    {Node if_statement (4, 4) - (9, 37)}
+    {Node block (1, 4) - (9, 37)}
+    {Node function_definition (0, 0) - (9, 37)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -5558,6 +6170,19 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [10:15 - 10:18]
+CST Stack:
+    {Node ERROR (9, 14) - (9, 17)}
+    {Node call (9, 8) - (9, 24)}
+    {Node binary_operator (9, 8) - (9, 37)}
+    {Node expression_statement (9, 8) - (9, 37)}
+    {Node block (9, 8) - (9, 37)}
+    {Node else_clause (8, 4) - (9, 37)}
+    {Node if_statement (4, 4) - (9, 37)}
+    {Node block (1, 4) - (9, 37)}
+    {Node function_definition (0, 0) - (9, 37)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -5610,6 +6235,19 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [10:15 - 10:18]
+CST Stack:
+    {Node ERROR (9, 14) - (9, 17)}
+    {Node call (9, 8) - (9, 24)}
+    {Node binary_operator (9, 8) - (9, 37)}
+    {Node expression_statement (9, 8) - (9, 37)}
+    {Node block (9, 8) - (9, 37)}
+    {Node else_clause (8, 4) - (9, 37)}
+    {Node if_statement (4, 4) - (9, 37)}
+    {Node block (1, 4) - (9, 37)}
+    {Node function_definition (0, 0) - (9, 37)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -5662,6 +6300,19 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [10:15 - 10:18]
+CST Stack:
+    {Node ERROR (9, 14) - (9, 17)}
+    {Node call (9, 8) - (9, 24)}
+    {Node binary_operator (9, 8) - (9, 37)}
+    {Node expression_statement (9, 8) - (9, 37)}
+    {Node block (9, 8) - (9, 37)}
+    {Node else_clause (8, 4) - (9, 37)}
+    {Node if_statement (4, 4) - (9, 37)}
+    {Node block (1, 4) - (9, 37)}
+    {Node function_definition (0, 0) - (9, 37)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -5714,6 +6365,19 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [10:15 - 10:18]
+CST Stack:
+    {Node ERROR (9, 14) - (9, 17)}
+    {Node call (9, 8) - (9, 24)}
+    {Node binary_operator (9, 8) - (9, 37)}
+    {Node expression_statement (9, 8) - (9, 37)}
+    {Node block (9, 8) - (9, 37)}
+    {Node else_clause (8, 4) - (9, 37)}
+    {Node if_statement (4, 4) - (9, 37)}
+    {Node block (1, 4) - (9, 37)}
+    {Node function_definition (0, 0) - (9, 37)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -5766,6 +6430,19 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [10:15 - 10:18]
+CST Stack:
+    {Node ERROR (9, 14) - (9, 17)}
+    {Node call (9, 8) - (9, 24)}
+    {Node binary_operator (9, 8) - (9, 37)}
+    {Node expression_statement (9, 8) - (9, 37)}
+    {Node block (9, 8) - (9, 37)}
+    {Node else_clause (8, 4) - (9, 37)}
+    {Node if_statement (4, 4) - (9, 37)}
+    {Node block (1, 4) - (9, 37)}
+    {Node function_definition (0, 0) - (9, 37)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -5947,6 +6624,18 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [10:24 - 10:25]
+CST Stack:
+    {Node ERROR (9, 23) - (9, 24)}
+    {Node binary_operator (9, 15) - (9, 37)}
+    {Node return_statement (9, 8) - (9, 37)}
+    {Node block (9, 8) - (9, 37)}
+    {Node else_clause (8, 4) - (9, 37)}
+    {Node if_statement (4, 4) - (9, 37)}
+    {Node block (1, 4) - (9, 37)}
+    {Node function_definition (0, 0) - (9, 37)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -6052,7 +6741,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-UnexpectedExpression: "unexpected argument handling: Error" at [10:23 - 10:24]
+SyntaxError: "invalid syntax" at [10:23 - 10:24]
 CST Stack:
     {Node ERROR (9, 22) - (9, 23)}
     {Node argument_list (9, 18) - (9, 24)}
@@ -6118,7 +6807,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-UnexpectedExpression: "unexpected argument handling: Error" at [10:22 - 10:23]
+SyntaxError: "invalid syntax" at [10:22 - 10:23]
 CST Stack:
     {Node ERROR (9, 21) - (9, 22)}
     {Node argument_list (9, 18) - (9, 24)}
@@ -6183,6 +6872,15 @@ if __name__ == '__main__':                    |
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [10:9 - 12:21]
+CST Stack:
+    {Node ERROR (9, 8) - (11, 20)}
+    {Node else_clause (8, 4) - (11, 20)}
+    {Node if_statement (4, 4) - (11, 20)}
+    {Node block (1, 4) - (12, 8)}
+    {Node function_definition (0, 0) - (12, 8)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -6237,6 +6935,18 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [10:28 - 10:31]
+CST Stack:
+    {Node ERROR (9, 27) - (9, 30)}
+    {Node call (9, 15) - (9, 37)}
+    {Node return_statement (9, 8) - (9, 37)}
+    {Node block (9, 8) - (9, 37)}
+    {Node else_clause (8, 4) - (9, 37)}
+    {Node if_statement (4, 4) - (9, 37)}
+    {Node block (1, 4) - (9, 37)}
+    {Node function_definition (0, 0) - (9, 37)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -6425,6 +7135,15 @@ if __name__ == '__main__':                    |
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [10:9 - 10:38]
+CST Stack:
+    {Node ERROR (9, 8) - (9, 37)}
+    {Node else_clause (8, 4) - (9, 37)}
+    {Node if_statement (4, 4) - (9, 37)}
+    {Node block (1, 4) - (9, 37)}
+    {Node function_definition (0, 0) - (9, 37)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -6534,7 +7253,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-UnexpectedExpression: "unexpected argument handling: Error" at [10:36 - 10:37]
+SyntaxError: "invalid syntax" at [10:36 - 10:37]
 CST Stack:
     {Node ERROR (9, 35) - (9, 36)}
     {Node argument_list (9, 31) - (9, 37)}
@@ -6602,7 +7321,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-UnexpectedExpression: "unexpected argument handling: Error" at [10:35 - 10:36]
+SyntaxError: "invalid syntax" at [10:35 - 10:36]
 CST Stack:
     {Node ERROR (9, 34) - (9, 35)}
     {Node argument_list (9, 31) - (9, 37)}
@@ -6669,6 +7388,15 @@ if __name__ == '__main__':                    |
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [10:9 - 12:21]
+CST Stack:
+    {Node ERROR (9, 8) - (11, 20)}
+    {Node else_clause (8, 4) - (11, 20)}
+    {Node if_statement (4, 4) - (11, 20)}
+    {Node block (1, 4) - (12, 8)}
+    {Node function_definition (0, 0) - (12, 8)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -6827,6 +7555,11 @@ if __name__ == '__main__':                    |
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 25:11]
+CST Stack:
+    {Node ERROR (0, 0) - (24, 10)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -6893,6 +7626,11 @@ if __name__ == '__main__':                    |
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 25:11]
+CST Stack:
+    {Node ERROR (0, 0) - (24, 10)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -6959,6 +7697,11 @@ if __name__ == '__main__':                    |
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 25:11]
+CST Stack:
+    {Node ERROR (0, 0) - (24, 10)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -7601,6 +8344,11 @@ if __name__ == '__main__':                    |
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [12:1 - 13:9]
+CST Stack:
+    {Node ERROR (11, 0) - (12, 8)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -7709,6 +8457,11 @@ if __name__ == '__main__':                    |
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [12:1 - 13:9]
+CST Stack:
+    {Node ERROR (11, 0) - (12, 8)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -8106,6 +8859,11 @@ if __name__ == '__main__':                    |
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 25:11]
+CST Stack:
+    {Node ERROR (0, 0) - (24, 10)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -8172,6 +8930,11 @@ if __name__ == '__main__':                    |
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 25:11]
+CST Stack:
+    {Node ERROR (0, 0) - (24, 10)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -8238,6 +9001,11 @@ if __name__ == '__main__':                    |
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 25:11]
+CST Stack:
+    {Node ERROR (0, 0) - (24, 10)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -8958,6 +9726,11 @@ if __name__ == '__main__':                    |
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 25:11]
+CST Stack:
+    {Node ERROR (0, 0) - (24, 10)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -9323,6 +10096,13 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [15:29 - 15:32]
+CST Stack:
+    {Node ERROR (14, 28) - (14, 31)}
+    {Node parameters (14, 19) - (14, 32)}
+    {Node function_definition (14, 0) - (15, 41)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -9506,6 +10286,16 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [15:35 - 15:36]
+CST Stack:
+    {Node ERROR (14, 34) - (14, 35)}
+    {Node binary_operator (14, 29) - (14, 39)}
+    {Node type (14, 29) - (14, 39)}
+    {Node typed_parameter (14, 20) - (14, 39)}
+    {Node parameters (14, 19) - (14, 39)}
+    {Node function_definition (14, 0) - (15, 41)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -9559,6 +10349,12 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [15:35 - 15:40]
+CST Stack:
+    {Node ERROR (14, 34) - (14, 39)}
+    {Node function_definition (14, 0) - (15, 41)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -9612,6 +10408,12 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [15:35 - 15:40]
+CST Stack:
+    {Node ERROR (14, 34) - (14, 39)}
+    {Node function_definition (14, 0) - (15, 41)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -9797,6 +10599,19 @@ if __name__ == '__main__':                    |
     main()                                    | 
                                               | 
 
+2 Recoverable errors detected:
+SyntaxError: "invalid syntax" at [15:38 - 18:4]
+CST Stack:
+    {Node ERROR (14, 37) - (17, 3)}
+    {Node function_definition (14, 0) - (22, 12)}
+    {Node module (0, 0) - (25, 0)}
+SyntaxError: "invalid syntax" at [18:13 - 18:14]
+CST Stack:
+    {Node ERROR (17, 12) - (17, 13)}
+    {Node binary_operator (17, 4) - (17, 17)}
+    {Node type (17, 4) - (17, 17)}
+    {Node function_definition (14, 0) - (22, 12)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -9904,6 +10719,12 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [16:5 - 16:10]
+CST Stack:
+    {Node ERROR (15, 4) - (15, 9)}
+    {Node function_definition (14, 0) - (15, 40)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -9957,6 +10778,12 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [16:5 - 16:10]
+CST Stack:
+    {Node ERROR (15, 4) - (15, 9)}
+    {Node function_definition (14, 0) - (15, 40)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -10010,6 +10837,12 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [16:5 - 16:10]
+CST Stack:
+    {Node ERROR (15, 4) - (15, 9)}
+    {Node function_definition (14, 0) - (15, 40)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -10063,6 +10896,12 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [16:5 - 16:10]
+CST Stack:
+    {Node ERROR (15, 4) - (15, 9)}
+    {Node function_definition (14, 0) - (15, 40)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -10116,6 +10955,12 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [16:5 - 16:10]
+CST Stack:
+    {Node ERROR (15, 4) - (15, 9)}
+    {Node function_definition (14, 0) - (15, 40)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -10169,6 +11014,12 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [16:5 - 16:10]
+CST Stack:
+    {Node ERROR (15, 4) - (15, 9)}
+    {Node function_definition (14, 0) - (15, 40)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -10316,6 +11167,14 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [16:12 - 16:15]
+CST Stack:
+    {Node ERROR (15, 11) - (15, 14)}
+    {Node return_statement (15, 4) - (15, 40)}
+    {Node block (15, 4) - (15, 40)}
+    {Node function_definition (14, 0) - (15, 40)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -10368,6 +11227,14 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [16:12 - 16:15]
+CST Stack:
+    {Node ERROR (15, 11) - (15, 14)}
+    {Node return_statement (15, 4) - (15, 40)}
+    {Node block (15, 4) - (15, 40)}
+    {Node function_definition (14, 0) - (15, 40)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -10592,6 +11459,12 @@ if __name__ == '__main__':                    |     main()
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [16:5 - 16:41]
+CST Stack:
+    {Node ERROR (15, 4) - (15, 40)}
+    {Node function_definition (14, 0) - (15, 40)}
+    {Node module (0, 0) - (25, 0)}
 Output AST is not valid according to CPython: expected an indented block after function definition on line 15 (<unknown>, line 17)
 ERRPY Recovered AST diff:
 --- 
@@ -10643,6 +11516,16 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [16:39 - 16:40]
+CST Stack:
+    {Node ERROR (15, 38) - (15, 39)}
+    {Node generator_expression (15, 19) - (15, 40)}
+    {Node call (15, 11) - (15, 40)}
+    {Node return_statement (15, 4) - (15, 40)}
+    {Node block (15, 4) - (15, 40)}
+    {Node function_definition (14, 0) - (15, 40)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -10695,6 +11578,18 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [16:27 - 16:28]
+CST Stack:
+    {Node ERROR (15, 26) - (15, 27)}
+    {Node comparison_operator (15, 22) - (15, 38)}
+    {Node list (15, 20) - (15, 39)}
+    {Node argument_list (15, 19) - (15, 40)}
+    {Node call (15, 11) - (15, 40)}
+    {Node return_statement (15, 4) - (15, 40)}
+    {Node block (15, 4) - (15, 40)}
+    {Node function_definition (14, 0) - (15, 40)}
+    {Node module (0, 0) - (25, 0)}
 Output AST is not valid according to CPython: invalid syntax (<unknown>, line 16)
 ERRPY Recovered AST diff:
 --- 
@@ -10791,7 +11686,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-UnexpectedExpression: "Error" at [16:22 - 16:26]
+SyntaxError: "invalid syntax" at [16:22 - 16:26]
 CST Stack:
     {Node ERROR (15, 21) - (15, 25)}
     {Node list (15, 20) - (15, 39)}
@@ -10854,7 +11749,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-UnexpectedExpression: "Error" at [16:22 - 16:26]
+SyntaxError: "invalid syntax" at [16:22 - 16:26]
 CST Stack:
     {Node ERROR (15, 21) - (15, 25)}
     {Node list (15, 20) - (15, 39)}
@@ -10917,7 +11812,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-UnexpectedExpression: "Error" at [16:24 - 16:39]
+SyntaxError: "invalid syntax" at [16:24 - 16:39]
 CST Stack:
     {Node ERROR (15, 23) - (15, 38)}
     {Node list (15, 20) - (15, 39)}
@@ -10980,7 +11875,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-UnexpectedExpression: "Error" at [16:24 - 16:39]
+SyntaxError: "invalid syntax" at [16:24 - 16:39]
 CST Stack:
     {Node ERROR (15, 23) - (15, 38)}
     {Node list (15, 20) - (15, 39)}
@@ -11043,7 +11938,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-UnexpectedExpression: "Error" at [16:24 - 16:39]
+SyntaxError: "invalid syntax" at [16:24 - 16:39]
 CST Stack:
     {Node ERROR (15, 23) - (15, 38)}
     {Node list (15, 20) - (15, 39)}
@@ -11423,7 +12318,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-UnexpectedExpression: "unexpected argument handling: Error" at [16:21 - 16:40]
+SyntaxError: "invalid syntax" at [16:21 - 16:40]
 CST Stack:
     {Node ERROR (15, 20) - (15, 39)}
     {Node argument_list (15, 19) - (15, 40)}
@@ -11486,6 +12381,12 @@ if __name__ == '__main__':                    |
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [16:5 - 25:11]
+CST Stack:
+    {Node ERROR (15, 4) - (24, 10)}
+    {Node function_definition (14, 0) - (24, 10)}
+    {Node module (0, 0) - (25, 0)}
 Output AST is not valid according to CPython: expected an indented block after function definition on line 15 (<unknown>, line 15)
 ERRPY Recovered AST diff:
 --- 
@@ -11643,6 +12544,11 @@ if __name__ == '__main__':                    |
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 25:11]
+CST Stack:
+    {Node ERROR (0, 0) - (24, 10)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -11709,6 +12615,11 @@ if __name__ == '__main__':                    |
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 25:11]
+CST Stack:
+    {Node ERROR (0, 0) - (24, 10)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -11775,6 +12686,11 @@ if __name__ == '__main__':                    |
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 25:11]
+CST Stack:
+    {Node ERROR (0, 0) - (24, 10)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -12022,6 +12938,11 @@ if __name__ == '__main__':                    |
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 25:11]
+CST Stack:
+    {Node ERROR (0, 0) - (24, 10)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -12140,6 +13061,12 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [18:12 - 18:17]
+CST Stack:
+    {Node ERROR (17, 11) - (17, 16)}
+    {Node function_definition (17, 0) - (22, 12)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -12192,6 +13119,12 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [18:12 - 18:17]
+CST Stack:
+    {Node ERROR (17, 11) - (17, 16)}
+    {Node function_definition (17, 0) - (22, 12)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -12376,6 +13309,12 @@ if __name__ == '__main__':                    |
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [18:15 - 24:3]
+CST Stack:
+    {Node ERROR (17, 14) - (23, 2)}
+    {Node function_definition (17, 0) - (24, 10)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -12482,6 +13421,12 @@ if __name__ == '__main__':                    |     main()
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [19:5 - 19:20]
+CST Stack:
+    {Node ERROR (18, 4) - (18, 19)}
+    {Node function_definition (17, 0) - (22, 12)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -12532,6 +13477,12 @@ if __name__ == '__main__':                    |     main()
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [19:5 - 19:20]
+CST Stack:
+    {Node ERROR (18, 4) - (18, 19)}
+    {Node function_definition (17, 0) - (22, 12)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -12582,6 +13533,12 @@ if __name__ == '__main__':                    |     main()
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [19:5 - 19:20]
+CST Stack:
+    {Node ERROR (18, 4) - (18, 19)}
+    {Node function_definition (17, 0) - (22, 12)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -13072,6 +14029,12 @@ if __name__ == '__main__':                    |     main()
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [19:5 - 19:20]
+CST Stack:
+    {Node ERROR (18, 4) - (18, 19)}
+    {Node function_definition (17, 0) - (22, 12)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -13122,6 +14085,12 @@ if __name__ == '__main__':                    |     main()
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [19:5 - 19:20]
+CST Stack:
+    {Node ERROR (18, 4) - (18, 19)}
+    {Node function_definition (17, 0) - (22, 12)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -13172,6 +14141,12 @@ if __name__ == '__main__':                    |     main()
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [19:5 - 19:20]
+CST Stack:
+    {Node ERROR (18, 4) - (18, 19)}
+    {Node function_definition (17, 0) - (22, 12)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -13844,6 +14819,13 @@ if __name__ == '__main__':                    |     main()
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [20:5 - 20:19]
+CST Stack:
+    {Node ERROR (19, 4) - (19, 18)}
+    {Node block (18, 4) - (22, 12)}
+    {Node function_definition (17, 0) - (22, 12)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -13893,6 +14875,12 @@ if __name__ == '__main__':                    |
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [18:19 - 24:27]
+CST Stack:
+    {Node ERROR (17, 18) - (23, 26)}
+    {Node function_definition (17, 0) - (24, 10)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -13941,6 +14929,15 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [20:24 - 20:27]
+CST Stack:
+    {Node ERROR (19, 23) - (19, 26)}
+    {Node call (19, 4) - (19, 30)}
+    {Node expression_statement (19, 4) - (19, 30)}
+    {Node block (18, 4) - (21, 12)}
+    {Node function_definition (17, 0) - (21, 12)}
+    {Node module (0, 0) - (24, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -14126,6 +15123,13 @@ if __name__ == '__main__':                    |     main()
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [21:5 - 21:11]
+CST Stack:
+    {Node ERROR (20, 4) - (20, 10)}
+    {Node block (18, 4) - (22, 12)}
+    {Node function_definition (17, 0) - (22, 12)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -14264,6 +15268,12 @@ if __name__ == '__main__':                    |
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [18:19 - 24:27]
+CST Stack:
+    {Node ERROR (17, 18) - (23, 26)}
+    {Node function_definition (17, 0) - (24, 10)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -14667,6 +15677,13 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [22:5 - 22:12]
+CST Stack:
+    {Node ERROR (21, 4) - (21, 11)}
+    {Node block (18, 4) - (22, 12)}
+    {Node function_definition (17, 0) - (22, 12)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -15368,6 +16385,15 @@ if __name__ == '__main__':                    |     main()
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [22:15 - 23:11]
+CST Stack:
+    {Node ERROR (21, 14) - (22, 10)}
+    {Node assignment (21, 4) - (22, 12)}
+    {Node expression_statement (21, 4) - (22, 12)}
+    {Node block (18, 4) - (22, 12)}
+    {Node function_definition (17, 0) - (22, 12)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -15416,6 +16442,13 @@ if __name__ == '__main__':                    |
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [22:5 - 25:11]
+CST Stack:
+    {Node ERROR (21, 4) - (24, 10)}
+    {Node block (18, 4) - (24, 10)}
+    {Node function_definition (17, 0) - (24, 10)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -15511,6 +16544,13 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [23:5 - 23:10]
+CST Stack:
+    {Node ERROR (22, 4) - (22, 9)}
+    {Node block (18, 4) - (22, 11)}
+    {Node function_definition (17, 0) - (22, 11)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -15559,6 +16599,13 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [23:5 - 23:10]
+CST Stack:
+    {Node ERROR (22, 4) - (22, 9)}
+    {Node block (18, 4) - (22, 11)}
+    {Node function_definition (17, 0) - (22, 11)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -15607,6 +16654,13 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [23:5 - 23:10]
+CST Stack:
+    {Node ERROR (22, 4) - (22, 9)}
+    {Node block (18, 4) - (22, 11)}
+    {Node function_definition (17, 0) - (22, 11)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -15655,6 +16709,13 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [23:5 - 23:10]
+CST Stack:
+    {Node ERROR (22, 4) - (22, 9)}
+    {Node block (18, 4) - (22, 11)}
+    {Node function_definition (17, 0) - (22, 11)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -15703,6 +16764,13 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [23:5 - 23:10]
+CST Stack:
+    {Node ERROR (22, 4) - (22, 9)}
+    {Node block (18, 4) - (22, 11)}
+    {Node function_definition (17, 0) - (22, 11)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -15751,6 +16819,13 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [23:5 - 23:10]
+CST Stack:
+    {Node ERROR (22, 4) - (22, 9)}
+    {Node block (18, 4) - (22, 11)}
+    {Node function_definition (17, 0) - (22, 11)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -15843,6 +16918,13 @@ def main() -> int:                            | def main() -> int:
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [23:5 - 24:11]
+CST Stack:
+    {Node ERROR (22, 4) - (23, 10)}
+    {Node block (18, 4) - (23, 10)}
+    {Node function_definition (17, 0) - (23, 10)}
+    {Node module (0, 0) - (24, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -15889,6 +16971,11 @@ f __name__ == '__main__':                     |
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 25:11]
+CST Stack:
+    {Node ERROR (0, 0) - (24, 10)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -15954,6 +17041,11 @@ i __name__ == '__main__':                     |
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 25:11]
+CST Stack:
+    {Node ERROR (0, 0) - (24, 10)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -16369,6 +17461,12 @@ if __name__ = '__main__':                     | if '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [24:4 - 24:14]
+CST Stack:
+    {Node ERROR (23, 3) - (23, 13)}
+    {Node if_statement (23, 0) - (24, 10)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -16414,6 +17512,12 @@ if __name__ = '__main__':                     | if '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [24:4 - 24:14]
+CST Stack:
+    {Node ERROR (23, 3) - (23, 13)}
+    {Node if_statement (23, 0) - (24, 10)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -16459,6 +17563,13 @@ if __name__ == __main__':                     | if __name__ == ':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [24:16 - 24:24]
+CST Stack:
+    {Node ERROR (23, 15) - (23, 23)}
+    {Node comparison_operator (23, 3) - (23, 24)}
+    {Node if_statement (23, 0) - (24, 10)}
+    {Node module (0, 0) - (25, 0)}
 Output AST is not valid according to CPython: unterminated string literal (detected at line 24) (<unknown>, line 24)
 ERRPY Recovered AST diff:
 --- 
@@ -16857,6 +17968,13 @@ if __name__ == '__main__:                     | if __name__ == __main__:
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [24:16 - 24:17]
+CST Stack:
+    {Node ERROR (23, 15) - (23, 16)}
+    {Node comparison_operator (23, 3) - (23, 24)}
+    {Node if_statement (23, 0) - (24, 10)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -16903,6 +18021,11 @@ if __name__ == '__main__'                     |
     main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [24:1 - 25:11]
+CST Stack:
+    {Node ERROR (23, 0) - (24, 10)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -17173,6 +18296,12 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main)                                     | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [25:5 - 25:10]
+CST Stack:
+    {Node ERROR (24, 4) - (24, 9)}
+    {Node if_statement (23, 0) - (24, 9)}
+    {Node module (0, 0) - (25, 0)}
 Output AST is not valid according to CPython: expected an indented block after 'if' statement on line 24 (<unknown>, line 24)
 ERRPY Recovered AST diff:
 --- 
@@ -17219,6 +18348,10 @@ if __name__ == '__main__':                    |
     main(                                     | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 26:1]
+CST Stack:
+    {Node ERROR (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 

@@ -106,6 +106,11 @@ Input:  | ERRPY Re
 --------| --------
 def     |         
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 1:4]
+CST Stack:
+    {Node ERROR (0, 0) - (0, 3)}
+    {Node module (0, 0) - (1, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -120,6 +125,11 @@ Input:    | ERRPY Reco
 ----------| ----------
 def f     |           
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 1:6]
+CST Stack:
+    {Node ERROR (0, 0) - (0, 5)}
+    {Node module (0, 0) - (1, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -134,6 +144,11 @@ Input:     | ERRPY Recov
 -----------| -----------
 def fi     |            
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 1:7]
+CST Stack:
+    {Node ERROR (0, 0) - (0, 6)}
+    {Node module (0, 0) - (1, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -148,6 +163,11 @@ Input:      | ERRPY Recove
 ------------| ------------
 def fib     |             
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 1:8]
+CST Stack:
+    {Node ERROR (0, 0) - (0, 7)}
+    {Node module (0, 0) - (1, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -162,6 +182,11 @@ Input:       | ERRPY Recover
 -------------| -------------
 def fib(     |              
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 1:9]
+CST Stack:
+    {Node ERROR (0, 0) - (0, 8)}
+    {Node module (0, 0) - (1, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -176,6 +201,11 @@ Input:        | ERRPY Recovere
 --------------| --------------
 def fib(a     |               
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 1:10]
+CST Stack:
+    {Node ERROR (0, 0) - (0, 9)}
+    {Node module (0, 0) - (1, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -190,6 +220,11 @@ Input:         | ERRPY Recovered
 ---------------| ---------------
 def fib(a:     |                
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 1:11]
+CST Stack:
+    {Node ERROR (0, 0) - (0, 10)}
+    {Node module (0, 0) - (1, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -204,6 +239,11 @@ Input:           | ERRPY Recovered A
 -----------------| -----------------
 def fib(a: i     |                  
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 1:13]
+CST Stack:
+    {Node ERROR (0, 0) - (0, 12)}
+    {Node module (0, 0) - (1, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -218,6 +258,11 @@ Input:            | ERRPY Recovered AS
 ------------------| ------------------
 def fib(a: in     |                   
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 1:14]
+CST Stack:
+    {Node ERROR (0, 0) - (0, 13)}
+    {Node module (0, 0) - (1, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -232,6 +277,11 @@ Input:             | ERRPY Recovered AST
 -------------------| -------------------
 def fib(a: int     |                    
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 1:15]
+CST Stack:
+    {Node ERROR (0, 0) - (0, 14)}
+    {Node module (0, 0) - (1, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -246,6 +296,11 @@ Input:              | ERRPY Recovered AST:
 --------------------| --------------------
 def fib(a: int)     |                     
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 1:16]
+CST Stack:
+    {Node ERROR (0, 0) - (0, 15)}
+    {Node module (0, 0) - (1, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -260,6 +315,11 @@ Input:                | ERRPY Recovered AST:
 ----------------------| ----------------------
 def fib(a: int) -     |                       
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 1:18]
+CST Stack:
+    {Node ERROR (0, 0) - (0, 17)}
+    {Node module (0, 0) - (1, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -274,6 +334,11 @@ Input:                 | ERRPY Recovered AST:
 -----------------------| -----------------------
 def fib(a: int) ->     |                        
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 1:19]
+CST Stack:
+    {Node ERROR (0, 0) - (0, 18)}
+    {Node module (0, 0) - (1, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -288,6 +353,11 @@ Input:                   | ERRPY Recovered AST:
 -------------------------| -------------------------
 def fib(a: int) -> i     |                          
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 1:21]
+CST Stack:
+    {Node ERROR (0, 0) - (0, 20)}
+    {Node module (0, 0) - (1, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -302,6 +372,11 @@ Input:                    | ERRPY Recovered AST:
 --------------------------| --------------------------
 def fib(a: int) -> in     |                           
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 1:22]
+CST Stack:
+    {Node ERROR (0, 0) - (0, 21)}
+    {Node module (0, 0) - (1, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -316,6 +391,11 @@ Input:                     | ERRPY Recovered AST:
 ---------------------------| ---------------------------
 def fib(a: int) -> int     |                            
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 1:23]
+CST Stack:
+    {Node ERROR (0, 0) - (0, 22)}
+    {Node module (0, 0) - (1, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -394,6 +474,12 @@ Input:                      | ERRPY Recovered AST:
 def fib(a: int) -> int:     | def fib(a: int) -> int:     
     tmp =                   | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [2:5 - 2:10]
+CST Stack:
+    {Node ERROR (1, 4) - (1, 9)}
+    {Node function_definition (0, 0) - (1, 9)}
+    {Node module (0, 0) - (2, 0)}
 Output AST is not valid according to CPython: expected an indented block after function definition on line 1 (<unknown>, line 1)
 ERRPY Recovered AST diff:
 --- 
@@ -410,6 +496,10 @@ Input:                      | ERRPY Recovered AST:
 def fib(a: int) -> int:     |                             
     tmp = (                 | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 3:1]
+CST Stack:
+    {Node ERROR (0, 0) - (2, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -426,6 +516,12 @@ Input:                      | ERRPY Recovered AST:
 def fib(a: int) -> int:     | def fib(a: int) -> int:     
     tmp = (a                | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [2:5 - 2:13]
+CST Stack:
+    {Node ERROR (1, 4) - (1, 12)}
+    {Node function_definition (0, 0) - (1, 12)}
+    {Node module (0, 0) - (2, 0)}
 Output AST is not valid according to CPython: expected an indented block after function definition on line 1 (<unknown>, line 1)
 ERRPY Recovered AST diff:
 --- 
@@ -442,6 +538,10 @@ Input:                      | ERRPY Recovered AST:
 def fib(a: int) -> int:     |                             
     tmp = (a,               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 3:1]
+CST Stack:
+    {Node ERROR (0, 0) - (2, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -458,6 +558,12 @@ Input:                      | ERRPY Recovered AST:
 def fib(a: int) -> int:     | def fib(a: int) -> int:     
     tmp = (a, a             | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [2:5 - 2:16]
+CST Stack:
+    {Node ERROR (1, 4) - (1, 15)}
+    {Node function_definition (0, 0) - (1, 15)}
+    {Node module (0, 0) - (2, 0)}
 Output AST is not valid according to CPython: expected an indented block after function definition on line 1 (<unknown>, line 1)
 ERRPY Recovered AST diff:
 --- 
@@ -505,6 +611,10 @@ def fib(a: int) -> int:     |
     tmp = (a, a)            | 
     (                       | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 4:1]
+CST Stack:
+    {Node ERROR (0, 0) - (3, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -523,6 +633,13 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     tmp = (a, a)            |     tmp = (a, a)            
     (b                      | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [3:5 - 3:7]
+CST Stack:
+    {Node ERROR (2, 4) - (2, 6)}
+    {Node block (1, 4) - (2, 6)}
+    {Node function_definition (0, 0) - (2, 6)}
+    {Node module (0, 0) - (3, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -541,6 +658,13 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     tmp = (a, a)            |     tmp = (a, a)            
     (ba                     | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [3:5 - 3:8]
+CST Stack:
+    {Node ERROR (2, 4) - (2, 7)}
+    {Node block (1, 4) - (2, 7)}
+    {Node function_definition (0, 0) - (2, 7)}
+    {Node module (0, 0) - (3, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -559,6 +683,10 @@ def fib(a: int) -> int:     |
     tmp = (a, a)            | 
     (ba,                    | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 4:1]
+CST Stack:
+    {Node ERROR (0, 0) - (3, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -577,6 +705,13 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     tmp = (a, a)            |     tmp = (a, a)            
     (ba, b                  | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [3:5 - 3:11]
+CST Stack:
+    {Node ERROR (2, 4) - (2, 10)}
+    {Node block (1, 4) - (2, 10)}
+    {Node function_definition (0, 0) - (2, 10)}
+    {Node module (0, 0) - (3, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -595,6 +730,13 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     tmp = (a, a)            |     tmp = (a, a)            
     (ba, bb                 | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [3:5 - 3:12]
+CST Stack:
+    {Node ERROR (2, 4) - (2, 11)}
+    {Node block (1, 4) - (2, 11)}
+    {Node function_definition (0, 0) - (2, 11)}
+    {Node module (0, 0) - (3, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -626,6 +768,13 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     tmp = (a, a)            |     tmp = (a, a)            
     (ba, bb) =              | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [3:5 - 3:15]
+CST Stack:
+    {Node ERROR (2, 4) - (2, 14)}
+    {Node block (1, 4) - (2, 14)}
+    {Node function_definition (0, 0) - (2, 14)}
+    {Node module (0, 0) - (3, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -774,6 +923,13 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     (ba, bb) = tmp          |     (ba, bb) = tmp          
     inset =                 | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [4:5 - 4:12]
+CST Stack:
+    {Node ERROR (3, 4) - (3, 11)}
+    {Node block (1, 4) - (3, 11)}
+    {Node function_definition (0, 0) - (3, 11)}
+    {Node module (0, 0) - (4, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -808,6 +964,15 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     (ba, bb) = tmp          |     (ba, bb) = tmp          
     inset = a i             |     inset = i               
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [4:13 - 4:14]
+CST Stack:
+    {Node ERROR (3, 12) - (3, 13)}
+    {Node assignment (3, 4) - (3, 15)}
+    {Node expression_statement (3, 4) - (3, 15)}
+    {Node block (1, 4) - (3, 15)}
+    {Node function_definition (0, 0) - (3, 15)}
+    {Node module (0, 0) - (4, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -828,6 +993,13 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     (ba, bb) = tmp          |     (ba, bb) = tmp          
     inset = a in            | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [4:5 - 4:17]
+CST Stack:
+    {Node ERROR (3, 4) - (3, 16)}
+    {Node block (1, 4) - (3, 16)}
+    {Node function_definition (0, 0) - (3, 16)}
+    {Node module (0, 0) - (4, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -848,6 +1020,10 @@ def fib(a: int) -> int:     |
     (ba, bb) = tmp          | 
     inset = a in {          | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 5:1]
+CST Stack:
+    {Node ERROR (0, 0) - (4, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -868,6 +1044,13 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     (ba, bb) = tmp          |     (ba, bb) = tmp          
     inset = a in {0         | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [4:5 - 4:20]
+CST Stack:
+    {Node ERROR (3, 4) - (3, 19)}
+    {Node block (1, 4) - (3, 19)}
+    {Node function_definition (0, 0) - (3, 19)}
+    {Node module (0, 0) - (4, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -888,6 +1071,10 @@ def fib(a: int) -> int:     |
     (ba, bb) = tmp          | 
     inset = a in {0,        | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 5:1]
+CST Stack:
+    {Node ERROR (0, 0) - (4, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -908,6 +1095,13 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     (ba, bb) = tmp          |     (ba, bb) = tmp          
     inset = a in {0, 1      | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [4:5 - 4:23]
+CST Stack:
+    {Node ERROR (3, 4) - (3, 22)}
+    {Node block (1, 4) - (3, 22)}
+    {Node function_definition (0, 0) - (3, 22)}
+    {Node module (0, 0) - (4, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -980,6 +1174,13 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     inset = a in {0, 1}     |     inset = a in {0, 1}     
     if                      | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [5:5 - 5:7]
+CST Stack:
+    {Node ERROR (4, 4) - (4, 6)}
+    {Node block (1, 4) - (4, 6)}
+    {Node function_definition (0, 0) - (4, 6)}
+    {Node module (0, 0) - (5, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -1002,6 +1203,13 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     inset = a in {0, 1}     |     inset = a in {0, 1}     
     if a                    | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [5:5 - 5:9]
+CST Stack:
+    {Node ERROR (4, 4) - (4, 8)}
+    {Node block (1, 4) - (4, 8)}
+    {Node function_definition (0, 0) - (4, 8)}
+    {Node module (0, 0) - (5, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -1024,6 +1232,13 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     inset = a in {0, 1}     |     inset = a in {0, 1}     
     if a <                  | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [5:5 - 5:11]
+CST Stack:
+    {Node ERROR (4, 4) - (4, 10)}
+    {Node block (1, 4) - (4, 10)}
+    {Node function_definition (0, 0) - (4, 10)}
+    {Node module (0, 0) - (5, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -1046,6 +1261,13 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     inset = a in {0, 1}     |     inset = a in {0, 1}     
     if a <=                 | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [5:5 - 5:12]
+CST Stack:
+    {Node ERROR (4, 4) - (4, 11)}
+    {Node block (1, 4) - (4, 11)}
+    {Node function_definition (0, 0) - (4, 11)}
+    {Node module (0, 0) - (5, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -1068,6 +1290,13 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     inset = a in {0, 1}     |     inset = a in {0, 1}     
     if a <= 2               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [5:5 - 5:14]
+CST Stack:
+    {Node ERROR (4, 4) - (4, 13)}
+    {Node block (1, 4) - (4, 13)}
+    {Node function_definition (0, 0) - (4, 13)}
+    {Node module (0, 0) - (5, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -1090,6 +1319,13 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     inset = a in {0, 1}     |     inset = a in {0, 1}     
     if a <= 2 o             | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [5:5 - 5:16]
+CST Stack:
+    {Node ERROR (4, 4) - (4, 15)}
+    {Node block (1, 4) - (4, 15)}
+    {Node function_definition (0, 0) - (4, 15)}
+    {Node module (0, 0) - (5, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -1112,6 +1348,13 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     inset = a in {0, 1}     |     inset = a in {0, 1}     
     if a <= 2 or            | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [5:5 - 5:17]
+CST Stack:
+    {Node ERROR (4, 4) - (4, 16)}
+    {Node block (1, 4) - (4, 16)}
+    {Node function_definition (0, 0) - (4, 16)}
+    {Node module (0, 0) - (5, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -1134,6 +1377,13 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     inset = a in {0, 1}     |     inset = a in {0, 1}     
     if a <= 2 or a          | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [5:5 - 5:19]
+CST Stack:
+    {Node ERROR (4, 4) - (4, 18)}
+    {Node block (1, 4) - (4, 18)}
+    {Node function_definition (0, 0) - (4, 18)}
+    {Node module (0, 0) - (5, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -1156,6 +1406,13 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     inset = a in {0, 1}     |     inset = a in {0, 1}     
     if a <= 2 or a =        | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [5:5 - 5:21]
+CST Stack:
+    {Node ERROR (4, 4) - (4, 20)}
+    {Node block (1, 4) - (4, 20)}
+    {Node function_definition (0, 0) - (4, 20)}
+    {Node module (0, 0) - (5, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -1178,6 +1435,13 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     inset = a in {0, 1}     |     inset = a in {0, 1}     
     if a <= 2 or a ==       | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [5:5 - 5:22]
+CST Stack:
+    {Node ERROR (4, 4) - (4, 21)}
+    {Node block (1, 4) - (4, 21)}
+    {Node function_definition (0, 0) - (4, 21)}
+    {Node module (0, 0) - (5, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -1200,6 +1464,13 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     inset = a in {0, 1}     |     inset = a in {0, 1}     
     if a <= 2 or a == 1     | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [5:5 - 5:24]
+CST Stack:
+    {Node ERROR (4, 4) - (4, 23)}
+    {Node block (1, 4) - (4, 23)}
+    {Node function_definition (0, 0) - (4, 23)}
+    {Node module (0, 0) - (5, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -1449,6 +1720,13 @@ def fib(a: int) -> int:      | def fib(a: int) -> int:
         return 1             |         return 1             
     elif                     | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [7:5 - 7:9]
+CST Stack:
+    {Node ERROR (6, 4) - (6, 8)}
+    {Node block (1, 4) - (6, 8)}
+    {Node function_definition (0, 0) - (6, 8)}
+    {Node module (0, 0) - (7, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -1473,6 +1751,13 @@ def fib(a: int) -> int:      | def fib(a: int) -> int:
         return 1             |         return 1             
     elif i                   | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [7:5 - 7:11]
+CST Stack:
+    {Node ERROR (6, 4) - (6, 10)}
+    {Node block (1, 4) - (6, 10)}
+    {Node function_definition (0, 0) - (6, 10)}
+    {Node module (0, 0) - (7, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -1497,6 +1782,13 @@ def fib(a: int) -> int:      | def fib(a: int) -> int:
         return 1             |         return 1             
     elif in                  | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [7:5 - 7:12]
+CST Stack:
+    {Node ERROR (6, 4) - (6, 11)}
+    {Node block (1, 4) - (6, 11)}
+    {Node function_definition (0, 0) - (6, 11)}
+    {Node module (0, 0) - (7, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -1521,6 +1813,13 @@ def fib(a: int) -> int:      | def fib(a: int) -> int:
         return 1             |         return 1             
     elif ins                 | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [7:5 - 7:13]
+CST Stack:
+    {Node ERROR (6, 4) - (6, 12)}
+    {Node block (1, 4) - (6, 12)}
+    {Node function_definition (0, 0) - (6, 12)}
+    {Node module (0, 0) - (7, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -1545,6 +1844,13 @@ def fib(a: int) -> int:      | def fib(a: int) -> int:
         return 1             |         return 1             
     elif inse                | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [7:5 - 7:14]
+CST Stack:
+    {Node ERROR (6, 4) - (6, 13)}
+    {Node block (1, 4) - (6, 13)}
+    {Node function_definition (0, 0) - (6, 13)}
+    {Node module (0, 0) - (7, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -1569,6 +1875,13 @@ def fib(a: int) -> int:      | def fib(a: int) -> int:
         return 1             |         return 1             
     elif inset               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [7:5 - 7:15]
+CST Stack:
+    {Node ERROR (6, 4) - (6, 14)}
+    {Node block (1, 4) - (6, 14)}
+    {Node function_definition (0, 0) - (6, 14)}
+    {Node module (0, 0) - (7, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -1846,6 +2159,13 @@ def fib(a: int) -> int:      | def fib(a: int) -> int:
         return 1             |         return 1             
     else                     | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [9:5 - 9:9]
+CST Stack:
+    {Node ERROR (8, 4) - (8, 8)}
+    {Node block (1, 4) - (8, 8)}
+    {Node function_definition (0, 0) - (8, 8)}
+    {Node module (0, 0) - (9, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -2107,6 +2427,10 @@ def fib(a: int) -> int:      |
     else:                    | 
         return fib(          | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 11:1]
+CST Stack:
+    {Node ERROR (0, 0) - (10, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -2139,6 +2463,15 @@ def fib(a: int) -> int:      | def fib(a: int) -> int:
     else:                    | 
         return fib(a         | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [10:9 - 10:21]
+CST Stack:
+    {Node ERROR (9, 8) - (9, 20)}
+    {Node else_clause (8, 4) - (9, 20)}
+    {Node if_statement (4, 4) - (9, 20)}
+    {Node block (1, 4) - (9, 20)}
+    {Node function_definition (0, 0) - (9, 20)}
+    {Node module (0, 0) - (10, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -2167,6 +2500,15 @@ def fib(a: int) -> int:      | def fib(a: int) -> int:
     else:                    | 
         return fib(a -       | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [10:9 - 10:23]
+CST Stack:
+    {Node ERROR (9, 8) - (9, 22)}
+    {Node else_clause (8, 4) - (9, 22)}
+    {Node if_statement (4, 4) - (9, 22)}
+    {Node block (1, 4) - (9, 22)}
+    {Node function_definition (0, 0) - (9, 22)}
+    {Node module (0, 0) - (10, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -2195,6 +2537,15 @@ def fib(a: int) -> int:      | def fib(a: int) -> int:
     else:                    | 
         return fib(a - 1     | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [10:9 - 10:25]
+CST Stack:
+    {Node ERROR (9, 8) - (9, 24)}
+    {Node else_clause (8, 4) - (9, 24)}
+    {Node if_statement (4, 4) - (9, 24)}
+    {Node block (1, 4) - (9, 24)}
+    {Node function_definition (0, 0) - (9, 24)}
+    {Node module (0, 0) - (10, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -2243,6 +2594,15 @@ def fib(a: int) -> int:         | def fib(a: int) -> int:
     else:                       | 
         return fib(a - 1) +     | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [10:9 - 10:28]
+CST Stack:
+    {Node ERROR (9, 8) - (9, 27)}
+    {Node else_clause (8, 4) - (9, 27)}
+    {Node if_statement (4, 4) - (9, 27)}
+    {Node block (1, 4) - (9, 27)}
+    {Node function_definition (0, 0) - (9, 27)}
+    {Node module (0, 0) - (10, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -2331,6 +2691,10 @@ def fib(a: int) -> int:              |
     else:                            | 
         return fib(a - 1) + fib(     | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 11:1]
+CST Stack:
+    {Node ERROR (0, 0) - (10, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -2363,6 +2727,15 @@ def fib(a: int) -> int:               | def fib(a: int) -> int:
     else:                             | 
         return fib(a - 1) + fib(a     | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [10:9 - 10:34]
+CST Stack:
+    {Node ERROR (9, 8) - (9, 33)}
+    {Node else_clause (8, 4) - (9, 33)}
+    {Node if_statement (4, 4) - (9, 33)}
+    {Node block (1, 4) - (9, 33)}
+    {Node function_definition (0, 0) - (9, 33)}
+    {Node module (0, 0) - (10, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -2391,6 +2764,15 @@ def fib(a: int) -> int:                 | def fib(a: int) -> int:
     else:                               | 
         return fib(a - 1) + fib(a -     | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [10:9 - 10:36]
+CST Stack:
+    {Node ERROR (9, 8) - (9, 35)}
+    {Node else_clause (8, 4) - (9, 35)}
+    {Node if_statement (4, 4) - (9, 35)}
+    {Node block (1, 4) - (9, 35)}
+    {Node function_definition (0, 0) - (9, 35)}
+    {Node module (0, 0) - (10, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -2419,6 +2801,15 @@ def fib(a: int) -> int:                   | def fib(a: int) -> int:
     else:                                 | 
         return fib(a - 1) + fib(a - 2     | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [10:9 - 10:38]
+CST Stack:
+    {Node ERROR (9, 8) - (9, 37)}
+    {Node else_clause (8, 4) - (9, 37)}
+    {Node if_statement (4, 4) - (9, 37)}
+    {Node block (1, 4) - (9, 37)}
+    {Node function_definition (0, 0) - (9, 37)}
+    {Node module (0, 0) - (10, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -2585,6 +2976,11 @@ def fib(a: int) -> int:                    | def fib(a: int) -> int:
                                            | 
 def                                        | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [12:1 - 12:4]
+CST Stack:
+    {Node ERROR (11, 0) - (11, 3)}
+    {Node module (0, 0) - (12, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -2615,6 +3011,11 @@ def fib(a: int) -> int:                    | def fib(a: int) -> int:
                                            | 
 def s                                      | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [12:1 - 12:6]
+CST Stack:
+    {Node ERROR (11, 0) - (11, 5)}
+    {Node module (0, 0) - (12, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -2645,6 +3046,11 @@ def fib(a: int) -> int:                    | def fib(a: int) -> int:
                                            | 
 def so                                     | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [12:1 - 12:7]
+CST Stack:
+    {Node ERROR (11, 0) - (11, 6)}
+    {Node module (0, 0) - (12, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -2675,6 +3081,11 @@ def fib(a: int) -> int:                    | def fib(a: int) -> int:
                                            | 
 def som                                    | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [12:1 - 12:8]
+CST Stack:
+    {Node ERROR (11, 0) - (11, 7)}
+    {Node module (0, 0) - (12, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -2705,6 +3116,11 @@ def fib(a: int) -> int:                    | def fib(a: int) -> int:
                                            | 
 def some                                   | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [12:1 - 12:9]
+CST Stack:
+    {Node ERROR (11, 0) - (11, 8)}
+    {Node module (0, 0) - (12, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -2735,6 +3151,11 @@ def fib(a: int) -> int:                    | def fib(a: int) -> int:
                                            | 
 def somet                                  | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [12:1 - 12:10]
+CST Stack:
+    {Node ERROR (11, 0) - (11, 9)}
+    {Node module (0, 0) - (12, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -2765,6 +3186,11 @@ def fib(a: int) -> int:                    | def fib(a: int) -> int:
                                            | 
 def someth                                 | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [12:1 - 12:11]
+CST Stack:
+    {Node ERROR (11, 0) - (11, 10)}
+    {Node module (0, 0) - (12, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -2795,6 +3221,11 @@ def fib(a: int) -> int:                    | def fib(a: int) -> int:
                                            | 
 def somethi                                | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [12:1 - 12:12]
+CST Stack:
+    {Node ERROR (11, 0) - (11, 11)}
+    {Node module (0, 0) - (12, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -2825,6 +3256,11 @@ def fib(a: int) -> int:                    | def fib(a: int) -> int:
                                            | 
 def somethin                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [12:1 - 12:13]
+CST Stack:
+    {Node ERROR (11, 0) - (11, 12)}
+    {Node module (0, 0) - (12, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -2855,6 +3291,11 @@ def fib(a: int) -> int:                    | def fib(a: int) -> int:
                                            | 
 def something                              | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [12:1 - 12:14]
+CST Stack:
+    {Node ERROR (11, 0) - (11, 13)}
+    {Node module (0, 0) - (12, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -2885,6 +3326,11 @@ def fib(a: int) -> int:                    | def fib(a: int) -> int:
                                            | 
 def somethinge                             | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [12:1 - 12:15]
+CST Stack:
+    {Node ERROR (11, 0) - (11, 14)}
+    {Node module (0, 0) - (12, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -2915,6 +3361,11 @@ def fib(a: int) -> int:                    | def fib(a: int) -> int:
                                            | 
 def somethingel                            | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [12:1 - 12:16]
+CST Stack:
+    {Node ERROR (11, 0) - (11, 15)}
+    {Node module (0, 0) - (12, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -2945,6 +3396,11 @@ def fib(a: int) -> int:                    | def fib(a: int) -> int:
                                            | 
 def somethingels                           | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [12:1 - 12:17]
+CST Stack:
+    {Node ERROR (11, 0) - (11, 16)}
+    {Node module (0, 0) - (12, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -2975,6 +3431,11 @@ def fib(a: int) -> int:                    | def fib(a: int) -> int:
                                            | 
 def somethingelse                          | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [12:1 - 12:18]
+CST Stack:
+    {Node ERROR (11, 0) - (11, 17)}
+    {Node module (0, 0) - (12, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -3005,6 +3466,11 @@ def fib(a: int) -> int:                    | def fib(a: int) -> int:
                                            | 
 def somethingelse(                         | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [12:1 - 12:19]
+CST Stack:
+    {Node ERROR (11, 0) - (11, 18)}
+    {Node module (0, 0) - (12, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -3035,6 +3501,11 @@ def fib(a: int) -> int:                    | def fib(a: int) -> int:
                                            | 
 def somethingelse()                        | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [12:1 - 12:20]
+CST Stack:
+    {Node ERROR (11, 0) - (11, 19)}
+    {Node module (0, 0) - (12, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -3340,6 +3811,11 @@ def somethingelse():                       | def somethingelse():
                                            | 
 def                                        | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [15:1 - 15:4]
+CST Stack:
+    {Node ERROR (14, 0) - (14, 3)}
+    {Node module (0, 0) - (15, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -3373,6 +3849,11 @@ def somethingelse():                       | def somethingelse():
                                            | 
 def f                                      | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [15:1 - 15:6]
+CST Stack:
+    {Node ERROR (14, 0) - (14, 5)}
+    {Node module (0, 0) - (15, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -3406,6 +3887,11 @@ def somethingelse():                       | def somethingelse():
                                            | 
 def fo                                     | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [15:1 - 15:7]
+CST Stack:
+    {Node ERROR (14, 0) - (14, 6)}
+    {Node module (0, 0) - (15, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -3439,6 +3925,11 @@ def somethingelse():                       | def somethingelse():
                                            | 
 def for                                    | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [15:1 - 15:8]
+CST Stack:
+    {Node ERROR (14, 0) - (14, 7)}
+    {Node module (0, 0) - (15, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -3472,6 +3963,11 @@ def somethingelse():                       | def somethingelse():
                                            | 
 def form                                   | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [15:1 - 15:9]
+CST Stack:
+    {Node ERROR (14, 0) - (14, 8)}
+    {Node module (0, 0) - (15, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -3505,6 +4001,11 @@ def somethingelse():                       | def somethingelse():
                                            | 
 def forma                                  | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [15:1 - 15:10]
+CST Stack:
+    {Node ERROR (14, 0) - (14, 9)}
+    {Node module (0, 0) - (15, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -3538,6 +4039,11 @@ def somethingelse():                       | def somethingelse():
                                            | 
 def format                                 | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [15:1 - 15:11]
+CST Stack:
+    {Node ERROR (14, 0) - (14, 10)}
+    {Node module (0, 0) - (15, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -3571,6 +4077,11 @@ def somethingelse():                       | def somethingelse():
                                            | 
 def format_                                | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [15:1 - 15:12]
+CST Stack:
+    {Node ERROR (14, 0) - (14, 11)}
+    {Node module (0, 0) - (15, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -3604,6 +4115,11 @@ def somethingelse():                       | def somethingelse():
                                            | 
 def format_a                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [15:1 - 15:13]
+CST Stack:
+    {Node ERROR (14, 0) - (14, 12)}
+    {Node module (0, 0) - (15, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -3637,6 +4153,11 @@ def somethingelse():                       | def somethingelse():
                                            | 
 def format_a_                              | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [15:1 - 15:14]
+CST Stack:
+    {Node ERROR (14, 0) - (14, 13)}
+    {Node module (0, 0) - (15, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -3670,6 +4191,11 @@ def somethingelse():                       | def somethingelse():
                                            | 
 def format_a_s                             | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [15:1 - 15:15]
+CST Stack:
+    {Node ERROR (14, 0) - (14, 14)}
+    {Node module (0, 0) - (15, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -3703,6 +4229,11 @@ def somethingelse():                       | def somethingelse():
                                            | 
 def format_a_st                            | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [15:1 - 15:16]
+CST Stack:
+    {Node ERROR (14, 0) - (14, 15)}
+    {Node module (0, 0) - (15, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -3736,6 +4267,11 @@ def somethingelse():                       | def somethingelse():
                                            | 
 def format_a_str                           | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [15:1 - 15:17]
+CST Stack:
+    {Node ERROR (14, 0) - (14, 16)}
+    {Node module (0, 0) - (15, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -3769,6 +4305,11 @@ def somethingelse():                       | def somethingelse():
                                            | 
 def format_a_stri                          | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [15:1 - 15:18]
+CST Stack:
+    {Node ERROR (14, 0) - (14, 17)}
+    {Node module (0, 0) - (15, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -3802,6 +4343,11 @@ def somethingelse():                       | def somethingelse():
                                            | 
 def format_a_strin                         | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [15:1 - 15:19]
+CST Stack:
+    {Node ERROR (14, 0) - (14, 18)}
+    {Node module (0, 0) - (15, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -3835,6 +4381,11 @@ def somethingelse():                       | def somethingelse():
                                            | 
 def format_a_string                        | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [15:1 - 15:20]
+CST Stack:
+    {Node ERROR (14, 0) - (14, 19)}
+    {Node module (0, 0) - (15, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -3868,6 +4419,11 @@ def somethingelse():                       | def somethingelse():
                                            | 
 def format_a_string(                       | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [15:1 - 15:21]
+CST Stack:
+    {Node ERROR (14, 0) - (14, 20)}
+    {Node module (0, 0) - (15, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -3901,6 +4457,11 @@ def somethingelse():                       | def somethingelse():
                                            | 
 def format_a_string(a                      | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [15:1 - 15:22]
+CST Stack:
+    {Node ERROR (14, 0) - (14, 21)}
+    {Node module (0, 0) - (15, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -3934,6 +4495,11 @@ def somethingelse():                       | def somethingelse():
                                            | 
 def format_a_string(as                     | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [15:1 - 15:23]
+CST Stack:
+    {Node ERROR (14, 0) - (14, 22)}
+    {Node module (0, 0) - (15, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -3967,6 +4533,11 @@ def somethingelse():                       | def somethingelse():
                                            | 
 def format_a_string(ast                    | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [15:1 - 15:24]
+CST Stack:
+    {Node ERROR (14, 0) - (14, 23)}
+    {Node module (0, 0) - (15, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -4000,6 +4571,11 @@ def somethingelse():                       | def somethingelse():
                                            | 
 def format_a_string(astr                   | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [15:1 - 15:25]
+CST Stack:
+    {Node ERROR (14, 0) - (14, 24)}
+    {Node module (0, 0) - (15, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -4033,6 +4609,11 @@ def somethingelse():                       | def somethingelse():
                                            | 
 def format_a_string(astri                  | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [15:1 - 15:26]
+CST Stack:
+    {Node ERROR (14, 0) - (14, 25)}
+    {Node module (0, 0) - (15, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -4066,6 +4647,11 @@ def somethingelse():                       | def somethingelse():
                                            | 
 def format_a_string(astrin                 | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [15:1 - 15:27]
+CST Stack:
+    {Node ERROR (14, 0) - (14, 26)}
+    {Node module (0, 0) - (15, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -4099,6 +4685,11 @@ def somethingelse():                       | def somethingelse():
                                            | 
 def format_a_string(astring                | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [15:1 - 15:28]
+CST Stack:
+    {Node ERROR (14, 0) - (14, 27)}
+    {Node module (0, 0) - (15, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -4132,6 +4723,11 @@ def somethingelse():                       | def somethingelse():
                                            | 
 def format_a_string(astring:               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [15:1 - 15:29]
+CST Stack:
+    {Node ERROR (14, 0) - (14, 28)}
+    {Node module (0, 0) - (15, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -4165,6 +4761,11 @@ def somethingelse():                       | def somethingelse():
                                            | 
 def format_a_string(astring: s             | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [15:1 - 15:31]
+CST Stack:
+    {Node ERROR (14, 0) - (14, 30)}
+    {Node module (0, 0) - (15, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -4198,6 +4799,11 @@ def somethingelse():                       | def somethingelse():
                                            | 
 def format_a_string(astring: st            | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [15:1 - 15:32]
+CST Stack:
+    {Node ERROR (14, 0) - (14, 31)}
+    {Node module (0, 0) - (15, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -4231,6 +4837,11 @@ def somethingelse():                       | def somethingelse():
                                            | 
 def format_a_string(astring: str           | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [15:1 - 15:33]
+CST Stack:
+    {Node ERROR (14, 0) - (14, 32)}
+    {Node module (0, 0) - (15, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -4264,6 +4875,11 @@ def somethingelse():                       | def somethingelse():
                                            | 
 def format_a_string(astring: str)          | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [15:1 - 15:34]
+CST Stack:
+    {Node ERROR (14, 0) - (14, 33)}
+    {Node module (0, 0) - (15, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -4297,6 +4913,11 @@ def somethingelse():                       | def somethingelse():
                                            | 
 def format_a_string(astring: str) -        | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [15:1 - 15:36]
+CST Stack:
+    {Node ERROR (14, 0) - (14, 35)}
+    {Node module (0, 0) - (15, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -4330,6 +4951,11 @@ def somethingelse():                       | def somethingelse():
                                            | 
 def format_a_string(astring: str) ->       | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [15:1 - 15:37]
+CST Stack:
+    {Node ERROR (14, 0) - (14, 36)}
+    {Node module (0, 0) - (15, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -4363,6 +4989,11 @@ def somethingelse():                       | def somethingelse():
                                            | 
 def format_a_string(astring: str) -> s     | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [15:1 - 15:39]
+CST Stack:
+    {Node ERROR (14, 0) - (14, 38)}
+    {Node module (0, 0) - (15, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -4396,6 +5027,11 @@ def somethingelse():                        | def somethingelse():
                                             | 
 def format_a_string(astring: str) -> st     | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [15:1 - 15:40]
+CST Stack:
+    {Node ERROR (14, 0) - (14, 39)}
+    {Node module (0, 0) - (15, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -4429,6 +5065,11 @@ def somethingelse():                         | def somethingelse():
                                              | 
 def format_a_string(astring: str) -> str     | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [15:1 - 15:41]
+CST Stack:
+    {Node ERROR (14, 0) - (14, 40)}
+    {Node module (0, 0) - (15, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -4677,6 +5318,12 @@ def somethingelse():                          | def somethingelse():
 def format_a_string(astring: str) -> str:     | def format_a_string(astring: str) -> str:     
     return '                                  | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [16:5 - 16:13]
+CST Stack:
+    {Node ERROR (15, 4) - (15, 12)}
+    {Node function_definition (14, 0) - (15, 12)}
+    {Node module (0, 0) - (16, 0)}
 Output AST is not valid according to CPython: expected an indented block after function definition on line 15 (<unknown>, line 15)
 ERRPY Recovered AST diff:
 --- 
@@ -4768,6 +5415,12 @@ def somethingelse():                          | def somethingelse():
 def format_a_string(astring: str) -> str:     | def format_a_string(astring: str) -> str:     
     return ','.                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [16:5 - 16:16]
+CST Stack:
+    {Node ERROR (15, 4) - (15, 15)}
+    {Node function_definition (14, 0) - (15, 15)}
+    {Node module (0, 0) - (16, 0)}
 Output AST is not valid according to CPython: expected an indented block after function definition on line 15 (<unknown>, line 15)
 ERRPY Recovered AST diff:
 --- 
@@ -4905,6 +5558,10 @@ def somethingelse():                          |
 def format_a_string(astring: str) -> str:     | 
     return ','.join(                          | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 17:1]
+CST Stack:
+    {Node ERROR (0, 0) - (16, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -4949,6 +5606,10 @@ def somethingelse():                          |
 def format_a_string(astring: str) -> str:     | 
     return ','.join([                         | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 17:1]
+CST Stack:
+    {Node ERROR (0, 0) - (16, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -4993,6 +5654,12 @@ def somethingelse():                          | def somethingelse():
 def format_a_string(astring: str) -> str:     | def format_a_string(astring: str) -> str:     
     return ','.join([x                        | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [16:5 - 16:23]
+CST Stack:
+    {Node ERROR (15, 4) - (15, 22)}
+    {Node function_definition (14, 0) - (15, 22)}
+    {Node module (0, 0) - (16, 0)}
 Output AST is not valid according to CPython: expected an indented block after function definition on line 15 (<unknown>, line 15)
 ERRPY Recovered AST diff:
 --- 
@@ -5026,6 +5693,12 @@ def somethingelse():                          | def somethingelse():
 def format_a_string(astring: str) -> str:     | def format_a_string(astring: str) -> str:     
     return ','.join([x f                      | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [16:5 - 16:25]
+CST Stack:
+    {Node ERROR (15, 4) - (15, 24)}
+    {Node function_definition (14, 0) - (15, 24)}
+    {Node module (0, 0) - (16, 0)}
 Output AST is not valid according to CPython: expected an indented block after function definition on line 15 (<unknown>, line 15)
 ERRPY Recovered AST diff:
 --- 
@@ -5059,6 +5732,12 @@ def somethingelse():                          | def somethingelse():
 def format_a_string(astring: str) -> str:     | def format_a_string(astring: str) -> str:     
     return ','.join([x fo                     | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [16:5 - 16:26]
+CST Stack:
+    {Node ERROR (15, 4) - (15, 25)}
+    {Node function_definition (14, 0) - (15, 25)}
+    {Node module (0, 0) - (16, 0)}
 Output AST is not valid according to CPython: expected an indented block after function definition on line 15 (<unknown>, line 15)
 ERRPY Recovered AST diff:
 --- 
@@ -5092,6 +5771,12 @@ def somethingelse():                          | def somethingelse():
 def format_a_string(astring: str) -> str:     | def format_a_string(astring: str) -> str:     
     return ','.join([x for                    | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [16:5 - 16:27]
+CST Stack:
+    {Node ERROR (15, 4) - (15, 26)}
+    {Node function_definition (14, 0) - (15, 26)}
+    {Node module (0, 0) - (16, 0)}
 Output AST is not valid according to CPython: expected an indented block after function definition on line 15 (<unknown>, line 15)
 ERRPY Recovered AST diff:
 --- 
@@ -5125,6 +5810,12 @@ def somethingelse():                          | def somethingelse():
 def format_a_string(astring: str) -> str:     | def format_a_string(astring: str) -> str:     
     return ','.join([x for x                  | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [16:5 - 16:29]
+CST Stack:
+    {Node ERROR (15, 4) - (15, 28)}
+    {Node function_definition (14, 0) - (15, 28)}
+    {Node module (0, 0) - (16, 0)}
 Output AST is not valid according to CPython: expected an indented block after function definition on line 15 (<unknown>, line 15)
 ERRPY Recovered AST diff:
 --- 
@@ -5158,6 +5849,12 @@ def somethingelse():                          | def somethingelse():
 def format_a_string(astring: str) -> str:     | def format_a_string(astring: str) -> str:     
     return ','.join([x for x i                | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [16:5 - 16:31]
+CST Stack:
+    {Node ERROR (15, 4) - (15, 30)}
+    {Node function_definition (14, 0) - (15, 30)}
+    {Node module (0, 0) - (16, 0)}
 Output AST is not valid according to CPython: expected an indented block after function definition on line 15 (<unknown>, line 15)
 ERRPY Recovered AST diff:
 --- 
@@ -5191,6 +5888,12 @@ def somethingelse():                          | def somethingelse():
 def format_a_string(astring: str) -> str:     | def format_a_string(astring: str) -> str:     
     return ','.join([x for x in               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [16:5 - 16:32]
+CST Stack:
+    {Node ERROR (15, 4) - (15, 31)}
+    {Node function_definition (14, 0) - (15, 31)}
+    {Node module (0, 0) - (16, 0)}
 Output AST is not valid according to CPython: expected an indented block after function definition on line 15 (<unknown>, line 15)
 ERRPY Recovered AST diff:
 --- 
@@ -5224,6 +5927,12 @@ def somethingelse():                          | def somethingelse():
 def format_a_string(astring: str) -> str:     | def format_a_string(astring: str) -> str:     
     return ','.join([x for x in a             | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [16:5 - 16:34]
+CST Stack:
+    {Node ERROR (15, 4) - (15, 33)}
+    {Node function_definition (14, 0) - (15, 33)}
+    {Node module (0, 0) - (16, 0)}
 Output AST is not valid according to CPython: expected an indented block after function definition on line 15 (<unknown>, line 15)
 ERRPY Recovered AST diff:
 --- 
@@ -5257,6 +5966,12 @@ def somethingelse():                          | def somethingelse():
 def format_a_string(astring: str) -> str:     | def format_a_string(astring: str) -> str:     
     return ','.join([x for x in as            | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [16:5 - 16:35]
+CST Stack:
+    {Node ERROR (15, 4) - (15, 34)}
+    {Node function_definition (14, 0) - (15, 34)}
+    {Node module (0, 0) - (16, 0)}
 Output AST is not valid according to CPython: expected an indented block after function definition on line 15 (<unknown>, line 15)
 ERRPY Recovered AST diff:
 --- 
@@ -5290,6 +6005,12 @@ def somethingelse():                          | def somethingelse():
 def format_a_string(astring: str) -> str:     | def format_a_string(astring: str) -> str:     
     return ','.join([x for x in ast           | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [16:5 - 16:36]
+CST Stack:
+    {Node ERROR (15, 4) - (15, 35)}
+    {Node function_definition (14, 0) - (15, 35)}
+    {Node module (0, 0) - (16, 0)}
 Output AST is not valid according to CPython: expected an indented block after function definition on line 15 (<unknown>, line 15)
 ERRPY Recovered AST diff:
 --- 
@@ -5323,6 +6044,12 @@ def somethingelse():                          | def somethingelse():
 def format_a_string(astring: str) -> str:     | def format_a_string(astring: str) -> str:     
     return ','.join([x for x in astr          | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [16:5 - 16:37]
+CST Stack:
+    {Node ERROR (15, 4) - (15, 36)}
+    {Node function_definition (14, 0) - (15, 36)}
+    {Node module (0, 0) - (16, 0)}
 Output AST is not valid according to CPython: expected an indented block after function definition on line 15 (<unknown>, line 15)
 ERRPY Recovered AST diff:
 --- 
@@ -5356,6 +6083,12 @@ def somethingelse():                          | def somethingelse():
 def format_a_string(astring: str) -> str:     | def format_a_string(astring: str) -> str:     
     return ','.join([x for x in astri         | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [16:5 - 16:38]
+CST Stack:
+    {Node ERROR (15, 4) - (15, 37)}
+    {Node function_definition (14, 0) - (15, 37)}
+    {Node module (0, 0) - (16, 0)}
 Output AST is not valid according to CPython: expected an indented block after function definition on line 15 (<unknown>, line 15)
 ERRPY Recovered AST diff:
 --- 
@@ -5389,6 +6122,12 @@ def somethingelse():                          | def somethingelse():
 def format_a_string(astring: str) -> str:     | def format_a_string(astring: str) -> str:     
     return ','.join([x for x in astrin        | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [16:5 - 16:39]
+CST Stack:
+    {Node ERROR (15, 4) - (15, 38)}
+    {Node function_definition (14, 0) - (15, 38)}
+    {Node module (0, 0) - (16, 0)}
 Output AST is not valid according to CPython: expected an indented block after function definition on line 15 (<unknown>, line 15)
 ERRPY Recovered AST diff:
 --- 
@@ -5422,6 +6161,12 @@ def somethingelse():                          | def somethingelse():
 def format_a_string(astring: str) -> str:     | def format_a_string(astring: str) -> str:     
     return ','.join([x for x in astring       | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [16:5 - 16:40]
+CST Stack:
+    {Node ERROR (15, 4) - (15, 39)}
+    {Node function_definition (14, 0) - (15, 39)}
+    {Node module (0, 0) - (16, 0)}
 Output AST is not valid according to CPython: expected an indented block after function definition on line 15 (<unknown>, line 15)
 ERRPY Recovered AST diff:
 --- 
@@ -5455,6 +6200,12 @@ def somethingelse():                          | def somethingelse():
 def format_a_string(astring: str) -> str:     | def format_a_string(astring: str) -> str:     
     return ','.join([x for x in astring]      | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [16:5 - 16:41]
+CST Stack:
+    {Node ERROR (15, 4) - (15, 40)}
+    {Node function_definition (14, 0) - (15, 40)}
+    {Node module (0, 0) - (16, 0)}
 Output AST is not valid according to CPython: expected an indented block after function definition on line 15 (<unknown>, line 15)
 ERRPY Recovered AST diff:
 --- 
@@ -5656,6 +6407,11 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
                                               | 
 def                                           | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [18:1 - 18:4]
+CST Stack:
+    {Node ERROR (17, 0) - (17, 3)}
+    {Node module (0, 0) - (18, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -5692,6 +6448,11 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
                                               | 
 def m                                         | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [18:1 - 18:6]
+CST Stack:
+    {Node ERROR (17, 0) - (17, 5)}
+    {Node module (0, 0) - (18, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -5728,6 +6489,11 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
                                               | 
 def ma                                        | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [18:1 - 18:7]
+CST Stack:
+    {Node ERROR (17, 0) - (17, 6)}
+    {Node module (0, 0) - (18, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -5764,6 +6530,11 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
                                               | 
 def mai                                       | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [18:1 - 18:8]
+CST Stack:
+    {Node ERROR (17, 0) - (17, 7)}
+    {Node module (0, 0) - (18, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -5800,6 +6571,11 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
                                               | 
 def main                                      | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [18:1 - 18:9]
+CST Stack:
+    {Node ERROR (17, 0) - (17, 8)}
+    {Node module (0, 0) - (18, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -5836,6 +6612,11 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
                                               | 
 def main(                                     | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [18:1 - 18:10]
+CST Stack:
+    {Node ERROR (17, 0) - (17, 9)}
+    {Node module (0, 0) - (18, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -5872,6 +6653,11 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
                                               | 
 def main()                                    | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [18:1 - 18:11]
+CST Stack:
+    {Node ERROR (17, 0) - (17, 10)}
+    {Node module (0, 0) - (18, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -5908,6 +6694,11 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
                                               | 
 def main() -                                  | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [18:1 - 18:13]
+CST Stack:
+    {Node ERROR (17, 0) - (17, 12)}
+    {Node module (0, 0) - (18, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -5944,6 +6735,11 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
                                               | 
 def main() ->                                 | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [18:1 - 18:14]
+CST Stack:
+    {Node ERROR (17, 0) - (17, 13)}
+    {Node module (0, 0) - (18, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -5980,6 +6776,11 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
                                               | 
 def main() -> i                               | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [18:1 - 18:16]
+CST Stack:
+    {Node ERROR (17, 0) - (17, 15)}
+    {Node module (0, 0) - (18, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -6016,6 +6817,11 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
                                               | 
 def main() -> in                              | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [18:1 - 18:17]
+CST Stack:
+    {Node ERROR (17, 0) - (17, 16)}
+    {Node module (0, 0) - (18, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -6052,6 +6858,11 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
                                               | 
 def main() -> int                             | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [18:1 - 18:18]
+CST Stack:
+    {Node ERROR (17, 0) - (17, 17)}
+    {Node module (0, 0) - (18, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -6153,6 +6964,12 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
 def main() -> int:                            | def main() -> int:                            
     "                                         | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [19:5 - 19:6]
+CST Stack:
+    {Node ERROR (18, 4) - (18, 5)}
+    {Node function_definition (17, 0) - (18, 5)}
+    {Node module (0, 0) - (19, 0)}
 Output AST is not valid according to CPython: expected an indented block after function definition on line 18 (<unknown>, line 18)
 ERRPY Recovered AST diff:
 --- 
@@ -6224,6 +7041,12 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
 def main() -> int:                            | def main() -> int:                            
     """                                       | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [19:5 - 19:8]
+CST Stack:
+    {Node ERROR (18, 4) - (18, 7)}
+    {Node function_definition (17, 0) - (18, 7)}
+    {Node module (0, 0) - (19, 0)}
 Output AST is not valid according to CPython: expected an indented block after function definition on line 18 (<unknown>, line 18)
 ERRPY Recovered AST diff:
 --- 
@@ -6260,6 +7083,12 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
 def main() -> int:                            | def main() -> int:                            
     """D                                      |     D                                         
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [19:5 - 19:8]
+CST Stack:
+    {Node ERROR (18, 4) - (18, 7)}
+    {Node function_definition (17, 0) - (18, 8)}
+    {Node module (0, 0) - (19, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -6295,6 +7124,12 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
 def main() -> int:                            | def main() -> int:                            
     """DO                                     |     DO                                        
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [19:5 - 19:8]
+CST Stack:
+    {Node ERROR (18, 4) - (18, 7)}
+    {Node function_definition (17, 0) - (18, 9)}
+    {Node module (0, 0) - (19, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -6330,6 +7165,12 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
 def main() -> int:                            | def main() -> int:                            
     """DOC                                    |     DOC                                       
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [19:5 - 19:8]
+CST Stack:
+    {Node ERROR (18, 4) - (18, 7)}
+    {Node function_definition (17, 0) - (18, 10)}
+    {Node module (0, 0) - (19, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -6365,6 +7206,12 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
 def main() -> int:                            | def main() -> int:                            
     """DOC_                                   |     DOC_                                      
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [19:5 - 19:8]
+CST Stack:
+    {Node ERROR (18, 4) - (18, 7)}
+    {Node function_definition (17, 0) - (18, 11)}
+    {Node module (0, 0) - (19, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -6400,6 +7247,12 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
 def main() -> int:                            | def main() -> int:                            
     """DOC_S                                  |     DOC_S                                     
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [19:5 - 19:8]
+CST Stack:
+    {Node ERROR (18, 4) - (18, 7)}
+    {Node function_definition (17, 0) - (18, 12)}
+    {Node module (0, 0) - (19, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -6435,6 +7288,12 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
 def main() -> int:                            | def main() -> int:                            
     """DOC_ST                                 |     DOC_ST                                    
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [19:5 - 19:8]
+CST Stack:
+    {Node ERROR (18, 4) - (18, 7)}
+    {Node function_definition (17, 0) - (18, 13)}
+    {Node module (0, 0) - (19, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -6470,6 +7329,12 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
 def main() -> int:                            | def main() -> int:                            
     """DOC_STR                                |     DOC_STR                                   
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [19:5 - 19:8]
+CST Stack:
+    {Node ERROR (18, 4) - (18, 7)}
+    {Node function_definition (17, 0) - (18, 14)}
+    {Node module (0, 0) - (19, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -6505,6 +7370,12 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
 def main() -> int:                            | def main() -> int:                            
     """DOC_STRI                               |     DOC_STRI                                  
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [19:5 - 19:8]
+CST Stack:
+    {Node ERROR (18, 4) - (18, 7)}
+    {Node function_definition (17, 0) - (18, 15)}
+    {Node module (0, 0) - (19, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -6540,6 +7411,12 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
 def main() -> int:                            | def main() -> int:                            
     """DOC_STRIN                              |     DOC_STRIN                                 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [19:5 - 19:8]
+CST Stack:
+    {Node ERROR (18, 4) - (18, 7)}
+    {Node function_definition (17, 0) - (18, 16)}
+    {Node module (0, 0) - (19, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -6575,6 +7452,12 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
 def main() -> int:                            | def main() -> int:                            
     """DOC_STRING                             |     DOC_STRING                                
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [19:5 - 19:8]
+CST Stack:
+    {Node ERROR (18, 4) - (18, 7)}
+    {Node function_definition (17, 0) - (18, 17)}
+    {Node module (0, 0) - (19, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -6610,6 +7493,12 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
 def main() -> int:                            | def main() -> int:                            
     """DOC_STRING"                            | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [19:5 - 19:19]
+CST Stack:
+    {Node ERROR (18, 4) - (18, 18)}
+    {Node function_definition (17, 0) - (18, 18)}
+    {Node module (0, 0) - (19, 0)}
 Output AST is not valid according to CPython: expected an indented block after function definition on line 18 (<unknown>, line 18)
 ERRPY Recovered AST diff:
 --- 
@@ -6646,6 +7535,12 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
 def main() -> int:                            | def main() -> int:                            
     """DOC_STRING""                           | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [19:5 - 19:20]
+CST Stack:
+    {Node ERROR (18, 4) - (18, 19)}
+    {Node function_definition (17, 0) - (18, 19)}
+    {Node module (0, 0) - (19, 0)}
 Output AST is not valid according to CPython: expected an indented block after function definition on line 18 (<unknown>, line 18)
 ERRPY Recovered AST diff:
 --- 
@@ -7139,6 +8034,10 @@ def main() -> int:                            |
     """DOC_STRING"""                          | 
     somethingelse(                            | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 21:1]
+CST Stack:
+    {Node ERROR (0, 0) - (20, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -7353,6 +8252,10 @@ def main() -> int:                            |
     somethingelse()                           | 
     fib(                                      | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 22:1]
+CST Stack:
+    {Node ERROR (0, 0) - (21, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -7407,6 +8310,13 @@ def main() -> int:                            | def main() -> int:
     somethingelse()                           |     somethingelse()                           
     fib(1                                     | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [21:5 - 21:10]
+CST Stack:
+    {Node ERROR (20, 4) - (20, 9)}
+    {Node block (18, 4) - (20, 9)}
+    {Node function_definition (17, 0) - (20, 9)}
+    {Node module (0, 0) - (21, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -7445,6 +8355,13 @@ def main() -> int:                            | def main() -> int:
     somethingelse()                           |     somethingelse()                           
     fib(12                                    | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [21:5 - 21:11]
+CST Stack:
+    {Node ERROR (20, 4) - (20, 10)}
+    {Node block (18, 4) - (20, 10)}
+    {Node function_definition (17, 0) - (20, 10)}
+    {Node module (0, 0) - (21, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -7778,6 +8695,13 @@ def main() -> int:                            | def main() -> int:
     fib(12)                                   |     fib(12)                                   
     astring =                                 | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [22:5 - 22:14]
+CST Stack:
+    {Node ERROR (21, 4) - (21, 13)}
+    {Node block (18, 4) - (21, 13)}
+    {Node function_definition (17, 0) - (21, 13)}
+    {Node module (0, 0) - (22, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -8297,6 +9221,10 @@ def main() -> int:                            |
     fib(12)                                   | 
     astring = format_a_string(                | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 23:1]
+CST Stack:
+    {Node ERROR (0, 0) - (22, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -8733,6 +9661,11 @@ def main() -> int:                            | def main() -> int:
     return 0                                  |     return 0                                  
 if                                            | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [24:1 - 24:3]
+CST Stack:
+    {Node ERROR (23, 0) - (23, 2)}
+    {Node module (0, 0) - (24, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -8774,6 +9707,11 @@ def main() -> int:                            | def main() -> int:
     return 0                                  |     return 0                                  
 if _                                          | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [24:1 - 24:5]
+CST Stack:
+    {Node ERROR (23, 0) - (23, 4)}
+    {Node module (0, 0) - (24, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -8815,6 +9753,11 @@ def main() -> int:                            | def main() -> int:
     return 0                                  |     return 0                                  
 if __                                         | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [24:1 - 24:6]
+CST Stack:
+    {Node ERROR (23, 0) - (23, 5)}
+    {Node module (0, 0) - (24, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -8856,6 +9799,11 @@ def main() -> int:                            | def main() -> int:
     return 0                                  |     return 0                                  
 if __n                                        | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [24:1 - 24:7]
+CST Stack:
+    {Node ERROR (23, 0) - (23, 6)}
+    {Node module (0, 0) - (24, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -8897,6 +9845,11 @@ def main() -> int:                            | def main() -> int:
     return 0                                  |     return 0                                  
 if __na                                       | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [24:1 - 24:8]
+CST Stack:
+    {Node ERROR (23, 0) - (23, 7)}
+    {Node module (0, 0) - (24, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -8938,6 +9891,11 @@ def main() -> int:                            | def main() -> int:
     return 0                                  |     return 0                                  
 if __nam                                      | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [24:1 - 24:9]
+CST Stack:
+    {Node ERROR (23, 0) - (23, 8)}
+    {Node module (0, 0) - (24, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -8979,6 +9937,11 @@ def main() -> int:                            | def main() -> int:
     return 0                                  |     return 0                                  
 if __name                                     | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [24:1 - 24:10]
+CST Stack:
+    {Node ERROR (23, 0) - (23, 9)}
+    {Node module (0, 0) - (24, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -9020,6 +9983,11 @@ def main() -> int:                            | def main() -> int:
     return 0                                  |     return 0                                  
 if __name_                                    | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [24:1 - 24:11]
+CST Stack:
+    {Node ERROR (23, 0) - (23, 10)}
+    {Node module (0, 0) - (24, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -9061,6 +10029,11 @@ def main() -> int:                            | def main() -> int:
     return 0                                  |     return 0                                  
 if __name__                                   | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [24:1 - 24:12]
+CST Stack:
+    {Node ERROR (23, 0) - (23, 11)}
+    {Node module (0, 0) - (24, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -9102,6 +10075,11 @@ def main() -> int:                            | def main() -> int:
     return 0                                  |     return 0                                  
 if __name__ =                                 | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [24:1 - 24:14]
+CST Stack:
+    {Node ERROR (23, 0) - (23, 13)}
+    {Node module (0, 0) - (24, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -9143,6 +10121,11 @@ def main() -> int:                            | def main() -> int:
     return 0                                  |     return 0                                  
 if __name__ ==                                | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [24:1 - 24:15]
+CST Stack:
+    {Node ERROR (23, 0) - (23, 14)}
+    {Node module (0, 0) - (24, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -9184,6 +10167,11 @@ def main() -> int:                            | def main() -> int:
     return 0                                  |     return 0                                  
 if __name__ == '                              | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [24:1 - 24:17]
+CST Stack:
+    {Node ERROR (23, 0) - (23, 16)}
+    {Node module (0, 0) - (24, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -9225,6 +10213,11 @@ def main() -> int:                            | def main() -> int:
     return 0                                  |     return 0                                  
 if __name__ == '_                             | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [24:1 - 24:18]
+CST Stack:
+    {Node ERROR (23, 0) - (23, 17)}
+    {Node module (0, 0) - (24, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -9266,6 +10259,11 @@ def main() -> int:                            | def main() -> int:
     return 0                                  |     return 0                                  
 if __name__ == '__                            | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [24:1 - 24:19]
+CST Stack:
+    {Node ERROR (23, 0) - (23, 18)}
+    {Node module (0, 0) - (24, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -9307,6 +10305,11 @@ def main() -> int:                            | def main() -> int:
     return 0                                  |     return 0                                  
 if __name__ == '__m                           | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [24:1 - 24:20]
+CST Stack:
+    {Node ERROR (23, 0) - (23, 19)}
+    {Node module (0, 0) - (24, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -9348,6 +10351,11 @@ def main() -> int:                            | def main() -> int:
     return 0                                  |     return 0                                  
 if __name__ == '__ma                          | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [24:1 - 24:21]
+CST Stack:
+    {Node ERROR (23, 0) - (23, 20)}
+    {Node module (0, 0) - (24, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -9389,6 +10397,11 @@ def main() -> int:                            | def main() -> int:
     return 0                                  |     return 0                                  
 if __name__ == '__mai                         | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [24:1 - 24:22]
+CST Stack:
+    {Node ERROR (23, 0) - (23, 21)}
+    {Node module (0, 0) - (24, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -9430,6 +10443,11 @@ def main() -> int:                            | def main() -> int:
     return 0                                  |     return 0                                  
 if __name__ == '__main                        | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [24:1 - 24:23]
+CST Stack:
+    {Node ERROR (23, 0) - (23, 22)}
+    {Node module (0, 0) - (24, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -9471,6 +10489,11 @@ def main() -> int:                            | def main() -> int:
     return 0                                  |     return 0                                  
 if __name__ == '__main_                       | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [24:1 - 24:24]
+CST Stack:
+    {Node ERROR (23, 0) - (23, 23)}
+    {Node module (0, 0) - (24, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -9512,6 +10535,11 @@ def main() -> int:                            | def main() -> int:
     return 0                                  |     return 0                                  
 if __name__ == '__main__                      | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [24:1 - 24:25]
+CST Stack:
+    {Node ERROR (23, 0) - (23, 24)}
+    {Node module (0, 0) - (24, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -9553,6 +10581,11 @@ def main() -> int:                            | def main() -> int:
     return 0                                  |     return 0                                  
 if __name__ == '__main__'                     | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [24:1 - 24:26]
+CST Stack:
+    {Node ERROR (23, 0) - (23, 25)}
+    {Node module (0, 0) - (24, 0)}
 
 ERRPY Recovered AST diff:
 --- 
@@ -9811,6 +10844,10 @@ def main() -> int:                            |
 if __name__ == '__main__':                    | 
     main(                                     | 
 
+1 Recoverable error detected:
+SyntaxError: "invalid syntax" at [1:1 - 26:1]
+CST Stack:
+    {Node ERROR (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 

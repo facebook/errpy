@@ -250,6 +250,17 @@ impl Parser {
     }
 
     fn record_recoverable_error(&mut self, parser_error: RecoverableError, node: &Node) {
+        if node.kind() == "ERROR" {
+            // Error nodes should only be recorded as SyntaxError's
+            // TODO: remove this code when we have filtered out ERROR nodes
+            // from the CST to be walked [once they have already been marked]
+            // as SyntaxError's
+            if let RecoverableError::SyntaxError(_) = parser_error {
+            } else {
+                return;
+            }
+        }
+
         let start_position = node.start_position();
         let end_position = node.end_position();
 
@@ -287,10 +298,30 @@ impl Parser {
             Some(t) => t,
             None => return Err(ParserError::DidNotComplete),
         };
-        let root = tree.root_node();
 
-        self.parse_module(&root);
+        let root = &tree.root_node();
+
+        self.find_error_nodes(root);
+        self.parse_module(root);
         Ok(())
+    }
+
+    ///
+    /// Mark all error nodes from the Tree-sitter CST as SyntaxErrors
+    ///
+    fn find_error_nodes(&mut self, node: &Node) {
+        if node.kind() == "ERROR" {
+            self.record_recoverable_error(
+                RecoverableError::SyntaxError("invalid syntax".to_string()),
+                node,
+            );
+            // don't process child nodes of ERROR nodes - otherwise this can
+            // lead to a cascade of ERROR nodes being reported
+            return;
+        }
+        for child in node.children(&mut node.walk()) {
+            self.find_error_nodes(&child);
+        }
     }
 
     // Process a module.

@@ -126,6 +126,9 @@ fn extract_errors(metadata: &ASTAndMetaData) -> String {
                 RecoverableError::MissingOperator(operator) => {
                     format!("MissingOperator: {:?}", operator)
                 }
+                RecoverableError::SyntaxError(node) => {
+                    format!("SyntaxError: {:?}", node)
+                }
             };
 
             let location = &recoverable_error_with_location.location;

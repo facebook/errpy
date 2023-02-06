@@ -40,6 +40,9 @@ ocamlrep_ocamlpool::ocaml_ffi! {
                         RecoverableError::MissingOperator(operator) => {
                             format!("MissingOperator: {:?}", operator)
                         }
+                        RecoverableError::SyntaxError(node) => {
+                            format!("SyntaxError: {:?}", node)
+                        }
                     };
 
                     let location = &recoverable_error_with_location.location;
