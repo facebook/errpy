@@ -203,9 +203,9 @@ let expected_errors_resolvable_error =
     {
       Ast.error = "UnexpectedExpression: \"Error\"";
       lineno = 1;
-      col_offset = 10;
+      col_offset = 11;
       end_lineno = 1;
-      end_col_offset = 11;
+      end_col_offset = 12;
     };
   ]
 

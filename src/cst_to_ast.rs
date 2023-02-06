@@ -255,9 +255,13 @@ impl Parser {
 
         let location = RecoverableErrorLocation {
             lineno: start_position.row as isize + 1,
-            col_offset: start_position.column as isize + self.increment_expression_column_offset,
+            col_offset: start_position.column as isize
+                + self.increment_expression_column_offset
+                + 1,
             end_lineno: end_position.row as isize + 1,
-            end_col_offset: end_position.column as isize + self.increment_expression_column_offset,
+            end_col_offset: end_position.column as isize
+                + self.increment_expression_column_offset
+                + 1,
         };
 
         let stack = assemble_node_stack(node);

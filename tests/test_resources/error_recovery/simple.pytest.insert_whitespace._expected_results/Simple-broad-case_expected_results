@@ -1724,7 +1724,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-UnexpectedExpression: "unexpected token in pattern: {Node ERROR (2, 5) - (2, 6)}" at [3:5 - 3:6]
+UnexpectedExpression: "unexpected token in pattern: {Node ERROR (2, 5) - (2, 6)}" at [3:6 - 3:7]
 CST Stack:
     {Node ERROR (2, 5) - (2, 6)}
     {Node tuple_pattern (2, 4) - (2, 13)}
@@ -11264,7 +11264,7 @@ if __name__ == '__main__':                     | if __name__ == '__main__':
                                                | 
 
 1 Recoverable error detected:
-UnexpectedExpression: "Error" at [16:21 - 16:22]
+UnexpectedExpression: "Error" at [16:22 - 16:23]
 CST Stack:
     {Node ERROR (15, 21) - (15, 22)}
     {Node list (15, 20) - (15, 41)}
@@ -11327,7 +11327,7 @@ if __name__ == '__main__':                     | if __name__ == '__main__':
                                                | 
 
 1 Recoverable error detected:
-UnexpectedExpression: "Error" at [16:21 - 16:27]
+UnexpectedExpression: "Error" at [16:22 - 16:28]
 CST Stack:
     {Node ERROR (15, 21) - (15, 27)}
     {Node list (15, 20) - (15, 41)}
@@ -11494,7 +11494,7 @@ if __name__ == '__main__':                     | if __name__ == '__main__':
                                                | 
 
 1 Recoverable error detected:
-UnexpectedExpression: "Error" at [16:23 - 16:40]
+UnexpectedExpression: "Error" at [16:24 - 16:41]
 CST Stack:
     {Node ERROR (15, 23) - (15, 40)}
     {Node list (15, 20) - (15, 41)}
@@ -14855,7 +14855,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-UnexpectedExpression: "unexpected argument handling: Error" at [21:10 - 21:11]
+UnexpectedExpression: "unexpected argument handling: Error" at [21:11 - 21:12]
 CST Stack:
     {Node ERROR (20, 10) - (20, 11)}
     {Node argument_list (20, 7) - (20, 12)}
