@@ -22,7 +22,6 @@
 (library
  (name errpy)
  (modules parser ast)
- (wrapped false)
  (public_name errpy)
  (flags -linkall)
  (preprocess
