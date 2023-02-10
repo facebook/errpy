@@ -18,7 +18,7 @@ name = "print_cst"
 path = "print_cst.rs"
 
 [dependencies]
-clap = { version = "3.2.17", features = ["derive", "env", "regex", "unicode", "wrap_help"] }
+clap = { version = "3.2.23", features = ["derive", "env", "regex", "unicode", "wrap_help"] }
 itertools = "0.10.3"
 num_enum = "0.5"
 ocamlrep = { path = "../vendor/ocamlrep" }
