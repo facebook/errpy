@@ -3287,6 +3287,10 @@ impl Parser {
     // ),
     // origin_node will be different from format_node where the format string exists within
     // a concatenated string
+    // 1. Check if this f string is multiline
+    // 2. Calculate offsets for each row in multiline string
+    // 3. Iterate by string collecting: string before {}, strings in {} and strings after
+    // 4. All subparts pushed respectively to expressions
     fn format_string(
         &mut self,
         format_node: &Node,
@@ -3396,20 +3400,25 @@ impl Parser {
                     // in between two {}'s
                     // strings after the last {} are handled after iterating through
                     //the interpolation nodes
-                    let mut tidy_braces =
+                    let mut string_before_tidy_braces =
                         self.tidy_double_braces(node_text[prev_idx..start_col].to_string());
 
                     if has_equals {
-                        tidy_braces = tidy_braces
+                        string_before_tidy_braces = string_before_tidy_braces
                             + interpolation_expression
                                 .utf8_text(self.code.as_bytes())
                                 .expect("Could not fetch param name")
                             + "="
                     }
-
+                    // in multiline string allowed to have " inside """ """
+                    // so we have to "\"" or '\'' respectively to correctly preprocess substring
+                    string_before_tidy_braces = string_before_tidy_braces.replace(
+                        &apostrophe_or_quote,
+                        &format!("{}{}", "\\", apostrophe_or_quote),
+                    );
                     let string_desc = self.process_string(format!(
                         "{}{}{}",
-                        apostrophe_or_quote, tidy_braces, apostrophe_or_quote
+                        apostrophe_or_quote, string_before_tidy_braces, apostrophe_or_quote
                     ));
                     expressions.push(self.new_expr(string_desc, origin_node));
                 } else if has_equals {
@@ -3461,11 +3470,17 @@ impl Parser {
         if adjusted_node_text_len > prev_idx {
             let expr = if has_interpolation_nodes {
                 // add remainder of string as node at end of format string
-                let tidy_braces = self
+                let mut after_last_tidy_braces = self
                     .tidy_double_braces(node_text[prev_idx..adjusted_node_text_len].to_string());
+                // in multiline string allowed to have " inside """ """
+                // so we have to "\"" or '\'' respectively to correctly preprocess substring
+                after_last_tidy_braces = after_last_tidy_braces.replace(
+                    &apostrophe_or_quote,
+                    &format!("{}{}", "\\", apostrophe_or_quote),
+                );
                 let string_desc = self.process_string(format!(
                     "{}{}{}",
-                    apostrophe_or_quote, tidy_braces, apostrophe_or_quote
+                    apostrophe_or_quote, after_last_tidy_braces, apostrophe_or_quote
                 ));
                 self.new_expr(string_desc, origin_node)
             } else {
@@ -3678,7 +3693,7 @@ impl Parser {
     }
 
     /// process_string performs the following:
-    ///  1. First, we check if a string is prefixed with a 'b' or 'r', if so
+    ///  1. We check if a string is prefixed with a 'b' or 'r', if so
     ///  this is stripped out and added back as a prefix to the output of the
     ///  following steps (except 'r' which is thrown away)...
     ///  2. We consider '\' at the end of a line, which is treated as a line
@@ -3720,8 +3735,15 @@ impl Parser {
             }
         }
         string_contents = string_contents.replace('\n', "\\n");
-
-        if string_contents.starts_with("\"\"\"") || string_contents.starts_with("\'\'\'") {
+        // check is line multiline string and replace with single double quote
+        // possible to have "\"" - double brackets inside double brackets as input
+        if string_contents.starts_with("\"\"\"")
+            && string_contents.ends_with("\"\"\"")
+            && string_contents.len() >= 6
+            || string_contents.starts_with("\'\'\'")
+                && string_contents.ends_with("\'\'\'")
+                && string_contents.len() >= 6
+        {
             string_contents = string_contents[2..string_contents.len() - 2].to_string();
         }
 

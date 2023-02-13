@@ -163,6 +163,21 @@ f"""is
  something else
  something else """
 
+f""""{a}"""
+
+## f string - multi-line nested
+f""" '{b["c"]}' d """
+# f""" "a" '{b["c"]}' "d" """ TODO: Result: f" "a" "{b['c']}" "d" " Expected: f""" "a" "{b['c']}" "d" """
+# f""""{b["c"]}" d """ TODO: Result: f""{b['c']}" d " Expected: f'''"{b['c']}" d '''
+# f''' "{b["c"]}" d ''' TODO: Result: f" "{b['c']}" d " Expected: f''' "{b['c']}" d '''
+f''' '{b['c']}' d '''
+f"""
+    '{b["c"]}'
+"""
+f'''
+    '{b["c"]}'
+'''
+
 ## potential CPython bug here,
 # column offsets for interpolation nodes for
 # nodes on the nth (where n>0) line are off by one
@@ -381,11 +396,18 @@ b = b"'"
 a = r'"'
 b = r"'"
 
+## empty strings
+a = """"""
+a = ""
+a = ''
+
 ## strings backslashes
 a = '\\'
 b = "\\"
 c = '\"'
 d = "\'"
+e = "\""
+f = '\''
 
 ## b-strings backslashes
 a = b'\\'

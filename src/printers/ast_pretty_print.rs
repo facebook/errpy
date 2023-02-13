@@ -347,7 +347,7 @@ impl Stmt {
 
                 match level {
                     Some(llevel) => {
-                        let compl = *llevel as isize;
+                        let compl = *llevel;
                         if compl > 0 {
                             let mut ll = 0;
                             while ll < compl {
