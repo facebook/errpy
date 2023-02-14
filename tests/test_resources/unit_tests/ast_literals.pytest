@@ -165,6 +165,11 @@ f"""is
 
 f""""{a}"""
 
+
+f"""{a
+}
+"""
+
 ## f string - multi-line nested
 f""" '{b["c"]}' d """
 # f""" "a" '{b["c"]}' "d" """ TODO: Result: f" "a" "{b['c']}" "d" " Expected: f""" "a" "{b['c']}" "d" """

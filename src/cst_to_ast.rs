@@ -3271,6 +3271,13 @@ impl Parser {
         from_string.replace("{{", "{").replace("}}", "}")
     }
 
+    fn is_triple_quote_multiline(&mut self, string: &String) -> bool {
+        string.starts_with("\"\"\"") && string.ends_with("\"\"\"") && string.len() >= 6
+            || string.starts_with("\'\'\'") && string.ends_with("\'\'\'") && string.len() >= 6
+            || string.starts_with("f\"\"\"") && string.ends_with("\"\"\"") && string.len() >= 7
+            || string.starts_with("f\'\'\'") && string.ends_with("\'\'\'") && string.len() >= 7
+    }
+
     // string: $ => seq(
     //   alias($._string_start, '"'),
     //   repeat(choice($.interpolation, $._escape_interpolation, $.escape_sequence, $._not_escape_sequence, $._string_content)),
@@ -3309,9 +3316,7 @@ impl Parser {
 
         let mut prev_idx = 2;
 
-        let is_multiline = if node_text.contains('\n')
-            || node_text.starts_with("f\"\"\"")
-            || node_text.starts_with("f\'\'\'")
+        let is_multiline = if node_text.contains('\n') || self.is_triple_quote_multiline(&node_text)
         {
             // multiline f strings are interesting and require some giggling around so
             // that we can consistantly extract substring strings from the string.
@@ -3342,7 +3347,7 @@ impl Parser {
                 prev_char_is_backslash = ch == '\\';
             }
             node_text = new_node_text;
-            if node_text.starts_with("f\"\"\"") || node_text.starts_with("f\'\'\'") {
+            if self.is_triple_quote_multiline(&node_text) {
                 prev_idx += 2;
             }
             true
@@ -3360,15 +3365,19 @@ impl Parser {
                 has_interpolation_nodes = true;
 
                 let start_row = interpolation_node.start_position().row;
+                let end_row = interpolation_node.end_position().row;
                 let mut start_col = interpolation_node.start_position().column;
                 let mut end_col = interpolation_node.end_position().column;
                 if is_multiline && start_row > base_row {
                     // if multiline, we need line column offset adjustment
                     // might be a CPython bug
                     start_col += multiline_offsets.get(&start_row).unwrap();
-                    end_col += multiline_offsets
-                        .get(&interpolation_node.end_position().row)
-                        .unwrap();
+                    end_col += multiline_offsets.get(&end_row).unwrap();
+                } else if is_multiline && start_row == base_row && start_row != end_row {
+                    // if multiline and interpoaltion brackets begin in first line and
+                    // end in further lines, we need line column adjustment for ending row
+                    start_col -= base_col;
+                    end_col += multiline_offsets.get(&end_row).unwrap();
                 } else {
                     // single line f-literal or first line of multiline f-literal
                     // => decrease by code before the f-literal
@@ -3737,13 +3746,7 @@ impl Parser {
         string_contents = string_contents.replace('\n', "\\n");
         // check is line multiline string and replace with single double quote
         // possible to have "\"" - double brackets inside double brackets as input
-        if string_contents.starts_with("\"\"\"")
-            && string_contents.ends_with("\"\"\"")
-            && string_contents.len() >= 6
-            || string_contents.starts_with("\'\'\'")
-                && string_contents.ends_with("\'\'\'")
-                && string_contents.len() >= 6
-        {
+        if self.is_triple_quote_multiline(&string_contents) {
             string_contents = string_contents[2..string_contents.len() - 2].to_string();
         }
 
