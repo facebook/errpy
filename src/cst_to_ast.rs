@@ -3494,8 +3494,8 @@ impl Parser {
                 self.new_expr(string_desc, origin_node)
             } else {
                 // no interpolation nodes, just treat as normal string and cut of f from start
-                let tidy_braces = self.tidy_double_braces(node_text[1..].to_string());
-                let string_desc = self.process_string(tidy_braces);
+                let normal_string = self.tidy_double_braces(node_text[1..].to_string());
+                let string_desc = self.process_string(normal_string);
                 self.new_expr(string_desc, origin_node)
             };
 
