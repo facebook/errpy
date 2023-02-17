@@ -491,3 +491,23 @@ SearchUnion = Union[
     ],
     str,
 ]
+
+## binary integers
+x = 0b10101
+f = 0B10101
+
+## hexadecimal integers
+x = 0x1a
+x = 0XaBc
+
+# octal integers
+x = 0o13
+x = 0O13
+
+## ints and flaots with underscores
+x = 00_0
+x = 1_01
+x = 0b0_1
+x = 1_0.1_01
+x = 1e1_0j
+x = 0b0_1

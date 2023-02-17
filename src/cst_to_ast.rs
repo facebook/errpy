@@ -3805,21 +3805,39 @@ impl Parser {
         }
     }
 
+    fn parse_integer_from_str_radix(
+        &mut self,
+        const_value: &str,
+        node: &Node,
+        radix: u32,
+        variant_name: &str,
+    ) -> ErrorableResult<isize> {
+        match isize::from_str_radix(&const_value[2..], radix) {
+            Ok(value) => Ok(value),
+            Err(error_msg) => {
+                return Err(self.record_recoverable_error(
+                    RecoverableError::UnexpectedExpression(format!(
+                        "cannot parse integer (Not a binary {:?}): {:?} as {:?}",
+                        variant_name, const_value, error_msg
+                    )),
+                    node,
+                ));
+            }
+        }
+    }
+
     // integer: $ => token(choice(
     //   seq(
     //     choice('0x', '0X'),
     //     repeat1(/_?[A-Fa-f0-9]+/),
-    //     optional(/[Ll]/)
     //   ),
     //   seq(
     //     choice('0o', '0O'),
     //     repeat1(/_?[0-7]+/),
-    //     optional(/[Ll]/)
     //   ),
     //   seq(
     //     choice('0b', '0B'),
     //     repeat1(/_?[0-1]+/),
-    //     optional(/[Ll]/)
     //   ),
     //   seq(
     //     repeat1(/[0-9]+_?/),
@@ -3830,36 +3848,47 @@ impl Parser {
     //   )
     // )),
     fn integer(&mut self, node: &Node) -> ErrorableResult<ExprDesc> {
-        let const_value = self.get_text(node);
+        let const_value = self.get_text(node).replace('_', "");
 
-        if const_value.ends_with('j') || const_value.ends_with('J') {
-            // imaginary part of complex numbers are always parsed like floats
-            // even when they have an integer component as here
-            return self.float(node);
-        }
-
-        let integer_value = match const_value.parse::<isize>() {
-            Ok(value) => value,
-            Err(ref e) if *e == self.integer_overflow_error => {
-                // TODO: use ParseIntError.kind() to detect integer overflow of
-                // parse of const_value when Meta is on rust 2022.
-                // In rust 2021 ParseIntError.kind is private
-                // For now, store an overflow Err from parsing a large integer
-                // Adapted from https://github.com/rust-lang/rust/issues/22639
-                // and https://github.com/uutils/coreutils/pull/2882/
-                return Ok(ExprDesc::Constant {
-                    value: Some(ConstantDesc::Num(Num::BigInt(const_value))),
-                    kind: None,
-                });
+        let integer_value = if const_value.starts_with("0b") || const_value.starts_with("0B") {
+            // binary integer
+            self.parse_integer_from_str_radix(&const_value, node, 2, "binary")?
+        } else if const_value.starts_with("0x") || const_value.starts_with("0X") {
+            // hexadecimal integer
+            self.parse_integer_from_str_radix(&const_value, node, 16, "hexadecimal")?
+        } else if const_value.starts_with("0o") || const_value.starts_with("0O") {
+            // octal integer
+            self.parse_integer_from_str_radix(&const_value, node, 8, "octal")?
+        } else {
+            if const_value.ends_with('j') || const_value.ends_with('J') {
+                // imaginary part of complex numbers are always parsed like floats
+                // even when they have an integer component as here
+                return self.float(node);
             }
-            Err(error_msg) => {
-                return Err(self.record_recoverable_error(
-                    RecoverableError::UnexpectedExpression(format!(
-                        "cannot parse integer: {:?} as {:?}",
-                        const_value, error_msg
-                    )),
-                    node,
-                ));
+
+            match const_value.parse::<isize>() {
+                Ok(value) => value,
+                Err(ref e) if *e == self.integer_overflow_error => {
+                    // TODO: use ParseIntError.kind() to detect integer overflow of
+                    // parse of const_value when Meta is on rust 2022.
+                    // In rust 2021 ParseIntError.kind is private
+                    // For now, store an overflow Err from parsing a large integer
+                    // Adapted from https://github.com/rust-lang/rust/issues/22639
+                    // and https://github.com/uutils/coreutils/pull/2882/
+                    return Ok(ExprDesc::Constant {
+                        value: Some(ConstantDesc::Num(Num::BigInt(const_value))),
+                        kind: None,
+                    });
+                }
+                Err(error_msg) => {
+                    return Err(self.record_recoverable_error(
+                        RecoverableError::UnexpectedExpression(format!(
+                            "cannot parse integer: {:?} as {:?}",
+                            const_value, error_msg
+                        )),
+                        node,
+                    ));
+                }
             }
         };
 
@@ -3883,7 +3912,7 @@ impl Parser {
     //   ))
     // },
     fn float(&mut self, node: &Node) -> ErrorableResult<ExprDesc> {
-        let mut const_value = self.get_text(node);
+        let mut const_value = self.get_text(node).replace('_', "");
 
         let is_complex = const_value.ends_with('j') || const_value.ends_with('J');
         if is_complex {
