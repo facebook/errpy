@@ -145,6 +145,10 @@ f'He said his name is {name!r}.'
 f"sin({a}) is {sin(a):.3}" # nothing after final }
 f'Results of the {year} {event}'
 f"{a} is {sin(a):.3}" # at start
+f"ּּ{a}≤" #unicode char in the end
+f"ּּ≤{a}" #unicode char in the beginning
+f"ּּ{a}≤{a}" #unicode char in center
+f"ּּ≤" #unicode char
 
 ## f strings - nested
 f" f'hi' "

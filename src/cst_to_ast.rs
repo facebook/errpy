@@ -3498,19 +3498,20 @@ impl Parser {
                 prev_idx = end_col;
             }
         }
-
-        let mut adjusted_node_text_len = node_text.chars().count() - 1;
-        if is_multiline {
+        // adjusted_node_text is only required in case if there is leftover string
+        // dropping last " symbol
+        let mut adjusted_node_text = node_text[..node_text.len() - 1].to_string();
+        if self.is_triple_quote_multiline(&node_text) {
             // the characters used to demarcate the end of the string are
             // two characters wider, so we take 2 away: """ vs "
-            adjusted_node_text_len -= 2;
+            adjusted_node_text = adjusted_node_text[..adjusted_node_text.len() - 2].to_string();
         }
 
-        if adjusted_node_text_len > prev_idx {
+        if adjusted_node_text.len() > prev_idx {
             let expr = if has_interpolation_nodes {
                 // add remainder of string as node at end of format string
-                let mut after_last_tidy_braces = self
-                    .tidy_double_braces(node_text[prev_idx..adjusted_node_text_len].to_string());
+                let mut after_last_tidy_braces =
+                    self.tidy_double_braces(adjusted_node_text[prev_idx..].to_string());
                 // in multiline string allowed to have " inside """ """
                 // so we have to "\"" or '\'' respectively to correctly preprocess substring
                 after_last_tidy_braces = after_last_tidy_braces.replace(
