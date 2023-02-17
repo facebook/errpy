@@ -1231,66 +1231,71 @@ impl Parser {
     //   $.yield
     // ),
     fn expression_statement(&mut self, node: &Node) -> ErrorableResult<StmtDesc> {
-        // TODO: do sequences of expression come here?
         use ProductionKind::*;
 
-        let child_expression = node
-            .named_child(0)
-            .ok_or_else(|| self.record_recoverable_error(RecoverableError::MissingChild, node))?;
-        let child_expression_type = get_node_type(&child_expression);
-        let expression_statement = match child_expression_type {
-            NodeType::Production(ref rule) => {
-                match &rule.production_kind {
-                    ASSIGNMENT => {
-                        let (mut targets, type_annot, value, type_comment, simple) =
-                            self.assignment(rule.node)?;
+        let expression_statement = if 1 == node.child_count() {
+            let child_expression = node.child(0).ok_or_else(|| {
+                self.record_recoverable_error(RecoverableError::MissingChild, node)
+            })?;
+            let child_expression_type = get_node_type(&child_expression);
+            match child_expression_type {
+                NodeType::Production(ref rule) => {
+                    match &rule.production_kind {
+                        ASSIGNMENT => {
+                            let (mut targets, type_annot, value, type_comment, simple) =
+                                self.assignment(rule.node)?;
 
-                        if let Some(annotation) = type_annot {
-                            StmtDesc::AnnAssign {
-                                target: targets.pop().unwrap(),
-                                annotation,
-                                value,
-                                simple,
-                            }
-                        } else {
-                            StmtDesc::Assign {
-                                targets,
-                                value: value.unwrap(),
-                                type_comment,
+                            if let Some(annotation) = type_annot {
+                                StmtDesc::AnnAssign {
+                                    target: targets.pop().unwrap(),
+                                    annotation,
+                                    value,
+                                    simple,
+                                }
+                            } else {
+                                StmtDesc::Assign {
+                                    targets,
+                                    value: value.unwrap(),
+                                    type_comment,
+                                }
                             }
                         }
-                    }
-                    AUGMENTED_ASSIGNMENT => self.aug_assign(rule.node)?,
-                    YIELD => {
-                        let yeild_desc = self.yield_statement(rule.node)?;
-                        StmtDesc::Expr(self.new_expr(yeild_desc, node))
-                    }
-                    // TODO: do sequences of expression come here?
-                    _ => {
-                        let expression = self.expression(&child_expression)?;
+                        AUGMENTED_ASSIGNMENT => self.aug_assign(rule.node)?,
+                        YIELD => {
+                            let yeild_desc = self.yield_statement(rule.node)?;
+                            StmtDesc::Expr(self.new_expr(yeild_desc, node))
+                        }
+                        _ => {
+                            let expression = self.expression(&child_expression)?;
 
-                        // If the expression statement has a trailing comma we
-                        // should treat it as a tuple of size one, otherwise
-                        // it is a plain expression.
-                        let ends_in_comma =
-                            node.child(node.child_count() - 1).unwrap().kind() == ",";
-                        if ends_in_comma {
-                            let mut expressions = vec![];
-                            expressions.push(expression);
-                            let tuple_desc = ExprDesc::Tuple {
-                                elts: expressions,
-                                ctx: self.get_expression_context(),
-                            };
+                            // If the expression statement has a trailing comma we
+                            // should treat it as a tuple of size one, otherwise
+                            // it is a plain expression.
+                            let ends_in_comma =
+                                node.child(node.child_count() - 1).unwrap().kind() == ",";
+                            if ends_in_comma {
+                                let mut expressions = vec![];
+                                expressions.push(expression);
+                                let tuple_desc = ExprDesc::Tuple {
+                                    elts: expressions,
+                                    ctx: self.get_expression_context(),
+                                };
 
-                            StmtDesc::Expr(self.new_expr(tuple_desc, node))
-                        } else {
-                            StmtDesc::Expr(expression)
+                                StmtDesc::Expr(self.new_expr(tuple_desc, node))
+                            } else {
+                                StmtDesc::Expr(expression)
+                            }
                         }
                     }
                 }
+                _ => panic!("should be unreachable for expression"),
             }
-            _ => panic!("should be unreachable for expression"),
+        } else {
+            // sequence of expressions: seq(commaSep1($.expression), optional(',')),
+            let tuple_desc = self.tuple(node)?;
+            StmtDesc::Expr(self.new_expr(tuple_desc, node))
         };
+
         Ok(expression_statement)
     }
 

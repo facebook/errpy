@@ -31,6 +31,10 @@ f"sin({a}) is {sin(a):.3}"
 thing = 1,
 thing = (1,)
 
+## tuples without parenthesis
+1,2
+1,2,
+
 ## expression statement postfixed with comma
 # The following is treated as a tuple due to the trailing comma
 Union[
