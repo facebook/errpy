@@ -537,7 +537,7 @@ impl Parser {
         identifiers: &mut Vec<String>,
     ) -> ErrorableResult<()> {
         for child in node.named_children(&mut node.walk()) {
-            let identifier = self.get_text(&child);
+            let identifier = self.get_valid_identifier(&child);
             identifiers.push(identifier);
         }
         Ok(())
@@ -567,7 +567,7 @@ impl Parser {
         let name_node = func_def
             .child_by_field_name("name")
             .expect("missing function name");
-        let name = self.get_text(&name_node);
+        let name = self.get_valid_identifier(&name_node);
         let parameters_node = func_def
             .child_by_field_name("parameters")
             .expect("missing function parameters");
@@ -691,7 +691,7 @@ impl Parser {
                     LIST_SPLAT_PATTERN => {
                         let ident_node =
                             &param.node.child(1).expect("identifier of starred missing");
-                        let identifier = self.get_text(ident_node);
+                        let identifier = self.get_valid_identifier(ident_node);
 
                         vararg = Some(Arg::new_simple(identifier, ident_node, &parameter));
                         require_kw_args = true;
@@ -712,7 +712,7 @@ impl Parser {
                             .node
                             .child(1)
                             .expect("identifier of dictionary argument");
-                        let identifier = self.get_text(ident_node);
+                        let identifier = self.get_valid_identifier(ident_node);
 
                         kwarg = Some(Arg::new_simple(identifier, ident_node, &parameter));
                     }
@@ -750,7 +750,7 @@ impl Parser {
         kw_defaults: &mut Vec<Option<Expr>>,
         args: &mut Vec<Arg>,
     ) {
-        let identifier = self.get_text(node);
+        let identifier = self.get_valid_identifier(node);
 
         let arg = Arg::new_simple(identifier, node, node);
 
@@ -799,7 +799,7 @@ impl Parser {
         match ident_node_type {
             NodeType::Production(param) => match &param.production_kind {
                 IDENTIFIER => {
-                    let identifier = self.get_text(param.node);
+                    let identifier = self.get_valid_identifier(param.node);
                     let arg = Arg::new_with_type(identifier, annotation_expr, parameter, parameter);
                     match require_kw_args {
                         true => {
@@ -811,7 +811,7 @@ impl Parser {
                 }
                 LIST_SPLAT_PATTERN => {
                     let ident_node = &param.node.child(1).expect("identifier of starred missing");
-                    let identifier = self.get_text(ident_node);
+                    let identifier = self.get_valid_identifier(ident_node);
 
                     *vararg = Some(Arg::new_with_type(
                         identifier,
@@ -827,7 +827,7 @@ impl Parser {
                         .node
                         .child(1)
                         .expect("identifier of dictionary argument");
-                    let identifier = self.get_text(ident_node);
+                    let identifier = self.get_valid_identifier(ident_node);
 
                     *kwarg = Some(Arg::new_with_type(
                         identifier,
@@ -861,7 +861,7 @@ impl Parser {
             .child_by_field_name("name")
             .expect("default param missing name");
 
-        let identifier = self.get_text(name_node);
+        let identifier = self.get_valid_identifier(name_node);
         let arg = Arg::new_simple(identifier, name_node, name_node);
 
         let default_value_node = &node
@@ -916,7 +916,7 @@ impl Parser {
 
         let annotation_expr = self.expression(&annotation_node)?;
 
-        let identifier = self.get_text(name_node);
+        let identifier = self.get_valid_identifier(name_node);
 
         let arg = Arg::new_with_type(
             identifier,
@@ -958,7 +958,7 @@ impl Parser {
         let name_node = class_def
             .child_by_field_name("name")
             .expect("missing class name");
-        let name = self.get_text(&name_node);
+        let name = self.get_valid_identifier(&name_node);
         let body_node = class_def
             .child_by_field_name("body")
             .expect("missing class body");
@@ -1004,7 +1004,7 @@ impl Parser {
     fn dotted_name_to_string(&mut self, node: &Node) -> ErrorableResult<String> {
         Ok(join(
             node.named_children(&mut node.walk())
-                .map(|x| self.get_text(&x)),
+                .map(|x| self.get_valid_identifier(&x)),
             ".",
         ))
     }
@@ -1019,7 +1019,7 @@ impl Parser {
                                 .child_by_field_name("name")
                                 .expect("missing aliased_import name"),
                         )?,
-                        Some(self.get_text(&alias_name)),
+                        Some(self.get_valid_identifier(&alias_name)),
                         &alias_child,
                     ));
                 }
@@ -1076,7 +1076,7 @@ impl Parser {
                 // Relative imports are interesting. From the docs: "level is
                 // an integer holding the level of the relative import (0
                 // means absolute import)." It can be thought of like
-                // directoris in a filesystem where by the number of dots
+                // directories in a filesystem where by the number of dots
                 // preceding a dotted name indicates how many levels upwards
                 // one must look for the import dependency
                 let dots_and_name = self.get_text(&module_name_node);
@@ -1090,6 +1090,7 @@ impl Parser {
                 }
 
                 let remainder: String = dots_and_name.trim_start_matches('.').to_string();
+                self.check_identifier_valid(&remainder, &module_name_node);
                 if remainder.is_empty() {
                     None
                 } else {
@@ -1119,7 +1120,7 @@ impl Parser {
                                         .child_by_field_name("name")
                                         .expect("missing aliased_import name"),
                                 )?,
-                                Some(self.get_text(&alias_name)),
+                                Some(self.get_valid_identifier(&alias_name)),
                                 &alias,
                             ));
                         }
@@ -1616,7 +1617,7 @@ impl Parser {
                                         .child(0)
                                         .expect("pattern target");
 
-                                    name = Some(self.get_text(&target_expression));
+                                    name = Some(self.get_valid_identifier(&target_expression));
 
                                     Some(self.expression(&lhs_expression)?)
                                 }
@@ -2588,7 +2589,7 @@ impl Parser {
         let rhs = node
             .child_by_field_name("attribute")
             .expect("missing right hand side (attribute.attribute)");
-        let attr = self.get_text(&rhs);
+        let attr = self.get_valid_identifier(&rhs);
 
         Ok(ExprDesc::Attribute {
             value,
@@ -2944,7 +2945,7 @@ impl Parser {
             if subscript_node.kind() == "slice" {
                 for slice_child in subscript_node.children(&mut subscript_node.walk()) {
                     // if : or something else
-                    let token = self.get_text(&slice_child);
+                    let token = self.get_valid_identifier(&slice_child);
                     if token == ":" {
                         slice_elements.push(last_expr);
                         last_expr = None;
@@ -3041,7 +3042,13 @@ impl Parser {
         let lhs = node
             .child_by_field_name("name")
             .expect("missing lhs in keyword_argument");
-        let arg = self.get_text(&lhs);
+        // TODO: keywords (await and async) are permitted in this location but
+        // we use get_valid_identifier anyway as it would be strange for anyone
+        // to be giving a variable name (await and async) in real code.
+        // If this turns out to be a problem then we can add a modifed version
+        // of get_valid_identifier that permits await and async to be used as
+        // identifiers
+        let arg = self.get_valid_identifier(&lhs);
 
         let rhs = node
             .child_by_field_name("value")
@@ -3961,10 +3968,23 @@ impl Parser {
         })
     }
 
-    fn name(&mut self, node: &Node) -> ExprDesc {
+    ///
+    /// Will return an identifier as a String and will record a
+    /// recoverable error if the identifier is invalid
+    /// (e.g. keyword, empty space etc)
+    ///
+    fn get_valid_identifier(&mut self, node: &Node) -> String {
         let identifier: String = self.get_text(node);
+        self.check_identifier_valid(&identifier, node);
+        identifier
+    }
 
-        if self.python_keywords.contains(&identifier) {
+    ///
+    /// Will record a recoverable error if the identifier
+    /// is invalid (e.g. keyword, empty sapce etc)
+    ///
+    fn check_identifier_valid(&mut self, identifier: &String, node: &Node) {
+        if self.python_keywords.contains(identifier) {
             self.record_recoverable_error(
                 RecoverableError::SyntaxError(format!(
                     "keyword: {:?} cannot be used as identifier",
@@ -3980,18 +4000,16 @@ impl Parser {
                 node,
             )
         }
+    }
+
+    fn name(&mut self, node: &Node) -> ExprDesc {
+        let identifier: String = self.get_valid_identifier(node);
 
         ExprDesc::Name {
             id: identifier,
             ctx: self.get_expression_context(),
         }
     }
-
-    //
-    //
-    // utilities
-    //
-    //
 
     // Get a copy of the source code behind this node.
     // For identifiers that is the identifer name.

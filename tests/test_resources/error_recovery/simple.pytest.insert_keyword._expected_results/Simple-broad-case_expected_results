@@ -76,10 +76,15 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
-1 Recoverable error detected:
+2 Recoverable errors detected:
 SyntaxError: "invalid syntax" at [1:9 - 1:12]
 CST Stack:
     {Node ERROR (0, 8) - (0, 11)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
+SyntaxError: "keyword: \"def\" cannot be used as identifier" at [1:5 - 1:8]
+CST Stack:
+    {Node identifier (0, 4) - (0, 7)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
 Output AST is not valid according to CPython: invalid syntax (<unknown>, line 1)
@@ -249,10 +254,15 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
-1 Recoverable error detected:
+2 Recoverable errors detected:
 SyntaxError: "invalid syntax" at [1:10 - 1:13]
 CST Stack:
     {Node ERROR (0, 9) - (0, 12)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
+SyntaxError: "keyword: \"def\" cannot be used as identifier" at [1:6 - 1:9]
+CST Stack:
+    {Node identifier (0, 5) - (0, 8)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
 Output AST is not valid according to CPython: invalid syntax (<unknown>, line 1)
@@ -469,10 +479,17 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
-1 Recoverable error detected:
+2 Recoverable errors detected:
 SyntaxError: "invalid syntax" at [1:14 - 1:15]
 CST Stack:
     {Node ERROR (0, 13) - (0, 14)}
+    {Node typed_parameter (0, 9) - (0, 19)}
+    {Node parameters (0, 7) - (0, 20)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
+SyntaxError: "keyword: \"def\" cannot be used as identifier" at [1:10 - 1:13]
+CST Stack:
+    {Node identifier (0, 9) - (0, 12)}
     {Node typed_parameter (0, 9) - (0, 19)}
     {Node parameters (0, 7) - (0, 20)}
     {Node function_definition (0, 0) - (9, 38)}
@@ -526,10 +543,17 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
-1 Recoverable error detected:
+2 Recoverable errors detected:
 SyntaxError: "invalid syntax" at [1:9 - 1:10]
 CST Stack:
     {Node ERROR (0, 8) - (0, 9)}
+    {Node parameters (0, 7) - (0, 20)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
+SyntaxError: "keyword: \"def\" cannot be used as identifier" at [1:11 - 1:14]
+CST Stack:
+    {Node identifier (0, 10) - (0, 13)}
+    {Node typed_parameter (0, 10) - (0, 19)}
     {Node parameters (0, 7) - (0, 20)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
@@ -9637,6 +9661,13 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "keyword: \"def\" cannot be used as identifier" at [12:20 - 12:23]
+CST Stack:
+    {Node identifier (11, 19) - (11, 22)}
+    {Node parameters (11, 17) - (11, 24)}
+    {Node function_definition (11, 0) - (12, 8)}
+    {Node module (0, 0) - (25, 0)}
 Output AST is not valid according to CPython: invalid syntax (<unknown>, line 12)
 ERRPY Recovered AST diff:
 --- 
@@ -13016,10 +13047,19 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
     main()                                         |     main()                                         
                                                    | 
 
-1 Recoverable error detected:
+2 Recoverable errors detected:
 SyntaxError: "invalid syntax" at [16:21 - 16:25]
 CST Stack:
     {Node ERROR (15, 20) - (15, 24)}
+    {Node call (15, 11) - (15, 46)}
+    {Node return_statement (15, 4) - (15, 46)}
+    {Node block (15, 4) - (15, 46)}
+    {Node function_definition (14, 0) - (15, 46)}
+    {Node module (0, 0) - (25, 0)}
+SyntaxError: "keyword: \"def\" cannot be used as identifier" at [16:17 - 16:20]
+CST Stack:
+    {Node identifier (15, 16) - (15, 19)}
+    {Node attribute (15, 11) - (15, 19)}
     {Node call (15, 11) - (15, 46)}
     {Node return_statement (15, 4) - (15, 46)}
     {Node block (15, 4) - (15, 46)}
@@ -15058,6 +15098,13 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: "keyword: \"def\" cannot be used as identifier" at [18:11 - 18:14]
+CST Stack:
+    {Node identifier (17, 10) - (17, 13)}
+    {Node parameters (17, 8) - (17, 15)}
+    {Node function_definition (17, 0) - (22, 12)}
+    {Node module (0, 0) - (25, 0)}
 Output AST is not valid according to CPython: invalid syntax (<unknown>, line 18)
 ERRPY Recovered AST diff:
 --- 
