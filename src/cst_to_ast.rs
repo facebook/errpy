@@ -234,10 +234,10 @@ impl Parser {
             integer_overflow_error: "184467440737095516150".parse::<isize>().err().unwrap(),
             // keywords obtained through running: buck2 run errpy/facebook/scripts:list_python_keywords -- errpy/facebook/scripts/peg_grammar_specs/3.10
             python_keywords: vec![
-                "and", "as", "assert", "await", "break", "class", "continue", "def", "del", "elif",
-                "else", "except", "finally", "for", "from", "global", "if", "import", "in", "is",
-                "lambda", "nonlocal", "not", "or", "pass", "raise", "return", "try", "while",
-                "with", "yield",
+                "and", "as", "assert", "async", "await", "break", "class", "continue", "def",
+                "del", "elif", "else", "except", "finally", "for", "from", "global", "if",
+                "import", "in", "is", "lambda", "nonlocal", "not", "or", "pass", "raise", "return",
+                "try", "while", "with", "yield",
             ]
             .into_iter()
             .map(String::from)

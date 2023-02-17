@@ -11,3 +11,7 @@ and
 
 ## empty space cannot be identifier
 a[] # reject empty space identifer
+
+## async and await are keywords
+x = xx.async # keyword
+x = xx.await # keyword

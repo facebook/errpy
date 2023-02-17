@@ -22,3 +22,8 @@ CST Stack:
     {Node module (0, 0) - (1, 0)}
 Output AST is not valid according to CPython: invalid syntax (<unknown>, line 1)
 
+##async and await are keywords
+x = xx.async
+x = xx.await
+Output AST is not valid according to CPython: invalid syntax (<unknown>, line 1)
+
