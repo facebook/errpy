@@ -1,0 +1,24 @@
+@generated
+
+##keyword cant be identifer
+and
+1 Recoverable error detected:
+SyntaxError: "keyword: \"and\" cannot be used as identifier" at [1:1 - 1:4]
+CST Stack:
+    {Node identifier (0, 0) - (0, 3)}
+    {Node expression_statement (0, 0) - (0, 3)}
+    {Node module (0, 0) - (1, 0)}
+Output AST is not valid according to CPython: invalid syntax (<unknown>, line 1)
+
+##empty space cannot be identifier
+a[]
+1 Recoverable error detected:
+SyntaxError: "empty string cannot be used as identifier" at [1:3 - 1:3]
+CST Stack:
+    {Node identifier (0, 2) - (0, 2)}
+    {Node [ (0, 1) - (0, 2)}
+    {Node subscript (0, 0) - (0, 3)}
+    {Node expression_statement (0, 0) - (0, 3)}
+    {Node module (0, 0) - (1, 0)}
+Output AST is not valid according to CPython: invalid syntax (<unknown>, line 1)
+

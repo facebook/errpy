@@ -673,10 +673,18 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
-1 Recoverable error detected:
+2 Recoverable errors detected:
 SyntaxError: "invalid syntax" at [1:15 - 1:16]
 CST Stack:
     {Node ERROR (0, 14) - (0, 15)}
+    {Node parameters (0, 7) - (0, 16)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
+SyntaxError: "keyword: \"in\" cannot be used as identifier" at [1:12 - 1:14]
+CST Stack:
+    {Node identifier (0, 11) - (0, 13)}
+    {Node type (0, 11) - (0, 13)}
+    {Node typed_parameter (0, 8) - (0, 13)}
     {Node parameters (0, 7) - (0, 16)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
@@ -991,10 +999,16 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
-1 Recoverable error detected:
+2 Recoverable errors detected:
 SyntaxError: "invalid syntax" at [1:23 - 1:24]
 CST Stack:
     {Node ERROR (0, 22) - (0, 23)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
+SyntaxError: "keyword: \"in\" cannot be used as identifier" at [1:20 - 1:22]
+CST Stack:
+    {Node identifier (0, 19) - (0, 21)}
+    {Node type (0, 19) - (0, 21)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
 Output AST is not valid according to CPython: expected ':' (<unknown>, line 1)
@@ -4475,7 +4489,7 @@ if __name__ == '__main__':                    |
     main()                                    | 
                                               | 
 
-3 Recoverable errors detected:
+5 Recoverable errors detected:
 SyntaxError: "invalid syntax" at [7:5 - 7:10]
 CST Stack:
     {Node ERROR (6, 4) - (6, 9)}
@@ -4493,6 +4507,25 @@ CST Stack:
 SyntaxError: "invalid syntax" at [10:16 - 10:19]
 CST Stack:
     {Node ERROR (9, 15) - (9, 18)}
+    {Node call (9, 8) - (9, 25)}
+    {Node binary_operator (9, 8) - (9, 38)}
+    {Node type (9, 8) - (9, 38)}
+    {Node assignment (8, 4) - (9, 38)}
+    {Node expression_statement (8, 4) - (9, 38)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
+SyntaxError: "keyword: \"else\" cannot be used as identifier" at [9:5 - 9:9]
+CST Stack:
+    {Node identifier (8, 4) - (8, 8)}
+    {Node assignment (8, 4) - (9, 38)}
+    {Node expression_statement (8, 4) - (9, 38)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
+SyntaxError: "keyword: \"return\" cannot be used as identifier" at [10:9 - 10:15]
+CST Stack:
+    {Node identifier (9, 8) - (9, 14)}
     {Node call (9, 8) - (9, 25)}
     {Node binary_operator (9, 8) - (9, 38)}
     {Node type (9, 8) - (9, 38)}
@@ -4629,7 +4662,7 @@ if __name__ == '__main__':                    |
     main()                                    | 
                                               | 
 
-3 Recoverable errors detected:
+5 Recoverable errors detected:
 SyntaxError: "invalid syntax" at [7:5 - 7:10]
 CST Stack:
     {Node ERROR (6, 4) - (6, 9)}
@@ -4647,6 +4680,25 @@ CST Stack:
 SyntaxError: "invalid syntax" at [10:16 - 10:19]
 CST Stack:
     {Node ERROR (9, 15) - (9, 18)}
+    {Node call (9, 8) - (9, 25)}
+    {Node binary_operator (9, 8) - (9, 38)}
+    {Node type (9, 8) - (9, 38)}
+    {Node assignment (8, 4) - (9, 38)}
+    {Node expression_statement (8, 4) - (9, 38)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
+SyntaxError: "keyword: \"else\" cannot be used as identifier" at [9:5 - 9:9]
+CST Stack:
+    {Node identifier (8, 4) - (8, 8)}
+    {Node assignment (8, 4) - (9, 38)}
+    {Node expression_statement (8, 4) - (9, 38)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
+SyntaxError: "keyword: \"return\" cannot be used as identifier" at [10:9 - 10:15]
+CST Stack:
+    {Node identifier (9, 8) - (9, 14)}
     {Node call (9, 8) - (9, 25)}
     {Node binary_operator (9, 8) - (9, 38)}
     {Node type (9, 8) - (9, 38)}
@@ -5646,7 +5698,7 @@ if __name__ == '__main__':                    |     main()
     main()                                    | 
                                               | 
 
-2 Recoverable errors detected:
+3 Recoverable errors detected:
 SyntaxError: "invalid syntax" at [9:5 - 9:6]
 CST Stack:
     {Node ERROR (8, 4) - (8, 5)}
@@ -5656,6 +5708,17 @@ CST Stack:
 SyntaxError: "invalid syntax" at [10:16 - 10:19]
 CST Stack:
     {Node ERROR (9, 15) - (9, 18)}
+    {Node call (9, 8) - (9, 25)}
+    {Node binary_operator (9, 8) - (9, 38)}
+    {Node type (9, 8) - (9, 38)}
+    {Node assignment (8, 6) - (9, 38)}
+    {Node expression_statement (8, 6) - (9, 38)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
+SyntaxError: "keyword: \"return\" cannot be used as identifier" at [10:9 - 10:15]
+CST Stack:
+    {Node identifier (9, 8) - (9, 14)}
     {Node call (9, 8) - (9, 25)}
     {Node binary_operator (9, 8) - (9, 38)}
     {Node type (9, 8) - (9, 38)}
@@ -5719,7 +5782,7 @@ if __name__ == '__main__':                    |     main()
     main()                                    | 
                                               | 
 
-2 Recoverable errors detected:
+3 Recoverable errors detected:
 SyntaxError: "invalid syntax" at [9:5 - 9:7]
 CST Stack:
     {Node ERROR (8, 4) - (8, 6)}
@@ -5729,6 +5792,17 @@ CST Stack:
 SyntaxError: "invalid syntax" at [10:16 - 10:19]
 CST Stack:
     {Node ERROR (9, 15) - (9, 18)}
+    {Node call (9, 8) - (9, 25)}
+    {Node binary_operator (9, 8) - (9, 38)}
+    {Node type (9, 8) - (9, 38)}
+    {Node assignment (8, 7) - (9, 38)}
+    {Node expression_statement (8, 7) - (9, 38)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
+SyntaxError: "keyword: \"return\" cannot be used as identifier" at [10:9 - 10:15]
+CST Stack:
+    {Node identifier (9, 8) - (9, 14)}
     {Node call (9, 8) - (9, 25)}
     {Node binary_operator (9, 8) - (9, 38)}
     {Node type (9, 8) - (9, 38)}
@@ -5792,7 +5866,7 @@ if __name__ == '__main__':                    |     main()
     main()                                    | 
                                               | 
 
-2 Recoverable errors detected:
+3 Recoverable errors detected:
 SyntaxError: "invalid syntax" at [9:9 - 9:10]
 CST Stack:
     {Node ERROR (8, 8) - (8, 9)}
@@ -5804,6 +5878,17 @@ CST Stack:
 SyntaxError: "invalid syntax" at [10:16 - 10:19]
 CST Stack:
     {Node ERROR (9, 15) - (9, 18)}
+    {Node call (9, 8) - (9, 25)}
+    {Node binary_operator (9, 8) - (9, 38)}
+    {Node type (9, 8) - (9, 38)}
+    {Node assignment (8, 4) - (9, 38)}
+    {Node expression_statement (8, 4) - (9, 38)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
+SyntaxError: "keyword: \"return\" cannot be used as identifier" at [10:9 - 10:15]
+CST Stack:
+    {Node identifier (9, 8) - (9, 14)}
     {Node call (9, 8) - (9, 25)}
     {Node binary_operator (9, 8) - (9, 38)}
     {Node type (9, 8) - (9, 38)}
@@ -13784,10 +13869,16 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
-1 Recoverable error detected:
+2 Recoverable errors detected:
 SyntaxError: "invalid syntax" at [18:18 - 18:19]
 CST Stack:
     {Node ERROR (17, 17) - (17, 18)}
+    {Node function_definition (17, 0) - (22, 12)}
+    {Node module (0, 0) - (25, 0)}
+SyntaxError: "keyword: \"in\" cannot be used as identifier" at [18:15 - 18:17]
+CST Stack:
+    {Node identifier (17, 14) - (17, 16)}
+    {Node type (17, 14) - (17, 16)}
     {Node function_definition (17, 0) - (22, 12)}
     {Node module (0, 0) - (25, 0)}
 Output AST is not valid according to CPython: expected ':' (<unknown>, line 18)

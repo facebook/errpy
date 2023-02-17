@@ -18,6 +18,7 @@ UNIT_TESTS_DIR = "unit_tests/"
 PRETTY_PRINTER_TESTS_DIR = "pretty_printer_tests/"
 ERROR_RECOVERY_TESTS_DIR = "error_recovery/"
 ERROR_RECOVERY_SPECIFIC_TESTS_DIR = "error_recovery_specific_tests/"
+INVALID_SYNTAX_TESTS_DIR = "invalid_syntax_tests/"
 EXPECTED_RESULTS_POSTFIX = "_expected_results"
 EXPECTED_RESULTS_POSTFIX_NEW = ".new"
 

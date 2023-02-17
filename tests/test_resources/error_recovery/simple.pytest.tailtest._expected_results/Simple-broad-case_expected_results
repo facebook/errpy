@@ -867,6 +867,14 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     (ba, bb) = tmp          |     (ba, bb) = tmp          
     in                      |     in                      
 
+1 Recoverable error detected:
+SyntaxError: "keyword: \"in\" cannot be used as identifier" at [4:5 - 4:7]
+CST Stack:
+    {Node identifier (3, 4) - (3, 6)}
+    {Node expression_statement (3, 4) - (3, 6)}
+    {Node block (1, 4) - (3, 6)}
+    {Node function_definition (0, 0) - (3, 6)}
+    {Node module (0, 0) - (4, 0)}
 Output AST is not valid according to CPython: invalid syntax (<unknown>, line 4)
 ERRPY Recovered AST diff:
 No difference - AST matches, fully recovered!
@@ -8503,6 +8511,14 @@ def main() -> int:                            | def main() -> int:
     fib(12)                                   |     fib(12)                                   
     as                                        |     as                                        
 
+1 Recoverable error detected:
+SyntaxError: "keyword: \"as\" cannot be used as identifier" at [22:5 - 22:7]
+CST Stack:
+    {Node identifier (21, 4) - (21, 6)}
+    {Node expression_statement (21, 4) - (21, 6)}
+    {Node block (18, 4) - (21, 6)}
+    {Node function_definition (17, 0) - (21, 6)}
+    {Node module (0, 0) - (22, 0)}
 Output AST is not valid according to CPython: invalid syntax (<unknown>, line 22)
 ERRPY Recovered AST diff:
 No difference - AST matches, fully recovered!
@@ -8805,6 +8821,15 @@ def main() -> int:                            | def main() -> int:
     fib(12)                                   |     fib(12)                                   
     astring = for                             |     astring = for                             
 
+1 Recoverable error detected:
+SyntaxError: "keyword: \"for\" cannot be used as identifier" at [22:15 - 22:18]
+CST Stack:
+    {Node identifier (21, 14) - (21, 17)}
+    {Node assignment (21, 4) - (21, 17)}
+    {Node expression_statement (21, 4) - (21, 17)}
+    {Node block (18, 4) - (21, 17)}
+    {Node function_definition (17, 0) - (21, 17)}
+    {Node module (0, 0) - (22, 0)}
 Output AST is not valid according to CPython: invalid syntax (<unknown>, line 22)
 ERRPY Recovered AST diff:
 No difference - AST matches, fully recovered!

@@ -16,6 +16,20 @@ class Thing:
         thing = slice_elements.something(b)
 
 
+1 Recoverable error detected:
+SyntaxError: "keyword: \"in\" cannot be used as identifier" at [11:29 - 11:31]
+CST Stack:
+    {Node identifier (10, 28) - (10, 30)}
+    {Node subscript (10, 28) - (10, 38)}
+    {Node for_in_clause (10, 19) - (10, 38)}
+    {Node list_comprehension (10, 16) - (10, 39)}
+    {Node assignment (10, 8) - (10, 39)}
+    {Node expression_statement (10, 8) - (10, 39)}
+    {Node block (9, 8) - (11, 32)}
+    {Node function_definition (7, 4) - (11, 32)}
+    {Node block (3, 4) - (14, 43)}
+    {Node class_definition (2, 0) - (14, 43)}
+    {Node module (2, 0) - (15, 0)}
 Output AST is not valid according to CPython: invalid syntax (<unknown>, line 9)
 
 ##M2 - Autocomplete on trailing `.`

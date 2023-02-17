@@ -49,6 +49,8 @@ use crate::sitter;
 
 type ErrorableResult<T> = std::result::Result<T, ()>;
 
+use std::collections::HashSet;
+
 #[derive(Debug)]
 pub struct RecoverableErrorWithLocation {
     pub parser_error: RecoverableError,
@@ -77,6 +79,7 @@ pub struct Parser {
     current_expr_ctx: Vec<Option<ExprContext>>,
     increment_expression_column_offset: isize,
     integer_overflow_error: ParseIntError,
+    python_keywords: HashSet<String>,
 }
 
 ///
@@ -229,6 +232,16 @@ impl Parser {
             current_expr_ctx: Vec::new(),
             increment_expression_column_offset: 0,
             integer_overflow_error: "184467440737095516150".parse::<isize>().err().unwrap(),
+            // keywords obtained through running: buck2 run errpy/facebook/scripts:list_python_keywords -- errpy/facebook/scripts/peg_grammar_specs/3.10
+            python_keywords: vec![
+                "and", "as", "assert", "await", "break", "class", "continue", "def", "del", "elif",
+                "else", "except", "finally", "for", "from", "global", "if", "import", "in", "is",
+                "lambda", "nonlocal", "not", "or", "pass", "raise", "return", "try", "while",
+                "with", "yield",
+            ]
+            .into_iter()
+            .map(String::from)
+            .collect(),
         }
     }
 
@@ -1982,7 +1995,7 @@ impl Parser {
         let expr: Expr = match &node_type {
             NodeType::Production(rule) => match &rule.production_kind {
                 IDENTIFIER => {
-                    let name_desc = self.name(self.get_text(rule.node));
+                    let name_desc = self.name(rule.node);
                     self.new_expr(name_desc, rule.node)
                 }
                 KEYWORD_IDENTIFIER => {
@@ -2093,7 +2106,7 @@ impl Parser {
         let value: Expr = match &node_type {
             NodeType::Production(rule) => match &rule.production_kind {
                 IDENTIFIER => {
-                    let text_desc = self.name(self.get_text(rule.node));
+                    let text_desc = self.name(rule.node);
                     self.new_expr(text_desc, rule.node)
                 }
                 KEYWORD_IDENTIFIER => {
@@ -2232,8 +2245,8 @@ impl Parser {
             NodeType::Production(rule) => match &rule.production_kind {
                 BINARY_OPERATOR => self.binary_op(rule.node)?,
                 // TODO: soft keywords like `match` and that story with python and tree-sitter
-                IDENTIFIER => self.name(self.get_text(rule.node)),
-                KEYWORD_IDENTIFIER => self.name(self.get_text(rule.node)),
+                IDENTIFIER => self.name(rule.node),
+                KEYWORD_IDENTIFIER => self.name(node),
                 STRING => self.raw_string(rule.node, rule.node)?,
                 CONCATENATED_STRING => self.concatenated_string(rule.node)?,
                 INTEGER => self.integer(rule.node)?,
@@ -3947,7 +3960,26 @@ impl Parser {
         })
     }
 
-    fn name(&mut self, identifier: String) -> ExprDesc {
+    fn name(&mut self, node: &Node) -> ExprDesc {
+        let identifier: String = self.get_text(node);
+
+        if self.python_keywords.contains(&identifier) {
+            self.record_recoverable_error(
+                RecoverableError::SyntaxError(format!(
+                    "keyword: {:?} cannot be used as identifier",
+                    identifier
+                )),
+                node,
+            )
+        } else if identifier.is_empty() {
+            self.record_recoverable_error(
+                RecoverableError::SyntaxError(
+                    "empty string cannot be used as identifier".to_string(),
+                ),
+                node,
+            )
+        }
+
         ExprDesc::Name {
             id: identifier,
             ctx: self.get_expression_context(),

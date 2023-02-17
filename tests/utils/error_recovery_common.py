@@ -57,10 +57,11 @@ def validate_code_and_agument_errors(pprint_ast: str, errors: str) -> str:
 
 
 class ErrorRecoveryCommon(ASTTestCommon):
-    def compare_recovered_ast_many(self, many_fname: str) -> None:
+    def compare_recovered_ast_many(
+        self, many_fname: str, test_dir: str = ERROR_RECOVERY_SPECIFIC_TESTS_DIR
+    ) -> None:
         """Iterate through series of inputs delimited by ## and check pprint ast
         of each against expected recovered pprint ast"""
-        test_dir = ERROR_RECOVERY_SPECIFIC_TESTS_DIR
 
         # split input into individual tests
         # create directory for holding test results if not one exists already
