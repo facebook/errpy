@@ -2248,12 +2248,7 @@ impl Parser {
                 SET => self.set(rule.node)?,
                 SET_COMPREHENSION => self.set_comp(rule.node)?,
                 TUPLE => self.tuple(rule.node)?,
-                PARENTHESIZED_EXPRESSION => {
-                    let child = rule.node.named_child(0).ok_or_else(|| {
-                        self.record_recoverable_error(RecoverableError::MissingChild, rule.node)
-                    })?;
-                    return self.expression(&child);
-                }
+                PARENTHESIZED_EXPRESSION => return self.parenthesized_expression(rule.node),
                 GENERATOR_EXPRESSION => self.generator_expression(rule.node)?,
                 ELLIPSIS => self.constant(ConstantDesc::Ellipsis),
                 _ => {
@@ -2274,6 +2269,23 @@ impl Parser {
             }
         };
         Ok(self.new_expr(exprdesc, node))
+    }
+
+    // parenthesized_expression: $ => prec(PREC.parenthesized_expression, seq(
+    //  '(',
+    //   choice($.expression, $.yield),
+    //   ')'
+    // )),
+    fn parenthesized_expression(&mut self, node: &Node) -> ErrorableResult<Expr> {
+        let middle_node = &node
+            .child(1)
+            .expect("middle node of parenthesized_expression");
+        if middle_node.kind() == "yield" {
+            let yield_desc = self.yield_statement(middle_node)?;
+            Ok(self.new_expr(yield_desc, middle_node))
+        } else {
+            self.expression(middle_node)
+        }
     }
 
     // named_expression: $ => seq(

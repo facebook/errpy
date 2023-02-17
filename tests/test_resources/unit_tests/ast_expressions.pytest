@@ -221,6 +221,15 @@ yield (x,y)
 yield from yy
 yield from (x,y)
 
+## Yield, YieldFrom and Await with inside a parenthesized expression
+(yield)
+(yield 1)
+(yield from x)
+(yield (await x))
+(yield from (await x))
+await (yield x)
+await (yield from x)
+
 ## Global(names)
 global x,y,z
 

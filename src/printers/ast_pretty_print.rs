@@ -897,7 +897,16 @@ impl ExprDesc {
                 let priority_level = PriorityLevel::Await;
                 left_parenthesis(pprint_output, current_priority_level, priority_level);
                 pprint_output.push_str("await ");
-                (*arg.desc).pprint_with_priority_level(pprint_output, PriorityLevel::Atom);
+
+                match *arg.desc {
+                    ExprDesc::Yield(_) | ExprDesc::YieldFrom(_) => {
+                        pprint_output.push_str("(");
+                        (*arg.desc).pprint_with_priority_level(pprint_output, PriorityLevel::Atom);
+                        pprint_output.push_str(")");
+                    }
+                    _ => (*arg.desc).pprint_with_priority_level(pprint_output, PriorityLevel::Atom),
+                }
+
                 right_parenthesis(pprint_output, current_priority_level, priority_level);
             }
             ExprDesc::Dict { keys, values } => {
@@ -1214,14 +1223,30 @@ impl ExprDesc {
                 match &callx {
                     Some(val) => {
                         pprint_output.push_str(" ");
-                        (*val.desc).pprint(pprint_output);
+
+                        match *val.desc {
+                            ExprDesc::Await(_) => {
+                                pprint_output.push_str("(");
+                                (*val.desc).pprint(pprint_output);
+                                pprint_output.push_str(")");
+                            }
+                            _ => (*val.desc).pprint(pprint_output),
+                        }
                     }
                     _ => (),
                 }
             }
             ExprDesc::YieldFrom(val) => {
                 pprint_output.push_str("yield from ");
-                (*val.desc).pprint(pprint_output);
+
+                match *val.desc {
+                    ExprDesc::Await(_) => {
+                        pprint_output.push_str("(");
+                        (*val.desc).pprint(pprint_output);
+                        pprint_output.push_str(")");
+                    }
+                    _ => (*val.desc).pprint(pprint_output),
+                }
             }
             ExprDesc::JoinedStr(exprs) => {
                 pprint_output.push_str("f");
