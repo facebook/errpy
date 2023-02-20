@@ -3339,12 +3339,9 @@ impl Parser {
         &mut self,
         format_node: &Node,
         origin_node: &Node,
+        mut node_text: String,
     ) -> ErrorableResult<ExprDesc> {
         let mut expressions: Vec<Expr> = vec![];
-        let mut node_text = format_node
-            .utf8_text(self.code.as_bytes())
-            .expect("Invalid node text")
-            .to_string();
 
         let apostrophe_or_quote = node_text[1..2].to_string();
         let mut multiline_offsets = HashMap::new();
@@ -3730,10 +3727,60 @@ impl Parser {
         raw_string_node: &Node,
         origin_node: &Node,
     ) -> ErrorableResult<ExprDesc> {
-        let string_contents = self.get_text(raw_string_node);
+        // collect escape sequences and parse into corresponding unicode characters
+        let mut escape_sequences = vec![];
+        for child in raw_string_node.children(&mut raw_string_node.walk()) {
+            if child.kind() == "escape_sequence" {
+                let escape_sequence = self.get_text(&child);
+                if escape_sequence.to_uppercase().starts_with("\\U")
+                    || escape_sequence.starts_with("\\x")
+                {
+                    let escape_code = u32::from_str_radix(&escape_sequence[2..], 16).unwrap();
+                    let escape_sequence = if escape_code < 32 // unprintable ascii
+                        || escape_code == 92  // backslash
+                        || escape_code == 173  // soft hyphen
+                        || (127..=160).contains(&escape_code)
+                    {
+                        // code corresponds to a non-printable character, or character
+                        // with a special escape sequence. we need to manually create
+                        // the new escape sequence
+                        match escape_code {
+                            9 => String::from("\\t"),
+                            10 => String::from("\\n"),
+                            13 => String::from("\\r"),
+                            92 => String::from("\\\\"),
+                            _ => format!("\\x{:02x}", escape_code),
+                        }
+                    } else {
+                        format!("{}", std::char::from_u32(escape_code).unwrap())
+                    };
+                    escape_sequences.push((
+                        escape_sequence,
+                        child.start_byte() - raw_string_node.start_byte(),
+                        child.end_byte() - raw_string_node.start_byte(),
+                    ));
+                }
+            }
+        }
+
+        // substitute the new characters
+        let string_contents = if escape_sequences.is_empty() {
+            self.get_text(raw_string_node)
+        } else {
+            let original_contents = self.get_text(raw_string_node);
+            let mut string_contents = String::new();
+            let mut left = 0;
+            for (escape_sequence, start_byte, end_byte) in escape_sequences.iter() {
+                string_contents.push_str(&original_contents[left..*start_byte]);
+                string_contents.push_str(escape_sequence);
+                left = *end_byte;
+            }
+            string_contents.push_str(&original_contents[left..]);
+            string_contents
+        };
 
         if string_contents.starts_with("f\"") || string_contents.starts_with("f\'") {
-            self.format_string(raw_string_node, origin_node)
+            self.format_string(raw_string_node, origin_node, string_contents)
         } else {
             Ok(self.process_string(string_contents))
         }
