@@ -215,3 +215,94 @@ let () =
     "( garbage a, a)"
     ~expected_recoverable_errors:expected_errors_resolvable_error
     expected_output_resolvable_error
+
+
+let expected_ast_nullable_kw_defaults =
+  Ast.Module
+    {
+      body =
+        [
+          {
+            Ast.desc =
+              Ast.FunctionDef
+                {
+                  name = "foo";
+                  args =
+                    {
+                      Ast.posonlyargs = [];
+                      args = [];
+                      vararg =
+                        Some
+                          {
+                            Ast.arg = "d";
+                            annotation = None;
+                            type_comment = None;
+                            lineno = 1;
+                            col_offset = 9;
+                            end_lineno = Some 1;
+                            end_col_offset = Some 10;
+                          };
+                      kwonlyargs =
+                        [
+                          {
+                            Ast.arg = "e";
+                            annotation = None;
+                            type_comment = None;
+                            lineno = 1;
+                            col_offset = 12;
+                            end_lineno = Some 1;
+                            end_col_offset = Some 13;
+                          };
+                          {
+                            Ast.arg = "f";
+                            annotation = None;
+                            type_comment = None;
+                            lineno = 1;
+                            col_offset = 15;
+                            end_lineno = Some 1;
+                            end_col_offset = Some 16;
+                          };
+                        ];
+                      kw_defaults =
+                        (* kw_defaults is defined as: expr option list; *)
+                        [
+                          None;
+                          Some
+                            {
+                              Ast.desc =
+                                Ast.Constant { value = Some (Ast.Num (Ast.Int 3)); kind = None };
+                              lineno = 1;
+                              col_offset = 17;
+                              end_lineno = Some 1;
+                              end_col_offset = Some 18;
+                            };
+                        ];
+                      kwarg = None;
+                      defaults = [];
+                    };
+                  body =
+                    [
+                      {
+                        Ast.desc = Ast.Pass;
+                        lineno = 1;
+                        col_offset = 21;
+                        end_lineno = Some 1;
+                        end_col_offset = Some 25;
+                      };
+                    ];
+                  decorator_list = [];
+                  returns = None;
+                  type_comment = None;
+                };
+            lineno = 1;
+            col_offset = 0;
+            end_lineno = Some 1;
+            end_col_offset = Some 25;
+          };
+        ];
+      type_ignores = [];
+    }
+
+
+(* kw_defaults is defined as: expr option list; in the rust and ocaml ast files *)
+let () = test_parser_ast "def foo(*d, e, f=3): pass" expected_ast_nullable_kw_defaults

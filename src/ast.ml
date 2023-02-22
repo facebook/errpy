@@ -401,7 +401,7 @@ and arguments = {
   args: arg list;
   vararg: arg option;
   kwonlyargs: arg list;
-  kw_defaults: expr list;
+  kw_defaults: expr option list;
   kwarg: arg option;
   defaults: expr list;
 }
