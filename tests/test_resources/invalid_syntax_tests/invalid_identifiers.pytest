@@ -25,6 +25,7 @@ import async
 from and import a
 from a import and
 from a import f as and
+from ...and.bar import a as b, c
 
 def and():
     pass

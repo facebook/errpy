@@ -1064,6 +1064,11 @@ impl Parser {
     //     seq('(', $._import_list, ')')
     //   )
     // ),
+    //
+    // relative_import: $ => seq(
+    //  $.import_prefix,
+    //  optional($.dotted_name)
+    //),
     fn import_from_statement(&mut self, node: &Node) -> ErrorableResult<StmtDesc> {
         let mut names: Vec<Alias> = vec![];
         let mut level: isize = 0;
@@ -1079,22 +1084,15 @@ impl Parser {
                 // directories in a filesystem where by the number of dots
                 // preceding a dotted name indicates how many levels upwards
                 // one must look for the import dependency
-                let dots_and_name = self.get_text(&module_name_node);
 
-                for c in dots_and_name.chars() {
-                    if c == '.' {
-                        level += 1;
-                    } else {
-                        break; // only dots at start
-                    }
-                }
+                let import_prefix = module_name_node.child(0).expect("import_prefix");
+                level = import_prefix.child_count() as isize;
 
-                let remainder: String = dots_and_name.trim_start_matches('.').to_string();
-                self.check_identifier_valid(&remainder, &module_name_node);
-                if remainder.is_empty() {
-                    None
+                if module_name_node.child_count() == 2 {
+                    let dotted_name = module_name_node.child(1).expect("dotted_name");
+                    Some(self.dotted_name_to_string(&dotted_name)?)
                 } else {
-                    Some(remainder)
+                    None
                 }
             }
             _ => Some(self.dotted_name_to_string(&module_name_node)?),
