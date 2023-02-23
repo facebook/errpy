@@ -6,5 +6,3 @@
 # Tests for playing around async with [problematic?] syntax, debugging etc
 
 # Expected to be committed empty
-
-# keywords and empty space should not be accepted as identifiers
