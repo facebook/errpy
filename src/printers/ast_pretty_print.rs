@@ -175,7 +175,10 @@ fn process_module_class_functiondef_block(
                         kind: _,
                     } = &*expr.desc
                     {
-                        let mut res = astring.to_string().replace("\\n", "\n");
+                        let mut res = astring
+                            .to_string()
+                            .replace("\\n", "\n")
+                            .replace("\\t", "\t");
                         res = res[1..res.len() - 1].to_string();
                         pprint_output.push_ident();
                         pprint_output.push_str(&format!("\"\"\"{}\"\"\"", res).to_string());

@@ -3307,6 +3307,7 @@ impl Parser {
     }
 
     fn is_triple_quote_multiline(&mut self, string: &String) -> bool {
+        // possible to have "\"" - double brackets inside double brackets as input
         string.starts_with("\"\"\"") && string.ends_with("\"\"\"") && string.len() >= 6
             || string.starts_with("\'\'\'") && string.ends_with("\'\'\'") && string.len() >= 6
             || string.starts_with("f\"\"\"") && string.ends_with("\"\"\"") && string.len() >= 7
@@ -3826,9 +3827,8 @@ impl Parser {
                 }
             }
         }
-        string_contents = string_contents.replace('\n', "\\n");
+        string_contents = string_contents.replace('\n', "\\n").replace('\t', "\\t");
         // check is line multiline string and replace with single double quote
-        // possible to have "\"" - double brackets inside double brackets as input
         if self.is_triple_quote_multiline(&string_contents) {
             string_contents = string_contents[2..string_contents.len() - 2].to_string();
         }

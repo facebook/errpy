@@ -281,6 +281,16 @@ this is an emoji \U0001F4A9 on a line
 this is another line
 """
 
+## f-string with tabulation
+f"""
+	A
+"""
+f'''
+	A
+'''
+f"\t"
+f'\t'
+
 ## raw string with unicode escape sequence
 raw_emoji = r"\U0001F4A9"
 
@@ -397,6 +407,16 @@ c = "\
 "
 d = '\
 '
+
+## string with tabulation
+"""
+	A
+"""
+# '''
+# 	A
+# '''
+# "\t"
+# '\t'
 
 ## raw strings with trailing slashes that shouldn't be treated as line continuations
 a = r"""\
