@@ -3761,12 +3761,28 @@ impl Parser {
                 }
             }
         }
-
-        // substitute the new characters
-        let string_contents = if escape_sequences.is_empty() {
-            self.get_text(raw_string_node)
+        let string_contents = self.escape_decode_text(raw_string_node, &escape_sequences);
+        if string_contents.starts_with("f\"") || string_contents.starts_with("f\'") {
+            self.format_string(raw_string_node, origin_node, string_contents)
         } else {
-            let original_contents = self.get_text(raw_string_node);
+            Ok(self.process_string(string_contents))
+        }
+    }
+
+    /// Retrieves actual text representation of the string, additionally converting any escape
+    /// sequences (like \xc3, \xXX) found in the previous steps to actual unicode form
+    /// (unless there are no escape sequences or the string is a byte string)
+    fn escape_decode_text(
+        &mut self,
+        raw_string_node: &Node,
+        escape_sequences: &Vec<(String, usize, usize)>,
+    ) -> String {
+        let original_contents = self.get_text(raw_string_node);
+        let is_byte = original_contents.starts_with('b');
+        if escape_sequences.is_empty() || is_byte {
+            original_contents
+        } else {
+            // substitute the new characters
             let mut string_contents = String::new();
             let mut left = 0;
             for (escape_sequence, start_byte, end_byte) in escape_sequences.iter() {
@@ -3776,12 +3792,6 @@ impl Parser {
             }
             string_contents.push_str(&original_contents[left..]);
             string_contents
-        };
-
-        if string_contents.starts_with("f\"") || string_contents.starts_with("f\'") {
-            self.format_string(raw_string_node, origin_node, string_contents)
-        } else {
-            Ok(self.process_string(string_contents))
         }
     }
 

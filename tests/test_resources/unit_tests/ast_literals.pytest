@@ -298,6 +298,10 @@ raw_emoji = r"\U0001F4A9"
 f_string = f"{symbol} is \U0001F4A9"
 f_string2 = f"{something_else} is \u0001F4A9"
 
+## byte string with unicode escape sequence
+byte_string = b"Bj\xc3\xb6rk"  # should not be converted. Expected: b'Bj\xc3\xb6rk'
+byte_string = b'Bj\xc3\xb6rk'
+
 ## tricky ascii characters
 something = "\x01"
 something_else = "\x8f"
