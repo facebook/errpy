@@ -449,14 +449,20 @@ c
 ## strings wrapping ' and "
 a = '"'
 b = "'"
+c = "\"'"
+d = '\'"'
 
 ## b strings wrapping ' and "
 a = b'"'
 b = b"'"
+c = b"\"'"
+d = b'\'"'
 
 ## raw strings wrapping ' and "
 a = r'"'
 b = r"'"
+c = r"\"'"
+d = r'\'"'
 
 ## empty strings
 a = """"""

@@ -3795,9 +3795,13 @@ impl Parser {
     ///  via single quote marks) and insert newlines with escapes for newlines
     ///  4. We remove all quote mark escape characters \' -> ', \" -> "
     ///  5. Strings created via double quotes ("") are converted to single
-    ///  quote (''), unless they contain a single quote ('). Whereas strings
-    ///  created with single quotes ('') containing other single quotes are converted
-    ///  to double quoted strings.
+    ///  quote (''), unless they contain a single quote (') or if they contain both a
+    ///  single quote (') and a double quote (", originally \" but \ is removed in step
+    ///  4). Whereas strings created with single quotes ('') containing other single
+    ///  quotes but no double quotes (") are converted to double quoted strings.
+    ///  6. We add escape characters again if needed (' -> \' or " -> \"). In practice,
+    ///  this is relevant only when the the string contains both single (') and double
+    ///  (") quotes.
     fn process_string(&mut self, string_contents: String) -> ExprDesc {
         let mut string_contents = string_contents;
         let byte = string_contents.starts_with('b');
@@ -3836,7 +3840,9 @@ impl Parser {
         string_contents = {
             // convert string to being wrapped in '' (or "") unless there are inner ' s (or " s)
             if string_contents.starts_with('\"')
-                && !string_contents.contains('\'')
+                && (!string_contents.contains('\'')
+                    || string_contents.contains('\'')
+                        && string_contents[1..string_contents.len() - 1].contains('\"'))
                 && string_contents.len() > 1
             {
                 string_contents = string_contents[1..string_contents.len() - 1].to_string();
@@ -3856,6 +3862,20 @@ impl Parser {
                     }
                     _ => string_contents,
                 }
+            } else {
+                string_contents
+            }
+        };
+
+        string_contents = {
+            if string_contents.starts_with('\"') && string_contents.len() > 1 {
+                string_contents = string_contents[1..string_contents.len() - 1].to_string();
+                string_contents = string_contents.replace('\"', "\\\"");
+                format!("\"{}\"", string_contents)
+            } else if string_contents.len() > 1 {
+                string_contents = string_contents[1..string_contents.len() - 1].to_string();
+                string_contents = string_contents.replace('\'', "\\\'");
+                format!("'{}'", string_contents)
             } else {
                 string_contents
             }
