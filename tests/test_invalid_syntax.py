@@ -18,6 +18,11 @@ class ExpectedFailureTests(ErrorRecoveryCommon):
             "invalid_identifiers.pytest", test_dir=INVALID_SYNTAX_TESTS_DIR
         )
 
+    def test_invalid_types(self) -> None:
+        self.compare_recovered_ast_many(
+            "invalid_types.pytest", test_dir=INVALID_SYNTAX_TESTS_DIR
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

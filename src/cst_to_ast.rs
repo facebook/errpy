@@ -3602,16 +3602,31 @@ impl Parser {
     /// create one large string from a number contained in a Vec<Expr>
     /// if any ' 's are within the strings then all are wrapped in double
     /// quotes
-    fn sew_strings_together(&mut self, strings: Vec<Expr>) -> ExprDesc {
+    fn sew_strings_together(&mut self, strings: Vec<Expr>, conc_str_node: &Node) -> ExprDesc {
         let mut one_big_string = String::from("");
         let mut needs_doublequote = false;
+        let mut prev_byte = false;
+        let mut first = true;
+
         for child_string in strings {
             if let ExprDesc::Constant {
                 value: Some(ConstantDesc::Str(astring)),
                 kind: _,
             } = &*child_string.desc
             {
-                let segment = &astring[1..astring.len() - 1].to_string();
+                let byte = astring.starts_with('b');
+                if !first && byte != prev_byte {
+                    self.record_recoverable_error(
+                        RecoverableError::SyntaxError(
+                            "cannot mix bytes and nonbytes literals".to_string(),
+                        ),
+                        conc_str_node,
+                    );
+                }
+                first = false;
+                prev_byte = byte;
+                let start = if byte { 2 } else { 1 };
+                let segment = &astring[start..astring.len() - 1].to_string();
                 if segment.contains('\'') {
                     needs_doublequote = true;
                 }
@@ -3619,8 +3634,9 @@ impl Parser {
             }
         }
 
+        let prefix = if prev_byte { "b" } else { "" };
         let quote_style = if needs_doublequote { "\"" } else { "'" };
-        one_big_string = format!("{}{}{}", quote_style, one_big_string, quote_style);
+        one_big_string = format!("{}{}{}{}", prefix, quote_style, one_big_string, quote_style);
         self.process_string(one_big_string)
     }
 
@@ -3681,7 +3697,7 @@ impl Parser {
                                 let mut to_sew = vec![];
                                 to_sew.push(expressions.pop().unwrap());
                                 to_sew.push(child_expressions.remove(0));
-                                let sewn_desc = self.sew_strings_together(to_sew);
+                                let sewn_desc = self.sew_strings_together(to_sew, conc_str_node);
                                 expressions.push(self.new_expr(sewn_desc, conc_str_node));
                                 // and the rest of the items can be extended into the expressions list
                             }
@@ -3706,7 +3722,7 @@ impl Parser {
                             let mut to_sew = vec![];
                             to_sew.push(expressions.pop().unwrap());
                             to_sew.push(child_string);
-                            let sewn_desc = self.sew_strings_together(to_sew);
+                            let sewn_desc = self.sew_strings_together(to_sew, conc_str_node);
                             child_string = self.new_expr(sewn_desc, conc_str_node)
                         }
                     }
@@ -3717,7 +3733,7 @@ impl Parser {
 
             Ok(ExprDesc::JoinedStr(expressions))
         } else {
-            Ok(self.sew_strings_together(strings))
+            Ok(self.sew_strings_together(strings, conc_str_node))
         }
     }
 

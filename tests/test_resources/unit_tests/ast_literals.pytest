@@ -229,6 +229,19 @@ message = 'something ' \
 message = 'something ' \
           'another \' line' # stored with double quote " in ast
 
+## string concatinated - byte strings
+
+message = b"something " \
+          b"another {a} line"
+
+message = b"something " \
+          b"another ' line" # stored with double quote " in ast
+
+message = b'something ' \
+          b'another {a} line'
+
+message = b'something ' \
+          b'another \' line' # stored with double quote " in ast
 
 ## string concatinated - f strings
 message = f"something " \
