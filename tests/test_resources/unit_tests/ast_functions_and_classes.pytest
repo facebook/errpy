@@ -92,9 +92,6 @@ lambda x,y: ...
 x = lambda x,y: ...
 xy = lambda x,y: x+7
 
-## lambda return tuple
-get_time=lambda: 99, get_datetime=lambda: datetime.datetime(1974, 7, 5)
-
 ## lambda with no parameters
 ret = lambda: 34
 
