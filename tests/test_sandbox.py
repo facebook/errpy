@@ -17,14 +17,16 @@ class TestSandbox(unittest.TestCase):
 
     maxDiff = None  # this is to display large diffs which we want for this tool
 
-    def check_ast_file(self, fname: str, pretty_print: bool) -> None:
+    def check_ast_file(self, fname: str, pretty_print: bool, flat_ast: bool) -> None:
         code = read_code(fname)
-        expected = ast_utils.get_cpython_ast(code, pretty_print=pretty_print).strip()
+        expected = ast_utils.get_cpython_ast(
+            code, pretty_print=pretty_print, flat_ast=flat_ast
+        ).strip()
 
         if pretty_print:
-            (got_ast, errors), _ = ast_utils.run_errpy(code)
+            (got_ast, errors), _ = ast_utils.run_errpy(code, flat_ast=flat_ast)
         else:
-            (got_ast, errors), _ = ast_utils.run_errpy_ast_only(code)
+            (got_ast, errors), _ = ast_utils.run_errpy_ast_only(code, flat_ast=flat_ast)
 
         if errors:
             got_ast += errors
@@ -39,10 +41,13 @@ class TestSandbox(unittest.TestCase):
             self.assertEqual(got_ast, expected)
 
     def test_sandbox_ast_and_pretty(self) -> None:
-        self.check_ast_file("sandbox.pytest", True)
+        self.check_ast_file("sandbox.pytest", pretty_print=True, flat_ast=False)
 
     def test_sandbox_just_ast(self) -> None:
-        self.check_ast_file("sandbox.pytest", False)
+        self.check_ast_file("sandbox.pytest", pretty_print=False, flat_ast=False)
+
+    def test_sandbox_flat_ast_and_pretty(self) -> None:
+        self.check_ast_file("sandbox.pytest", pretty_print=False, flat_ast=True)
 
 
 if __name__ == "__main__":
