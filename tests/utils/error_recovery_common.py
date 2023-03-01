@@ -96,6 +96,9 @@ class ErrorRecoveryCommon(ASTTestCommon):
 
         # great now we can check the results against what's expected
         if expected_results != got_results:
+            expected_results = ast_utils.format_ast_with_indentation(expected_results)
+            got_results = ast_utils.format_ast_with_indentation(got_results)
+
             if WRITE_EXPECTED_RESULTS_NEWFILE:
                 new_results_fname = (
                     expected_results_fname + EXPECTED_RESULTS_POSTFIX_NEW

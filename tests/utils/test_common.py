@@ -139,6 +139,9 @@ class ASTTestCommon(unittest.TestCase):
                 got_ast += errors
             got_ast = got_ast.strip()
             if expected_ast != got_ast:
+                got_ast = ast_utils.format_ast_with_indentation(got_ast)
+                expected_ast = ast_utils.format_ast_with_indentation(expected_ast)
+
                 fails.append(code_title)
                 if code_title not in expect_fails_set:
                     unexpected_fails_postfix += [code_title]

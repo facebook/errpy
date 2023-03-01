@@ -19,14 +19,16 @@ class TestSandbox(unittest.TestCase):
 
     def check_ast_file(self, fname: str, pretty_print: bool, flat_ast: bool) -> None:
         code = read_code(fname)
-        expected = ast_utils.get_cpython_ast(
-            code, pretty_print=pretty_print, flat_ast=flat_ast
-        ).strip()
+        expected = ast_utils.get_cpython_ast(code, pretty_print=pretty_print).strip()
 
         if pretty_print:
-            (got_ast, errors), _ = ast_utils.run_errpy(code, flat_ast=flat_ast)
+            (got_ast, errors), _ = ast_utils.run_errpy(
+                code,
+            )
         else:
-            (got_ast, errors), _ = ast_utils.run_errpy_ast_only(code, flat_ast=flat_ast)
+            (got_ast, errors), _ = ast_utils.run_errpy_ast_only(
+                code,
+            )
 
         if errors:
             got_ast += errors
@@ -34,6 +36,10 @@ class TestSandbox(unittest.TestCase):
         got_ast = got_ast.strip()
 
         if got_ast != expected:
+            if not flat_ast:
+                got_ast = ast_utils.format_ast_with_indentation(got_ast)
+                expected = ast_utils.format_ast_with_indentation(expected)
+
             print("\n\ntest fail\n")
             print("Result:\n" + got_ast)
             print("\nExpect:\n" + expected)

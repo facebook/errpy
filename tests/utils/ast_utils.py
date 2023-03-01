@@ -48,7 +48,7 @@ def _do_format_ast_with_indentation(to_format: str, indent: int) -> str:
     type_ignores=[]
     )
     """
-    formatted = ""
+    formatted = []
     current_indent = 0
     next_line_newline = False
     inside_string = None
@@ -56,7 +56,7 @@ def _do_format_ast_with_indentation(to_format: str, indent: int) -> str:
     for char in to_format:
         if inside_string:
             if next_char_escape:
-                formatted += char
+                formatted.append(char)
                 next_char_escape = False
                 continue
             if inside_string == char:
@@ -65,22 +65,22 @@ def _do_format_ast_with_indentation(to_format: str, indent: int) -> str:
                 if "\\" == char:
                     next_char_escape = True
 
-            formatted += char
+            formatted.append(char)
             continue
         elif char in ("'", '"'):
             inside_string = char
-            formatted += char
+            formatted.append(char)
             continue
 
         if char == " ":
             continue
 
         if next_line_newline and char not in (")", "]"):
-            formatted += "\n"
-            formatted += " " * current_indent
+            formatted.append("\n")
+            formatted.append(" " * current_indent)
             next_line_newline = False
 
-        formatted += char
+        formatted.append(char)
         if char == "(" or char == "[":
             current_indent += indent
             next_line_newline = True
@@ -89,7 +89,8 @@ def _do_format_ast_with_indentation(to_format: str, indent: int) -> str:
             next_line_newline = False
         elif char == ",":
             next_line_newline = True
-    return formatted
+
+    return "".join(formatted)
 
 
 def format_ast_with_indentation(ast: str, indent: int = 1) -> str:
@@ -109,13 +110,10 @@ def get_cpython_ast(
     source: str,
     raise_exception: bool = False,
     pretty_print: bool = True,
-    flat_ast: bool = False,
 ) -> str:
     try:
         ast_inst = ast.parse(source)
         ast_dump = ast.dump(ast_inst, include_attributes=True)
-        if not flat_ast:
-            ast_dump = format_ast_with_indentation(ast_dump)
         if pretty_print:
             return (
                 ast_dump
@@ -132,7 +130,7 @@ def get_cpython_ast(
 
 
 def run_errpy(
-    source: str, just_pretty_print_ast: bool = False, flat_ast: bool = False
+    source: str, just_pretty_print_ast: bool = False
 ) -> tuple[tuple[str, str], bool]:
     """returns: (result, did_errpy_panic)"""
     try:
@@ -142,21 +140,15 @@ def run_errpy(
                 False,
             )
         ast, errors = ffi_python.py_parse_module_print_ast_and_pretty_print(source)
-        if not flat_ast:
-            ast = format_ast_with_indentation(ast)
         return ((ast, errors), False)
     except BaseException as e:
         return (("ERRPY Failure: " + str(e), ""), True)
 
 
-def run_errpy_ast_only(
-    source: str, flat_ast: bool = False
-) -> tuple[tuple[str, str], bool]:
+def run_errpy_ast_only(source: str) -> tuple[tuple[str, str], bool]:
     """returns: (result, did_errpy_panic)"""
     try:
         ast, errors = ffi_python.py_parse_module_print_ast(source)
-        if not flat_ast:
-            ast = format_ast_with_indentation(ast)
         return (
             (ast, errors),
             False,
