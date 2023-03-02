@@ -5,6 +5,7 @@
 # LICENSE file in the root directory of this source tree
 
 import unittest
+from difflib import unified_diff
 
 import python.errpy.tests.utils.ast_utils as ast_utils
 
@@ -43,6 +44,17 @@ class TestSandbox(unittest.TestCase):
             print("\n\ntest fail\n")
             print("Result:\n" + got_ast)
             print("\nExpect:\n" + expected)
+
+            print(
+                "\nDiff:\n"
+                + "".join(
+                    unified_diff(
+                        expected.splitlines(keepends=True),
+                        got_ast.splitlines(keepends=True),
+                    )
+                )
+                + "\n"
+            )
 
             self.assertEqual(got_ast, expected)
 
