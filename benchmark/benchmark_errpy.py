@@ -22,7 +22,7 @@ class BenchmarkRunner:
 
     def __init__(
         self, source: str, warm_up_cycles: int = 1000, iterations: int = 100000
-    ):
+    ) -> None:
         self.source = source
         self.warm_up_cycles = warm_up_cycles
         self.iterations = iterations

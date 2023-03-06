@@ -12,24 +12,24 @@ from typing import List, Optional, Tuple
 
 import python.errpy.tests.utils.ast_utils as ast_utils
 
-EXPECTED_FAILS_POSTFIX = ".expect_fails"
-RESOURCES_DIR = "python/errpy/tests/test_resources/"
-UNIT_TESTS_DIR = "unit_tests/"
-PRETTY_PRINTER_TESTS_DIR = "pretty_printer_tests/"
-ERROR_RECOVERY_TESTS_DIR = "error_recovery/"
-ERROR_RECOVERY_SPECIFIC_TESTS_DIR = "error_recovery_specific_tests/"
-INVALID_SYNTAX_TESTS_DIR = "invalid_syntax_tests/"
-EXPECTED_RESULTS_POSTFIX = "_expected_results"
-EXPECTED_RESULTS_POSTFIX_NEW = ".new"
+EXPECTED_FAILS_POSTFIX: str = ".expect_fails"
+RESOURCES_DIR: str = "python/errpy/tests/test_resources/"
+UNIT_TESTS_DIR: str = "unit_tests/"
+PRETTY_PRINTER_TESTS_DIR: str = "pretty_printer_tests/"
+ERROR_RECOVERY_TESTS_DIR: str = "error_recovery/"
+ERROR_RECOVERY_SPECIFIC_TESTS_DIR: str = "error_recovery_specific_tests/"
+INVALID_SYNTAX_TESTS_DIR: str = "invalid_syntax_tests/"
+EXPECTED_RESULTS_POSTFIX: str = "_expected_results"
+EXPECTED_RESULTS_POSTFIX_NEW: str = ".new"
 
-TEST_CONFIG_FNAME = RESOURCES_DIR + "test_config.json"
+TEST_CONFIG_FNAME: str = RESOURCES_DIR + "test_config.json"
 
-TEST_ERRPY_RESULTS_NEWFILE_CONFIG_KEY = "TEST_ERRPY_RESULTS_NEWFILE"
+TEST_ERRPY_RESULTS_NEWFILE_CONFIG_KEY: str = "TEST_ERRPY_RESULTS_NEWFILE"
 
-WRITE_EXPECTED_RESULTS_NEWFILE = False
+WRITE_EXPECTED_RESULTS_NEWFILE: bool = False
 
 
-def load_test_config():
+def load_test_config() -> None:
     global WRITE_EXPECTED_RESULTS_NEWFILE
     try:
         with open(TEST_CONFIG_FNAME) as fobj:
