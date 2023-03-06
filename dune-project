@@ -8,6 +8,12 @@
 
 (maintainers "pyre@meta.com")
 
+(authors "pyre@meta.com")
+
+(bug_reports "https://github.com/facebook/errpy/issues")
+
+(homepage "https://github.com/facebook/errpy")
+
 (formatting
   (enabled_for dune)
 )
@@ -18,5 +24,5 @@
  (name errpy)
  (synopsis "Errpy: An Error Recovering Rust Python Parser")
  (description "This is a new project to provide an error-recovering Python parser, implemented in Rust based on tree-sitter. Our short-term goal is to use it in the pyre type checker, in order to provide better IDE features.")
- (depends ocaml dune ppx_deriving (conf-rust ( and :build)))
+ (depends ocaml dune ppx_deriving (conf-rust-2021 ( and :build)))
  )
