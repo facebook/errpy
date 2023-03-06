@@ -9,6 +9,7 @@ license: "MIT"
 depends: [
   "ocaml"
   "dune" {>= "3.4"}
+  "ppx_deriving"
   "conf-rust" {build}
   "odoc" {with-doc}
 ]
