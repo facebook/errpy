@@ -1080,6 +1080,20 @@ impl ExprDesc {
                             value_description
                                 .pprint_with_priority_level(pprint_output, PriorityLevel::Atom);
                         }
+                    } else if let ExprDesc::UnaryOp {
+                        op: child_operator, ..
+                    } = value_description
+                    {
+                        // Circumvent operator precedence here and print always parantheses around
+                        // `not` operator if it is not the first element in a binary expression.
+                        // Necessary to comply with CPythons AST pretty printing.
+                        if !is_first_elem && child_operator == &Unaryop::Not {
+                            pprint_output.push_str("(");
+                            value_description.pprint(pprint_output);
+                            pprint_output.push_str(")");
+                        } else {
+                            value_description.pprint(pprint_output);
+                        }
                     } else {
                         value_description.pprint(pprint_output);
                     }

@@ -76,6 +76,15 @@ a and b
 ## Or
 a or b
 
+## And Not
+a and not b
+
+## Not And
+not a and b
+
+## And ~
+a and ~b
+
 ## Compare(left, ops, comparators)
 1 <= a < 10
 
