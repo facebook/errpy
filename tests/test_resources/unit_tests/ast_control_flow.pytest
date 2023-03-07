@@ -227,3 +227,7 @@ with (open('d') as d, open('e') as e):
 ## with having many as cluases within tuple-like syntax plus normal expression
 with (open('d') as d, open('e') as e, bar(), open('f') as f):
     f
+
+## with having if else statement on it
+with open('a') if True else open('b') as f :
+    f

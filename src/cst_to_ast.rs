@@ -1427,6 +1427,21 @@ impl Parser {
                     });
                 }
                 _ => {
+                    if pattern_or_expression.child_count() >= 5 {
+                        let sub_expression = pattern_or_expression
+                            .child(4)
+                            .expect("target for with_item");
+                        if sub_expression.kind() == "as_pattern" {
+                            let target_expression = sub_expression
+                                .child(2)
+                                .expect("target for with_item as")
+                                .child(0)
+                                .expect("pattern target");
+                            self.set_expression_context(ExprContext::Store);
+                            optional_vars = Some(self.expression(&target_expression)?);
+                            self.pop_expression_context();
+                        }
+                    }
                     let context_expr: Expr = self.expression(pattern_or_expression)?;
                     items.push(Withitem {
                         context_expr,
@@ -2191,11 +2206,35 @@ impl Parser {
                 }
                 CONDITIONAL_EXPRESSION => {
                     let if_desc = self.if_exp(rule.node)?;
-                    self.new_expr(if_desc, rule.node)
+                    let node = rule.node;
+                    let sub_node = node.child(4).expect("if_exp missing orelse");
+                    let start_position = node.start_position();
+                    let mut end_position = node.end_position();
+
+                    if sub_node.kind() == "as_pattern" {
+                        end_position = node
+                            .child(4)
+                            .expect("if_exp missing orelse")
+                            .child(0)
+                            .expect("orelse missing child")
+                            .end_position();
+                    }
+                    Expr::new(
+                        if_desc,
+                        start_position.row as isize + 1,
+                        start_position.column as isize + self.increment_expression_column_offset,
+                        end_position.row as isize + 1,
+                        end_position.column as isize + self.increment_expression_column_offset,
+                    )
                 }
                 NAMED_EXPRESSION => {
                     let named_desc = self.named_expression(rule.node)?;
                     self.new_expr(named_desc, rule.node)
+                }
+                AS_PATTERN => {
+                    let body_node = node.child(0).expect("as_pattern missing body");
+                    let node_type = &get_node_type(&body_node);
+                    self.primary_expression(node_type, &body_node)?
                 }
                 _ => self.primary_expression(node_type, rule.node)?,
             },
