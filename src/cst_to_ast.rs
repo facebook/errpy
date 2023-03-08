@@ -3936,10 +3936,18 @@ impl Parser {
             if string_contents.starts_with('\"') && string_contents.len() > 1 {
                 string_contents = string_contents[1..string_contents.len() - 1].to_string();
                 string_contents = string_contents.replace('\"', "\\\"");
+                if !raw {
+                    // \' reverts back to \\' when located in a double quote string
+                    string_contents = string_contents.replace("\\'", "\\\\'");
+                }
                 format!("\"{}\"", string_contents)
             } else if string_contents.len() > 1 {
                 string_contents = string_contents[1..string_contents.len() - 1].to_string();
                 string_contents = string_contents.replace('\'', "\\\'");
+                if !raw {
+                    // \" reverts back to \\" when located in a single quote string
+                    string_contents = string_contents.replace("\\\"", "\\\\\"");
+                }
                 format!("'{}'", string_contents)
             } else {
                 string_contents

@@ -591,3 +591,12 @@ x = 0b0_1
 x = 1_0.1_01
 x = 1e1_0j
 x = 0b0_1
+
+# string wrapping with escape string character
+a = '\\"'
+b = "\\'"
+c = '"\\'
+d = '"\\A"'
+e = "'\\A'"
+f = '\\A'
+g = "\\A"
