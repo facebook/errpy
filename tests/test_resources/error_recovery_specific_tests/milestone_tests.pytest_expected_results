@@ -17,7 +17,7 @@ class Thing:
 
 
 1 Recoverable error detected:
-SyntaxError: "keyword: \"in\" cannot be used as identifier" at [11:29 - 11:31]
+SyntaxError: keyword: "in" cannot be used as identifier at [11:29 - 11:31]
 CST Stack:
     {Node identifier (10, 28) - (10, 30)}
     {Node subscript (10, 28) - (10, 38)}
@@ -36,7 +36,7 @@ Output AST is not valid according to CPython: invalid syntax (<unknown>, line 9)
 def myfunc():
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [3:5 - 3:28]
+SyntaxError: invalid syntax at [3:5 - 3:28]
 CST Stack:
     {Node ERROR (2, 4) - (2, 27)}
     {Node function_definition (1, 0) - (2, 27)}
@@ -49,7 +49,7 @@ def myfunc():
     return thing
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [4:29 - 4:30]
+SyntaxError: invalid syntax at [4:29 - 4:30]
 CST Stack:
     {Node ERROR (3, 28) - (3, 29)}
     {Node attribute (3, 12) - (3, 32)}
@@ -71,7 +71,7 @@ class Thing:
 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [8:9 - 12:44]
+SyntaxError: invalid syntax at [8:9 - 12:44]
 CST Stack:
     {Node ERROR (7, 8) - (11, 43)}
     {Node function_definition (5, 4) - (11, 43)}
@@ -83,7 +83,7 @@ Output AST is not valid according to CPython: expected an indented block after f
 ##M3 - we must gracefully handle this...
 apple = 55
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [2:1 - 3:17]
+SyntaxError: invalid syntax at [2:1 - 3:17]
 CST Stack:
     {Node ERROR (1, 0) - (2, 16)}
     {Node module (0, 0) - (3, 0)}
@@ -91,7 +91,7 @@ CST Stack:
 ##M3 - this must also be gracefully handled
 apple = 55
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [2:1 - 3:23]
+SyntaxError: invalid syntax at [2:1 - 3:23]
 CST Stack:
     {Node ERROR (1, 0) - (2, 22)}
     {Node module (0, 0) - (3, 0)}
@@ -99,7 +99,7 @@ CST Stack:
 ##M3 - we must gracefully handle this...
 apple = 55
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [2:1 - 4:7]
+SyntaxError: invalid syntax at [2:1 - 4:7]
 CST Stack:
     {Node ERROR (1, 0) - (3, 6)}
     {Node module (0, 0) - (4, 0)}
@@ -107,7 +107,7 @@ CST Stack:
 ##M3 - this must also be gracefully handled
 apple = 55
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [2:1 - 5:7]
+SyntaxError: invalid syntax at [2:1 - 5:7]
 CST Stack:
     {Node ERROR (1, 0) - (4, 6)}
     {Node module (0, 0) - (5, 0)}

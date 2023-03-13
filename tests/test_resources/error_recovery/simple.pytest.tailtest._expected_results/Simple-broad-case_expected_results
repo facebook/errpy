@@ -107,7 +107,7 @@ Input:  | ERRPY Re
 def     |         
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:1 - 1:4]
+SyntaxError: invalid syntax at [1:1 - 1:4]
 CST Stack:
     {Node ERROR (0, 0) - (0, 3)}
     {Node module (0, 0) - (1, 0)}
@@ -126,7 +126,7 @@ Input:    | ERRPY Reco
 def f     |           
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:1 - 1:6]
+SyntaxError: invalid syntax at [1:1 - 1:6]
 CST Stack:
     {Node ERROR (0, 0) - (0, 5)}
     {Node module (0, 0) - (1, 0)}
@@ -145,7 +145,7 @@ Input:     | ERRPY Recov
 def fi     |            
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:1 - 1:7]
+SyntaxError: invalid syntax at [1:1 - 1:7]
 CST Stack:
     {Node ERROR (0, 0) - (0, 6)}
     {Node module (0, 0) - (1, 0)}
@@ -164,7 +164,7 @@ Input:      | ERRPY Recove
 def fib     |             
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:1 - 1:8]
+SyntaxError: invalid syntax at [1:1 - 1:8]
 CST Stack:
     {Node ERROR (0, 0) - (0, 7)}
     {Node module (0, 0) - (1, 0)}
@@ -183,7 +183,7 @@ Input:       | ERRPY Recover
 def fib(     |              
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:1 - 1:9]
+SyntaxError: invalid syntax at [1:1 - 1:9]
 CST Stack:
     {Node ERROR (0, 0) - (0, 8)}
     {Node module (0, 0) - (1, 0)}
@@ -202,7 +202,7 @@ Input:        | ERRPY Recovere
 def fib(a     |               
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:1 - 1:10]
+SyntaxError: invalid syntax at [1:1 - 1:10]
 CST Stack:
     {Node ERROR (0, 0) - (0, 9)}
     {Node module (0, 0) - (1, 0)}
@@ -221,7 +221,7 @@ Input:         | ERRPY Recovered
 def fib(a:     |                
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:1 - 1:11]
+SyntaxError: invalid syntax at [1:1 - 1:11]
 CST Stack:
     {Node ERROR (0, 0) - (0, 10)}
     {Node module (0, 0) - (1, 0)}
@@ -240,7 +240,7 @@ Input:           | ERRPY Recovered A
 def fib(a: i     |                  
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:1 - 1:13]
+SyntaxError: invalid syntax at [1:1 - 1:13]
 CST Stack:
     {Node ERROR (0, 0) - (0, 12)}
     {Node module (0, 0) - (1, 0)}
@@ -259,7 +259,7 @@ Input:            | ERRPY Recovered AS
 def fib(a: in     |                   
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:1 - 1:14]
+SyntaxError: invalid syntax at [1:1 - 1:14]
 CST Stack:
     {Node ERROR (0, 0) - (0, 13)}
     {Node module (0, 0) - (1, 0)}
@@ -278,7 +278,7 @@ Input:             | ERRPY Recovered AST
 def fib(a: int     |                    
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:1 - 1:15]
+SyntaxError: invalid syntax at [1:1 - 1:15]
 CST Stack:
     {Node ERROR (0, 0) - (0, 14)}
     {Node module (0, 0) - (1, 0)}
@@ -297,7 +297,7 @@ Input:              | ERRPY Recovered AST:
 def fib(a: int)     |                     
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:1 - 1:16]
+SyntaxError: invalid syntax at [1:1 - 1:16]
 CST Stack:
     {Node ERROR (0, 0) - (0, 15)}
     {Node module (0, 0) - (1, 0)}
@@ -316,7 +316,7 @@ Input:                | ERRPY Recovered AST:
 def fib(a: int) -     |                       
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:1 - 1:18]
+SyntaxError: invalid syntax at [1:1 - 1:18]
 CST Stack:
     {Node ERROR (0, 0) - (0, 17)}
     {Node module (0, 0) - (1, 0)}
@@ -335,7 +335,7 @@ Input:                 | ERRPY Recovered AST:
 def fib(a: int) ->     |                        
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:1 - 1:19]
+SyntaxError: invalid syntax at [1:1 - 1:19]
 CST Stack:
     {Node ERROR (0, 0) - (0, 18)}
     {Node module (0, 0) - (1, 0)}
@@ -354,7 +354,7 @@ Input:                   | ERRPY Recovered AST:
 def fib(a: int) -> i     |                          
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:1 - 1:21]
+SyntaxError: invalid syntax at [1:1 - 1:21]
 CST Stack:
     {Node ERROR (0, 0) - (0, 20)}
     {Node module (0, 0) - (1, 0)}
@@ -373,7 +373,7 @@ Input:                    | ERRPY Recovered AST:
 def fib(a: int) -> in     |                           
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:1 - 1:22]
+SyntaxError: invalid syntax at [1:1 - 1:22]
 CST Stack:
     {Node ERROR (0, 0) - (0, 21)}
     {Node module (0, 0) - (1, 0)}
@@ -392,7 +392,7 @@ Input:                     | ERRPY Recovered AST:
 def fib(a: int) -> int     |                            
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:1 - 1:23]
+SyntaxError: invalid syntax at [1:1 - 1:23]
 CST Stack:
     {Node ERROR (0, 0) - (0, 22)}
     {Node module (0, 0) - (1, 0)}
@@ -475,7 +475,7 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     tmp =                   | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [2:5 - 2:10]
+SyntaxError: invalid syntax at [2:5 - 2:10]
 CST Stack:
     {Node ERROR (1, 4) - (1, 9)}
     {Node function_definition (0, 0) - (1, 9)}
@@ -497,7 +497,7 @@ def fib(a: int) -> int:     |
     tmp = (                 | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:1 - 3:1]
+SyntaxError: invalid syntax at [1:1 - 3:1]
 CST Stack:
     {Node ERROR (0, 0) - (2, 0)}
 
@@ -517,7 +517,7 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     tmp = (a                | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [2:5 - 2:13]
+SyntaxError: invalid syntax at [2:5 - 2:13]
 CST Stack:
     {Node ERROR (1, 4) - (1, 12)}
     {Node function_definition (0, 0) - (1, 12)}
@@ -539,7 +539,7 @@ def fib(a: int) -> int:     |
     tmp = (a,               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:1 - 3:1]
+SyntaxError: invalid syntax at [1:1 - 3:1]
 CST Stack:
     {Node ERROR (0, 0) - (2, 0)}
 
@@ -559,7 +559,7 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     tmp = (a, a             | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [2:5 - 2:16]
+SyntaxError: invalid syntax at [2:5 - 2:16]
 CST Stack:
     {Node ERROR (1, 4) - (1, 15)}
     {Node function_definition (0, 0) - (1, 15)}
@@ -612,7 +612,7 @@ def fib(a: int) -> int:     |
     (                       | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:1 - 4:1]
+SyntaxError: invalid syntax at [1:1 - 4:1]
 CST Stack:
     {Node ERROR (0, 0) - (3, 0)}
 
@@ -634,7 +634,7 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     (b                      | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [3:5 - 3:7]
+SyntaxError: invalid syntax at [3:5 - 3:7]
 CST Stack:
     {Node ERROR (2, 4) - (2, 6)}
     {Node block (1, 4) - (2, 6)}
@@ -659,7 +659,7 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     (ba                     | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [3:5 - 3:8]
+SyntaxError: invalid syntax at [3:5 - 3:8]
 CST Stack:
     {Node ERROR (2, 4) - (2, 7)}
     {Node block (1, 4) - (2, 7)}
@@ -684,7 +684,7 @@ def fib(a: int) -> int:     |
     (ba,                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:1 - 4:1]
+SyntaxError: invalid syntax at [1:1 - 4:1]
 CST Stack:
     {Node ERROR (0, 0) - (3, 0)}
 
@@ -706,7 +706,7 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     (ba, b                  | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [3:5 - 3:11]
+SyntaxError: invalid syntax at [3:5 - 3:11]
 CST Stack:
     {Node ERROR (2, 4) - (2, 10)}
     {Node block (1, 4) - (2, 10)}
@@ -731,7 +731,7 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     (ba, bb                 | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [3:5 - 3:12]
+SyntaxError: invalid syntax at [3:5 - 3:12]
 CST Stack:
     {Node ERROR (2, 4) - (2, 11)}
     {Node block (1, 4) - (2, 11)}
@@ -769,7 +769,7 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     (ba, bb) =              | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [3:5 - 3:15]
+SyntaxError: invalid syntax at [3:5 - 3:15]
 CST Stack:
     {Node ERROR (2, 4) - (2, 14)}
     {Node block (1, 4) - (2, 14)}
@@ -868,7 +868,7 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     in                      |     in                      
 
 1 Recoverable error detected:
-SyntaxError: "keyword: \"in\" cannot be used as identifier" at [4:5 - 4:7]
+SyntaxError: keyword: "in" cannot be used as identifier at [4:5 - 4:7]
 CST Stack:
     {Node identifier (3, 4) - (3, 6)}
     {Node expression_statement (3, 4) - (3, 6)}
@@ -932,7 +932,7 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     inset =                 | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [4:5 - 4:12]
+SyntaxError: invalid syntax at [4:5 - 4:12]
 CST Stack:
     {Node ERROR (3, 4) - (3, 11)}
     {Node block (1, 4) - (3, 11)}
@@ -973,7 +973,7 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     inset = a i             |     inset = i               
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [4:13 - 4:14]
+SyntaxError: invalid syntax at [4:13 - 4:14]
 CST Stack:
     {Node ERROR (3, 12) - (3, 13)}
     {Node assignment (3, 4) - (3, 15)}
@@ -1002,7 +1002,7 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     inset = a in            | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [4:5 - 4:17]
+SyntaxError: invalid syntax at [4:5 - 4:17]
 CST Stack:
     {Node ERROR (3, 4) - (3, 16)}
     {Node block (1, 4) - (3, 16)}
@@ -1029,7 +1029,7 @@ def fib(a: int) -> int:     |
     inset = a in {          | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:1 - 5:1]
+SyntaxError: invalid syntax at [1:1 - 5:1]
 CST Stack:
     {Node ERROR (0, 0) - (4, 0)}
 
@@ -1053,7 +1053,7 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     inset = a in {0         | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [4:5 - 4:20]
+SyntaxError: invalid syntax at [4:5 - 4:20]
 CST Stack:
     {Node ERROR (3, 4) - (3, 19)}
     {Node block (1, 4) - (3, 19)}
@@ -1080,7 +1080,7 @@ def fib(a: int) -> int:     |
     inset = a in {0,        | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:1 - 5:1]
+SyntaxError: invalid syntax at [1:1 - 5:1]
 CST Stack:
     {Node ERROR (0, 0) - (4, 0)}
 
@@ -1104,7 +1104,7 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     inset = a in {0, 1      | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [4:5 - 4:23]
+SyntaxError: invalid syntax at [4:5 - 4:23]
 CST Stack:
     {Node ERROR (3, 4) - (3, 22)}
     {Node block (1, 4) - (3, 22)}
@@ -1183,7 +1183,7 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     if                      | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [5:5 - 5:7]
+SyntaxError: invalid syntax at [5:5 - 5:7]
 CST Stack:
     {Node ERROR (4, 4) - (4, 6)}
     {Node block (1, 4) - (4, 6)}
@@ -1212,7 +1212,7 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     if a                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [5:5 - 5:9]
+SyntaxError: invalid syntax at [5:5 - 5:9]
 CST Stack:
     {Node ERROR (4, 4) - (4, 8)}
     {Node block (1, 4) - (4, 8)}
@@ -1241,7 +1241,7 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     if a <                  | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [5:5 - 5:11]
+SyntaxError: invalid syntax at [5:5 - 5:11]
 CST Stack:
     {Node ERROR (4, 4) - (4, 10)}
     {Node block (1, 4) - (4, 10)}
@@ -1270,7 +1270,7 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     if a <=                 | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [5:5 - 5:12]
+SyntaxError: invalid syntax at [5:5 - 5:12]
 CST Stack:
     {Node ERROR (4, 4) - (4, 11)}
     {Node block (1, 4) - (4, 11)}
@@ -1299,7 +1299,7 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     if a <= 2               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [5:5 - 5:14]
+SyntaxError: invalid syntax at [5:5 - 5:14]
 CST Stack:
     {Node ERROR (4, 4) - (4, 13)}
     {Node block (1, 4) - (4, 13)}
@@ -1328,7 +1328,7 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     if a <= 2 o             | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [5:5 - 5:16]
+SyntaxError: invalid syntax at [5:5 - 5:16]
 CST Stack:
     {Node ERROR (4, 4) - (4, 15)}
     {Node block (1, 4) - (4, 15)}
@@ -1357,7 +1357,7 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     if a <= 2 or            | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [5:5 - 5:17]
+SyntaxError: invalid syntax at [5:5 - 5:17]
 CST Stack:
     {Node ERROR (4, 4) - (4, 16)}
     {Node block (1, 4) - (4, 16)}
@@ -1386,7 +1386,7 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     if a <= 2 or a          | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [5:5 - 5:19]
+SyntaxError: invalid syntax at [5:5 - 5:19]
 CST Stack:
     {Node ERROR (4, 4) - (4, 18)}
     {Node block (1, 4) - (4, 18)}
@@ -1415,7 +1415,7 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     if a <= 2 or a =        | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [5:5 - 5:21]
+SyntaxError: invalid syntax at [5:5 - 5:21]
 CST Stack:
     {Node ERROR (4, 4) - (4, 20)}
     {Node block (1, 4) - (4, 20)}
@@ -1444,7 +1444,7 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     if a <= 2 or a ==       | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [5:5 - 5:22]
+SyntaxError: invalid syntax at [5:5 - 5:22]
 CST Stack:
     {Node ERROR (4, 4) - (4, 21)}
     {Node block (1, 4) - (4, 21)}
@@ -1473,7 +1473,7 @@ def fib(a: int) -> int:     | def fib(a: int) -> int:
     if a <= 2 or a == 1     | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [5:5 - 5:24]
+SyntaxError: invalid syntax at [5:5 - 5:24]
 CST Stack:
     {Node ERROR (4, 4) - (4, 23)}
     {Node block (1, 4) - (4, 23)}
@@ -1729,7 +1729,7 @@ def fib(a: int) -> int:      | def fib(a: int) -> int:
     elif                     | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [7:5 - 7:9]
+SyntaxError: invalid syntax at [7:5 - 7:9]
 CST Stack:
     {Node ERROR (6, 4) - (6, 8)}
     {Node block (1, 4) - (6, 8)}
@@ -1760,7 +1760,7 @@ def fib(a: int) -> int:      | def fib(a: int) -> int:
     elif i                   | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [7:5 - 7:11]
+SyntaxError: invalid syntax at [7:5 - 7:11]
 CST Stack:
     {Node ERROR (6, 4) - (6, 10)}
     {Node block (1, 4) - (6, 10)}
@@ -1791,7 +1791,7 @@ def fib(a: int) -> int:      | def fib(a: int) -> int:
     elif in                  | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [7:5 - 7:12]
+SyntaxError: invalid syntax at [7:5 - 7:12]
 CST Stack:
     {Node ERROR (6, 4) - (6, 11)}
     {Node block (1, 4) - (6, 11)}
@@ -1822,7 +1822,7 @@ def fib(a: int) -> int:      | def fib(a: int) -> int:
     elif ins                 | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [7:5 - 7:13]
+SyntaxError: invalid syntax at [7:5 - 7:13]
 CST Stack:
     {Node ERROR (6, 4) - (6, 12)}
     {Node block (1, 4) - (6, 12)}
@@ -1853,7 +1853,7 @@ def fib(a: int) -> int:      | def fib(a: int) -> int:
     elif inse                | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [7:5 - 7:14]
+SyntaxError: invalid syntax at [7:5 - 7:14]
 CST Stack:
     {Node ERROR (6, 4) - (6, 13)}
     {Node block (1, 4) - (6, 13)}
@@ -1884,7 +1884,7 @@ def fib(a: int) -> int:      | def fib(a: int) -> int:
     elif inset               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [7:5 - 7:15]
+SyntaxError: invalid syntax at [7:5 - 7:15]
 CST Stack:
     {Node ERROR (6, 4) - (6, 14)}
     {Node block (1, 4) - (6, 14)}
@@ -2168,7 +2168,7 @@ def fib(a: int) -> int:      | def fib(a: int) -> int:
     else                     | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [9:5 - 9:9]
+SyntaxError: invalid syntax at [9:5 - 9:9]
 CST Stack:
     {Node ERROR (8, 4) - (8, 8)}
     {Node block (1, 4) - (8, 8)}
@@ -2436,7 +2436,7 @@ def fib(a: int) -> int:      |
         return fib(          | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:1 - 11:1]
+SyntaxError: invalid syntax at [1:1 - 11:1]
 CST Stack:
     {Node ERROR (0, 0) - (10, 0)}
 
@@ -2472,7 +2472,7 @@ def fib(a: int) -> int:      | def fib(a: int) -> int:
         return fib(a         | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [10:9 - 10:21]
+SyntaxError: invalid syntax at [10:9 - 10:21]
 CST Stack:
     {Node ERROR (9, 8) - (9, 20)}
     {Node else_clause (8, 4) - (9, 20)}
@@ -2509,7 +2509,7 @@ def fib(a: int) -> int:      | def fib(a: int) -> int:
         return fib(a -       | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [10:9 - 10:23]
+SyntaxError: invalid syntax at [10:9 - 10:23]
 CST Stack:
     {Node ERROR (9, 8) - (9, 22)}
     {Node else_clause (8, 4) - (9, 22)}
@@ -2546,7 +2546,7 @@ def fib(a: int) -> int:      | def fib(a: int) -> int:
         return fib(a - 1     | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [10:9 - 10:25]
+SyntaxError: invalid syntax at [10:9 - 10:25]
 CST Stack:
     {Node ERROR (9, 8) - (9, 24)}
     {Node else_clause (8, 4) - (9, 24)}
@@ -2603,7 +2603,7 @@ def fib(a: int) -> int:         | def fib(a: int) -> int:
         return fib(a - 1) +     | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [10:9 - 10:28]
+SyntaxError: invalid syntax at [10:9 - 10:28]
 CST Stack:
     {Node ERROR (9, 8) - (9, 27)}
     {Node else_clause (8, 4) - (9, 27)}
@@ -2700,7 +2700,7 @@ def fib(a: int) -> int:              |
         return fib(a - 1) + fib(     | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:1 - 11:1]
+SyntaxError: invalid syntax at [1:1 - 11:1]
 CST Stack:
     {Node ERROR (0, 0) - (10, 0)}
 
@@ -2736,7 +2736,7 @@ def fib(a: int) -> int:               | def fib(a: int) -> int:
         return fib(a - 1) + fib(a     | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [10:9 - 10:34]
+SyntaxError: invalid syntax at [10:9 - 10:34]
 CST Stack:
     {Node ERROR (9, 8) - (9, 33)}
     {Node else_clause (8, 4) - (9, 33)}
@@ -2773,7 +2773,7 @@ def fib(a: int) -> int:                 | def fib(a: int) -> int:
         return fib(a - 1) + fib(a -     | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [10:9 - 10:36]
+SyntaxError: invalid syntax at [10:9 - 10:36]
 CST Stack:
     {Node ERROR (9, 8) - (9, 35)}
     {Node else_clause (8, 4) - (9, 35)}
@@ -2810,7 +2810,7 @@ def fib(a: int) -> int:                   | def fib(a: int) -> int:
         return fib(a - 1) + fib(a - 2     | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [10:9 - 10:38]
+SyntaxError: invalid syntax at [10:9 - 10:38]
 CST Stack:
     {Node ERROR (9, 8) - (9, 37)}
     {Node else_clause (8, 4) - (9, 37)}
@@ -2985,7 +2985,7 @@ def fib(a: int) -> int:                    | def fib(a: int) -> int:
 def                                        | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [12:1 - 12:4]
+SyntaxError: invalid syntax at [12:1 - 12:4]
 CST Stack:
     {Node ERROR (11, 0) - (11, 3)}
     {Node module (0, 0) - (12, 0)}
@@ -3020,7 +3020,7 @@ def fib(a: int) -> int:                    | def fib(a: int) -> int:
 def s                                      | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [12:1 - 12:6]
+SyntaxError: invalid syntax at [12:1 - 12:6]
 CST Stack:
     {Node ERROR (11, 0) - (11, 5)}
     {Node module (0, 0) - (12, 0)}
@@ -3055,7 +3055,7 @@ def fib(a: int) -> int:                    | def fib(a: int) -> int:
 def so                                     | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [12:1 - 12:7]
+SyntaxError: invalid syntax at [12:1 - 12:7]
 CST Stack:
     {Node ERROR (11, 0) - (11, 6)}
     {Node module (0, 0) - (12, 0)}
@@ -3090,7 +3090,7 @@ def fib(a: int) -> int:                    | def fib(a: int) -> int:
 def som                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [12:1 - 12:8]
+SyntaxError: invalid syntax at [12:1 - 12:8]
 CST Stack:
     {Node ERROR (11, 0) - (11, 7)}
     {Node module (0, 0) - (12, 0)}
@@ -3125,7 +3125,7 @@ def fib(a: int) -> int:                    | def fib(a: int) -> int:
 def some                                   | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [12:1 - 12:9]
+SyntaxError: invalid syntax at [12:1 - 12:9]
 CST Stack:
     {Node ERROR (11, 0) - (11, 8)}
     {Node module (0, 0) - (12, 0)}
@@ -3160,7 +3160,7 @@ def fib(a: int) -> int:                    | def fib(a: int) -> int:
 def somet                                  | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [12:1 - 12:10]
+SyntaxError: invalid syntax at [12:1 - 12:10]
 CST Stack:
     {Node ERROR (11, 0) - (11, 9)}
     {Node module (0, 0) - (12, 0)}
@@ -3195,7 +3195,7 @@ def fib(a: int) -> int:                    | def fib(a: int) -> int:
 def someth                                 | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [12:1 - 12:11]
+SyntaxError: invalid syntax at [12:1 - 12:11]
 CST Stack:
     {Node ERROR (11, 0) - (11, 10)}
     {Node module (0, 0) - (12, 0)}
@@ -3230,7 +3230,7 @@ def fib(a: int) -> int:                    | def fib(a: int) -> int:
 def somethi                                | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [12:1 - 12:12]
+SyntaxError: invalid syntax at [12:1 - 12:12]
 CST Stack:
     {Node ERROR (11, 0) - (11, 11)}
     {Node module (0, 0) - (12, 0)}
@@ -3265,7 +3265,7 @@ def fib(a: int) -> int:                    | def fib(a: int) -> int:
 def somethin                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [12:1 - 12:13]
+SyntaxError: invalid syntax at [12:1 - 12:13]
 CST Stack:
     {Node ERROR (11, 0) - (11, 12)}
     {Node module (0, 0) - (12, 0)}
@@ -3300,7 +3300,7 @@ def fib(a: int) -> int:                    | def fib(a: int) -> int:
 def something                              | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [12:1 - 12:14]
+SyntaxError: invalid syntax at [12:1 - 12:14]
 CST Stack:
     {Node ERROR (11, 0) - (11, 13)}
     {Node module (0, 0) - (12, 0)}
@@ -3335,7 +3335,7 @@ def fib(a: int) -> int:                    | def fib(a: int) -> int:
 def somethinge                             | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [12:1 - 12:15]
+SyntaxError: invalid syntax at [12:1 - 12:15]
 CST Stack:
     {Node ERROR (11, 0) - (11, 14)}
     {Node module (0, 0) - (12, 0)}
@@ -3370,7 +3370,7 @@ def fib(a: int) -> int:                    | def fib(a: int) -> int:
 def somethingel                            | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [12:1 - 12:16]
+SyntaxError: invalid syntax at [12:1 - 12:16]
 CST Stack:
     {Node ERROR (11, 0) - (11, 15)}
     {Node module (0, 0) - (12, 0)}
@@ -3405,7 +3405,7 @@ def fib(a: int) -> int:                    | def fib(a: int) -> int:
 def somethingels                           | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [12:1 - 12:17]
+SyntaxError: invalid syntax at [12:1 - 12:17]
 CST Stack:
     {Node ERROR (11, 0) - (11, 16)}
     {Node module (0, 0) - (12, 0)}
@@ -3440,7 +3440,7 @@ def fib(a: int) -> int:                    | def fib(a: int) -> int:
 def somethingelse                          | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [12:1 - 12:18]
+SyntaxError: invalid syntax at [12:1 - 12:18]
 CST Stack:
     {Node ERROR (11, 0) - (11, 17)}
     {Node module (0, 0) - (12, 0)}
@@ -3475,7 +3475,7 @@ def fib(a: int) -> int:                    | def fib(a: int) -> int:
 def somethingelse(                         | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [12:1 - 12:19]
+SyntaxError: invalid syntax at [12:1 - 12:19]
 CST Stack:
     {Node ERROR (11, 0) - (11, 18)}
     {Node module (0, 0) - (12, 0)}
@@ -3510,7 +3510,7 @@ def fib(a: int) -> int:                    | def fib(a: int) -> int:
 def somethingelse()                        | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [12:1 - 12:20]
+SyntaxError: invalid syntax at [12:1 - 12:20]
 CST Stack:
     {Node ERROR (11, 0) - (11, 19)}
     {Node module (0, 0) - (12, 0)}
@@ -3820,7 +3820,7 @@ def somethingelse():                       | def somethingelse():
 def                                        | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:1 - 15:4]
+SyntaxError: invalid syntax at [15:1 - 15:4]
 CST Stack:
     {Node ERROR (14, 0) - (14, 3)}
     {Node module (0, 0) - (15, 0)}
@@ -3858,7 +3858,7 @@ def somethingelse():                       | def somethingelse():
 def f                                      | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:1 - 15:6]
+SyntaxError: invalid syntax at [15:1 - 15:6]
 CST Stack:
     {Node ERROR (14, 0) - (14, 5)}
     {Node module (0, 0) - (15, 0)}
@@ -3896,7 +3896,7 @@ def somethingelse():                       | def somethingelse():
 def fo                                     | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:1 - 15:7]
+SyntaxError: invalid syntax at [15:1 - 15:7]
 CST Stack:
     {Node ERROR (14, 0) - (14, 6)}
     {Node module (0, 0) - (15, 0)}
@@ -3934,7 +3934,7 @@ def somethingelse():                       | def somethingelse():
 def for                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:1 - 15:8]
+SyntaxError: invalid syntax at [15:1 - 15:8]
 CST Stack:
     {Node ERROR (14, 0) - (14, 7)}
     {Node module (0, 0) - (15, 0)}
@@ -3972,7 +3972,7 @@ def somethingelse():                       | def somethingelse():
 def form                                   | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:1 - 15:9]
+SyntaxError: invalid syntax at [15:1 - 15:9]
 CST Stack:
     {Node ERROR (14, 0) - (14, 8)}
     {Node module (0, 0) - (15, 0)}
@@ -4010,7 +4010,7 @@ def somethingelse():                       | def somethingelse():
 def forma                                  | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:1 - 15:10]
+SyntaxError: invalid syntax at [15:1 - 15:10]
 CST Stack:
     {Node ERROR (14, 0) - (14, 9)}
     {Node module (0, 0) - (15, 0)}
@@ -4048,7 +4048,7 @@ def somethingelse():                       | def somethingelse():
 def format                                 | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:1 - 15:11]
+SyntaxError: invalid syntax at [15:1 - 15:11]
 CST Stack:
     {Node ERROR (14, 0) - (14, 10)}
     {Node module (0, 0) - (15, 0)}
@@ -4086,7 +4086,7 @@ def somethingelse():                       | def somethingelse():
 def format_                                | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:1 - 15:12]
+SyntaxError: invalid syntax at [15:1 - 15:12]
 CST Stack:
     {Node ERROR (14, 0) - (14, 11)}
     {Node module (0, 0) - (15, 0)}
@@ -4124,7 +4124,7 @@ def somethingelse():                       | def somethingelse():
 def format_a                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:1 - 15:13]
+SyntaxError: invalid syntax at [15:1 - 15:13]
 CST Stack:
     {Node ERROR (14, 0) - (14, 12)}
     {Node module (0, 0) - (15, 0)}
@@ -4162,7 +4162,7 @@ def somethingelse():                       | def somethingelse():
 def format_a_                              | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:1 - 15:14]
+SyntaxError: invalid syntax at [15:1 - 15:14]
 CST Stack:
     {Node ERROR (14, 0) - (14, 13)}
     {Node module (0, 0) - (15, 0)}
@@ -4200,7 +4200,7 @@ def somethingelse():                       | def somethingelse():
 def format_a_s                             | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:1 - 15:15]
+SyntaxError: invalid syntax at [15:1 - 15:15]
 CST Stack:
     {Node ERROR (14, 0) - (14, 14)}
     {Node module (0, 0) - (15, 0)}
@@ -4238,7 +4238,7 @@ def somethingelse():                       | def somethingelse():
 def format_a_st                            | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:1 - 15:16]
+SyntaxError: invalid syntax at [15:1 - 15:16]
 CST Stack:
     {Node ERROR (14, 0) - (14, 15)}
     {Node module (0, 0) - (15, 0)}
@@ -4276,7 +4276,7 @@ def somethingelse():                       | def somethingelse():
 def format_a_str                           | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:1 - 15:17]
+SyntaxError: invalid syntax at [15:1 - 15:17]
 CST Stack:
     {Node ERROR (14, 0) - (14, 16)}
     {Node module (0, 0) - (15, 0)}
@@ -4314,7 +4314,7 @@ def somethingelse():                       | def somethingelse():
 def format_a_stri                          | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:1 - 15:18]
+SyntaxError: invalid syntax at [15:1 - 15:18]
 CST Stack:
     {Node ERROR (14, 0) - (14, 17)}
     {Node module (0, 0) - (15, 0)}
@@ -4352,7 +4352,7 @@ def somethingelse():                       | def somethingelse():
 def format_a_strin                         | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:1 - 15:19]
+SyntaxError: invalid syntax at [15:1 - 15:19]
 CST Stack:
     {Node ERROR (14, 0) - (14, 18)}
     {Node module (0, 0) - (15, 0)}
@@ -4390,7 +4390,7 @@ def somethingelse():                       | def somethingelse():
 def format_a_string                        | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:1 - 15:20]
+SyntaxError: invalid syntax at [15:1 - 15:20]
 CST Stack:
     {Node ERROR (14, 0) - (14, 19)}
     {Node module (0, 0) - (15, 0)}
@@ -4428,7 +4428,7 @@ def somethingelse():                       | def somethingelse():
 def format_a_string(                       | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:1 - 15:21]
+SyntaxError: invalid syntax at [15:1 - 15:21]
 CST Stack:
     {Node ERROR (14, 0) - (14, 20)}
     {Node module (0, 0) - (15, 0)}
@@ -4466,7 +4466,7 @@ def somethingelse():                       | def somethingelse():
 def format_a_string(a                      | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:1 - 15:22]
+SyntaxError: invalid syntax at [15:1 - 15:22]
 CST Stack:
     {Node ERROR (14, 0) - (14, 21)}
     {Node module (0, 0) - (15, 0)}
@@ -4504,7 +4504,7 @@ def somethingelse():                       | def somethingelse():
 def format_a_string(as                     | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:1 - 15:23]
+SyntaxError: invalid syntax at [15:1 - 15:23]
 CST Stack:
     {Node ERROR (14, 0) - (14, 22)}
     {Node module (0, 0) - (15, 0)}
@@ -4542,7 +4542,7 @@ def somethingelse():                       | def somethingelse():
 def format_a_string(ast                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:1 - 15:24]
+SyntaxError: invalid syntax at [15:1 - 15:24]
 CST Stack:
     {Node ERROR (14, 0) - (14, 23)}
     {Node module (0, 0) - (15, 0)}
@@ -4580,7 +4580,7 @@ def somethingelse():                       | def somethingelse():
 def format_a_string(astr                   | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:1 - 15:25]
+SyntaxError: invalid syntax at [15:1 - 15:25]
 CST Stack:
     {Node ERROR (14, 0) - (14, 24)}
     {Node module (0, 0) - (15, 0)}
@@ -4618,7 +4618,7 @@ def somethingelse():                       | def somethingelse():
 def format_a_string(astri                  | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:1 - 15:26]
+SyntaxError: invalid syntax at [15:1 - 15:26]
 CST Stack:
     {Node ERROR (14, 0) - (14, 25)}
     {Node module (0, 0) - (15, 0)}
@@ -4656,7 +4656,7 @@ def somethingelse():                       | def somethingelse():
 def format_a_string(astrin                 | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:1 - 15:27]
+SyntaxError: invalid syntax at [15:1 - 15:27]
 CST Stack:
     {Node ERROR (14, 0) - (14, 26)}
     {Node module (0, 0) - (15, 0)}
@@ -4694,7 +4694,7 @@ def somethingelse():                       | def somethingelse():
 def format_a_string(astring                | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:1 - 15:28]
+SyntaxError: invalid syntax at [15:1 - 15:28]
 CST Stack:
     {Node ERROR (14, 0) - (14, 27)}
     {Node module (0, 0) - (15, 0)}
@@ -4732,7 +4732,7 @@ def somethingelse():                       | def somethingelse():
 def format_a_string(astring:               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:1 - 15:29]
+SyntaxError: invalid syntax at [15:1 - 15:29]
 CST Stack:
     {Node ERROR (14, 0) - (14, 28)}
     {Node module (0, 0) - (15, 0)}
@@ -4770,7 +4770,7 @@ def somethingelse():                       | def somethingelse():
 def format_a_string(astring: s             | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:1 - 15:31]
+SyntaxError: invalid syntax at [15:1 - 15:31]
 CST Stack:
     {Node ERROR (14, 0) - (14, 30)}
     {Node module (0, 0) - (15, 0)}
@@ -4808,7 +4808,7 @@ def somethingelse():                       | def somethingelse():
 def format_a_string(astring: st            | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:1 - 15:32]
+SyntaxError: invalid syntax at [15:1 - 15:32]
 CST Stack:
     {Node ERROR (14, 0) - (14, 31)}
     {Node module (0, 0) - (15, 0)}
@@ -4846,7 +4846,7 @@ def somethingelse():                       | def somethingelse():
 def format_a_string(astring: str           | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:1 - 15:33]
+SyntaxError: invalid syntax at [15:1 - 15:33]
 CST Stack:
     {Node ERROR (14, 0) - (14, 32)}
     {Node module (0, 0) - (15, 0)}
@@ -4884,7 +4884,7 @@ def somethingelse():                       | def somethingelse():
 def format_a_string(astring: str)          | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:1 - 15:34]
+SyntaxError: invalid syntax at [15:1 - 15:34]
 CST Stack:
     {Node ERROR (14, 0) - (14, 33)}
     {Node module (0, 0) - (15, 0)}
@@ -4922,7 +4922,7 @@ def somethingelse():                       | def somethingelse():
 def format_a_string(astring: str) -        | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:1 - 15:36]
+SyntaxError: invalid syntax at [15:1 - 15:36]
 CST Stack:
     {Node ERROR (14, 0) - (14, 35)}
     {Node module (0, 0) - (15, 0)}
@@ -4960,7 +4960,7 @@ def somethingelse():                       | def somethingelse():
 def format_a_string(astring: str) ->       | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:1 - 15:37]
+SyntaxError: invalid syntax at [15:1 - 15:37]
 CST Stack:
     {Node ERROR (14, 0) - (14, 36)}
     {Node module (0, 0) - (15, 0)}
@@ -4998,7 +4998,7 @@ def somethingelse():                       | def somethingelse():
 def format_a_string(astring: str) -> s     | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:1 - 15:39]
+SyntaxError: invalid syntax at [15:1 - 15:39]
 CST Stack:
     {Node ERROR (14, 0) - (14, 38)}
     {Node module (0, 0) - (15, 0)}
@@ -5036,7 +5036,7 @@ def somethingelse():                        | def somethingelse():
 def format_a_string(astring: str) -> st     | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:1 - 15:40]
+SyntaxError: invalid syntax at [15:1 - 15:40]
 CST Stack:
     {Node ERROR (14, 0) - (14, 39)}
     {Node module (0, 0) - (15, 0)}
@@ -5074,7 +5074,7 @@ def somethingelse():                         | def somethingelse():
 def format_a_string(astring: str) -> str     | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:1 - 15:41]
+SyntaxError: invalid syntax at [15:1 - 15:41]
 CST Stack:
     {Node ERROR (14, 0) - (14, 40)}
     {Node module (0, 0) - (15, 0)}
@@ -5327,7 +5327,7 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
     return '                                  | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [16:5 - 16:13]
+SyntaxError: invalid syntax at [16:5 - 16:13]
 CST Stack:
     {Node ERROR (15, 4) - (15, 12)}
     {Node function_definition (14, 0) - (15, 12)}
@@ -5424,7 +5424,7 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
     return ','.                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [16:5 - 16:16]
+SyntaxError: invalid syntax at [16:5 - 16:16]
 CST Stack:
     {Node ERROR (15, 4) - (15, 15)}
     {Node function_definition (14, 0) - (15, 15)}
@@ -5567,7 +5567,7 @@ def format_a_string(astring: str) -> str:     |
     return ','.join(                          | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:1 - 17:1]
+SyntaxError: invalid syntax at [1:1 - 17:1]
 CST Stack:
     {Node ERROR (0, 0) - (16, 0)}
 
@@ -5615,7 +5615,7 @@ def format_a_string(astring: str) -> str:     |
     return ','.join([                         | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:1 - 17:1]
+SyntaxError: invalid syntax at [1:1 - 17:1]
 CST Stack:
     {Node ERROR (0, 0) - (16, 0)}
 
@@ -5663,7 +5663,7 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
     return ','.join([x                        | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [16:5 - 16:23]
+SyntaxError: invalid syntax at [16:5 - 16:23]
 CST Stack:
     {Node ERROR (15, 4) - (15, 22)}
     {Node function_definition (14, 0) - (15, 22)}
@@ -5702,7 +5702,7 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
     return ','.join([x f                      | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [16:5 - 16:25]
+SyntaxError: invalid syntax at [16:5 - 16:25]
 CST Stack:
     {Node ERROR (15, 4) - (15, 24)}
     {Node function_definition (14, 0) - (15, 24)}
@@ -5741,7 +5741,7 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
     return ','.join([x fo                     | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [16:5 - 16:26]
+SyntaxError: invalid syntax at [16:5 - 16:26]
 CST Stack:
     {Node ERROR (15, 4) - (15, 25)}
     {Node function_definition (14, 0) - (15, 25)}
@@ -5780,7 +5780,7 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
     return ','.join([x for                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [16:5 - 16:27]
+SyntaxError: invalid syntax at [16:5 - 16:27]
 CST Stack:
     {Node ERROR (15, 4) - (15, 26)}
     {Node function_definition (14, 0) - (15, 26)}
@@ -5819,7 +5819,7 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
     return ','.join([x for x                  | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [16:5 - 16:29]
+SyntaxError: invalid syntax at [16:5 - 16:29]
 CST Stack:
     {Node ERROR (15, 4) - (15, 28)}
     {Node function_definition (14, 0) - (15, 28)}
@@ -5858,7 +5858,7 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
     return ','.join([x for x i                | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [16:5 - 16:31]
+SyntaxError: invalid syntax at [16:5 - 16:31]
 CST Stack:
     {Node ERROR (15, 4) - (15, 30)}
     {Node function_definition (14, 0) - (15, 30)}
@@ -5897,7 +5897,7 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
     return ','.join([x for x in               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [16:5 - 16:32]
+SyntaxError: invalid syntax at [16:5 - 16:32]
 CST Stack:
     {Node ERROR (15, 4) - (15, 31)}
     {Node function_definition (14, 0) - (15, 31)}
@@ -5936,7 +5936,7 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
     return ','.join([x for x in a             | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [16:5 - 16:34]
+SyntaxError: invalid syntax at [16:5 - 16:34]
 CST Stack:
     {Node ERROR (15, 4) - (15, 33)}
     {Node function_definition (14, 0) - (15, 33)}
@@ -5975,7 +5975,7 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
     return ','.join([x for x in as            | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [16:5 - 16:35]
+SyntaxError: invalid syntax at [16:5 - 16:35]
 CST Stack:
     {Node ERROR (15, 4) - (15, 34)}
     {Node function_definition (14, 0) - (15, 34)}
@@ -6014,7 +6014,7 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
     return ','.join([x for x in ast           | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [16:5 - 16:36]
+SyntaxError: invalid syntax at [16:5 - 16:36]
 CST Stack:
     {Node ERROR (15, 4) - (15, 35)}
     {Node function_definition (14, 0) - (15, 35)}
@@ -6053,7 +6053,7 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
     return ','.join([x for x in astr          | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [16:5 - 16:37]
+SyntaxError: invalid syntax at [16:5 - 16:37]
 CST Stack:
     {Node ERROR (15, 4) - (15, 36)}
     {Node function_definition (14, 0) - (15, 36)}
@@ -6092,7 +6092,7 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
     return ','.join([x for x in astri         | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [16:5 - 16:38]
+SyntaxError: invalid syntax at [16:5 - 16:38]
 CST Stack:
     {Node ERROR (15, 4) - (15, 37)}
     {Node function_definition (14, 0) - (15, 37)}
@@ -6131,7 +6131,7 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
     return ','.join([x for x in astrin        | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [16:5 - 16:39]
+SyntaxError: invalid syntax at [16:5 - 16:39]
 CST Stack:
     {Node ERROR (15, 4) - (15, 38)}
     {Node function_definition (14, 0) - (15, 38)}
@@ -6170,7 +6170,7 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
     return ','.join([x for x in astring       | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [16:5 - 16:40]
+SyntaxError: invalid syntax at [16:5 - 16:40]
 CST Stack:
     {Node ERROR (15, 4) - (15, 39)}
     {Node function_definition (14, 0) - (15, 39)}
@@ -6209,7 +6209,7 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
     return ','.join([x for x in astring]      | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [16:5 - 16:41]
+SyntaxError: invalid syntax at [16:5 - 16:41]
 CST Stack:
     {Node ERROR (15, 4) - (15, 40)}
     {Node function_definition (14, 0) - (15, 40)}
@@ -6416,7 +6416,7 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
 def                                           | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [18:1 - 18:4]
+SyntaxError: invalid syntax at [18:1 - 18:4]
 CST Stack:
     {Node ERROR (17, 0) - (17, 3)}
     {Node module (0, 0) - (18, 0)}
@@ -6457,7 +6457,7 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
 def m                                         | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [18:1 - 18:6]
+SyntaxError: invalid syntax at [18:1 - 18:6]
 CST Stack:
     {Node ERROR (17, 0) - (17, 5)}
     {Node module (0, 0) - (18, 0)}
@@ -6498,7 +6498,7 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
 def ma                                        | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [18:1 - 18:7]
+SyntaxError: invalid syntax at [18:1 - 18:7]
 CST Stack:
     {Node ERROR (17, 0) - (17, 6)}
     {Node module (0, 0) - (18, 0)}
@@ -6539,7 +6539,7 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
 def mai                                       | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [18:1 - 18:8]
+SyntaxError: invalid syntax at [18:1 - 18:8]
 CST Stack:
     {Node ERROR (17, 0) - (17, 7)}
     {Node module (0, 0) - (18, 0)}
@@ -6580,7 +6580,7 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
 def main                                      | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [18:1 - 18:9]
+SyntaxError: invalid syntax at [18:1 - 18:9]
 CST Stack:
     {Node ERROR (17, 0) - (17, 8)}
     {Node module (0, 0) - (18, 0)}
@@ -6621,7 +6621,7 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
 def main(                                     | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [18:1 - 18:10]
+SyntaxError: invalid syntax at [18:1 - 18:10]
 CST Stack:
     {Node ERROR (17, 0) - (17, 9)}
     {Node module (0, 0) - (18, 0)}
@@ -6662,7 +6662,7 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
 def main()                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [18:1 - 18:11]
+SyntaxError: invalid syntax at [18:1 - 18:11]
 CST Stack:
     {Node ERROR (17, 0) - (17, 10)}
     {Node module (0, 0) - (18, 0)}
@@ -6703,7 +6703,7 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
 def main() -                                  | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [18:1 - 18:13]
+SyntaxError: invalid syntax at [18:1 - 18:13]
 CST Stack:
     {Node ERROR (17, 0) - (17, 12)}
     {Node module (0, 0) - (18, 0)}
@@ -6744,7 +6744,7 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
 def main() ->                                 | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [18:1 - 18:14]
+SyntaxError: invalid syntax at [18:1 - 18:14]
 CST Stack:
     {Node ERROR (17, 0) - (17, 13)}
     {Node module (0, 0) - (18, 0)}
@@ -6785,7 +6785,7 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
 def main() -> i                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [18:1 - 18:16]
+SyntaxError: invalid syntax at [18:1 - 18:16]
 CST Stack:
     {Node ERROR (17, 0) - (17, 15)}
     {Node module (0, 0) - (18, 0)}
@@ -6826,7 +6826,7 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
 def main() -> in                              | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [18:1 - 18:17]
+SyntaxError: invalid syntax at [18:1 - 18:17]
 CST Stack:
     {Node ERROR (17, 0) - (17, 16)}
     {Node module (0, 0) - (18, 0)}
@@ -6867,7 +6867,7 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
 def main() -> int                             | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [18:1 - 18:18]
+SyntaxError: invalid syntax at [18:1 - 18:18]
 CST Stack:
     {Node ERROR (17, 0) - (17, 17)}
     {Node module (0, 0) - (18, 0)}
@@ -6973,7 +6973,7 @@ def main() -> int:                            | def main() -> int:
     "                                         | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [19:5 - 19:6]
+SyntaxError: invalid syntax at [19:5 - 19:6]
 CST Stack:
     {Node ERROR (18, 4) - (18, 5)}
     {Node function_definition (17, 0) - (18, 5)}
@@ -7050,7 +7050,7 @@ def main() -> int:                            | def main() -> int:
     """                                       | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [19:5 - 19:8]
+SyntaxError: invalid syntax at [19:5 - 19:8]
 CST Stack:
     {Node ERROR (18, 4) - (18, 7)}
     {Node function_definition (17, 0) - (18, 7)}
@@ -7092,7 +7092,7 @@ def main() -> int:                            | def main() -> int:
     """D                                      |     D                                         
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [19:5 - 19:8]
+SyntaxError: invalid syntax at [19:5 - 19:8]
 CST Stack:
     {Node ERROR (18, 4) - (18, 7)}
     {Node function_definition (17, 0) - (18, 8)}
@@ -7133,7 +7133,7 @@ def main() -> int:                            | def main() -> int:
     """DO                                     |     DO                                        
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [19:5 - 19:8]
+SyntaxError: invalid syntax at [19:5 - 19:8]
 CST Stack:
     {Node ERROR (18, 4) - (18, 7)}
     {Node function_definition (17, 0) - (18, 9)}
@@ -7174,7 +7174,7 @@ def main() -> int:                            | def main() -> int:
     """DOC                                    |     DOC                                       
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [19:5 - 19:8]
+SyntaxError: invalid syntax at [19:5 - 19:8]
 CST Stack:
     {Node ERROR (18, 4) - (18, 7)}
     {Node function_definition (17, 0) - (18, 10)}
@@ -7215,7 +7215,7 @@ def main() -> int:                            | def main() -> int:
     """DOC_                                   |     DOC_                                      
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [19:5 - 19:8]
+SyntaxError: invalid syntax at [19:5 - 19:8]
 CST Stack:
     {Node ERROR (18, 4) - (18, 7)}
     {Node function_definition (17, 0) - (18, 11)}
@@ -7256,7 +7256,7 @@ def main() -> int:                            | def main() -> int:
     """DOC_S                                  |     DOC_S                                     
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [19:5 - 19:8]
+SyntaxError: invalid syntax at [19:5 - 19:8]
 CST Stack:
     {Node ERROR (18, 4) - (18, 7)}
     {Node function_definition (17, 0) - (18, 12)}
@@ -7297,7 +7297,7 @@ def main() -> int:                            | def main() -> int:
     """DOC_ST                                 |     DOC_ST                                    
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [19:5 - 19:8]
+SyntaxError: invalid syntax at [19:5 - 19:8]
 CST Stack:
     {Node ERROR (18, 4) - (18, 7)}
     {Node function_definition (17, 0) - (18, 13)}
@@ -7338,7 +7338,7 @@ def main() -> int:                            | def main() -> int:
     """DOC_STR                                |     DOC_STR                                   
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [19:5 - 19:8]
+SyntaxError: invalid syntax at [19:5 - 19:8]
 CST Stack:
     {Node ERROR (18, 4) - (18, 7)}
     {Node function_definition (17, 0) - (18, 14)}
@@ -7379,7 +7379,7 @@ def main() -> int:                            | def main() -> int:
     """DOC_STRI                               |     DOC_STRI                                  
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [19:5 - 19:8]
+SyntaxError: invalid syntax at [19:5 - 19:8]
 CST Stack:
     {Node ERROR (18, 4) - (18, 7)}
     {Node function_definition (17, 0) - (18, 15)}
@@ -7420,7 +7420,7 @@ def main() -> int:                            | def main() -> int:
     """DOC_STRIN                              |     DOC_STRIN                                 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [19:5 - 19:8]
+SyntaxError: invalid syntax at [19:5 - 19:8]
 CST Stack:
     {Node ERROR (18, 4) - (18, 7)}
     {Node function_definition (17, 0) - (18, 16)}
@@ -7461,7 +7461,7 @@ def main() -> int:                            | def main() -> int:
     """DOC_STRING                             |     DOC_STRING                                
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [19:5 - 19:8]
+SyntaxError: invalid syntax at [19:5 - 19:8]
 CST Stack:
     {Node ERROR (18, 4) - (18, 7)}
     {Node function_definition (17, 0) - (18, 17)}
@@ -7502,7 +7502,7 @@ def main() -> int:                            | def main() -> int:
     """DOC_STRING"                            | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [19:5 - 19:19]
+SyntaxError: invalid syntax at [19:5 - 19:19]
 CST Stack:
     {Node ERROR (18, 4) - (18, 18)}
     {Node function_definition (17, 0) - (18, 18)}
@@ -7544,7 +7544,7 @@ def main() -> int:                            | def main() -> int:
     """DOC_STRING""                           | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [19:5 - 19:20]
+SyntaxError: invalid syntax at [19:5 - 19:20]
 CST Stack:
     {Node ERROR (18, 4) - (18, 19)}
     {Node function_definition (17, 0) - (18, 19)}
@@ -8043,7 +8043,7 @@ def main() -> int:                            |
     somethingelse(                            | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:1 - 21:1]
+SyntaxError: invalid syntax at [1:1 - 21:1]
 CST Stack:
     {Node ERROR (0, 0) - (20, 0)}
 
@@ -8261,7 +8261,7 @@ def main() -> int:                            |
     fib(                                      | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:1 - 22:1]
+SyntaxError: invalid syntax at [1:1 - 22:1]
 CST Stack:
     {Node ERROR (0, 0) - (21, 0)}
 
@@ -8319,7 +8319,7 @@ def main() -> int:                            | def main() -> int:
     fib(1                                     | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [21:5 - 21:10]
+SyntaxError: invalid syntax at [21:5 - 21:10]
 CST Stack:
     {Node ERROR (20, 4) - (20, 9)}
     {Node block (18, 4) - (20, 9)}
@@ -8364,7 +8364,7 @@ def main() -> int:                            | def main() -> int:
     fib(12                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [21:5 - 21:11]
+SyntaxError: invalid syntax at [21:5 - 21:11]
 CST Stack:
     {Node ERROR (20, 4) - (20, 10)}
     {Node block (18, 4) - (20, 10)}
@@ -8512,7 +8512,7 @@ def main() -> int:                            | def main() -> int:
     as                                        |     as                                        
 
 1 Recoverable error detected:
-SyntaxError: "keyword: \"as\" cannot be used as identifier" at [22:5 - 22:7]
+SyntaxError: keyword: "as" cannot be used as identifier at [22:5 - 22:7]
 CST Stack:
     {Node identifier (21, 4) - (21, 6)}
     {Node expression_statement (21, 4) - (21, 6)}
@@ -8712,7 +8712,7 @@ def main() -> int:                            | def main() -> int:
     astring =                                 | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [22:5 - 22:14]
+SyntaxError: invalid syntax at [22:5 - 22:14]
 CST Stack:
     {Node ERROR (21, 4) - (21, 13)}
     {Node block (18, 4) - (21, 13)}
@@ -8822,7 +8822,7 @@ def main() -> int:                            | def main() -> int:
     astring = for                             |     astring = for                             
 
 1 Recoverable error detected:
-SyntaxError: "keyword: \"for\" cannot be used as identifier" at [22:15 - 22:18]
+SyntaxError: keyword: "for" cannot be used as identifier at [22:15 - 22:18]
 CST Stack:
     {Node identifier (21, 14) - (21, 17)}
     {Node assignment (21, 4) - (21, 17)}
@@ -9247,7 +9247,7 @@ def main() -> int:                            |
     astring = format_a_string(                | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:1 - 23:1]
+SyntaxError: invalid syntax at [1:1 - 23:1]
 CST Stack:
     {Node ERROR (0, 0) - (22, 0)}
 
@@ -9687,7 +9687,7 @@ def main() -> int:                            | def main() -> int:
 if                                            | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [24:1 - 24:3]
+SyntaxError: invalid syntax at [24:1 - 24:3]
 CST Stack:
     {Node ERROR (23, 0) - (23, 2)}
     {Node module (0, 0) - (24, 0)}
@@ -9733,7 +9733,7 @@ def main() -> int:                            | def main() -> int:
 if _                                          | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [24:1 - 24:5]
+SyntaxError: invalid syntax at [24:1 - 24:5]
 CST Stack:
     {Node ERROR (23, 0) - (23, 4)}
     {Node module (0, 0) - (24, 0)}
@@ -9779,7 +9779,7 @@ def main() -> int:                            | def main() -> int:
 if __                                         | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [24:1 - 24:6]
+SyntaxError: invalid syntax at [24:1 - 24:6]
 CST Stack:
     {Node ERROR (23, 0) - (23, 5)}
     {Node module (0, 0) - (24, 0)}
@@ -9825,7 +9825,7 @@ def main() -> int:                            | def main() -> int:
 if __n                                        | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [24:1 - 24:7]
+SyntaxError: invalid syntax at [24:1 - 24:7]
 CST Stack:
     {Node ERROR (23, 0) - (23, 6)}
     {Node module (0, 0) - (24, 0)}
@@ -9871,7 +9871,7 @@ def main() -> int:                            | def main() -> int:
 if __na                                       | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [24:1 - 24:8]
+SyntaxError: invalid syntax at [24:1 - 24:8]
 CST Stack:
     {Node ERROR (23, 0) - (23, 7)}
     {Node module (0, 0) - (24, 0)}
@@ -9917,7 +9917,7 @@ def main() -> int:                            | def main() -> int:
 if __nam                                      | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [24:1 - 24:9]
+SyntaxError: invalid syntax at [24:1 - 24:9]
 CST Stack:
     {Node ERROR (23, 0) - (23, 8)}
     {Node module (0, 0) - (24, 0)}
@@ -9963,7 +9963,7 @@ def main() -> int:                            | def main() -> int:
 if __name                                     | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [24:1 - 24:10]
+SyntaxError: invalid syntax at [24:1 - 24:10]
 CST Stack:
     {Node ERROR (23, 0) - (23, 9)}
     {Node module (0, 0) - (24, 0)}
@@ -10009,7 +10009,7 @@ def main() -> int:                            | def main() -> int:
 if __name_                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [24:1 - 24:11]
+SyntaxError: invalid syntax at [24:1 - 24:11]
 CST Stack:
     {Node ERROR (23, 0) - (23, 10)}
     {Node module (0, 0) - (24, 0)}
@@ -10055,7 +10055,7 @@ def main() -> int:                            | def main() -> int:
 if __name__                                   | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [24:1 - 24:12]
+SyntaxError: invalid syntax at [24:1 - 24:12]
 CST Stack:
     {Node ERROR (23, 0) - (23, 11)}
     {Node module (0, 0) - (24, 0)}
@@ -10101,7 +10101,7 @@ def main() -> int:                            | def main() -> int:
 if __name__ =                                 | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [24:1 - 24:14]
+SyntaxError: invalid syntax at [24:1 - 24:14]
 CST Stack:
     {Node ERROR (23, 0) - (23, 13)}
     {Node module (0, 0) - (24, 0)}
@@ -10147,7 +10147,7 @@ def main() -> int:                            | def main() -> int:
 if __name__ ==                                | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [24:1 - 24:15]
+SyntaxError: invalid syntax at [24:1 - 24:15]
 CST Stack:
     {Node ERROR (23, 0) - (23, 14)}
     {Node module (0, 0) - (24, 0)}
@@ -10193,7 +10193,7 @@ def main() -> int:                            | def main() -> int:
 if __name__ == '                              | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [24:1 - 24:17]
+SyntaxError: invalid syntax at [24:1 - 24:17]
 CST Stack:
     {Node ERROR (23, 0) - (23, 16)}
     {Node module (0, 0) - (24, 0)}
@@ -10239,7 +10239,7 @@ def main() -> int:                            | def main() -> int:
 if __name__ == '_                             | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [24:1 - 24:18]
+SyntaxError: invalid syntax at [24:1 - 24:18]
 CST Stack:
     {Node ERROR (23, 0) - (23, 17)}
     {Node module (0, 0) - (24, 0)}
@@ -10285,7 +10285,7 @@ def main() -> int:                            | def main() -> int:
 if __name__ == '__                            | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [24:1 - 24:19]
+SyntaxError: invalid syntax at [24:1 - 24:19]
 CST Stack:
     {Node ERROR (23, 0) - (23, 18)}
     {Node module (0, 0) - (24, 0)}
@@ -10331,7 +10331,7 @@ def main() -> int:                            | def main() -> int:
 if __name__ == '__m                           | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [24:1 - 24:20]
+SyntaxError: invalid syntax at [24:1 - 24:20]
 CST Stack:
     {Node ERROR (23, 0) - (23, 19)}
     {Node module (0, 0) - (24, 0)}
@@ -10377,7 +10377,7 @@ def main() -> int:                            | def main() -> int:
 if __name__ == '__ma                          | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [24:1 - 24:21]
+SyntaxError: invalid syntax at [24:1 - 24:21]
 CST Stack:
     {Node ERROR (23, 0) - (23, 20)}
     {Node module (0, 0) - (24, 0)}
@@ -10423,7 +10423,7 @@ def main() -> int:                            | def main() -> int:
 if __name__ == '__mai                         | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [24:1 - 24:22]
+SyntaxError: invalid syntax at [24:1 - 24:22]
 CST Stack:
     {Node ERROR (23, 0) - (23, 21)}
     {Node module (0, 0) - (24, 0)}
@@ -10469,7 +10469,7 @@ def main() -> int:                            | def main() -> int:
 if __name__ == '__main                        | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [24:1 - 24:23]
+SyntaxError: invalid syntax at [24:1 - 24:23]
 CST Stack:
     {Node ERROR (23, 0) - (23, 22)}
     {Node module (0, 0) - (24, 0)}
@@ -10515,7 +10515,7 @@ def main() -> int:                            | def main() -> int:
 if __name__ == '__main_                       | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [24:1 - 24:24]
+SyntaxError: invalid syntax at [24:1 - 24:24]
 CST Stack:
     {Node ERROR (23, 0) - (23, 23)}
     {Node module (0, 0) - (24, 0)}
@@ -10561,7 +10561,7 @@ def main() -> int:                            | def main() -> int:
 if __name__ == '__main__                      | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [24:1 - 24:25]
+SyntaxError: invalid syntax at [24:1 - 24:25]
 CST Stack:
     {Node ERROR (23, 0) - (23, 24)}
     {Node module (0, 0) - (24, 0)}
@@ -10607,7 +10607,7 @@ def main() -> int:                            | def main() -> int:
 if __name__ == '__main__'                     | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [24:1 - 24:26]
+SyntaxError: invalid syntax at [24:1 - 24:26]
 CST Stack:
     {Node ERROR (23, 0) - (23, 25)}
     {Node module (0, 0) - (24, 0)}
@@ -10870,7 +10870,7 @@ if __name__ == '__main__':                    |
     main(                                     | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:1 - 26:1]
+SyntaxError: invalid syntax at [1:1 - 26:1]
 CST Stack:
     {Node ERROR (0, 0) - (25, 0)}
 

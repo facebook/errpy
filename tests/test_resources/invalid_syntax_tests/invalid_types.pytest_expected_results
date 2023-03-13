@@ -4,13 +4,13 @@
 message = 'something another {a} line'
 message = b'something another {a} line'
 2 Recoverable errors detected:
-SyntaxError: "cannot mix bytes and nonbytes literals" at [1:11 - 2:29]
+SyntaxError: cannot mix bytes and nonbytes literals at [1:11 - 2:29]
 CST Stack:
     {Node concatenated_string (0, 10) - (1, 28)}
     {Node assignment (0, 0) - (1, 28)}
     {Node expression_statement (0, 0) - (1, 28)}
     {Node module (0, 0) - (4, 0)}
-SyntaxError: "cannot mix bytes and nonbytes literals" at [3:11 - 4:30]
+SyntaxError: cannot mix bytes and nonbytes literals at [3:11 - 4:30]
 CST Stack:
     {Node concatenated_string (2, 10) - (3, 29)}
     {Node assignment (2, 0) - (3, 29)}

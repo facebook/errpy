@@ -11,8 +11,8 @@ use ast_pretty_print_helper::PrintHelper;
 use cst_to_ast::get_node_text;
 use cst_to_ast::ASTAndMetaData;
 use cst_to_ast::Parser as CSTToASTParser;
+use errors::recoverable_error_to_string;
 use errors::ParserError;
-use errors::RecoverableError;
 use parser_pre_process::remove_comments;
 use tree_sitter::Node;
 use tree_sitter::Parser as TreeSitterParser;
@@ -114,22 +114,8 @@ fn extract_errors(metadata: &ASTAndMetaData) -> String {
         ));
 
         for recoverable_error_with_location in &metadata.recoverable_errors {
-            let recoverable_as_string = match &recoverable_error_with_location.parser_error {
-                RecoverableError::UnexpectedExpression(expression_name) => {
-                    format!("UnexpectedExpression: {:?}", expression_name)
-                }
-                RecoverableError::UnimplementedStatement(statement_name) => {
-                    format!("UnimplementedStatement: {:?}", statement_name)
-                }
-                RecoverableError::MissingChild => "MissingChild".to_string(),
-                RecoverableError::MissingLhs => "MissingLhs".to_string(),
-                RecoverableError::MissingOperator(operator) => {
-                    format!("MissingOperator: {:?}", operator)
-                }
-                RecoverableError::SyntaxError(node) => {
-                    format!("SyntaxError: {:?}", node)
-                }
-            };
+            let recoverable_as_string =
+                recoverable_error_to_string(&recoverable_error_with_location.parser_error);
 
             let location = &recoverable_error_with_location.location;
             errors.push_str(

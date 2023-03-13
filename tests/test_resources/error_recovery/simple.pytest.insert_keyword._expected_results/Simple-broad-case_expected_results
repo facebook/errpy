@@ -77,12 +77,12 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [1:9 - 1:12]
+SyntaxError: invalid syntax at [1:9 - 1:12]
 CST Stack:
     {Node ERROR (0, 8) - (0, 11)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [1:5 - 1:8]
+SyntaxError: keyword: "def" cannot be used as identifier at [1:5 - 1:8]
 CST Stack:
     {Node identifier (0, 4) - (0, 7)}
     {Node function_definition (0, 0) - (9, 38)}
@@ -137,11 +137,11 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [1:1 - 1:2]
+SyntaxError: invalid syntax at [1:1 - 1:2]
 CST Stack:
     {Node ERROR (0, 0) - (0, 1)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "invalid syntax" at [1:7 - 1:9]
+SyntaxError: invalid syntax at [1:7 - 1:9]
 CST Stack:
     {Node ERROR (0, 6) - (0, 8)}
     {Node function_definition (0, 2) - (9, 38)}
@@ -196,11 +196,11 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [1:1 - 1:3]
+SyntaxError: invalid syntax at [1:1 - 1:3]
 CST Stack:
     {Node ERROR (0, 0) - (0, 2)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "invalid syntax" at [1:8 - 1:9]
+SyntaxError: invalid syntax at [1:8 - 1:9]
 CST Stack:
     {Node ERROR (0, 7) - (0, 8)}
     {Node function_definition (0, 3) - (9, 38)}
@@ -255,12 +255,12 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [1:10 - 1:13]
+SyntaxError: invalid syntax at [1:10 - 1:13]
 CST Stack:
     {Node ERROR (0, 9) - (0, 12)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [1:6 - 1:9]
+SyntaxError: keyword: "def" cannot be used as identifier at [1:6 - 1:9]
 CST Stack:
     {Node identifier (0, 5) - (0, 8)}
     {Node function_definition (0, 0) - (9, 38)}
@@ -315,7 +315,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:5 - 1:10]
+SyntaxError: invalid syntax at [1:5 - 1:10]
 CST Stack:
     {Node ERROR (0, 4) - (0, 9)}
     {Node function_definition (0, 0) - (9, 38)}
@@ -370,7 +370,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:8 - 1:13]
+SyntaxError: invalid syntax at [1:8 - 1:13]
 CST Stack:
     {Node ERROR (0, 7) - (0, 12)}
     {Node function_definition (0, 0) - (9, 38)}
@@ -425,7 +425,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:9 - 1:12]
+SyntaxError: invalid syntax at [1:9 - 1:12]
 CST Stack:
     {Node ERROR (0, 8) - (0, 11)}
     {Node function_definition (0, 0) - (9, 38)}
@@ -480,14 +480,14 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [1:14 - 1:15]
+SyntaxError: invalid syntax at [1:14 - 1:15]
 CST Stack:
     {Node ERROR (0, 13) - (0, 14)}
     {Node typed_parameter (0, 9) - (0, 19)}
     {Node parameters (0, 7) - (0, 20)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [1:10 - 1:13]
+SyntaxError: keyword: "def" cannot be used as identifier at [1:10 - 1:13]
 CST Stack:
     {Node identifier (0, 9) - (0, 12)}
     {Node typed_parameter (0, 9) - (0, 19)}
@@ -544,13 +544,13 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [1:9 - 1:10]
+SyntaxError: invalid syntax at [1:9 - 1:10]
 CST Stack:
     {Node ERROR (0, 8) - (0, 9)}
     {Node parameters (0, 7) - (0, 20)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [1:11 - 1:14]
+SyntaxError: keyword: "def" cannot be used as identifier at [1:11 - 1:14]
 CST Stack:
     {Node identifier (0, 10) - (0, 13)}
     {Node typed_parameter (0, 10) - (0, 19)}
@@ -607,13 +607,13 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [1:17 - 1:20]
+SyntaxError: invalid syntax at [1:17 - 1:20]
 CST Stack:
     {Node ERROR (0, 16) - (0, 19)}
     {Node parameters (0, 7) - (0, 20)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [1:13 - 1:16]
+SyntaxError: keyword: "def" cannot be used as identifier at [1:13 - 1:16]
 CST Stack:
     {Node identifier (0, 12) - (0, 15)}
     {Node type (0, 12) - (0, 15)}
@@ -671,7 +671,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:12 - 1:17]
+SyntaxError: invalid syntax at [1:12 - 1:17]
 CST Stack:
     {Node ERROR (0, 11) - (0, 16)}
     {Node typed_parameter (0, 8) - (0, 19)}
@@ -728,13 +728,13 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [1:15 - 1:20]
+SyntaxError: invalid syntax at [1:15 - 1:20]
 CST Stack:
     {Node ERROR (0, 14) - (0, 19)}
     {Node parameters (0, 7) - (0, 20)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"in\" cannot be used as identifier" at [1:12 - 1:14]
+SyntaxError: keyword: "in" cannot be used as identifier at [1:12 - 1:14]
 CST Stack:
     {Node identifier (0, 11) - (0, 13)}
     {Node type (0, 11) - (0, 13)}
@@ -792,7 +792,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:16 - 1:19]
+SyntaxError: invalid syntax at [1:16 - 1:19]
 CST Stack:
     {Node ERROR (0, 15) - (0, 18)}
     {Node parameters (0, 7) - (0, 20)}
@@ -848,7 +848,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:18 - 1:21]
+SyntaxError: invalid syntax at [1:18 - 1:21]
 CST Stack:
     {Node ERROR (0, 17) - (0, 20)}
     {Node function_definition (0, 0) - (9, 38)}
@@ -903,7 +903,7 @@ if __name__ == '__main__':                    |
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:1 - 25:11]
+SyntaxError: invalid syntax at [1:1 - 25:11]
 CST Stack:
     {Node ERROR (0, 0) - (24, 10)}
     {Node module (0, 0) - (25, 0)}
@@ -973,12 +973,12 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [1:25 - 1:28]
+SyntaxError: invalid syntax at [1:25 - 1:28]
 CST Stack:
     {Node ERROR (0, 24) - (0, 27)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [1:21 - 1:24]
+SyntaxError: keyword: "def" cannot be used as identifier at [1:21 - 1:24]
 CST Stack:
     {Node identifier (0, 20) - (0, 23)}
     {Node type (0, 20) - (0, 23)}
@@ -1035,7 +1035,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:20 - 1:25]
+SyntaxError: invalid syntax at [1:20 - 1:25]
 CST Stack:
     {Node ERROR (0, 19) - (0, 24)}
     {Node function_definition (0, 0) - (9, 38)}
@@ -1091,12 +1091,12 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [1:23 - 1:28]
+SyntaxError: invalid syntax at [1:23 - 1:28]
 CST Stack:
     {Node ERROR (0, 22) - (0, 27)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"in\" cannot be used as identifier" at [1:20 - 1:22]
+SyntaxError: keyword: "in" cannot be used as identifier at [1:20 - 1:22]
 CST Stack:
     {Node identifier (0, 19) - (0, 21)}
     {Node type (0, 19) - (0, 21)}
@@ -1153,7 +1153,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:24 - 1:27]
+SyntaxError: invalid syntax at [1:24 - 1:27]
 CST Stack:
     {Node ERROR (0, 23) - (0, 26)}
     {Node function_definition (0, 0) - (9, 38)}
@@ -1209,7 +1209,7 @@ if __name__ == '__main__':                    |     return 0
                                               |     main()                                    
 
 1 Recoverable error detected:
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [1:25 - 1:28]
+SyntaxError: keyword: "def" cannot be used as identifier at [1:25 - 1:28]
 CST Stack:
     {Node identifier (0, 24) - (0, 27)}
     {Node expression_statement (0, 24) - (0, 27)}
@@ -1286,7 +1286,7 @@ if __name__ == '__main__':                    |     main()
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [2:6 - 2:22]
+SyntaxError: invalid syntax at [2:6 - 2:22]
 CST Stack:
     {Node ERROR (1, 5) - (1, 21)}
     {Node function_definition (0, 0) - (1, 21)}
@@ -1358,7 +1358,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [2:5 - 2:10]
+SyntaxError: invalid syntax at [2:5 - 2:10]
 CST Stack:
     {Node ERROR (1, 4) - (1, 9)}
     {Node function_definition (0, 0) - (9, 38)}
@@ -1415,7 +1415,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [2:5 - 2:11]
+SyntaxError: invalid syntax at [2:5 - 2:11]
 CST Stack:
     {Node ERROR (1, 4) - (1, 10)}
     {Node function_definition (0, 0) - (9, 38)}
@@ -1472,7 +1472,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [2:10 - 2:15]
+SyntaxError: invalid syntax at [2:10 - 2:15]
 CST Stack:
     {Node ERROR (1, 9) - (1, 14)}
     {Node call (1, 4) - (1, 21)}
@@ -1531,7 +1531,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [2:12 - 2:15]
+SyntaxError: keyword: "def" cannot be used as identifier at [2:12 - 2:15]
 CST Stack:
     {Node identifier (1, 11) - (1, 14)}
     {Node call (1, 11) - (1, 21)}
@@ -1591,7 +1591,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [2:17 - 2:18]
+SyntaxError: invalid syntax at [2:17 - 2:18]
 CST Stack:
     {Node ERROR (1, 16) - (1, 17)}
     {Node tuple (1, 10) - (1, 21)}
@@ -1600,7 +1600,7 @@ CST Stack:
     {Node block (1, 4) - (9, 38)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [2:13 - 2:16]
+SyntaxError: keyword: "def" cannot be used as identifier at [2:13 - 2:16]
 CST Stack:
     {Node identifier (1, 12) - (1, 15)}
     {Node tuple (1, 10) - (1, 21)}
@@ -1661,7 +1661,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [2:12 - 2:13]
+SyntaxError: invalid syntax at [2:12 - 2:13]
 CST Stack:
     {Node ERROR (1, 11) - (1, 12)}
     {Node tuple (1, 10) - (1, 21)}
@@ -1670,7 +1670,7 @@ CST Stack:
     {Node block (1, 4) - (9, 38)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [2:14 - 2:17]
+SyntaxError: keyword: "def" cannot be used as identifier at [2:14 - 2:17]
 CST Stack:
     {Node identifier (1, 13) - (1, 16)}
     {Node tuple (1, 10) - (1, 21)}
@@ -1731,7 +1731,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [2:20 - 2:21]
+SyntaxError: invalid syntax at [2:20 - 2:21]
 CST Stack:
     {Node ERROR (1, 19) - (1, 20)}
     {Node tuple (1, 10) - (1, 21)}
@@ -1740,7 +1740,7 @@ CST Stack:
     {Node block (1, 4) - (9, 38)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [2:16 - 2:19]
+SyntaxError: keyword: "def" cannot be used as identifier at [2:16 - 2:19]
 CST Stack:
     {Node identifier (1, 15) - (1, 18)}
     {Node tuple (1, 10) - (1, 21)}
@@ -1801,7 +1801,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [2:15 - 2:16]
+SyntaxError: invalid syntax at [2:15 - 2:16]
 CST Stack:
     {Node ERROR (1, 14) - (1, 15)}
     {Node tuple (1, 10) - (1, 21)}
@@ -1810,7 +1810,7 @@ CST Stack:
     {Node block (1, 4) - (9, 38)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [2:17 - 2:20]
+SyntaxError: keyword: "def" cannot be used as identifier at [2:17 - 2:20]
 CST Stack:
     {Node identifier (1, 16) - (1, 19)}
     {Node tuple (1, 10) - (1, 21)}
@@ -1871,7 +1871,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [2:18 - 2:21]
+SyntaxError: invalid syntax at [2:18 - 2:21]
 CST Stack:
     {Node ERROR (1, 17) - (1, 20)}
     {Node block (1, 4) - (9, 38)}
@@ -1929,7 +1929,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [3:6 - 3:9]
+SyntaxError: invalid syntax at [3:6 - 3:9]
 CST Stack:
     {Node ERROR (2, 5) - (2, 8)}
     {Node block (1, 4) - (9, 38)}
@@ -1988,7 +1988,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [3:7 - 3:10]
+SyntaxError: invalid syntax at [3:7 - 3:10]
 CST Stack:
     {Node ERROR (2, 6) - (2, 9)}
     {Node tuple_pattern (2, 4) - (2, 17)}
@@ -2050,7 +2050,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [3:6 - 3:11]
+SyntaxError: invalid syntax at [3:6 - 3:11]
 CST Stack:
     {Node ERROR (2, 5) - (2, 10)}
     {Node tuple_pattern (2, 4) - (2, 17)}
@@ -2112,7 +2112,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [3:6 - 3:8]
+SyntaxError: invalid syntax at [3:6 - 3:8]
 CST Stack:
     {Node ERROR (2, 5) - (2, 7)}
     {Node tuple_pattern (2, 4) - (2, 17)}
@@ -2121,7 +2121,7 @@ CST Stack:
     {Node block (1, 4) - (9, 38)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [3:9 - 3:12]
+SyntaxError: keyword: "def" cannot be used as identifier at [3:9 - 3:12]
 CST Stack:
     {Node identifier (2, 8) - (2, 11)}
     {Node tuple_pattern (2, 4) - (2, 17)}
@@ -2183,7 +2183,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [3:5 - 3:20]
+SyntaxError: invalid syntax at [3:5 - 3:20]
 CST Stack:
     {Node ERROR (2, 4) - (2, 19)}
     {Node block (1, 4) - (9, 38)}
@@ -2241,7 +2241,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [3:5 - 3:20]
+SyntaxError: invalid syntax at [3:5 - 3:20]
 CST Stack:
     {Node ERROR (2, 4) - (2, 19)}
     {Node block (1, 4) - (9, 38)}
@@ -2299,7 +2299,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [3:5 - 3:20]
+SyntaxError: invalid syntax at [3:5 - 3:20]
 CST Stack:
     {Node ERROR (2, 4) - (2, 19)}
     {Node block (1, 4) - (9, 38)}
@@ -2357,7 +2357,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [3:5 - 3:20]
+SyntaxError: invalid syntax at [3:5 - 3:20]
 CST Stack:
     {Node ERROR (2, 4) - (2, 19)}
     {Node block (1, 4) - (9, 38)}
@@ -2416,7 +2416,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [3:17 - 3:20]
+SyntaxError: invalid syntax at [3:17 - 3:20]
 CST Stack:
     {Node ERROR (2, 16) - (2, 19)}
     {Node assignment (2, 4) - (2, 23)}
@@ -2477,7 +2477,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [3:16 - 3:21]
+SyntaxError: invalid syntax at [3:16 - 3:21]
 CST Stack:
     {Node ERROR (2, 15) - (2, 20)}
     {Node assignment (2, 4) - (2, 23)}
@@ -2538,7 +2538,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [3:16 - 3:22]
+SyntaxError: invalid syntax at [3:16 - 3:22]
 CST Stack:
     {Node ERROR (2, 15) - (2, 21)}
     {Node assignment (2, 4) - (2, 23)}
@@ -2599,7 +2599,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [3:16 - 3:19]
+SyntaxError: invalid syntax at [3:16 - 3:19]
 CST Stack:
     {Node ERROR (2, 15) - (2, 18)}
     {Node assignment (2, 4) - (2, 22)}
@@ -2607,7 +2607,7 @@ CST Stack:
     {Node block (1, 4) - (9, 38)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [3:20 - 3:23]
+SyntaxError: keyword: "def" cannot be used as identifier at [3:20 - 3:23]
 CST Stack:
     {Node identifier (2, 19) - (2, 22)}
     {Node assignment (2, 4) - (2, 22)}
@@ -2668,7 +2668,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [4:6 - 4:22]
+SyntaxError: invalid syntax at [4:6 - 4:22]
 CST Stack:
     {Node ERROR (3, 5) - (3, 21)}
     {Node block (1, 4) - (9, 38)}
@@ -2728,7 +2728,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [4:5 - 4:10]
+SyntaxError: invalid syntax at [4:5 - 4:10]
 CST Stack:
     {Node ERROR (3, 4) - (3, 9)}
     {Node block (1, 4) - (9, 38)}
@@ -2788,7 +2788,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [4:5 - 4:11]
+SyntaxError: invalid syntax at [4:5 - 4:11]
 CST Stack:
     {Node ERROR (3, 4) - (3, 10)}
     {Node block (1, 4) - (9, 38)}
@@ -2848,7 +2848,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [4:5 - 4:12]
+SyntaxError: invalid syntax at [4:5 - 4:12]
 CST Stack:
     {Node ERROR (3, 4) - (3, 11)}
     {Node block (1, 4) - (9, 38)}
@@ -2908,7 +2908,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [4:5 - 4:13]
+SyntaxError: invalid syntax at [4:5 - 4:13]
 CST Stack:
     {Node ERROR (3, 4) - (3, 12)}
     {Node block (1, 4) - (9, 38)}
@@ -2967,7 +2967,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [4:12 - 4:19]
+SyntaxError: invalid syntax at [4:12 - 4:19]
 CST Stack:
     {Node ERROR (3, 11) - (3, 18)}
     {Node comparison_operator (3, 4) - (3, 28)}
@@ -3028,7 +3028,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [4:18 - 4:19]
+SyntaxError: invalid syntax at [4:18 - 4:19]
 CST Stack:
     {Node ERROR (3, 17) - (3, 18)}
     {Node comparison_operator (3, 13) - (3, 28)}
@@ -3037,7 +3037,7 @@ CST Stack:
     {Node block (1, 4) - (9, 38)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [4:14 - 4:17]
+SyntaxError: keyword: "def" cannot be used as identifier at [4:14 - 4:17]
 CST Stack:
     {Node identifier (3, 13) - (3, 16)}
     {Node comparison_operator (3, 13) - (3, 28)}
@@ -3099,7 +3099,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [4:13 - 4:14]
+SyntaxError: invalid syntax at [4:13 - 4:14]
 CST Stack:
     {Node ERROR (3, 12) - (3, 13)}
     {Node assignment (3, 4) - (3, 28)}
@@ -3107,7 +3107,7 @@ CST Stack:
     {Node block (1, 4) - (9, 38)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [4:16 - 4:19]
+SyntaxError: keyword: "def" cannot be used as identifier at [4:16 - 4:19]
 CST Stack:
     {Node identifier (3, 15) - (3, 18)}
     {Node comparison_operator (3, 15) - (3, 28)}
@@ -3169,7 +3169,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [4:13 - 4:22]
+SyntaxError: invalid syntax at [4:13 - 4:22]
 CST Stack:
     {Node ERROR (3, 12) - (3, 21)}
     {Node assignment (3, 4) - (3, 28)}
@@ -3230,7 +3230,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [4:19 - 4:22]
+SyntaxError: invalid syntax at [4:19 - 4:22]
 CST Stack:
     {Node ERROR (3, 18) - (3, 21)}
     {Node comparison_operator (3, 12) - (3, 28)}
@@ -3292,7 +3292,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [4:24 - 4:25]
+SyntaxError: invalid syntax at [4:24 - 4:25]
 CST Stack:
     {Node ERROR (3, 23) - (3, 24)}
     {Node set (3, 17) - (3, 28)}
@@ -3302,7 +3302,7 @@ CST Stack:
     {Node block (1, 4) - (9, 38)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [4:20 - 4:23]
+SyntaxError: keyword: "def" cannot be used as identifier at [4:20 - 4:23]
 CST Stack:
     {Node identifier (3, 19) - (3, 22)}
     {Node set (3, 17) - (3, 28)}
@@ -3366,7 +3366,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [4:19 - 4:20]
+SyntaxError: invalid syntax at [4:19 - 4:20]
 CST Stack:
     {Node ERROR (3, 18) - (3, 19)}
     {Node set (3, 17) - (3, 28)}
@@ -3376,7 +3376,7 @@ CST Stack:
     {Node block (1, 4) - (9, 38)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [4:21 - 4:24]
+SyntaxError: keyword: "def" cannot be used as identifier at [4:21 - 4:24]
 CST Stack:
     {Node identifier (3, 20) - (3, 23)}
     {Node set (3, 17) - (3, 28)}
@@ -3440,7 +3440,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [4:27 - 4:28]
+SyntaxError: invalid syntax at [4:27 - 4:28]
 CST Stack:
     {Node ERROR (3, 26) - (3, 27)}
     {Node set (3, 17) - (3, 28)}
@@ -3450,7 +3450,7 @@ CST Stack:
     {Node block (1, 4) - (9, 38)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [4:23 - 4:26]
+SyntaxError: keyword: "def" cannot be used as identifier at [4:23 - 4:26]
 CST Stack:
     {Node identifier (3, 22) - (3, 25)}
     {Node set (3, 17) - (3, 28)}
@@ -3514,7 +3514,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [4:22 - 4:23]
+SyntaxError: invalid syntax at [4:22 - 4:23]
 CST Stack:
     {Node ERROR (3, 21) - (3, 22)}
     {Node set (3, 17) - (3, 28)}
@@ -3524,7 +3524,7 @@ CST Stack:
     {Node block (1, 4) - (9, 38)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [4:24 - 4:27]
+SyntaxError: keyword: "def" cannot be used as identifier at [4:24 - 4:27]
 CST Stack:
     {Node identifier (3, 23) - (3, 26)}
     {Node set (3, 17) - (3, 28)}
@@ -3588,7 +3588,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [4:25 - 4:28]
+SyntaxError: invalid syntax at [4:25 - 4:28]
 CST Stack:
     {Node ERROR (3, 24) - (3, 27)}
     {Node block (1, 4) - (9, 38)}
@@ -3648,7 +3648,7 @@ if __name__ == '__main__':                    |
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:1 - 25:11]
+SyntaxError: invalid syntax at [1:1 - 25:11]
 CST Stack:
     {Node ERROR (0, 0) - (24, 10)}
     {Node module (0, 0) - (25, 0)}
@@ -3718,7 +3718,7 @@ if __name__ == '__main__':                    |
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:1 - 25:11]
+SyntaxError: invalid syntax at [1:1 - 25:11]
 CST Stack:
     {Node ERROR (0, 0) - (24, 10)}
     {Node module (0, 0) - (25, 0)}
@@ -3788,7 +3788,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [5:13 - 5:14]
+SyntaxError: invalid syntax at [5:13 - 5:14]
 CST Stack:
     {Node ERROR (4, 12) - (4, 13)}
     {Node comparison_operator (4, 8) - (4, 18)}
@@ -3797,7 +3797,7 @@ CST Stack:
     {Node block (1, 4) - (9, 38)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [5:9 - 5:12]
+SyntaxError: keyword: "def" cannot be used as identifier at [5:9 - 5:12]
 CST Stack:
     {Node identifier (4, 8) - (4, 11)}
     {Node comparison_operator (4, 8) - (4, 18)}
@@ -3860,14 +3860,14 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [5:8 - 5:9]
+SyntaxError: invalid syntax at [5:8 - 5:9]
 CST Stack:
     {Node ERROR (4, 7) - (4, 8)}
     {Node if_statement (4, 4) - (9, 38)}
     {Node block (1, 4) - (9, 38)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [5:11 - 5:14]
+SyntaxError: keyword: "def" cannot be used as identifier at [5:11 - 5:14]
 CST Stack:
     {Node identifier (4, 10) - (4, 13)}
     {Node comparison_operator (4, 10) - (4, 18)}
@@ -3929,7 +3929,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [5:16 - 5:19]
+SyntaxError: invalid syntax at [5:16 - 5:19]
 CST Stack:
     {Node ERROR (4, 15) - (4, 18)}
     {Node boolean_operator (4, 7) - (4, 28)}
@@ -3937,7 +3937,7 @@ CST Stack:
     {Node block (1, 4) - (9, 38)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [5:12 - 5:15]
+SyntaxError: keyword: "def" cannot be used as identifier at [5:12 - 5:15]
 CST Stack:
     {Node identifier (4, 11) - (4, 14)}
     {Node comparison_operator (4, 7) - (4, 14)}
@@ -3999,7 +3999,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [5:18 - 5:19]
+SyntaxError: invalid syntax at [5:18 - 5:19]
 CST Stack:
     {Node ERROR (4, 17) - (4, 18)}
     {Node boolean_operator (4, 7) - (4, 28)}
@@ -4007,7 +4007,7 @@ CST Stack:
     {Node block (1, 4) - (9, 38)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [5:14 - 5:17]
+SyntaxError: keyword: "def" cannot be used as identifier at [5:14 - 5:17]
 CST Stack:
     {Node identifier (4, 13) - (4, 16)}
     {Node comparison_operator (4, 7) - (4, 16)}
@@ -4069,7 +4069,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [5:13 - 5:14]
+SyntaxError: invalid syntax at [5:13 - 5:14]
 CST Stack:
     {Node ERROR (4, 12) - (4, 13)}
     {Node comparison_operator (4, 7) - (4, 18)}
@@ -4078,7 +4078,7 @@ CST Stack:
     {Node block (1, 4) - (9, 38)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [5:16 - 5:19]
+SyntaxError: keyword: "def" cannot be used as identifier at [5:16 - 5:19]
 CST Stack:
     {Node identifier (4, 15) - (4, 18)}
     {Node comparison_operator (4, 7) - (4, 18)}
@@ -4140,7 +4140,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [5:15 - 5:24]
+SyntaxError: invalid syntax at [5:15 - 5:24]
 CST Stack:
     {Node ERROR (4, 14) - (4, 23)}
     {Node comparison_operator (4, 7) - (4, 28)}
@@ -4201,7 +4201,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [5:23 - 5:24]
+SyntaxError: invalid syntax at [5:23 - 5:24]
 CST Stack:
     {Node ERROR (4, 22) - (4, 23)}
     {Node comparison_operator (4, 18) - (4, 28)}
@@ -4210,7 +4210,7 @@ CST Stack:
     {Node block (1, 4) - (9, 38)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [5:19 - 5:22]
+SyntaxError: keyword: "def" cannot be used as identifier at [5:19 - 5:22]
 CST Stack:
     {Node identifier (4, 18) - (4, 21)}
     {Node comparison_operator (4, 18) - (4, 28)}
@@ -4272,7 +4272,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [5:18 - 5:19]
+SyntaxError: invalid syntax at [5:18 - 5:19]
 CST Stack:
     {Node ERROR (4, 17) - (4, 18)}
     {Node boolean_operator (4, 7) - (4, 28)}
@@ -4280,7 +4280,7 @@ CST Stack:
     {Node block (1, 4) - (9, 38)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [5:21 - 5:24]
+SyntaxError: keyword: "def" cannot be used as identifier at [5:21 - 5:24]
 CST Stack:
     {Node identifier (4, 20) - (4, 23)}
     {Node comparison_operator (4, 20) - (4, 28)}
@@ -4343,7 +4343,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [5:20 - 5:29]
+SyntaxError: invalid syntax at [5:20 - 5:29]
 CST Stack:
     {Node ERROR (4, 19) - (4, 28)}
     {Node if_statement (4, 4) - (9, 38)}
@@ -4404,14 +4404,14 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [5:28 - 5:29]
+SyntaxError: invalid syntax at [5:28 - 5:29]
 CST Stack:
     {Node ERROR (4, 27) - (4, 28)}
     {Node if_statement (4, 4) - (9, 38)}
     {Node block (1, 4) - (9, 38)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [5:24 - 5:27]
+SyntaxError: keyword: "def" cannot be used as identifier at [5:24 - 5:27]
 CST Stack:
     {Node identifier (4, 23) - (4, 26)}
     {Node comparison_operator (4, 17) - (4, 26)}
@@ -4474,7 +4474,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [5:23 - 5:24]
+SyntaxError: invalid syntax at [5:23 - 5:24]
 CST Stack:
     {Node ERROR (4, 22) - (4, 23)}
     {Node comparison_operator (4, 17) - (4, 27)}
@@ -4483,7 +4483,7 @@ CST Stack:
     {Node block (1, 4) - (9, 38)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [5:25 - 5:28]
+SyntaxError: keyword: "def" cannot be used as identifier at [5:25 - 5:28]
 CST Stack:
     {Node identifier (4, 24) - (4, 27)}
     {Node comparison_operator (4, 17) - (4, 27)}
@@ -4546,13 +4546,13 @@ if __name__ == '__main__':                    |     main()
                                               | 
 
 6 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [7:5 - 7:9]
+SyntaxError: invalid syntax at [7:5 - 7:9]
 CST Stack:
     {Node ERROR (6, 4) - (6, 8)}
     {Node block (1, 4) - (9, 38)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "invalid syntax" at [8:9 - 8:15]
+SyntaxError: invalid syntax at [8:9 - 8:15]
 CST Stack:
     {Node ERROR (7, 8) - (7, 14)}
     {Node assignment (6, 9) - (7, 16)}
@@ -4560,7 +4560,7 @@ CST Stack:
     {Node block (1, 4) - (9, 38)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "invalid syntax" at [10:16 - 10:19]
+SyntaxError: invalid syntax at [10:16 - 10:19]
 CST Stack:
     {Node ERROR (9, 15) - (9, 18)}
     {Node call (9, 8) - (9, 25)}
@@ -4571,7 +4571,7 @@ CST Stack:
     {Node block (1, 4) - (9, 38)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [5:26 - 5:29]
+SyntaxError: keyword: "def" cannot be used as identifier at [5:26 - 5:29]
 CST Stack:
     {Node identifier (4, 25) - (4, 28)}
     {Node expression_statement (4, 25) - (4, 28)}
@@ -4580,7 +4580,7 @@ CST Stack:
     {Node block (1, 4) - (9, 38)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"else\" cannot be used as identifier" at [9:5 - 9:9]
+SyntaxError: keyword: "else" cannot be used as identifier at [9:5 - 9:9]
 CST Stack:
     {Node identifier (8, 4) - (8, 8)}
     {Node assignment (8, 4) - (9, 38)}
@@ -4588,7 +4588,7 @@ CST Stack:
     {Node block (1, 4) - (9, 38)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"return\" cannot be used as identifier" at [10:9 - 10:15]
+SyntaxError: keyword: "return" cannot be used as identifier at [10:9 - 10:15]
 CST Stack:
     {Node identifier (9, 8) - (9, 14)}
     {Node call (9, 8) - (9, 25)}
@@ -4662,7 +4662,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [6:10 - 6:20]
+SyntaxError: invalid syntax at [6:10 - 6:20]
 CST Stack:
     {Node ERROR (5, 9) - (5, 19)}
     {Node if_statement (4, 4) - (9, 38)}
@@ -4723,7 +4723,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [6:9 - 6:20]
+SyntaxError: invalid syntax at [6:9 - 6:20]
 CST Stack:
     {Node ERROR (5, 8) - (5, 19)}
     {Node if_statement (4, 4) - (9, 38)}
@@ -4783,7 +4783,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [6:9 - 6:20]
+SyntaxError: invalid syntax at [6:9 - 6:20]
 CST Stack:
     {Node ERROR (5, 8) - (5, 19)}
     {Node if_statement (4, 4) - (9, 38)}
@@ -4843,7 +4843,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [6:9 - 6:20]
+SyntaxError: invalid syntax at [6:9 - 6:20]
 CST Stack:
     {Node ERROR (5, 8) - (5, 19)}
     {Node if_statement (4, 4) - (9, 38)}
@@ -4904,7 +4904,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [6:9 - 6:20]
+SyntaxError: invalid syntax at [6:9 - 6:20]
 CST Stack:
     {Node ERROR (5, 8) - (5, 19)}
     {Node if_statement (4, 4) - (9, 38)}
@@ -4965,7 +4965,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [6:9 - 6:20]
+SyntaxError: invalid syntax at [6:9 - 6:20]
 CST Stack:
     {Node ERROR (5, 8) - (5, 19)}
     {Node if_statement (4, 4) - (9, 38)}
@@ -5026,7 +5026,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [6:17 - 6:20]
+SyntaxError: invalid syntax at [6:17 - 6:20]
 CST Stack:
     {Node ERROR (5, 16) - (5, 19)}
     {Node return_statement (5, 8) - (5, 21)}
@@ -5089,7 +5089,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [6:16 - 6:17]
+SyntaxError: invalid syntax at [6:16 - 6:17]
 CST Stack:
     {Node ERROR (5, 15) - (5, 16)}
     {Node return_statement (5, 8) - (5, 20)}
@@ -5152,7 +5152,7 @@ if __name__ == '__main__':                    |
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:1 - 25:11]
+SyntaxError: invalid syntax at [1:1 - 25:11]
 CST Stack:
     {Node ERROR (0, 0) - (24, 10)}
     {Node module (0, 0) - (25, 0)}
@@ -5222,7 +5222,7 @@ if __name__ == '__main__':                    |
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:1 - 25:11]
+SyntaxError: invalid syntax at [1:1 - 25:11]
 CST Stack:
     {Node ERROR (0, 0) - (24, 10)}
     {Node module (0, 0) - (25, 0)}
@@ -5292,7 +5292,7 @@ if __name__ == '__main__':                    |
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:1 - 25:11]
+SyntaxError: invalid syntax at [1:1 - 25:11]
 CST Stack:
     {Node ERROR (0, 0) - (24, 10)}
     {Node module (0, 0) - (25, 0)}
@@ -5362,7 +5362,7 @@ if __name__ == '__main__':                    |
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:1 - 25:11]
+SyntaxError: invalid syntax at [1:1 - 25:11]
 CST Stack:
     {Node ERROR (0, 0) - (24, 10)}
     {Node module (0, 0) - (25, 0)}
@@ -5432,7 +5432,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [7:11 - 7:14]
+SyntaxError: invalid syntax at [7:11 - 7:14]
 CST Stack:
     {Node ERROR (6, 10) - (6, 13)}
     {Node elif_clause (6, 4) - (7, 16)}
@@ -5493,7 +5493,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [7:10 - 7:15]
+SyntaxError: invalid syntax at [7:10 - 7:15]
 CST Stack:
     {Node ERROR (6, 9) - (6, 14)}
     {Node elif_clause (6, 4) - (7, 16)}
@@ -5555,7 +5555,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [7:10 - 7:16]
+SyntaxError: invalid syntax at [7:10 - 7:16]
 CST Stack:
     {Node ERROR (6, 9) - (6, 15)}
     {Node elif_clause (6, 4) - (7, 16)}
@@ -5617,7 +5617,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [7:14 - 7:20]
+SyntaxError: invalid syntax at [7:14 - 7:20]
 CST Stack:
     {Node ERROR (6, 13) - (6, 19)}
     {Node elif_clause (6, 4) - (7, 16)}
@@ -5679,7 +5679,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [7:15 - 7:20]
+SyntaxError: invalid syntax at [7:15 - 7:20]
 CST Stack:
     {Node ERROR (6, 14) - (6, 19)}
     {Node elif_clause (6, 4) - (7, 16)}
@@ -5741,7 +5741,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [7:16 - 7:19]
+SyntaxError: invalid syntax at [7:16 - 7:19]
 CST Stack:
     {Node ERROR (6, 15) - (6, 18)}
     {Node elif_clause (6, 4) - (7, 16)}
@@ -5803,7 +5803,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 4 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [10:16 - 10:19]
+SyntaxError: invalid syntax at [10:16 - 10:19]
 CST Stack:
     {Node ERROR (9, 15) - (9, 18)}
     {Node call (9, 8) - (9, 25)}
@@ -5814,7 +5814,7 @@ CST Stack:
     {Node block (1, 4) - (9, 38)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [7:17 - 7:20]
+SyntaxError: keyword: "def" cannot be used as identifier at [7:17 - 7:20]
 CST Stack:
     {Node identifier (6, 16) - (6, 19)}
     {Node expression_statement (6, 16) - (6, 19)}
@@ -5824,7 +5824,7 @@ CST Stack:
     {Node block (1, 4) - (9, 38)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"else\" cannot be used as identifier" at [9:5 - 9:9]
+SyntaxError: keyword: "else" cannot be used as identifier at [9:5 - 9:9]
 CST Stack:
     {Node identifier (8, 4) - (8, 8)}
     {Node assignment (8, 4) - (9, 38)}
@@ -5832,7 +5832,7 @@ CST Stack:
     {Node block (1, 4) - (9, 38)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"return\" cannot be used as identifier" at [10:9 - 10:15]
+SyntaxError: keyword: "return" cannot be used as identifier at [10:9 - 10:15]
 CST Stack:
     {Node identifier (9, 8) - (9, 14)}
     {Node call (9, 8) - (9, 25)}
@@ -5903,7 +5903,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [8:10 - 8:20]
+SyntaxError: invalid syntax at [8:10 - 8:20]
 CST Stack:
     {Node ERROR (7, 9) - (7, 19)}
     {Node elif_clause (6, 4) - (7, 21)}
@@ -5965,7 +5965,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [8:9 - 8:20]
+SyntaxError: invalid syntax at [8:9 - 8:20]
 CST Stack:
     {Node ERROR (7, 8) - (7, 19)}
     {Node elif_clause (6, 4) - (7, 21)}
@@ -6026,7 +6026,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [8:9 - 8:20]
+SyntaxError: invalid syntax at [8:9 - 8:20]
 CST Stack:
     {Node ERROR (7, 8) - (7, 19)}
     {Node elif_clause (6, 4) - (7, 21)}
@@ -6087,7 +6087,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [8:9 - 8:20]
+SyntaxError: invalid syntax at [8:9 - 8:20]
 CST Stack:
     {Node ERROR (7, 8) - (7, 19)}
     {Node elif_clause (6, 4) - (7, 21)}
@@ -6149,7 +6149,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [8:9 - 8:20]
+SyntaxError: invalid syntax at [8:9 - 8:20]
 CST Stack:
     {Node ERROR (7, 8) - (7, 19)}
     {Node elif_clause (6, 4) - (7, 21)}
@@ -6211,7 +6211,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [8:9 - 8:20]
+SyntaxError: invalid syntax at [8:9 - 8:20]
 CST Stack:
     {Node ERROR (7, 8) - (7, 19)}
     {Node elif_clause (6, 4) - (7, 21)}
@@ -6273,7 +6273,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [8:17 - 8:20]
+SyntaxError: invalid syntax at [8:17 - 8:20]
 CST Stack:
     {Node ERROR (7, 16) - (7, 19)}
     {Node return_statement (7, 8) - (7, 21)}
@@ -6337,7 +6337,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [8:16 - 8:17]
+SyntaxError: invalid syntax at [8:16 - 8:17]
 CST Stack:
     {Node ERROR (7, 15) - (7, 16)}
     {Node return_statement (7, 8) - (7, 20)}
@@ -6401,7 +6401,7 @@ if __name__ == '__main__':                    |
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:1 - 25:11]
+SyntaxError: invalid syntax at [1:1 - 25:11]
 CST Stack:
     {Node ERROR (0, 0) - (24, 10)}
     {Node module (0, 0) - (25, 0)}
@@ -6472,13 +6472,13 @@ if __name__ == '__main__':                    |     main()
                                               | 
 
 3 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [9:5 - 9:10]
+SyntaxError: invalid syntax at [9:5 - 9:10]
 CST Stack:
     {Node ERROR (8, 4) - (8, 9)}
     {Node block (1, 4) - (9, 38)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "invalid syntax" at [10:16 - 10:19]
+SyntaxError: invalid syntax at [10:16 - 10:19]
 CST Stack:
     {Node ERROR (9, 15) - (9, 18)}
     {Node call (9, 8) - (9, 25)}
@@ -6489,7 +6489,7 @@ CST Stack:
     {Node block (1, 4) - (9, 38)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"return\" cannot be used as identifier" at [10:9 - 10:15]
+SyntaxError: keyword: "return" cannot be used as identifier at [10:9 - 10:15]
 CST Stack:
     {Node identifier (9, 8) - (9, 14)}
     {Node call (9, 8) - (9, 25)}
@@ -6556,13 +6556,13 @@ if __name__ == '__main__':                    |     main()
                                               | 
 
 3 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [9:5 - 9:11]
+SyntaxError: invalid syntax at [9:5 - 9:11]
 CST Stack:
     {Node ERROR (8, 4) - (8, 10)}
     {Node block (1, 4) - (9, 38)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "invalid syntax" at [10:16 - 10:19]
+SyntaxError: invalid syntax at [10:16 - 10:19]
 CST Stack:
     {Node ERROR (9, 15) - (9, 18)}
     {Node call (9, 8) - (9, 25)}
@@ -6573,7 +6573,7 @@ CST Stack:
     {Node block (1, 4) - (9, 38)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"return\" cannot be used as identifier" at [10:9 - 10:15]
+SyntaxError: keyword: "return" cannot be used as identifier at [10:9 - 10:15]
 CST Stack:
     {Node identifier (9, 8) - (9, 14)}
     {Node call (9, 8) - (9, 25)}
@@ -6640,13 +6640,13 @@ if __name__ == '__main__':                    |     main()
                                               | 
 
 3 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [9:5 - 9:12]
+SyntaxError: invalid syntax at [9:5 - 9:12]
 CST Stack:
     {Node ERROR (8, 4) - (8, 11)}
     {Node block (1, 4) - (9, 38)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "invalid syntax" at [10:16 - 10:19]
+SyntaxError: invalid syntax at [10:16 - 10:19]
 CST Stack:
     {Node ERROR (9, 15) - (9, 18)}
     {Node call (9, 8) - (9, 25)}
@@ -6657,7 +6657,7 @@ CST Stack:
     {Node block (1, 4) - (9, 38)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"return\" cannot be used as identifier" at [10:9 - 10:15]
+SyntaxError: keyword: "return" cannot be used as identifier at [10:9 - 10:15]
 CST Stack:
     {Node identifier (9, 8) - (9, 14)}
     {Node call (9, 8) - (9, 25)}
@@ -6724,7 +6724,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [9:10 - 9:13]
+SyntaxError: invalid syntax at [9:10 - 9:13]
 CST Stack:
     {Node ERROR (8, 9) - (8, 12)}
     {Node else_clause (8, 4) - (9, 38)}
@@ -6787,7 +6787,7 @@ if __name__ == '__main__':                    |     return 0
                                               |     main()                                    
 
 1 Recoverable error detected:
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [9:11 - 9:14]
+SyntaxError: keyword: "def" cannot be used as identifier at [9:11 - 9:14]
 CST Stack:
     {Node identifier (8, 10) - (8, 13)}
     {Node expression_statement (8, 10) - (8, 13)}
@@ -6854,7 +6854,7 @@ if __name__ == '__main__':                      |
                                                 | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [10:10 - 10:44]
+SyntaxError: invalid syntax at [10:10 - 10:44]
 CST Stack:
     {Node ERROR (9, 9) - (9, 43)}
     {Node else_clause (8, 4) - (9, 43)}
@@ -6916,7 +6916,7 @@ if __name__ == '__main__':                      | if __name__ == '__main__':
                                                 | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [10:9 - 10:26]
+SyntaxError: invalid syntax at [10:9 - 10:26]
 CST Stack:
     {Node ERROR (9, 8) - (9, 25)}
     {Node else_clause (8, 4) - (9, 43)}
@@ -6924,7 +6924,7 @@ CST Stack:
     {Node block (1, 4) - (9, 43)}
     {Node function_definition (0, 0) - (9, 43)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "invalid syntax" at [10:30 - 10:31]
+SyntaxError: invalid syntax at [10:30 - 10:31]
 CST Stack:
     {Node ERROR (9, 29) - (9, 30)}
     {Node binary_operator (9, 26) - (9, 43)}
@@ -6988,7 +6988,7 @@ if __name__ == '__main__':                      | if __name__ == '__main__':
                                                 | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [10:9 - 10:26]
+SyntaxError: invalid syntax at [10:9 - 10:26]
 CST Stack:
     {Node ERROR (9, 8) - (9, 25)}
     {Node else_clause (8, 4) - (9, 43)}
@@ -6996,7 +6996,7 @@ CST Stack:
     {Node block (1, 4) - (9, 43)}
     {Node function_definition (0, 0) - (9, 43)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "invalid syntax" at [10:30 - 10:31]
+SyntaxError: invalid syntax at [10:30 - 10:31]
 CST Stack:
     {Node ERROR (9, 29) - (9, 30)}
     {Node binary_operator (9, 26) - (9, 43)}
@@ -7060,7 +7060,7 @@ if __name__ == '__main__':                      | if __name__ == '__main__':
                                                 | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [10:9 - 10:26]
+SyntaxError: invalid syntax at [10:9 - 10:26]
 CST Stack:
     {Node ERROR (9, 8) - (9, 25)}
     {Node else_clause (8, 4) - (9, 43)}
@@ -7068,7 +7068,7 @@ CST Stack:
     {Node block (1, 4) - (9, 43)}
     {Node function_definition (0, 0) - (9, 43)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "invalid syntax" at [10:30 - 10:31]
+SyntaxError: invalid syntax at [10:30 - 10:31]
 CST Stack:
     {Node ERROR (9, 29) - (9, 30)}
     {Node binary_operator (9, 26) - (9, 43)}
@@ -7132,7 +7132,7 @@ if __name__ == '__main__':                      | if __name__ == '__main__':
                                                 | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [10:9 - 10:26]
+SyntaxError: invalid syntax at [10:9 - 10:26]
 CST Stack:
     {Node ERROR (9, 8) - (9, 25)}
     {Node else_clause (8, 4) - (9, 43)}
@@ -7140,7 +7140,7 @@ CST Stack:
     {Node block (1, 4) - (9, 43)}
     {Node function_definition (0, 0) - (9, 43)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "invalid syntax" at [10:30 - 10:31]
+SyntaxError: invalid syntax at [10:30 - 10:31]
 CST Stack:
     {Node ERROR (9, 29) - (9, 30)}
     {Node binary_operator (9, 26) - (9, 43)}
@@ -7204,7 +7204,7 @@ if __name__ == '__main__':                      | if __name__ == '__main__':
                                                 | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [10:9 - 10:26]
+SyntaxError: invalid syntax at [10:9 - 10:26]
 CST Stack:
     {Node ERROR (9, 8) - (9, 25)}
     {Node else_clause (8, 4) - (9, 43)}
@@ -7212,7 +7212,7 @@ CST Stack:
     {Node block (1, 4) - (9, 43)}
     {Node function_definition (0, 0) - (9, 43)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "invalid syntax" at [10:30 - 10:31]
+SyntaxError: invalid syntax at [10:30 - 10:31]
 CST Stack:
     {Node ERROR (9, 29) - (9, 30)}
     {Node binary_operator (9, 26) - (9, 43)}
@@ -7276,7 +7276,7 @@ if __name__ == '__main__':                      | if __name__ == '__main__':
                                                 | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [10:17 - 10:20]
+SyntaxError: invalid syntax at [10:17 - 10:20]
 CST Stack:
     {Node ERROR (9, 16) - (9, 19)}
     {Node return_statement (9, 8) - (9, 43)}
@@ -7339,7 +7339,7 @@ if __name__ == '__main__':                      | if __name__ == '__main__':
                                                 | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [10:16 - 10:21]
+SyntaxError: invalid syntax at [10:16 - 10:21]
 CST Stack:
     {Node ERROR (9, 15) - (9, 20)}
     {Node return_statement (9, 8) - (9, 43)}
@@ -7402,7 +7402,7 @@ if __name__ == '__main__':                      | if __name__ == '__main__':
                                                 | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [10:19 - 10:24]
+SyntaxError: invalid syntax at [10:19 - 10:24]
 CST Stack:
     {Node ERROR (9, 18) - (9, 23)}
     {Node call (9, 15) - (9, 30)}
@@ -7467,7 +7467,7 @@ if __name__ == '__main__':                      | if __name__ == '__main__':
                                                 | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [10:16 - 10:19]
+SyntaxError: invalid syntax at [10:16 - 10:19]
 CST Stack:
     {Node ERROR (9, 15) - (9, 18)}
     {Node return_statement (9, 8) - (9, 43)}
@@ -7530,7 +7530,7 @@ if __name__ == '__main__':                      | if __name__ == '__main__':
                                                 | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [10:25 - 10:26]
+SyntaxError: invalid syntax at [10:25 - 10:26]
 CST Stack:
     {Node ERROR (9, 24) - (9, 25)}
     {Node binary_operator (9, 20) - (9, 29)}
@@ -7544,7 +7544,7 @@ CST Stack:
     {Node block (1, 4) - (9, 43)}
     {Node function_definition (0, 0) - (9, 43)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [10:21 - 10:24]
+SyntaxError: keyword: "def" cannot be used as identifier at [10:21 - 10:24]
 CST Stack:
     {Node identifier (9, 20) - (9, 23)}
     {Node binary_operator (9, 20) - (9, 29)}
@@ -7611,7 +7611,7 @@ if __name__ == '__main__':                      | if __name__ == '__main__':
                                                 | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [10:20 - 10:21]
+SyntaxError: invalid syntax at [10:20 - 10:21]
 CST Stack:
     {Node ERROR (9, 19) - (9, 20)}
     {Node argument_list (9, 18) - (9, 30)}
@@ -7624,7 +7624,7 @@ CST Stack:
     {Node block (1, 4) - (9, 43)}
     {Node function_definition (0, 0) - (9, 43)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [10:23 - 10:26]
+SyntaxError: keyword: "def" cannot be used as identifier at [10:23 - 10:26]
 CST Stack:
     {Node identifier (9, 22) - (9, 25)}
     {Node binary_operator (9, 22) - (9, 29)}
@@ -7691,7 +7691,7 @@ if __name__ == '__main__':                      | if __name__ == '__main__':
                                                 | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [10:29 - 10:30]
+SyntaxError: invalid syntax at [10:29 - 10:30]
 CST Stack:
     {Node ERROR (9, 28) - (9, 29)}
     {Node argument_list (9, 18) - (9, 30)}
@@ -7704,7 +7704,7 @@ CST Stack:
     {Node block (1, 4) - (9, 43)}
     {Node function_definition (0, 0) - (9, 43)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [10:25 - 10:28]
+SyntaxError: keyword: "def" cannot be used as identifier at [10:25 - 10:28]
 CST Stack:
     {Node identifier (9, 24) - (9, 27)}
     {Node binary_operator (9, 19) - (9, 27)}
@@ -7771,7 +7771,7 @@ if __name__ == '__main__':                      | if __name__ == '__main__':
                                                 | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [10:24 - 10:25]
+SyntaxError: invalid syntax at [10:24 - 10:25]
 CST Stack:
     {Node ERROR (9, 23) - (9, 24)}
     {Node binary_operator (9, 19) - (9, 28)}
@@ -7785,7 +7785,7 @@ CST Stack:
     {Node block (1, 4) - (9, 43)}
     {Node function_definition (0, 0) - (9, 43)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [10:26 - 10:29]
+SyntaxError: keyword: "def" cannot be used as identifier at [10:26 - 10:29]
 CST Stack:
     {Node identifier (9, 25) - (9, 28)}
     {Node binary_operator (9, 19) - (9, 28)}
@@ -7852,7 +7852,7 @@ if __name__ == '__main__':                      | if __name__ == '__main__':
                                                 | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [10:28 - 10:31]
+SyntaxError: invalid syntax at [10:28 - 10:31]
 CST Stack:
     {Node ERROR (9, 27) - (9, 30)}
     {Node binary_operator (9, 15) - (9, 43)}
@@ -7916,7 +7916,7 @@ if __name__ == '__main__':                      | if __name__ == '__main__':
                                                 | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [10:30 - 10:33]
+SyntaxError: invalid syntax at [10:30 - 10:33]
 CST Stack:
     {Node ERROR (9, 29) - (9, 32)}
     {Node binary_operator (9, 15) - (9, 43)}
@@ -7980,7 +7980,7 @@ if __name__ == '__main__':                      | if __name__ == '__main__':
                                                 | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [10:29 - 10:34]
+SyntaxError: invalid syntax at [10:29 - 10:34]
 CST Stack:
     {Node ERROR (9, 28) - (9, 33)}
     {Node binary_operator (9, 15) - (9, 43)}
@@ -8044,7 +8044,7 @@ if __name__ == '__main__':                      | if __name__ == '__main__':
                                                 | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [10:29 - 10:35]
+SyntaxError: invalid syntax at [10:29 - 10:35]
 CST Stack:
     {Node ERROR (9, 28) - (9, 34)}
     {Node binary_operator (9, 15) - (9, 43)}
@@ -8108,7 +8108,7 @@ if __name__ == '__main__':                      | if __name__ == '__main__':
                                                 | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [10:29 - 10:32]
+SyntaxError: invalid syntax at [10:29 - 10:32]
 CST Stack:
     {Node ERROR (9, 28) - (9, 31)}
     {Node binary_operator (9, 15) - (9, 43)}
@@ -8119,7 +8119,7 @@ CST Stack:
     {Node block (1, 4) - (9, 43)}
     {Node function_definition (0, 0) - (9, 43)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [10:33 - 10:36]
+SyntaxError: keyword: "def" cannot be used as identifier at [10:33 - 10:36]
 CST Stack:
     {Node identifier (9, 32) - (9, 35)}
     {Node call (9, 32) - (9, 43)}
@@ -8184,7 +8184,7 @@ if __name__ == '__main__':                      | if __name__ == '__main__':
                                                 | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [10:38 - 10:39]
+SyntaxError: invalid syntax at [10:38 - 10:39]
 CST Stack:
     {Node ERROR (9, 37) - (9, 38)}
     {Node binary_operator (9, 33) - (9, 42)}
@@ -8198,7 +8198,7 @@ CST Stack:
     {Node block (1, 4) - (9, 43)}
     {Node function_definition (0, 0) - (9, 43)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [10:34 - 10:37]
+SyntaxError: keyword: "def" cannot be used as identifier at [10:34 - 10:37]
 CST Stack:
     {Node identifier (9, 33) - (9, 36)}
     {Node binary_operator (9, 33) - (9, 42)}
@@ -8266,7 +8266,7 @@ if __name__ == '__main__':                      | if __name__ == '__main__':
                                                 | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [10:33 - 10:34]
+SyntaxError: invalid syntax at [10:33 - 10:34]
 CST Stack:
     {Node ERROR (9, 32) - (9, 33)}
     {Node argument_list (9, 31) - (9, 43)}
@@ -8279,7 +8279,7 @@ CST Stack:
     {Node block (1, 4) - (9, 43)}
     {Node function_definition (0, 0) - (9, 43)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [10:36 - 10:39]
+SyntaxError: keyword: "def" cannot be used as identifier at [10:36 - 10:39]
 CST Stack:
     {Node identifier (9, 35) - (9, 38)}
     {Node binary_operator (9, 35) - (9, 42)}
@@ -8348,7 +8348,7 @@ if __name__ == '__main__':                      | if __name__ == '__main__':
                                                 | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [10:42 - 10:43]
+SyntaxError: invalid syntax at [10:42 - 10:43]
 CST Stack:
     {Node ERROR (9, 41) - (9, 42)}
     {Node argument_list (9, 31) - (9, 43)}
@@ -8361,7 +8361,7 @@ CST Stack:
     {Node block (1, 4) - (9, 43)}
     {Node function_definition (0, 0) - (9, 43)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [10:38 - 10:41]
+SyntaxError: keyword: "def" cannot be used as identifier at [10:38 - 10:41]
 CST Stack:
     {Node identifier (9, 37) - (9, 40)}
     {Node binary_operator (9, 32) - (9, 40)}
@@ -8430,7 +8430,7 @@ if __name__ == '__main__':                      | if __name__ == '__main__':
                                                 | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [10:37 - 10:38]
+SyntaxError: invalid syntax at [10:37 - 10:38]
 CST Stack:
     {Node ERROR (9, 36) - (9, 37)}
     {Node binary_operator (9, 32) - (9, 41)}
@@ -8444,7 +8444,7 @@ CST Stack:
     {Node block (1, 4) - (9, 43)}
     {Node function_definition (0, 0) - (9, 43)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [10:39 - 10:42]
+SyntaxError: keyword: "def" cannot be used as identifier at [10:39 - 10:42]
 CST Stack:
     {Node identifier (9, 38) - (9, 41)}
     {Node binary_operator (9, 32) - (9, 41)}
@@ -8513,7 +8513,7 @@ if __name__ == '__main__':                      | if __name__ == '__main__':
                                                 | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [10:29 - 10:39]
+SyntaxError: invalid syntax at [10:29 - 10:39]
 CST Stack:
     {Node ERROR (9, 28) - (9, 38)}
     {Node binary_operator (9, 15) - (9, 42)}
@@ -8524,7 +8524,7 @@ CST Stack:
     {Node block (1, 4) - (9, 42)}
     {Node function_definition (0, 0) - (9, 42)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [10:40 - 10:43]
+SyntaxError: keyword: "def" cannot be used as identifier at [10:40 - 10:43]
 CST Stack:
     {Node identifier (9, 39) - (9, 42)}
     {Node binary_operator (9, 15) - (9, 42)}
@@ -8590,7 +8590,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [12:1 - 12:4]
+SyntaxError: invalid syntax at [12:1 - 12:4]
 CST Stack:
     {Node ERROR (11, 0) - (11, 3)}
     {Node function_definition (10, 1) - (12, 8)}
@@ -8650,7 +8650,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [12:6 - 12:9]
+SyntaxError: invalid syntax at [12:6 - 12:9]
 CST Stack:
     {Node ERROR (11, 5) - (11, 8)}
     {Node function_definition (11, 1) - (12, 8)}
@@ -8710,11 +8710,11 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [12:1 - 12:2]
+SyntaxError: invalid syntax at [12:1 - 12:2]
 CST Stack:
     {Node ERROR (11, 0) - (11, 1)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "invalid syntax" at [12:7 - 12:9]
+SyntaxError: invalid syntax at [12:7 - 12:9]
 CST Stack:
     {Node ERROR (11, 6) - (11, 8)}
     {Node function_definition (11, 2) - (12, 8)}
@@ -8774,11 +8774,11 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [12:1 - 12:3]
+SyntaxError: invalid syntax at [12:1 - 12:3]
 CST Stack:
     {Node ERROR (11, 0) - (11, 2)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "invalid syntax" at [12:8 - 12:9]
+SyntaxError: invalid syntax at [12:8 - 12:9]
 CST Stack:
     {Node ERROR (11, 7) - (11, 8)}
     {Node function_definition (11, 3) - (12, 8)}
@@ -8838,7 +8838,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [12:6 - 12:9]
+SyntaxError: invalid syntax at [12:6 - 12:9]
 CST Stack:
     {Node ERROR (11, 5) - (11, 8)}
     {Node function_definition (11, 0) - (12, 8)}
@@ -8898,7 +8898,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [12:5 - 12:10]
+SyntaxError: invalid syntax at [12:5 - 12:10]
 CST Stack:
     {Node ERROR (11, 4) - (11, 9)}
     {Node function_definition (11, 0) - (12, 8)}
@@ -8958,7 +8958,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [12:5 - 12:11]
+SyntaxError: invalid syntax at [12:5 - 12:11]
 CST Stack:
     {Node ERROR (11, 4) - (11, 10)}
     {Node function_definition (11, 0) - (12, 8)}
@@ -9018,7 +9018,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [12:5 - 12:12]
+SyntaxError: invalid syntax at [12:5 - 12:12]
 CST Stack:
     {Node ERROR (11, 4) - (11, 11)}
     {Node function_definition (11, 0) - (12, 8)}
@@ -9078,7 +9078,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [12:5 - 12:13]
+SyntaxError: invalid syntax at [12:5 - 12:13]
 CST Stack:
     {Node ERROR (11, 4) - (11, 12)}
     {Node function_definition (11, 0) - (12, 8)}
@@ -9137,7 +9137,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [12:5 - 12:14]
+SyntaxError: invalid syntax at [12:5 - 12:14]
 CST Stack:
     {Node ERROR (11, 4) - (11, 13)}
     {Node function_definition (11, 0) - (12, 8)}
@@ -9195,7 +9195,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [12:5 - 12:15]
+SyntaxError: invalid syntax at [12:5 - 12:15]
 CST Stack:
     {Node ERROR (11, 4) - (11, 14)}
     {Node function_definition (11, 0) - (12, 8)}
@@ -9253,7 +9253,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [12:13 - 12:23]
+SyntaxError: invalid syntax at [12:13 - 12:23]
 CST Stack:
     {Node ERROR (11, 12) - (11, 22)}
     {Node function_definition (11, 0) - (12, 8)}
@@ -9311,7 +9311,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [12:14 - 12:23]
+SyntaxError: invalid syntax at [12:14 - 12:23]
 CST Stack:
     {Node ERROR (11, 13) - (11, 22)}
     {Node function_definition (11, 0) - (12, 8)}
@@ -9369,7 +9369,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [12:15 - 12:23]
+SyntaxError: invalid syntax at [12:15 - 12:23]
 CST Stack:
     {Node ERROR (11, 14) - (11, 22)}
     {Node function_definition (11, 0) - (12, 8)}
@@ -9427,7 +9427,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [12:16 - 12:23]
+SyntaxError: invalid syntax at [12:16 - 12:23]
 CST Stack:
     {Node ERROR (11, 15) - (11, 22)}
     {Node function_definition (11, 0) - (12, 8)}
@@ -9485,7 +9485,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [12:17 - 12:23]
+SyntaxError: invalid syntax at [12:17 - 12:23]
 CST Stack:
     {Node ERROR (11, 16) - (11, 22)}
     {Node function_definition (11, 0) - (12, 8)}
@@ -9544,7 +9544,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [12:18 - 12:23]
+SyntaxError: invalid syntax at [12:18 - 12:23]
 CST Stack:
     {Node ERROR (11, 17) - (11, 22)}
     {Node function_definition (11, 0) - (12, 8)}
@@ -9603,7 +9603,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [12:19 - 12:22]
+SyntaxError: invalid syntax at [12:19 - 12:22]
 CST Stack:
     {Node ERROR (11, 18) - (11, 21)}
     {Node function_definition (11, 0) - (12, 8)}
@@ -9662,7 +9662,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [12:20 - 12:23]
+SyntaxError: keyword: "def" cannot be used as identifier at [12:20 - 12:23]
 CST Stack:
     {Node identifier (11, 19) - (11, 22)}
     {Node parameters (11, 17) - (11, 24)}
@@ -9722,7 +9722,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [12:21 - 12:24]
+SyntaxError: invalid syntax at [12:21 - 12:24]
 CST Stack:
     {Node ERROR (11, 20) - (11, 23)}
     {Node function_definition (11, 0) - (12, 8)}
@@ -9781,7 +9781,7 @@ if __name__ == '__main__':                    |     return 0
                                               |     main()                                    
 
 1 Recoverable error detected:
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [12:22 - 12:25]
+SyntaxError: keyword: "def" cannot be used as identifier at [12:22 - 12:25]
 CST Stack:
     {Node identifier (11, 21) - (11, 24)}
     {Node expression_statement (11, 21) - (11, 24)}
@@ -9846,7 +9846,7 @@ if __name__ == '__main__':                    |     main()
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [13:6 - 13:14]
+SyntaxError: invalid syntax at [13:6 - 13:14]
 CST Stack:
     {Node ERROR (12, 5) - (12, 13)}
     {Node function_definition (11, 0) - (12, 13)}
@@ -9906,7 +9906,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [13:5 - 13:10]
+SyntaxError: invalid syntax at [13:5 - 13:10]
 CST Stack:
     {Node ERROR (12, 4) - (12, 9)}
     {Node function_definition (11, 0) - (12, 13)}
@@ -9967,7 +9967,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [13:5 - 13:11]
+SyntaxError: invalid syntax at [13:5 - 13:11]
 CST Stack:
     {Node ERROR (12, 4) - (12, 10)}
     {Node function_definition (11, 0) - (12, 13)}
@@ -10028,7 +10028,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [13:5 - 13:12]
+SyntaxError: invalid syntax at [13:5 - 13:12]
 CST Stack:
     {Node ERROR (12, 4) - (12, 11)}
     {Node function_definition (11, 0) - (12, 13)}
@@ -10089,7 +10089,7 @@ if __name__ == '__main__':                    |     main()
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [13:5 - 13:13]
+SyntaxError: invalid syntax at [13:5 - 13:13]
 CST Stack:
     {Node ERROR (12, 4) - (12, 12)}
     {Node function_definition (11, 0) - (12, 12)}
@@ -10149,7 +10149,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:1 - 15:4]
+SyntaxError: invalid syntax at [15:1 - 15:4]
 CST Stack:
     {Node ERROR (14, 0) - (14, 3)}
     {Node function_definition (13, 1) - (15, 41)}
@@ -10209,7 +10209,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:6 - 15:9]
+SyntaxError: invalid syntax at [15:6 - 15:9]
 CST Stack:
     {Node ERROR (14, 5) - (14, 8)}
     {Node function_definition (14, 1) - (15, 41)}
@@ -10269,11 +10269,11 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [15:1 - 15:2]
+SyntaxError: invalid syntax at [15:1 - 15:2]
 CST Stack:
     {Node ERROR (14, 0) - (14, 1)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "invalid syntax" at [15:7 - 15:9]
+SyntaxError: invalid syntax at [15:7 - 15:9]
 CST Stack:
     {Node ERROR (14, 6) - (14, 8)}
     {Node function_definition (14, 2) - (15, 41)}
@@ -10333,11 +10333,11 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [15:1 - 15:3]
+SyntaxError: invalid syntax at [15:1 - 15:3]
 CST Stack:
     {Node ERROR (14, 0) - (14, 2)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "invalid syntax" at [15:8 - 15:9]
+SyntaxError: invalid syntax at [15:8 - 15:9]
 CST Stack:
     {Node ERROR (14, 7) - (14, 8)}
     {Node function_definition (14, 3) - (15, 41)}
@@ -10397,7 +10397,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:6 - 15:9]
+SyntaxError: invalid syntax at [15:6 - 15:9]
 CST Stack:
     {Node ERROR (14, 5) - (14, 8)}
     {Node function_definition (14, 0) - (15, 41)}
@@ -10457,7 +10457,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:5 - 15:10]
+SyntaxError: invalid syntax at [15:5 - 15:10]
 CST Stack:
     {Node ERROR (14, 4) - (14, 9)}
     {Node function_definition (14, 0) - (15, 41)}
@@ -10517,7 +10517,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:5 - 15:11]
+SyntaxError: invalid syntax at [15:5 - 15:11]
 CST Stack:
     {Node ERROR (14, 4) - (14, 10)}
     {Node function_definition (14, 0) - (15, 41)}
@@ -10577,7 +10577,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:5 - 15:12]
+SyntaxError: invalid syntax at [15:5 - 15:12]
 CST Stack:
     {Node ERROR (14, 4) - (14, 11)}
     {Node function_definition (14, 0) - (15, 41)}
@@ -10637,7 +10637,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:5 - 15:13]
+SyntaxError: invalid syntax at [15:5 - 15:13]
 CST Stack:
     {Node ERROR (14, 4) - (14, 12)}
     {Node function_definition (14, 0) - (15, 41)}
@@ -10696,7 +10696,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:5 - 15:14]
+SyntaxError: invalid syntax at [15:5 - 15:14]
 CST Stack:
     {Node ERROR (14, 4) - (14, 13)}
     {Node function_definition (14, 0) - (15, 41)}
@@ -10754,7 +10754,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:5 - 15:15]
+SyntaxError: invalid syntax at [15:5 - 15:15]
 CST Stack:
     {Node ERROR (14, 4) - (14, 14)}
     {Node function_definition (14, 0) - (15, 41)}
@@ -10812,7 +10812,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:5 - 15:16]
+SyntaxError: invalid syntax at [15:5 - 15:16]
 CST Stack:
     {Node ERROR (14, 4) - (14, 15)}
     {Node function_definition (14, 0) - (15, 41)}
@@ -10870,7 +10870,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:14 - 15:25]
+SyntaxError: invalid syntax at [15:14 - 15:25]
 CST Stack:
     {Node ERROR (14, 13) - (14, 24)}
     {Node function_definition (14, 0) - (15, 41)}
@@ -10928,7 +10928,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:15 - 15:25]
+SyntaxError: invalid syntax at [15:15 - 15:25]
 CST Stack:
     {Node ERROR (14, 14) - (14, 24)}
     {Node function_definition (14, 0) - (15, 41)}
@@ -10986,7 +10986,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:16 - 15:25]
+SyntaxError: invalid syntax at [15:16 - 15:25]
 CST Stack:
     {Node ERROR (14, 15) - (14, 24)}
     {Node function_definition (14, 0) - (15, 41)}
@@ -11044,7 +11044,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:17 - 15:25]
+SyntaxError: invalid syntax at [15:17 - 15:25]
 CST Stack:
     {Node ERROR (14, 16) - (14, 24)}
     {Node function_definition (14, 0) - (15, 41)}
@@ -11102,7 +11102,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:18 - 15:25]
+SyntaxError: invalid syntax at [15:18 - 15:25]
 CST Stack:
     {Node ERROR (14, 17) - (14, 24)}
     {Node function_definition (14, 0) - (15, 41)}
@@ -11160,7 +11160,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:19 - 15:25]
+SyntaxError: invalid syntax at [15:19 - 15:25]
 CST Stack:
     {Node ERROR (14, 18) - (14, 24)}
     {Node function_definition (14, 0) - (15, 41)}
@@ -11218,7 +11218,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:20 - 15:25]
+SyntaxError: invalid syntax at [15:20 - 15:25]
 CST Stack:
     {Node ERROR (14, 19) - (14, 24)}
     {Node function_definition (14, 0) - (15, 41)}
@@ -11276,7 +11276,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:21 - 15:24]
+SyntaxError: invalid syntax at [15:21 - 15:24]
 CST Stack:
     {Node ERROR (14, 20) - (14, 23)}
     {Node function_definition (14, 0) - (15, 41)}
@@ -11334,7 +11334,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:22 - 15:25]
+SyntaxError: invalid syntax at [15:22 - 15:25]
 CST Stack:
     {Node ERROR (14, 21) - (14, 24)}
     {Node parameters (14, 19) - (14, 38)}
@@ -11393,7 +11393,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:21 - 15:26]
+SyntaxError: invalid syntax at [15:21 - 15:26]
 CST Stack:
     {Node ERROR (14, 20) - (14, 25)}
     {Node parameters (14, 19) - (14, 38)}
@@ -11452,7 +11452,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:21 - 15:27]
+SyntaxError: invalid syntax at [15:21 - 15:27]
 CST Stack:
     {Node ERROR (14, 20) - (14, 26)}
     {Node parameters (14, 19) - (14, 38)}
@@ -11511,7 +11511,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:21 - 15:28]
+SyntaxError: invalid syntax at [15:21 - 15:28]
 CST Stack:
     {Node ERROR (14, 20) - (14, 27)}
     {Node parameters (14, 19) - (14, 38)}
@@ -11570,7 +11570,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:26 - 15:33]
+SyntaxError: invalid syntax at [15:26 - 15:33]
 CST Stack:
     {Node ERROR (14, 25) - (14, 32)}
     {Node typed_parameter (14, 20) - (14, 37)}
@@ -11630,7 +11630,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:27 - 15:33]
+SyntaxError: invalid syntax at [15:27 - 15:33]
 CST Stack:
     {Node ERROR (14, 26) - (14, 32)}
     {Node typed_parameter (14, 20) - (14, 37)}
@@ -11690,7 +11690,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:28 - 15:33]
+SyntaxError: invalid syntax at [15:28 - 15:33]
 CST Stack:
     {Node ERROR (14, 27) - (14, 32)}
     {Node typed_parameter (14, 20) - (14, 37)}
@@ -11750,7 +11750,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:29 - 15:32]
+SyntaxError: invalid syntax at [15:29 - 15:32]
 CST Stack:
     {Node ERROR (14, 28) - (14, 31)}
     {Node typed_parameter (14, 20) - (14, 37)}
@@ -11810,13 +11810,13 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [15:35 - 15:38]
+SyntaxError: invalid syntax at [15:35 - 15:38]
 CST Stack:
     {Node ERROR (14, 34) - (14, 37)}
     {Node parameters (14, 19) - (14, 38)}
     {Node function_definition (14, 0) - (15, 41)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [15:31 - 15:34]
+SyntaxError: keyword: "def" cannot be used as identifier at [15:31 - 15:34]
 CST Stack:
     {Node identifier (14, 30) - (14, 33)}
     {Node type (14, 30) - (14, 33)}
@@ -11877,7 +11877,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:30 - 15:35]
+SyntaxError: invalid syntax at [15:30 - 15:35]
 CST Stack:
     {Node ERROR (14, 29) - (14, 34)}
     {Node typed_parameter (14, 20) - (14, 37)}
@@ -11937,7 +11937,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:33 - 15:38]
+SyntaxError: invalid syntax at [15:33 - 15:38]
 CST Stack:
     {Node ERROR (14, 32) - (14, 37)}
     {Node parameters (14, 19) - (14, 38)}
@@ -11996,7 +11996,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:34 - 15:37]
+SyntaxError: invalid syntax at [15:34 - 15:37]
 CST Stack:
     {Node ERROR (14, 33) - (14, 36)}
     {Node parameters (14, 19) - (14, 38)}
@@ -12055,7 +12055,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:36 - 15:39]
+SyntaxError: invalid syntax at [15:36 - 15:39]
 CST Stack:
     {Node ERROR (14, 35) - (14, 38)}
     {Node function_definition (14, 0) - (15, 41)}
@@ -12113,7 +12113,7 @@ if __name__ == '__main__':                         |
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:1 - 25:11]
+SyntaxError: invalid syntax at [1:1 - 25:11]
 CST Stack:
     {Node ERROR (0, 0) - (24, 10)}
     {Node module (0, 0) - (25, 0)}
@@ -12183,12 +12183,12 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [15:43 - 15:46]
+SyntaxError: invalid syntax at [15:43 - 15:46]
 CST Stack:
     {Node ERROR (14, 42) - (14, 45)}
     {Node function_definition (14, 0) - (15, 41)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [15:39 - 15:42]
+SyntaxError: keyword: "def" cannot be used as identifier at [15:39 - 15:42]
 CST Stack:
     {Node identifier (14, 38) - (14, 41)}
     {Node type (14, 38) - (14, 41)}
@@ -12248,7 +12248,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:38 - 15:43]
+SyntaxError: invalid syntax at [15:38 - 15:43]
 CST Stack:
     {Node ERROR (14, 37) - (14, 42)}
     {Node function_definition (14, 0) - (15, 41)}
@@ -12307,7 +12307,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:41 - 15:46]
+SyntaxError: invalid syntax at [15:41 - 15:46]
 CST Stack:
     {Node ERROR (14, 40) - (14, 45)}
     {Node function_definition (14, 0) - (15, 41)}
@@ -12366,7 +12366,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [15:42 - 15:45]
+SyntaxError: invalid syntax at [15:42 - 15:45]
 CST Stack:
     {Node ERROR (14, 41) - (14, 44)}
     {Node function_definition (14, 0) - (15, 41)}
@@ -12425,7 +12425,7 @@ if __name__ == '__main__':                         |     return 0
                                                    |     main()                                         
 
 1 Recoverable error detected:
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [15:43 - 15:46]
+SyntaxError: keyword: "def" cannot be used as identifier at [15:43 - 15:46]
 CST Stack:
     {Node identifier (14, 42) - (14, 45)}
     {Node expression_statement (14, 42) - (14, 45)}
@@ -12489,7 +12489,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [16:6 - 16:16]
+SyntaxError: invalid syntax at [16:6 - 16:16]
 CST Stack:
     {Node ERROR (15, 5) - (15, 15)}
     {Node function_definition (14, 0) - (15, 46)}
@@ -12548,7 +12548,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [16:5 - 16:16]
+SyntaxError: invalid syntax at [16:5 - 16:16]
 CST Stack:
     {Node ERROR (15, 4) - (15, 15)}
     {Node function_definition (14, 0) - (15, 46)}
@@ -12607,7 +12607,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [16:5 - 16:16]
+SyntaxError: invalid syntax at [16:5 - 16:16]
 CST Stack:
     {Node ERROR (15, 4) - (15, 15)}
     {Node function_definition (14, 0) - (15, 46)}
@@ -12666,7 +12666,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [16:5 - 16:16]
+SyntaxError: invalid syntax at [16:5 - 16:16]
 CST Stack:
     {Node ERROR (15, 4) - (15, 15)}
     {Node function_definition (14, 0) - (15, 46)}
@@ -12725,7 +12725,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [16:5 - 16:16]
+SyntaxError: invalid syntax at [16:5 - 16:16]
 CST Stack:
     {Node ERROR (15, 4) - (15, 15)}
     {Node function_definition (14, 0) - (15, 46)}
@@ -12784,7 +12784,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [16:5 - 16:16]
+SyntaxError: invalid syntax at [16:5 - 16:16]
 CST Stack:
     {Node ERROR (15, 4) - (15, 15)}
     {Node function_definition (14, 0) - (15, 46)}
@@ -12842,7 +12842,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [16:13 - 16:16]
+SyntaxError: invalid syntax at [16:13 - 16:16]
 CST Stack:
     {Node ERROR (15, 12) - (15, 15)}
     {Node return_statement (15, 4) - (15, 46)}
@@ -12988,7 +12988,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [16:12 - 16:15]
+SyntaxError: invalid syntax at [16:12 - 16:15]
 CST Stack:
     {Node ERROR (15, 11) - (15, 14)}
     {Node return_statement (15, 4) - (15, 46)}
@@ -13048,7 +13048,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [16:21 - 16:25]
+SyntaxError: invalid syntax at [16:21 - 16:25]
 CST Stack:
     {Node ERROR (15, 20) - (15, 24)}
     {Node call (15, 11) - (15, 46)}
@@ -13056,7 +13056,7 @@ CST Stack:
     {Node block (15, 4) - (15, 46)}
     {Node function_definition (14, 0) - (15, 46)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [16:17 - 16:20]
+SyntaxError: keyword: "def" cannot be used as identifier at [16:17 - 16:20]
 CST Stack:
     {Node identifier (15, 16) - (15, 19)}
     {Node attribute (15, 11) - (15, 19)}
@@ -13118,7 +13118,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [16:12 - 16:21]
+SyntaxError: invalid syntax at [16:12 - 16:21]
 CST Stack:
     {Node ERROR (15, 11) - (15, 20)}
     {Node return_statement (15, 4) - (15, 46)}
@@ -13178,7 +13178,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [16:19 - 16:22]
+SyntaxError: invalid syntax at [16:19 - 16:22]
 CST Stack:
     {Node ERROR (15, 18) - (15, 21)}
     {Node comparison_operator (15, 11) - (15, 46)}
@@ -13239,7 +13239,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [16:12 - 16:23]
+SyntaxError: invalid syntax at [16:12 - 16:23]
 CST Stack:
     {Node ERROR (15, 11) - (15, 22)}
     {Node return_statement (15, 4) - (15, 46)}
@@ -13299,7 +13299,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [16:21 - 16:24]
+SyntaxError: invalid syntax at [16:21 - 16:24]
 CST Stack:
     {Node ERROR (15, 20) - (15, 23)}
     {Node call (15, 11) - (15, 46)}
@@ -13360,7 +13360,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [16:27 - 16:32]
+SyntaxError: invalid syntax at [16:27 - 16:32]
 CST Stack:
     {Node ERROR (15, 26) - (15, 31)}
     {Node subscript (15, 21) - (15, 45)}
@@ -13370,7 +13370,7 @@ CST Stack:
     {Node block (15, 4) - (15, 46)}
     {Node function_definition (14, 0) - (15, 46)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [16:22 - 16:25]
+SyntaxError: keyword: "def" cannot be used as identifier at [16:22 - 16:25]
 CST Stack:
     {Node identifier (15, 21) - (15, 24)}
     {Node subscript (15, 21) - (15, 45)}
@@ -13433,7 +13433,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [16:27 - 16:28]
+SyntaxError: invalid syntax at [16:27 - 16:28]
 CST Stack:
     {Node ERROR (15, 26) - (15, 27)}
     {Node list_comprehension (15, 20) - (15, 45)}
@@ -13443,7 +13443,7 @@ CST Stack:
     {Node block (15, 4) - (15, 46)}
     {Node function_definition (14, 0) - (15, 46)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [16:23 - 16:26]
+SyntaxError: keyword: "def" cannot be used as identifier at [16:23 - 16:26]
 CST Stack:
     {Node identifier (15, 22) - (15, 25)}
     {Node list_comprehension (15, 20) - (15, 45)}
@@ -13506,7 +13506,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [16:22 - 16:23]
+SyntaxError: invalid syntax at [16:22 - 16:23]
 CST Stack:
     {Node ERROR (15, 21) - (15, 22)}
     {Node list_comprehension (15, 20) - (15, 45)}
@@ -13516,7 +13516,7 @@ CST Stack:
     {Node block (15, 4) - (15, 46)}
     {Node function_definition (14, 0) - (15, 46)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [16:25 - 16:28]
+SyntaxError: keyword: "def" cannot be used as identifier at [16:25 - 16:28]
 CST Stack:
     {Node identifier (15, 24) - (15, 27)}
     {Node list_comprehension (15, 20) - (15, 45)}
@@ -13579,7 +13579,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [16:24 - 16:29]
+SyntaxError: invalid syntax at [16:24 - 16:29]
 CST Stack:
     {Node ERROR (15, 23) - (15, 28)}
     {Node boolean_operator (15, 21) - (15, 44)}
@@ -13643,7 +13643,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [16:22 - 16:32]
+SyntaxError: invalid syntax at [16:22 - 16:32]
 CST Stack:
     {Node ERROR (15, 21) - (15, 31)}
     {Node list (15, 20) - (15, 45)}
@@ -13706,7 +13706,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [16:33 - 16:34]
+SyntaxError: invalid syntax at [16:33 - 16:34]
 CST Stack:
     {Node ERROR (15, 32) - (15, 33)}
     {Node for_in_clause (15, 23) - (15, 44)}
@@ -13717,7 +13717,7 @@ CST Stack:
     {Node block (15, 4) - (15, 46)}
     {Node function_definition (14, 0) - (15, 46)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [16:29 - 16:32]
+SyntaxError: keyword: "def" cannot be used as identifier at [16:29 - 16:32]
 CST Stack:
     {Node identifier (15, 28) - (15, 31)}
     {Node for_in_clause (15, 23) - (15, 44)}
@@ -13781,7 +13781,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [16:28 - 16:29]
+SyntaxError: invalid syntax at [16:28 - 16:29]
 CST Stack:
     {Node ERROR (15, 27) - (15, 28)}
     {Node for_in_clause (15, 23) - (15, 44)}
@@ -13792,7 +13792,7 @@ CST Stack:
     {Node block (15, 4) - (15, 46)}
     {Node function_definition (14, 0) - (15, 46)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [16:31 - 16:34]
+SyntaxError: keyword: "def" cannot be used as identifier at [16:31 - 16:34]
 CST Stack:
     {Node identifier (15, 30) - (15, 33)}
     {Node for_in_clause (15, 23) - (15, 44)}
@@ -13856,7 +13856,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [16:24 - 16:45]
+SyntaxError: invalid syntax at [16:24 - 16:45]
 CST Stack:
     {Node ERROR (15, 23) - (15, 44)}
     {Node list (15, 20) - (15, 45)}
@@ -13919,7 +13919,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [16:34 - 16:37]
+SyntaxError: invalid syntax at [16:34 - 16:37]
 CST Stack:
     {Node ERROR (15, 33) - (15, 36)}
     {Node for_in_clause (15, 23) - (15, 44)}
@@ -13983,7 +13983,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [16:33 - 16:38]
+SyntaxError: invalid syntax at [16:33 - 16:38]
 CST Stack:
     {Node ERROR (15, 32) - (15, 37)}
     {Node for_in_clause (15, 23) - (15, 44)}
@@ -14047,7 +14047,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [16:33 - 16:39]
+SyntaxError: invalid syntax at [16:33 - 16:39]
 CST Stack:
     {Node ERROR (15, 32) - (15, 38)}
     {Node for_in_clause (15, 23) - (15, 44)}
@@ -14111,7 +14111,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [16:33 - 16:40]
+SyntaxError: invalid syntax at [16:33 - 16:40]
 CST Stack:
     {Node ERROR (15, 32) - (15, 39)}
     {Node for_in_clause (15, 23) - (15, 44)}
@@ -14175,7 +14175,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [16:38 - 16:45]
+SyntaxError: invalid syntax at [16:38 - 16:45]
 CST Stack:
     {Node ERROR (15, 37) - (15, 44)}
     {Node list_comprehension (15, 20) - (15, 45)}
@@ -14239,7 +14239,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [16:39 - 16:45]
+SyntaxError: invalid syntax at [16:39 - 16:45]
 CST Stack:
     {Node ERROR (15, 38) - (15, 44)}
     {Node list_comprehension (15, 20) - (15, 45)}
@@ -14304,7 +14304,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [16:40 - 16:45]
+SyntaxError: invalid syntax at [16:40 - 16:45]
 CST Stack:
     {Node ERROR (15, 39) - (15, 44)}
     {Node list_comprehension (15, 20) - (15, 45)}
@@ -14369,7 +14369,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [16:41 - 16:44]
+SyntaxError: invalid syntax at [16:41 - 16:44]
 CST Stack:
     {Node ERROR (15, 40) - (15, 43)}
     {Node list_comprehension (15, 20) - (15, 45)}
@@ -14434,7 +14434,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [16:42 - 16:45]
+SyntaxError: invalid syntax at [16:42 - 16:45]
 CST Stack:
     {Node ERROR (15, 41) - (15, 44)}
     {Node argument_list (15, 19) - (15, 46)}
@@ -14498,7 +14498,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
                                                    | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [16:12 - 16:42]
+SyntaxError: invalid syntax at [16:12 - 16:42]
 CST Stack:
     {Node ERROR (15, 11) - (15, 41)}
     {Node return_statement (15, 4) - (15, 45)}
@@ -14560,7 +14560,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [18:1 - 18:4]
+SyntaxError: invalid syntax at [18:1 - 18:4]
 CST Stack:
     {Node ERROR (17, 0) - (17, 3)}
     {Node function_definition (16, 1) - (22, 12)}
@@ -14620,7 +14620,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [18:6 - 18:9]
+SyntaxError: invalid syntax at [18:6 - 18:9]
 CST Stack:
     {Node ERROR (17, 5) - (17, 8)}
     {Node function_definition (17, 1) - (22, 12)}
@@ -14679,11 +14679,11 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [18:1 - 18:2]
+SyntaxError: invalid syntax at [18:1 - 18:2]
 CST Stack:
     {Node ERROR (17, 0) - (17, 1)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "invalid syntax" at [18:7 - 18:9]
+SyntaxError: invalid syntax at [18:7 - 18:9]
 CST Stack:
     {Node ERROR (17, 6) - (17, 8)}
     {Node function_definition (17, 2) - (22, 12)}
@@ -14742,11 +14742,11 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [18:1 - 18:3]
+SyntaxError: invalid syntax at [18:1 - 18:3]
 CST Stack:
     {Node ERROR (17, 0) - (17, 2)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "invalid syntax" at [18:8 - 18:9]
+SyntaxError: invalid syntax at [18:8 - 18:9]
 CST Stack:
     {Node ERROR (17, 7) - (17, 8)}
     {Node function_definition (17, 3) - (22, 12)}
@@ -14805,7 +14805,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [18:6 - 18:9]
+SyntaxError: invalid syntax at [18:6 - 18:9]
 CST Stack:
     {Node ERROR (17, 5) - (17, 8)}
     {Node function_definition (17, 0) - (22, 12)}
@@ -14864,7 +14864,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [18:5 - 18:10]
+SyntaxError: invalid syntax at [18:5 - 18:10]
 CST Stack:
     {Node ERROR (17, 4) - (17, 9)}
     {Node function_definition (17, 0) - (22, 12)}
@@ -14923,7 +14923,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [18:8 - 18:14]
+SyntaxError: invalid syntax at [18:8 - 18:14]
 CST Stack:
     {Node ERROR (17, 7) - (17, 13)}
     {Node function_definition (17, 0) - (22, 12)}
@@ -14982,7 +14982,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [18:9 - 18:14]
+SyntaxError: invalid syntax at [18:9 - 18:14]
 CST Stack:
     {Node ERROR (17, 8) - (17, 13)}
     {Node function_definition (17, 0) - (22, 12)}
@@ -15041,7 +15041,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [18:10 - 18:13]
+SyntaxError: invalid syntax at [18:10 - 18:13]
 CST Stack:
     {Node ERROR (17, 9) - (17, 12)}
     {Node function_definition (17, 0) - (22, 12)}
@@ -15099,7 +15099,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [18:11 - 18:14]
+SyntaxError: keyword: "def" cannot be used as identifier at [18:11 - 18:14]
 CST Stack:
     {Node identifier (17, 10) - (17, 13)}
     {Node parameters (17, 8) - (17, 15)}
@@ -15157,7 +15157,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [18:13 - 18:16]
+SyntaxError: invalid syntax at [18:13 - 18:16]
 CST Stack:
     {Node ERROR (17, 12) - (17, 15)}
     {Node function_definition (17, 0) - (22, 12)}
@@ -15214,7 +15214,7 @@ if __name__ == '__main__':                    |
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:1 - 25:11]
+SyntaxError: invalid syntax at [1:1 - 25:11]
 CST Stack:
     {Node ERROR (0, 0) - (24, 10)}
     {Node module (0, 0) - (25, 0)}
@@ -15284,12 +15284,12 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [18:20 - 18:23]
+SyntaxError: invalid syntax at [18:20 - 18:23]
 CST Stack:
     {Node ERROR (17, 19) - (17, 22)}
     {Node function_definition (17, 0) - (22, 12)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [18:16 - 18:19]
+SyntaxError: keyword: "def" cannot be used as identifier at [18:16 - 18:19]
 CST Stack:
     {Node identifier (17, 15) - (17, 18)}
     {Node type (17, 15) - (17, 18)}
@@ -15348,7 +15348,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [18:15 - 18:20]
+SyntaxError: invalid syntax at [18:15 - 18:20]
 CST Stack:
     {Node ERROR (17, 14) - (17, 19)}
     {Node function_definition (17, 0) - (22, 12)}
@@ -15406,12 +15406,12 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [18:18 - 18:23]
+SyntaxError: invalid syntax at [18:18 - 18:23]
 CST Stack:
     {Node ERROR (17, 17) - (17, 22)}
     {Node function_definition (17, 0) - (22, 12)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"in\" cannot be used as identifier" at [18:15 - 18:17]
+SyntaxError: keyword: "in" cannot be used as identifier at [18:15 - 18:17]
 CST Stack:
     {Node identifier (17, 14) - (17, 16)}
     {Node type (17, 14) - (17, 16)}
@@ -15470,7 +15470,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [18:19 - 18:22]
+SyntaxError: invalid syntax at [18:19 - 18:22]
 CST Stack:
     {Node ERROR (17, 18) - (17, 21)}
     {Node function_definition (17, 0) - (22, 12)}
@@ -15528,7 +15528,7 @@ if __name__ == '__main__':                    | return 0
                                               |     main()                                    
 
 1 Recoverable error detected:
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [18:20 - 18:23]
+SyntaxError: keyword: "def" cannot be used as identifier at [18:20 - 18:23]
 CST Stack:
     {Node identifier (17, 19) - (17, 22)}
     {Node expression_statement (17, 19) - (17, 22)}
@@ -15594,7 +15594,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [19:6 - 19:9]
+SyntaxError: invalid syntax at [19:6 - 19:9]
 CST Stack:
     {Node ERROR (18, 5) - (18, 8)}
     {Node function_definition (17, 0) - (18, 25)}
@@ -15706,7 +15706,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [19:8 - 19:11]
+SyntaxError: invalid syntax at [19:8 - 19:11]
 CST Stack:
     {Node ERROR (18, 7) - (18, 10)}
     {Node concatenated_string (18, 4) - (18, 25)}
@@ -16244,7 +16244,7 @@ if __name__ == '__main__':                    |     main()
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [19:5 - 19:26]
+SyntaxError: invalid syntax at [19:5 - 19:26]
 CST Stack:
     {Node ERROR (18, 4) - (18, 25)}
     {Node function_definition (17, 0) - (22, 12)}
@@ -16300,7 +16300,7 @@ if __name__ == '__main__':                    |     main()
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [19:5 - 19:26]
+SyntaxError: invalid syntax at [19:5 - 19:26]
 CST Stack:
     {Node ERROR (18, 4) - (18, 25)}
     {Node function_definition (17, 0) - (22, 12)}
@@ -16356,7 +16356,7 @@ if __name__ == '__main__':                    |     main()
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [19:5 - 19:25]
+SyntaxError: invalid syntax at [19:5 - 19:25]
 CST Stack:
     {Node ERROR (18, 4) - (18, 24)}
     {Node function_definition (17, 0) - (22, 12)}
@@ -16412,7 +16412,7 @@ if __name__ == '__main__':                    |
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [20:6 - 23:11]
+SyntaxError: invalid syntax at [20:6 - 23:11]
 CST Stack:
     {Node ERROR (19, 5) - (22, 10)}
     {Node block (18, 4) - (22, 12)}
@@ -16469,7 +16469,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [20:5 - 20:10]
+SyntaxError: invalid syntax at [20:5 - 20:10]
 CST Stack:
     {Node ERROR (19, 4) - (19, 9)}
     {Node block (18, 4) - (22, 12)}
@@ -16526,7 +16526,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [20:5 - 20:11]
+SyntaxError: invalid syntax at [20:5 - 20:11]
 CST Stack:
     {Node ERROR (19, 4) - (19, 10)}
     {Node block (18, 4) - (22, 12)}
@@ -16583,7 +16583,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [20:5 - 20:12]
+SyntaxError: invalid syntax at [20:5 - 20:12]
 CST Stack:
     {Node ERROR (19, 4) - (19, 11)}
     {Node block (18, 4) - (22, 12)}
@@ -16640,7 +16640,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [20:5 - 20:13]
+SyntaxError: invalid syntax at [20:5 - 20:13]
 CST Stack:
     {Node ERROR (19, 4) - (19, 12)}
     {Node block (18, 4) - (22, 12)}
@@ -16697,7 +16697,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [20:5 - 20:14]
+SyntaxError: invalid syntax at [20:5 - 20:14]
 CST Stack:
     {Node ERROR (19, 4) - (19, 13)}
     {Node block (18, 4) - (22, 12)}
@@ -16753,7 +16753,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [20:5 - 20:15]
+SyntaxError: invalid syntax at [20:5 - 20:15]
 CST Stack:
     {Node ERROR (19, 4) - (19, 14)}
     {Node block (18, 4) - (22, 12)}
@@ -16809,7 +16809,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [20:5 - 20:16]
+SyntaxError: invalid syntax at [20:5 - 20:16]
 CST Stack:
     {Node ERROR (19, 4) - (19, 15)}
     {Node block (18, 4) - (22, 12)}
@@ -16865,7 +16865,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [20:5 - 20:17]
+SyntaxError: invalid syntax at [20:5 - 20:17]
 CST Stack:
     {Node ERROR (19, 4) - (19, 16)}
     {Node block (18, 4) - (22, 12)}
@@ -16921,7 +16921,7 @@ if __name__ == '__main__':                    |
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [20:5 - 21:12]
+SyntaxError: invalid syntax at [20:5 - 21:12]
 CST Stack:
     {Node ERROR (19, 4) - (20, 11)}
     {Node block (18, 4) - (22, 12)}
@@ -16976,7 +16976,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [20:5 - 20:19]
+SyntaxError: invalid syntax at [20:5 - 20:19]
 CST Stack:
     {Node ERROR (19, 4) - (19, 18)}
     {Node block (18, 4) - (22, 12)}
@@ -17033,7 +17033,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [20:5 - 20:20]
+SyntaxError: invalid syntax at [20:5 - 20:20]
 CST Stack:
     {Node ERROR (19, 4) - (19, 19)}
     {Node block (18, 4) - (22, 12)}
@@ -17090,7 +17090,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [20:5 - 20:21]
+SyntaxError: invalid syntax at [20:5 - 20:21]
 CST Stack:
     {Node ERROR (19, 4) - (19, 20)}
     {Node block (18, 4) - (22, 12)}
@@ -17147,7 +17147,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [20:19 - 20:22]
+SyntaxError: invalid syntax at [20:19 - 20:22]
 CST Stack:
     {Node ERROR (19, 18) - (19, 21)}
     {Node call (19, 4) - (19, 24)}
@@ -17206,7 +17206,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [20:20 - 20:23]
+SyntaxError: keyword: "def" cannot be used as identifier at [20:20 - 20:23]
 CST Stack:
     {Node identifier (19, 19) - (19, 22)}
     {Node argument_list (19, 17) - (19, 24)}
@@ -17266,7 +17266,7 @@ if __name__ == '__main__':                    |     main()
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [20:5 - 20:24]
+SyntaxError: invalid syntax at [20:5 - 20:24]
 CST Stack:
     {Node ERROR (19, 4) - (19, 23)}
     {Node block (18, 4) - (22, 12)}
@@ -17322,7 +17322,7 @@ if __name__ == '__main__':                    |
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [21:6 - 23:11]
+SyntaxError: invalid syntax at [21:6 - 23:11]
 CST Stack:
     {Node ERROR (20, 5) - (22, 10)}
     {Node block (18, 4) - (22, 12)}
@@ -17378,7 +17378,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [21:5 - 21:10]
+SyntaxError: invalid syntax at [21:5 - 21:10]
 CST Stack:
     {Node ERROR (20, 4) - (20, 9)}
     {Node block (18, 4) - (22, 12)}
@@ -17434,7 +17434,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [21:5 - 21:11]
+SyntaxError: invalid syntax at [21:5 - 21:11]
 CST Stack:
     {Node ERROR (20, 4) - (20, 10)}
     {Node block (18, 4) - (22, 12)}
@@ -17491,7 +17491,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [21:9 - 21:12]
+SyntaxError: invalid syntax at [21:9 - 21:12]
 CST Stack:
     {Node ERROR (20, 8) - (20, 11)}
     {Node call (20, 4) - (20, 16)}
@@ -17550,7 +17550,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [21:14 - 21:16]
+SyntaxError: invalid syntax at [21:14 - 21:16]
 CST Stack:
     {Node ERROR (20, 13) - (20, 15)}
     {Node argument_list (20, 7) - (20, 16)}
@@ -17559,7 +17559,7 @@ CST Stack:
     {Node block (18, 4) - (22, 12)}
     {Node function_definition (17, 0) - (22, 12)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [21:10 - 21:13]
+SyntaxError: keyword: "def" cannot be used as identifier at [21:10 - 21:13]
 CST Stack:
     {Node identifier (20, 9) - (20, 12)}
     {Node argument_list (20, 7) - (20, 16)}
@@ -17619,7 +17619,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [21:11 - 21:16]
+SyntaxError: invalid syntax at [21:11 - 21:16]
 CST Stack:
     {Node ERROR (20, 10) - (20, 15)}
     {Node argument_list (20, 7) - (20, 16)}
@@ -17678,7 +17678,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [21:9 - 21:11]
+SyntaxError: invalid syntax at [21:9 - 21:11]
 CST Stack:
     {Node ERROR (20, 8) - (20, 10)}
     {Node argument_list (20, 7) - (20, 16)}
@@ -17687,7 +17687,7 @@ CST Stack:
     {Node block (18, 4) - (22, 12)}
     {Node function_definition (17, 0) - (22, 12)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [21:12 - 21:15]
+SyntaxError: keyword: "def" cannot be used as identifier at [21:12 - 21:15]
 CST Stack:
     {Node identifier (20, 11) - (20, 14)}
     {Node argument_list (20, 7) - (20, 16)}
@@ -17746,7 +17746,7 @@ if __name__ == '__main__':                    |     main()
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [21:5 - 21:16]
+SyntaxError: invalid syntax at [21:5 - 21:16]
 CST Stack:
     {Node ERROR (20, 4) - (20, 15)}
     {Node block (18, 4) - (22, 12)}
@@ -17801,7 +17801,7 @@ if __name__ == '__main__':                    |     main()
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [22:6 - 23:11]
+SyntaxError: invalid syntax at [22:6 - 23:11]
 CST Stack:
     {Node ERROR (21, 5) - (22, 10)}
     {Node block (18, 4) - (22, 12)}
@@ -17856,7 +17856,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [22:5 - 22:10]
+SyntaxError: invalid syntax at [22:5 - 22:10]
 CST Stack:
     {Node ERROR (21, 4) - (21, 9)}
     {Node block (18, 4) - (22, 12)}
@@ -17911,7 +17911,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [22:5 - 22:11]
+SyntaxError: invalid syntax at [22:5 - 22:11]
 CST Stack:
     {Node ERROR (21, 4) - (21, 10)}
     {Node block (18, 4) - (22, 12)}
@@ -17966,7 +17966,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [22:5 - 22:12]
+SyntaxError: invalid syntax at [22:5 - 22:12]
 CST Stack:
     {Node ERROR (21, 4) - (21, 11)}
     {Node block (18, 4) - (22, 12)}
@@ -18021,7 +18021,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [22:5 - 22:13]
+SyntaxError: invalid syntax at [22:5 - 22:13]
 CST Stack:
     {Node ERROR (21, 4) - (21, 12)}
     {Node block (18, 4) - (22, 12)}
@@ -18076,7 +18076,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [22:5 - 22:14]
+SyntaxError: invalid syntax at [22:5 - 22:14]
 CST Stack:
     {Node ERROR (21, 4) - (21, 13)}
     {Node block (18, 4) - (22, 12)}
@@ -18130,7 +18130,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [22:5 - 22:15]
+SyntaxError: invalid syntax at [22:5 - 22:15]
 CST Stack:
     {Node ERROR (21, 4) - (21, 14)}
     {Node block (18, 4) - (22, 12)}
@@ -18184,7 +18184,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [22:5 - 22:19]
+SyntaxError: invalid syntax at [22:5 - 22:19]
 CST Stack:
     {Node ERROR (21, 4) - (21, 18)}
     {Node block (18, 4) - (22, 12)}
@@ -18238,7 +18238,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [22:16 - 22:19]
+SyntaxError: invalid syntax at [22:16 - 22:19]
 CST Stack:
     {Node ERROR (21, 15) - (21, 18)}
     {Node assignment (21, 4) - (21, 36)}
@@ -18294,7 +18294,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [22:15 - 22:20]
+SyntaxError: invalid syntax at [22:15 - 22:20]
 CST Stack:
     {Node ERROR (21, 14) - (21, 19)}
     {Node assignment (21, 4) - (21, 36)}
@@ -18350,7 +18350,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [22:15 - 22:21]
+SyntaxError: invalid syntax at [22:15 - 22:21]
 CST Stack:
     {Node ERROR (21, 14) - (21, 20)}
     {Node assignment (21, 4) - (21, 36)}
@@ -18406,7 +18406,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [22:15 - 22:22]
+SyntaxError: invalid syntax at [22:15 - 22:22]
 CST Stack:
     {Node ERROR (21, 14) - (21, 21)}
     {Node assignment (21, 4) - (21, 36)}
@@ -18462,7 +18462,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [22:15 - 22:23]
+SyntaxError: invalid syntax at [22:15 - 22:23]
 CST Stack:
     {Node ERROR (21, 14) - (21, 22)}
     {Node assignment (21, 4) - (21, 36)}
@@ -18518,7 +18518,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [22:15 - 22:24]
+SyntaxError: invalid syntax at [22:15 - 22:24]
 CST Stack:
     {Node ERROR (21, 14) - (21, 23)}
     {Node assignment (21, 4) - (21, 36)}
@@ -18574,7 +18574,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [22:15 - 22:25]
+SyntaxError: invalid syntax at [22:15 - 22:25]
 CST Stack:
     {Node ERROR (21, 14) - (21, 24)}
     {Node assignment (21, 4) - (21, 36)}
@@ -18630,7 +18630,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [22:15 - 22:26]
+SyntaxError: invalid syntax at [22:15 - 22:26]
 CST Stack:
     {Node ERROR (21, 14) - (21, 25)}
     {Node assignment (21, 4) - (21, 36)}
@@ -18686,7 +18686,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [22:24 - 22:35]
+SyntaxError: invalid syntax at [22:24 - 22:35]
 CST Stack:
     {Node ERROR (21, 23) - (21, 34)}
     {Node call (21, 14) - (21, 36)}
@@ -18743,7 +18743,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [22:25 - 22:35]
+SyntaxError: invalid syntax at [22:25 - 22:35]
 CST Stack:
     {Node ERROR (21, 24) - (21, 34)}
     {Node call (21, 14) - (21, 36)}
@@ -18800,7 +18800,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [22:26 - 22:35]
+SyntaxError: invalid syntax at [22:26 - 22:35]
 CST Stack:
     {Node ERROR (21, 25) - (21, 34)}
     {Node call (21, 14) - (21, 36)}
@@ -18857,7 +18857,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [22:27 - 22:35]
+SyntaxError: invalid syntax at [22:27 - 22:35]
 CST Stack:
     {Node ERROR (21, 26) - (21, 34)}
     {Node call (21, 14) - (21, 36)}
@@ -18914,7 +18914,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [22:28 - 22:35]
+SyntaxError: invalid syntax at [22:28 - 22:35]
 CST Stack:
     {Node ERROR (21, 27) - (21, 34)}
     {Node call (21, 14) - (21, 36)}
@@ -18972,7 +18972,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [22:29 - 22:35]
+SyntaxError: invalid syntax at [22:29 - 22:35]
 CST Stack:
     {Node ERROR (21, 28) - (21, 34)}
     {Node call (21, 14) - (21, 36)}
@@ -19030,7 +19030,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [22:30 - 22:35]
+SyntaxError: invalid syntax at [22:30 - 22:35]
 CST Stack:
     {Node ERROR (21, 29) - (21, 34)}
     {Node call (21, 14) - (21, 36)}
@@ -19088,7 +19088,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [22:31 - 22:34]
+SyntaxError: invalid syntax at [22:31 - 22:34]
 CST Stack:
     {Node ERROR (21, 30) - (21, 33)}
     {Node call (21, 14) - (21, 36)}
@@ -19146,7 +19146,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [22:32 - 22:35]
+SyntaxError: keyword: "def" cannot be used as identifier at [22:32 - 22:35]
 CST Stack:
     {Node identifier (21, 31) - (21, 34)}
     {Node argument_list (21, 29) - (21, 36)}
@@ -19205,7 +19205,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 2 Recoverable errors detected:
-SyntaxError: "invalid syntax" at [22:15 - 22:32]
+SyntaxError: invalid syntax at [22:15 - 22:32]
 CST Stack:
     {Node ERROR (21, 14) - (21, 31)}
     {Node assignment (21, 4) - (21, 35)}
@@ -19213,7 +19213,7 @@ CST Stack:
     {Node block (18, 4) - (22, 12)}
     {Node function_definition (17, 0) - (22, 12)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [22:33 - 22:36]
+SyntaxError: keyword: "def" cannot be used as identifier at [22:33 - 22:36]
 CST Stack:
     {Node identifier (21, 32) - (21, 35)}
     {Node assignment (21, 4) - (21, 35)}
@@ -19270,7 +19270,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [23:6 - 23:16]
+SyntaxError: invalid syntax at [23:6 - 23:16]
 CST Stack:
     {Node ERROR (22, 5) - (22, 15)}
     {Node block (18, 4) - (22, 17)}
@@ -19324,7 +19324,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [23:5 - 23:16]
+SyntaxError: invalid syntax at [23:5 - 23:16]
 CST Stack:
     {Node ERROR (22, 4) - (22, 15)}
     {Node block (18, 4) - (22, 17)}
@@ -19378,7 +19378,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [23:5 - 23:16]
+SyntaxError: invalid syntax at [23:5 - 23:16]
 CST Stack:
     {Node ERROR (22, 4) - (22, 15)}
     {Node block (18, 4) - (22, 17)}
@@ -19432,7 +19432,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [23:5 - 23:16]
+SyntaxError: invalid syntax at [23:5 - 23:16]
 CST Stack:
     {Node ERROR (22, 4) - (22, 15)}
     {Node block (18, 4) - (22, 17)}
@@ -19487,7 +19487,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [23:5 - 23:16]
+SyntaxError: invalid syntax at [23:5 - 23:16]
 CST Stack:
     {Node ERROR (22, 4) - (22, 15)}
     {Node block (18, 4) - (22, 17)}
@@ -19542,7 +19542,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [23:5 - 23:16]
+SyntaxError: invalid syntax at [23:5 - 23:16]
 CST Stack:
     {Node ERROR (22, 4) - (22, 15)}
     {Node block (18, 4) - (22, 17)}
@@ -19596,7 +19596,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [23:13 - 23:16]
+SyntaxError: invalid syntax at [23:13 - 23:16]
 CST Stack:
     {Node ERROR (22, 12) - (22, 15)}
     {Node return_statement (22, 4) - (22, 17)}
@@ -19651,7 +19651,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [23:12 - 23:13]
+SyntaxError: invalid syntax at [23:12 - 23:13]
 CST Stack:
     {Node ERROR (22, 11) - (22, 12)}
     {Node return_statement (22, 4) - (22, 16)}
@@ -19706,7 +19706,7 @@ def main() -> int:                            |
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:1 - 25:11]
+SyntaxError: invalid syntax at [1:1 - 25:11]
 CST Stack:
     {Node ERROR (0, 0) - (24, 10)}
     {Node module (0, 0) - (25, 0)}
@@ -19776,7 +19776,7 @@ i def f __name__ == '__main__':               |
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [1:1 - 25:11]
+SyntaxError: invalid syntax at [1:1 - 25:11]
 CST Stack:
     {Node ERROR (0, 0) - (24, 10)}
     {Node module (0, 0) - (25, 0)}
@@ -19846,7 +19846,7 @@ if  def __name__ == '__main__':               | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [24:5 - 24:8]
+SyntaxError: invalid syntax at [24:5 - 24:8]
 CST Stack:
     {Node ERROR (23, 4) - (23, 7)}
     {Node if_statement (23, 0) - (24, 10)}
@@ -19898,7 +19898,7 @@ if _ def _name__ == '__main__':               | if _name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [24:4 - 24:9]
+SyntaxError: invalid syntax at [24:4 - 24:9]
 CST Stack:
     {Node ERROR (23, 3) - (23, 8)}
     {Node if_statement (23, 0) - (24, 10)}
@@ -19950,7 +19950,7 @@ if __ def name__ == '__main__':               | if name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [24:4 - 24:10]
+SyntaxError: invalid syntax at [24:4 - 24:10]
 CST Stack:
     {Node ERROR (23, 3) - (23, 9)}
     {Node if_statement (23, 0) - (24, 10)}
@@ -20002,7 +20002,7 @@ if __n def ame__ == '__main__':               | if ame__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [24:4 - 24:11]
+SyntaxError: invalid syntax at [24:4 - 24:11]
 CST Stack:
     {Node ERROR (23, 3) - (23, 10)}
     {Node if_statement (23, 0) - (24, 10)}
@@ -20054,7 +20054,7 @@ if __na def me__ == '__main__':               | if me__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [24:4 - 24:12]
+SyntaxError: invalid syntax at [24:4 - 24:12]
 CST Stack:
     {Node ERROR (23, 3) - (23, 11)}
     {Node if_statement (23, 0) - (24, 10)}
@@ -20106,7 +20106,7 @@ if __nam def e__ == '__main__':               | if __nam == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [24:10 - 24:17]
+SyntaxError: invalid syntax at [24:10 - 24:17]
 CST Stack:
     {Node ERROR (23, 9) - (23, 16)}
     {Node comparison_operator (23, 3) - (23, 30)}
@@ -20159,7 +20159,7 @@ if __name def __ == '__main__':               | if __name == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [24:11 - 24:17]
+SyntaxError: invalid syntax at [24:11 - 24:17]
 CST Stack:
     {Node ERROR (23, 10) - (23, 16)}
     {Node comparison_operator (23, 3) - (23, 30)}
@@ -20211,7 +20211,7 @@ if __name_ def _ == '__main__':               | if __name_ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [24:12 - 24:17]
+SyntaxError: invalid syntax at [24:12 - 24:17]
 CST Stack:
     {Node ERROR (23, 11) - (23, 16)}
     {Node comparison_operator (23, 3) - (23, 30)}
@@ -20263,7 +20263,7 @@ if __name__  def == '__main__':               | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [24:14 - 24:17]
+SyntaxError: invalid syntax at [24:14 - 24:17]
 CST Stack:
     {Node ERROR (23, 13) - (23, 16)}
     {Node comparison_operator (23, 3) - (23, 30)}
@@ -20315,7 +20315,7 @@ if __name__ = def = '__main__':               | if '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [24:4 - 24:20]
+SyntaxError: invalid syntax at [24:4 - 24:20]
 CST Stack:
     {Node ERROR (23, 3) - (23, 19)}
     {Node if_statement (23, 0) - (24, 10)}
@@ -20366,7 +20366,7 @@ if __name__ ==  def '__main__':               | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [24:17 - 24:20]
+SyntaxError: invalid syntax at [24:17 - 24:20]
 CST Stack:
     {Node ERROR (23, 16) - (23, 19)}
     {Node comparison_operator (23, 3) - (23, 30)}
@@ -20809,7 +20809,7 @@ if __name__ == '__main__' def :               | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [24:27 - 24:30]
+SyntaxError: invalid syntax at [24:27 - 24:30]
 CST Stack:
     {Node ERROR (23, 26) - (23, 29)}
     {Node if_statement (23, 0) - (24, 10)}
@@ -20861,7 +20861,7 @@ if __name__ == '__main__': def                | if __name__ == '__main__':
                                               | main()                                        
 
 1 Recoverable error detected:
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [24:28 - 24:31]
+SyntaxError: keyword: "def" cannot be used as identifier at [24:28 - 24:31]
 CST Stack:
     {Node identifier (23, 27) - (23, 30)}
     {Node expression_statement (23, 27) - (23, 30)}
@@ -20916,7 +20916,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [25:6 - 25:16]
+SyntaxError: invalid syntax at [25:6 - 25:16]
 CST Stack:
     {Node ERROR (24, 5) - (24, 15)}
     {Node if_statement (23, 0) - (24, 15)}
@@ -20967,7 +20967,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [25:5 - 25:10]
+SyntaxError: invalid syntax at [25:5 - 25:10]
 CST Stack:
     {Node ERROR (24, 4) - (24, 9)}
     {Node if_statement (23, 0) - (24, 15)}
@@ -21018,7 +21018,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [25:8 - 25:11]
+SyntaxError: invalid syntax at [25:8 - 25:11]
 CST Stack:
     {Node ERROR (24, 7) - (24, 10)}
     {Node comparison_operator (24, 4) - (24, 15)}
@@ -21072,7 +21072,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [25:5 - 25:12]
+SyntaxError: invalid syntax at [25:5 - 25:12]
 CST Stack:
     {Node ERROR (24, 4) - (24, 11)}
     {Node if_statement (23, 0) - (24, 15)}
@@ -21123,7 +21123,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [25:10 - 25:13]
+SyntaxError: invalid syntax at [25:10 - 25:13]
 CST Stack:
     {Node ERROR (24, 9) - (24, 12)}
     {Node call (24, 4) - (24, 15)}
@@ -21177,7 +21177,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "keyword: \"def\" cannot be used as identifier" at [25:11 - 25:14]
+SyntaxError: keyword: "def" cannot be used as identifier at [25:11 - 25:14]
 CST Stack:
     {Node identifier (24, 10) - (24, 13)}
     {Node argument_list (24, 8) - (24, 15)}
@@ -21231,7 +21231,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
                                               | 
 
 1 Recoverable error detected:
-SyntaxError: "invalid syntax" at [25:5 - 25:15]
+SyntaxError: invalid syntax at [25:5 - 25:15]
 CST Stack:
     {Node ERROR (24, 4) - (24, 14)}
     {Node if_statement (23, 0) - (24, 14)}

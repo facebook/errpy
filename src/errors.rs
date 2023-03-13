@@ -26,3 +26,22 @@ pub enum RecoverableError {
     #[error("Syntax error resulted in ERROR node")]
     SyntaxError(String),
 }
+
+pub fn recoverable_error_to_string(recoverable_error: &RecoverableError) -> String {
+    match recoverable_error {
+        RecoverableError::UnexpectedExpression(expression_name) => {
+            format!("UnexpectedExpression: {}", expression_name)
+        }
+        RecoverableError::UnimplementedStatement(statement_name) => {
+            format!("UnimplementedStatement: {}", statement_name)
+        }
+        RecoverableError::MissingChild => "MissingChild".to_string(),
+        RecoverableError::MissingLhs => "MissingLhs".to_string(),
+        RecoverableError::MissingOperator(operator) => {
+            format!("MissingOperator: {}", operator)
+        }
+        RecoverableError::SyntaxError(invalid_syntax) => {
+            format!("SyntaxError: {}", invalid_syntax)
+        }
+    }
+}

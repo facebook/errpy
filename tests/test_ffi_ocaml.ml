@@ -203,7 +203,7 @@ let expected_output_resolvable_error =
 let expected_errors_resolvable_error =
   [
     {
-      Ast.error = "SyntaxError: \"invalid syntax\"";
+      Ast.error = "SyntaxError: invalid syntax";
       lineno = 1;
       col_offset = 11;
       end_lineno = 1;
