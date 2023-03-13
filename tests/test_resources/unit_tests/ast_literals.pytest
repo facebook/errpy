@@ -600,3 +600,11 @@ d = '"\\A"'
 e = "'\\A'"
 f = '\\A'
 g = "\\A"
+
+# string wrapping within f-strings
+f"\"{a}\""
+f"\'{a}\'"
+f"'{a}'"
+f"\"a\""
+f"\'a\'"
+f"'a'"

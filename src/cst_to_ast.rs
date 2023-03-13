@@ -3493,10 +3493,12 @@ impl Parser {
                     }
                     // in multiline string allowed to have " inside """ """
                     // so we have to "\"" or '\'' respectively to correctly preprocess substring
-                    string_before_tidy_braces = string_before_tidy_braces.replace(
-                        &apostrophe_or_quote,
-                        &format!("{}{}", "\\", apostrophe_or_quote),
-                    );
+                    if is_multiline {
+                        string_before_tidy_braces = string_before_tidy_braces.replace(
+                            &apostrophe_or_quote,
+                            &format!("{}{}", "\\", apostrophe_or_quote),
+                        );
+                    }
                     let string_desc = self.process_string(format!(
                         "{}{}{}",
                         apostrophe_or_quote, string_before_tidy_braces, apostrophe_or_quote
@@ -3556,10 +3558,12 @@ impl Parser {
                     self.tidy_double_braces(adjusted_node_text[prev_idx..].to_string());
                 // in multiline string allowed to have " inside """ """
                 // so we have to "\"" or '\'' respectively to correctly preprocess substring
-                after_last_tidy_braces = after_last_tidy_braces.replace(
-                    &apostrophe_or_quote,
-                    &format!("{}{}", "\\", apostrophe_or_quote),
-                );
+                if is_multiline {
+                    after_last_tidy_braces = after_last_tidy_braces.replace(
+                        &apostrophe_or_quote,
+                        &format!("{}{}", "\\", apostrophe_or_quote),
+                    );
+                }
                 let string_desc = self.process_string(format!(
                     "{}{}{}",
                     apostrophe_or_quote, after_last_tidy_braces, apostrophe_or_quote
