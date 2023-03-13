@@ -42,7 +42,9 @@ fn handle_quote_character(
         // quote ends string => we are now outside
         OutsideString
     } else if state == inside_multiline_string {
-        if input_code[..idx + 1].ends_with(multiline_quote) {
+        if input_code[..idx + 1].ends_with(multiline_quote)
+            && (input_code.len() == idx + 1 || !input_code[..idx + 2].ends_with(multiline_quote))
+        {
             // triple quote ends the multiline string => we are now outside
             OutsideString
         } else {

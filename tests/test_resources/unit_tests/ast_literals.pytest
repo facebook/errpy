@@ -608,3 +608,19 @@ f"'{a}'"
 f"\"a\""
 f"\'a\'"
 f"'a'"
+
+## tuple end col offset mismatch caused by comments not getting filtered out ("comment")
+class classname(param):
+    varname1: Datatype1 = function(
+        "var description", marker=marker_head.NOT_UII
+    )
+    varname2: Datatype1 = function(
+        """var description "for var 2\"""", marker=marker_head.NOT_UII
+    )
+    varname3: Struct[
+        Field("attribute1", Datatype2),  # comment
+        Field("attribute2", Datatype2),  # comment
+    ] = function(
+        "assign value",
+        marker=marker_head.NOT_UII_REMOVE,
+    )
