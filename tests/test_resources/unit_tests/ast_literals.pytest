@@ -624,3 +624,30 @@ class classname(param):
         "assign value",
         marker=marker_head.NOT_UII_REMOVE,
     )
+
+# escaping special and non special characters
+a = '\c'
+b = '\\c'
+c = '\\\c'
+d = '\\0'
+e = '\\x'
+
+a = '\0'
+b = '\1'
+c = '\2'
+d = '\3'
+e = '\4'
+f = '\5'
+g = '\6'
+h = '\7'
+i = '\a'
+j = '\b'
+k = '\f'
+l = '\n'
+m = '\r'
+n = '\t'
+o = '\v'
+p = '\ '
+q = '\''
+r = '\"'
+s = '\\'

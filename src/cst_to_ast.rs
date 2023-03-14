@@ -7,6 +7,7 @@
 // https://github.com/tree-sitter/tree-sitter-python/blob/master/grammar.js
 
 use std::collections::HashMap;
+use std::collections::HashSet;
 use std::num::ParseIntError;
 
 use ast::Alias;
@@ -32,6 +33,7 @@ use ast::Withitem;
 use errors::ParserError;
 use errors::RecoverableError;
 use itertools::join;
+use phf::phf_map;
 use sitter::get_node_type;
 use sitter::AugAssignOperator;
 use sitter::BinaryOperator;
@@ -49,7 +51,24 @@ use crate::sitter;
 
 type ErrorableResult<T> = std::result::Result<T, ()>;
 
-use std::collections::HashSet;
+static SPECIAL_CHARS: [char; 21] = [
+    '0', '1', '2', '3', '4', '5', '6', '7', 'a', 'b', 'f', 'n', 'r', 't', 'u', 'v', 'x', 'N', 'U',
+    '\'', '\"',
+];
+static HEXA_CHAR_CONVERSION: phf::Map<char, &'static str> = phf_map! {
+    '0' => "x00",
+    '1' => "x01",
+    '2' => "x02",
+    '3' => "x03",
+    '4' => "x04",
+    '5' => "x05",
+    '6' => "x06",
+    '7' => "x07",
+    'a' => "x07",
+    'b' => "x08",
+    'f' => "x0c",
+    'v' => "x0b"
+};
 
 #[derive(Debug)]
 pub struct RecoverableErrorWithLocation {
@@ -3854,6 +3873,45 @@ impl Parser {
         }
     }
 
+    // - Add an extra '\' for non special characters which are escaped (e.g. \c => \\c)
+    //   Equivalent to matching Regex::new(r#"(?<!^)(?<!\)\(\\)*([^0-7abfnrtuvxNU '"\])"#) and replacing by \\\\${1}${2}
+    //   i.e. <not beginning of string nor '\'><odd number of '\'><non escapable Python char>
+    // - Translate hexadecimal characters which are not escaped (e.g. \0 => \x00)
+    fn process_escaped_chars(&mut self, string_contents: String) -> String {
+        let mut new_node_text = String::from("");
+        let mut prev_backslashes = 0;
+
+        for ch in string_contents.chars() {
+            if ch == '\\' {
+                prev_backslashes += 1;
+                new_node_text.push(ch);
+            } else {
+                // Non special chars
+                if !SPECIAL_CHARS.contains(&ch) {
+                    if prev_backslashes % 2 == 1 {
+                        // For non special chars escaped (odd number of '\', add an additional '\' to result in an even number of '\' (not escaped)
+                        new_node_text.push('\\');
+                    }
+                    new_node_text.push(ch);
+                // Hexa chars which are not escaped are translated, e.g. '\0' => "\x00",
+                } else if let Some(hex_str) = HEXA_CHAR_CONVERSION.get(&ch) {
+                    if prev_backslashes % 2 == 1 {
+                        for hex_ch in hex_str.chars() {
+                            new_node_text.push(hex_ch);
+                        }
+                    } else {
+                        new_node_text.push(ch);
+                    }
+                // Special chars left as is
+                } else {
+                    new_node_text.push(ch);
+                }
+                prev_backslashes = 0;
+            }
+        }
+        new_node_text.to_string()
+    }
+
     /// process_string performs the following:
     ///  1. We check if a string is prefixed with a 'b' or 'r', if so
     ///  this is stripped out and added back as a prefix to the output of the
@@ -3880,7 +3938,6 @@ impl Parser {
         if raw || byte {
             string_contents = string_contents[1..].to_string();
         }
-
         if raw {
             string_contents = string_contents.replace('\\', "\\\\");
         } else {
@@ -3900,6 +3957,9 @@ impl Parser {
                 }
             }
         }
+
+        string_contents = self.process_escaped_chars(string_contents);
+
         string_contents = string_contents.replace('\n', "\\n").replace('\t', "\\t");
         // check is line multiline string and replace with single double quote
         if self.is_triple_quote_multiline(&string_contents) {

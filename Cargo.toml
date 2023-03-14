@@ -16,6 +16,7 @@ itertools = "0.10.3"
 ocamlrep = { path = "vendor/ocamlrep" }
 ocamlrep_ocamlpool = { path = "vendor/ocamlrep_ocamlpool" }
 parser_pre_process = { path = "src" }
+phf = { version = "0.11", features = ["macros"] }
 rust_to_ocaml_attr = { path = "vendor/rust_to_ocaml/rust_to_ocaml_attr" }
 serde = { version = "1.0.136", features = ["derive", "rc"] }
 thiserror = "1.0.36"
