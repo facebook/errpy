@@ -1,0 +1,31 @@
+on: [push]
+name: cargo vendor and commit
+run-name: cargo vendor 🚚 on - ${{ github.event.head_commit.message }}
+jobs:
+  cargo_vendor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - uses: actions-rs/cargo@v1
+        with:
+          command: vendor
+          args: vendor_external
+      - name: Create dir
+        run: |
+          mkdir -p .cargo
+      - shell: bash
+        run: |
+          cat << EOF > .cargo/config.toml
+          [source.crates-io]
+          replace-with = "vendored-sources"
+
+          [source.vendored-sources]
+          directory = "vendor_external"
+          EOF
+      - uses: EndBug/add-and-commit@v9.1.1
+        with:
+          author_name: GitHub Action
+          author_email: action@github.com
