@@ -8,6 +8,11 @@ jobs:
   cargo_vendor:
     runs-on: ubuntu-latest
     steps:
+      - name: Delete release branch
+        uses: dawidd6/action-delete-branch@v3
+        with:
+          soft_fail: true # set to true so that if the branch doesn't exist action doesnt fail
+          branches: release
       - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
         with:
@@ -30,11 +35,6 @@ jobs:
           [source.vendored-sources]
           directory = "vendor_external"
           EOF
-      - name: Delete release branch
-        uses: dawidd6/action-delete-branch@v3
-        with:
-          soft_fail: true # set to true so that if the branch doesn't exist action doesnt fail
-          branches: release
       - name: commit to 'new' release branch
         uses: EndBug/add-and-commit@v9.1.1
         with:
