@@ -14,7 +14,7 @@ depends: [
   "dune" {>= "3.4"}
   "ppx_deriving"
   "conf-rust-2021" {build}
-  "ounit2" {test}
+  "ounit2" {with-test}
   "odoc" {with-doc}
 ]
 build: [

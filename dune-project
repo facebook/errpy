@@ -24,5 +24,5 @@
  (name errpy)
  (synopsis "Errpy: An Error Recovering Rust Python Parser")
  (description "This is a new project to provide an error-recovering Python parser, implemented in Rust based on tree-sitter. Our short-term goal is to use it in the pyre type checker, in order to provide better IDE features.")
- (depends ocaml dune ppx_deriving (conf-rust-2021 ( and :build)) (ounit2 (and :test)))
+ (depends ocaml dune ppx_deriving (conf-rust-2021 ( and :build)) (ounit2 (and :with-test)))
  )
