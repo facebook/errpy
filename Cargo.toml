@@ -20,5 +20,5 @@ phf = { version = "0.11", features = ["macros"] }
 rust_to_ocaml_attr = { path = "vendor/rust_to_ocaml/rust_to_ocaml_attr" }
 serde = { version = "1.0.136", features = ["derive", "rc"] }
 thiserror = "1.0.36"
-tree-sitter = "0.20.6"
-tree-sitter-python = "0.20"
+tree-sitter = "0.20.8"
+tree-sitter-python = "0.20.2"
