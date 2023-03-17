@@ -294,6 +294,9 @@ this is an emoji \U0001F4A9 on a line
 this is another line
 """
 
+## strings with invalid unicode escape sequences
+x = "\uDC80" # formatted in AST as: "\udc80"
+
 ## f-string with tabulation
 f"""
 	A

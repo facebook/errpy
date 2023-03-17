@@ -3829,7 +3829,14 @@ impl Parser {
                             _ => format!("\\x{:02x}", escape_code),
                         }
                     } else {
-                        format!("{}", std::char::from_u32(escape_code).unwrap())
+                        let as_unicode = std::char::from_u32(escape_code);
+                        // In cases where escape_code is not a valid u32, it
+                        // seems that CPython formats the unicode character
+                        // as escape_sequence.to_lowercase() so we do the same
+                        match as_unicode {
+                            Some(formatted) => format!("{}", formatted),
+                            None => escape_sequence.to_lowercase(),
+                        }
                     };
                     escape_sequences.push((
                         escape_sequence,
