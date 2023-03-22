@@ -11,6 +11,7 @@ use clap::Parser as ClapParser;
 use crate::printers::CSTPrinter;
 
 pub mod ast;
+pub mod constants;
 pub mod cst_to_ast;
 pub mod errors;
 pub mod parser_pre_process;

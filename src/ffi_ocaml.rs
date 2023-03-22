@@ -12,6 +12,7 @@ use parser_pre_process::remove_comments;
 use crate::errors::recoverable_error_to_string;
 
 pub mod ast;
+pub mod constants;
 pub mod cst_to_ast;
 pub mod errors;
 pub mod sitter;

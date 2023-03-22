@@ -10,6 +10,7 @@ use crate::printers::parse_module_print_ast_code;
 use crate::printers::PrintingMode;
 
 pub mod ast;
+pub mod constants;
 pub mod cst_to_ast;
 pub mod errors;
 pub mod parser_pre_process;

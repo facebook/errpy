@@ -583,7 +583,7 @@ f = 0B10101
 x = 0x1a
 x = 0XaBc
 
-# octal integers
+## octal integers
 x = 0o13
 x = 0O13
 
@@ -595,7 +595,7 @@ x = 1_0.1_01
 x = 1e1_0j
 x = 0b0_1
 
-# string wrapping with escape string character
+## string wrapping with escape string character
 a = '\\"'
 b = "\\'"
 c = '"\\'
@@ -604,7 +604,7 @@ e = "'\\A'"
 f = '\\A'
 g = "\\A"
 
-# string wrapping within f-strings
+## string wrapping within f-strings
 f"\"{a}\""
 f"\'{a}\'"
 f"'{a}'"
@@ -628,7 +628,7 @@ class classname(param):
         marker=marker_head.NOT_UII_REMOVE,
     )
 
-# escaping special and non special characters
+## escaping special and non special characters
 a = '\c'
 b = '\\c'
 c = '\\\c'
@@ -654,3 +654,22 @@ p = '\ '
 q = '\''
 r = '\"'
 s = '\\'
+
+# octal characters
+a = '\0'  # '\x00'
+b = '\5'  # '\x05'
+c = '\06'  # '\x06'
+d = '\007'  # '\x07'
+e = '\11'  # '\t'
+f = '\12'  # '\n'
+g = '\15' # "\r"
+h = '\33'  # '\x1b'
+i = '\42'  # "\""
+j = '\45'  # '%'
+k = '\47'  # '\''
+l = '\134'  # "\\",
+l = '\200'  # "\x80"
+m = '\733'  # 'Ǜ'
+n = '\8'  # "\\8"
+n = '\238'  # "\x138"
+n = '\7777'  # "ǿ7"

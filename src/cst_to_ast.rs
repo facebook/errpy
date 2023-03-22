@@ -30,10 +30,12 @@ use ast::Stmt;
 use ast::StmtDesc;
 use ast::Unaryop;
 use ast::Withitem;
+use constants::HEXA_CONVERSION;
+use constants::OCTAL_MAP;
+use constants::SPECIAL_CHARS;
 use errors::ParserError;
 use errors::RecoverableError;
 use itertools::join;
-use phf::phf_map;
 use sitter::get_node_type;
 use sitter::AugAssignOperator;
 use sitter::BinaryOperator;
@@ -46,29 +48,11 @@ use tree_sitter::Node;
 use tree_sitter::Parser as SitterParser;
 
 use crate::ast;
+use crate::constants;
 use crate::errors;
 use crate::sitter;
 
 type ErrorableResult<T> = std::result::Result<T, ()>;
-
-static SPECIAL_CHARS: [char; 21] = [
-    '0', '1', '2', '3', '4', '5', '6', '7', 'a', 'b', 'f', 'n', 'r', 't', 'u', 'v', 'x', 'N', 'U',
-    '\'', '\"',
-];
-static HEXA_CHAR_CONVERSION: phf::Map<char, &'static str> = phf_map! {
-    '0' => "x00",
-    '1' => "x01",
-    '2' => "x02",
-    '3' => "x03",
-    '4' => "x04",
-    '5' => "x05",
-    '6' => "x06",
-    '7' => "x07",
-    'a' => "x07",
-    'b' => "x08",
-    'f' => "x0c",
-    'v' => "x0b"
-};
 
 #[derive(Debug)]
 pub struct RecoverableErrorWithLocation {
@@ -3885,24 +3869,49 @@ impl Parser {
     //   i.e. <not beginning of string nor '\'><odd number of '\'><non escapable Python char>
     // - Translate hexadecimal characters which are not escaped (e.g. \0 => \x00)
     fn process_escaped_chars(&mut self, string_contents: String) -> String {
-        let mut new_node_text = String::from("");
+        let mut new_node_text: String = String::from("");
+        let mut octal_seq: String = String::from("");
+        let mut is_escaped: bool;
         let mut prev_backslashes = 0;
 
         for ch in string_contents.chars() {
+            is_escaped = prev_backslashes % 2 == 1;
+
+            // Start of a 1-3 escaped digits sequence denoting an octal character to translate e.g. '\1' == '\01' == '\001' => "\x01",
+            if is_escaped && octal_seq.len() < 3 && ('0'..'8').contains(&ch) {
+                if octal_seq.is_empty() {
+                    new_node_text.pop();
+                }
+                octal_seq.push(ch);
+                continue;
+            // End of octal sequence
+            } else if is_escaped
+                && !octal_seq.is_empty()
+                && (!('0'..'8').contains(&ch) || octal_seq.len() == 3)
+            {
+                if let Some(octal_conv) = OCTAL_MAP.get(&octal_seq.parse::<u16>().unwrap()) {
+                    new_node_text.push_str(octal_conv);
+                }
+                octal_seq = String::from("");
+                prev_backslashes = 0;
+                is_escaped = false;
+            }
+
+            // Backslash counter
             if ch == '\\' {
                 prev_backslashes += 1;
                 new_node_text.push(ch);
             } else {
-                // Non special chars
+                // Non special char
                 if !SPECIAL_CHARS.contains(&ch) {
-                    if prev_backslashes % 2 == 1 {
+                    if is_escaped {
                         // For non special chars escaped (odd number of '\', add an additional '\' to result in an even number of '\' (not escaped)
                         new_node_text.push('\\');
                     }
                     new_node_text.push(ch);
-                // Hexa chars which are not escaped are translated, e.g. '\0' => "\x00",
-                } else if let Some(hex_str) = HEXA_CHAR_CONVERSION.get(&ch) {
-                    if prev_backslashes % 2 == 1 {
+                // Hexa chars which are not escaped are translated, e.g. '\a' => "\x07",
+                } else if let Some(hex_str) = HEXA_CONVERSION.get(&ch) {
+                    if is_escaped {
                         for hex_ch in hex_str.chars() {
                             new_node_text.push(hex_ch);
                         }
@@ -3916,6 +3925,7 @@ impl Parser {
                 prev_backslashes = 0;
             }
         }
+
         new_node_text.to_string()
     }
 
