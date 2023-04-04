@@ -33,6 +33,7 @@ use ast::Withitem;
 use constants::HEXA_CONVERSION;
 use constants::OCTAL_MAP;
 use constants::RE_FSTRING;
+use constants::RE_MULTILINE_F_PARENTHESES;
 use constants::SPECIAL_CHARS;
 use errors::ParserError;
 use errors::RecoverableError;
@@ -3522,20 +3523,24 @@ impl Parser {
                     let expr = self.string(format!("'{}'", expr));
                     expressions.push(self.new_expr(expr, origin_node));
                 }
+                let interpolation_text = node_text[start_col..end_col].to_string();
 
-                let value =
-                    if is_multiline && interpolation_expression.start_position().row > base_row {
-                        // potential CPython bug here, column offsets for interpolation nodes for
-                        // nodes on the nth (where n>0) line are off by one, so we must correct them
-                        // and add the base col (code before the literal, e.g. assignment statement)
-                        let prev_offset = self.increment_expression_column_offset;
-                        self.increment_expression_column_offset = 1 + (base_col as isize);
-                        let expr_node = self.expression(&interpolation_expression)?;
-                        self.increment_expression_column_offset = prev_offset;
-                        expr_node
-                    } else {
-                        self.expression(&interpolation_expression)?
-                    };
+                let value = if is_multiline
+                    && interpolation_expression.start_position().row > base_row
+                    && !interpolation_text.starts_with("{\\n")
+                    && !RE_MULTILINE_F_PARENTHESES.is_match(&interpolation_text)
+                {
+                    // potential CPython bug here, column offsets for interpolation nodes for
+                    // nodes on the nth (where n>0) line are off by one, so we must correct them
+                    // and add the base col (code before the literal, e.g. assignment statement)
+                    let prev_offset = self.increment_expression_column_offset;
+                    self.increment_expression_column_offset = 1 + (base_col as isize);
+                    let expr_node = self.expression(&interpolation_expression)?;
+                    self.increment_expression_column_offset = prev_offset;
+                    expr_node
+                } else {
+                    self.expression(&interpolation_expression)?
+                };
 
                 expressions.push(self.new_expr(
                     ExprDesc::FormattedValue {

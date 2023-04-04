@@ -215,6 +215,18 @@ f"""sin({a}) is
  {also
  } something else {here}"""
 
+f"""{
+something}"""
+
+if True:
+    f"""
+{
+    a}"""
+
+f"""something{(
+    here
+)}and there"""
+
 ## string concatinated - regular strings
 
 message = "something " \

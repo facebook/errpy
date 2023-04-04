@@ -12,6 +12,11 @@ lazy_static! {
     pub static ref RE_FSTRING: Regex = Regex::new("^[^\"']*f[^\"']*(?:\"|').*").unwrap();
 }
 
+lazy_static! {
+    // Match multiline interpolations containing parentheses, e.g. {\na\n}
+    pub static ref RE_MULTILINE_F_PARENTHESES: Regex = Regex::new("\\{.*\\(.*\\\\n.*").unwrap();
+}
+
 pub static SPECIAL_CHARS: [char; 13] = [
     'a', 'b', 'f', 'n', 'r', 't', 'u', 'v', 'x', 'N', 'U', '\'', '\"',
 ];
