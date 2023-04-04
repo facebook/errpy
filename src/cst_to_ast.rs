@@ -32,6 +32,7 @@ use ast::Unaryop;
 use ast::Withitem;
 use constants::HEXA_CONVERSION;
 use constants::OCTAL_MAP;
+use constants::RE_FSTRING;
 use constants::SPECIAL_CHARS;
 use errors::ParserError;
 use errors::RecoverableError;
@@ -3380,16 +3381,19 @@ impl Parser {
         &mut self,
         format_node: &Node,
         origin_node: &Node,
-        mut node_text: String,
+        node_text: String,
     ) -> ErrorableResult<ExprDesc> {
         let mut expressions: Vec<Expr> = vec![];
 
-        let apostrophe_or_quote = node_text[1..2].to_string();
+        let quotes = ['\'', '"'];
+        let quote_idx = node_text.chars().position(|c| quotes.contains(&c)).unwrap();
+        let apostrophe_or_quote = node_text[quote_idx..quote_idx + 1].to_string();
+
+        let mut prev_idx = self.string_prefix(&node_text).len() + 1;
+        let mut node_text = node_text;
         let mut multiline_offsets = HashMap::new();
         let base_row = format_node.start_position().row;
         let base_col = format_node.start_position().column;
-
-        let mut prev_idx = 2;
 
         let is_multiline = if node_text.contains('\n') || self.is_triple_quote_multiline(&node_text)
         {
@@ -3706,7 +3710,7 @@ impl Parser {
     //   $.string,
     //   repeat1($.string)
     // ),
-    /// Concatinated strings are just regular strings which are made up of a number
+    /// Concatenated strings are just regular strings which are made up of a number
     /// of other strings apread across multiple consecutive lines and
     /// delimited by a \ followed by a newline.
     /// most of the time, if all nodes are regular strings then we need
@@ -3831,7 +3835,8 @@ impl Parser {
             }
         }
         let string_contents = self.escape_decode_text(raw_string_node, &escape_sequences);
-        if string_contents.starts_with("f\"") || string_contents.starts_with("f\'") {
+
+        if RE_FSTRING.is_match(&string_contents) {
             self.format_string(raw_string_node, origin_node, string_contents)
         } else {
             Ok(self.process_string(string_contents))
@@ -3927,6 +3932,18 @@ impl Parser {
         }
 
         new_node_text.to_string()
+    }
+
+    // Return a string containing all characters prior to the first ' or "
+    fn string_prefix(&mut self, string_contents: &str) -> String {
+        let mut prefix: String = String::from("");
+        for ch in string_contents.chars() {
+            if ch == '\'' || ch == '"' {
+                break;
+            }
+            prefix.push(ch);
+        }
+        prefix
     }
 
     /// process_string performs the following:
