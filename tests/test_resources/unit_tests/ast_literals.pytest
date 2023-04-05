@@ -440,6 +440,26 @@ c = "\
 d = '\
 '
 
+## multiline strings with escaped line continuations
+a = """
+Text \\
+Text
+"""
+
+b = '''\\
+'''
+
+c = """
+Text \\\
+Text
+"""
+
+d = """\\\
+"""
+
+e = '''\\\
+'''
+
 ## string with tabulation
 """
 	A
@@ -508,6 +528,7 @@ c = '\"'
 d = "\'"
 e = "\""
 f = '\''
+g = """\\\""""
 
 ## b-strings backslashes
 a = b'\\'

@@ -3557,7 +3557,7 @@ impl Parser {
         // adjusted_node_text is only required in case if there is leftover string
         // dropping last " symbol
         let mut adjusted_node_text = node_text[..node_text.len() - 1].to_string();
-        if self.is_triple_quote_multiline(&node_text) {
+        if is_multiline {
             // the characters used to demarcate the end of the string are
             // two characters wider, so we take 2 away: """ vs "
             adjusted_node_text = adjusted_node_text[..adjusted_node_text.len() - 2].to_string();
@@ -3978,24 +3978,36 @@ impl Parser {
         if raw || byte {
             string_contents = string_contents[1..].to_string();
         }
+        let double_quote_string = string_contents.starts_with('\"');
+        let is_triple_quote = self.is_triple_quote_multiline(&string_contents);
         if raw {
             string_contents = string_contents.replace('\\', "\\\\");
         } else {
-            // ignore line continuations
-            string_contents = string_contents.replace("\\\n", "");
-
-            // replace \' and \" except at the end
-            if let Some(i) = string_contents.find("\\\'") {
-                if i < string_contents.len() - 2 {
-                    string_contents = string_contents.replace("\\\'", "\'");
+            let mut new_string_contents = String::from("");
+            let mut prev_backslashes = 0;
+            for (i, ch) in string_contents.chars().enumerate() {
+                // Drop \n when prefixed by the line continuation char \ (and drops the continuation char)
+                // except when the line continuation char is itself escaped (edge case for multiline strings only)
+                if ch == '\n' && prev_backslashes % 2 == 1 {
+                    new_string_contents.pop();
+                } else {
+                    // replace \' by ' and \" by " except at the end
+                    if prev_backslashes > 0 && (ch == '\'' || ch == '"') {
+                        if i < string_contents.len() - 3
+                            || (!is_triple_quote && i < string_contents.len() - 1)
+                        {
+                            new_string_contents.pop();
+                        }
+                    }
+                    new_string_contents.push(ch);
+                }
+                if ch == '\\' {
+                    prev_backslashes += 1;
+                } else {
+                    prev_backslashes = 0;
                 }
             }
-
-            if let Some(i) = string_contents.find("\\\"") {
-                if i < string_contents.len() - 2 {
-                    string_contents = string_contents.replace("\\\"", "\"");
-                }
-            }
+            string_contents = new_string_contents;
         }
 
         string_contents = self.process_escaped_chars(string_contents);
@@ -4040,16 +4052,16 @@ impl Parser {
             if string_contents.starts_with('\"') && string_contents.len() > 1 {
                 string_contents = string_contents[1..string_contents.len() - 1].to_string();
                 string_contents = string_contents.replace('\"', "\\\"");
-                if !raw {
-                    // \' reverts back to \\' when located in a double quote string
+                if !raw && double_quote_string {
+                    // \' revert back to \\' when located in a double quote string
                     string_contents = string_contents.replace("\\'", "\\\\'");
                 }
                 format!("\"{}\"", string_contents)
             } else if string_contents.len() > 1 {
                 string_contents = string_contents[1..string_contents.len() - 1].to_string();
                 string_contents = string_contents.replace('\'', "\\\'");
-                if !raw {
-                    // \" reverts back to \\" when located in a single quote string
+                if !raw && !double_quote_string {
+                    // \" revert back to \\" when located in a single quote string
                     string_contents = string_contents.replace("\\\"", "\\\\\"");
                 }
                 format!("'{}'", string_contents)
