@@ -32,7 +32,6 @@ use ast::Unaryop;
 use ast::Withitem;
 use constants::HEXA_CONVERSION;
 use constants::OCTAL_MAP;
-use constants::RE_FSTRING;
 use constants::RE_MULTILINE_F_PARENTHESES;
 use constants::SPECIAL_CHARS;
 use errors::ParserError;
@@ -46,6 +45,8 @@ use sitter::Keyword;
 use sitter::NodeType;
 use sitter::Production;
 use sitter::ProductionKind;
+use string_helpers::categorize_string;
+use string_helpers::StringCategory;
 use tree_sitter::Node;
 use tree_sitter::Parser as SitterParser;
 
@@ -53,6 +54,7 @@ use crate::ast;
 use crate::constants;
 use crate::errors;
 use crate::sitter;
+use crate::string_helpers;
 
 type ErrorableResult<T> = std::result::Result<T, ()>;
 
@@ -3507,10 +3509,13 @@ impl Parser {
                             &format!("{}{}", "\\", apostrophe_or_quote),
                         );
                     }
-                    let string_desc = self.process_string(format!(
-                        "{}{}{}",
-                        apostrophe_or_quote, string_before_tidy_braces, apostrophe_or_quote
-                    ));
+                    let string_desc = self.process_string(
+                        format!(
+                            "{}{}{}",
+                            apostrophe_or_quote, string_before_tidy_braces, apostrophe_or_quote
+                        ),
+                        &interpolation_node,
+                    );
                     expressions.push(self.new_expr(string_desc, origin_node));
                 } else if has_equals {
                     // Create new const expression
@@ -3576,15 +3581,18 @@ impl Parser {
                         &format!("{}{}", "\\", apostrophe_or_quote),
                     );
                 }
-                let string_desc = self.process_string(format!(
-                    "{}{}{}",
-                    apostrophe_or_quote, after_last_tidy_braces, apostrophe_or_quote
-                ));
+                let string_desc = self.process_string(
+                    format!(
+                        "{}{}{}",
+                        apostrophe_or_quote, after_last_tidy_braces, apostrophe_or_quote
+                    ),
+                    origin_node,
+                );
                 self.new_expr(string_desc, origin_node)
             } else {
                 // no interpolation nodes, just treat as normal string and cut of f from start
                 let normal_string = self.tidy_double_braces(node_text[1..].to_string());
-                let string_desc = self.process_string(normal_string);
+                let string_desc = self.process_string(normal_string, origin_node);
                 self.new_expr(string_desc, origin_node)
             };
 
@@ -3693,7 +3701,7 @@ impl Parser {
         let prefix = if prev_byte { "b" } else { "" };
         let quote_style = if needs_doublequote { "\"" } else { "'" };
         one_big_string = format!("{}{}{}{}", prefix, quote_style, one_big_string, quote_style);
-        self.process_string(one_big_string)
+        self.process_string(one_big_string, conc_str_node)
     }
 
     fn extract_concatinated_strings(
@@ -3841,11 +3849,12 @@ impl Parser {
             }
         }
         let string_contents = self.escape_decode_text(raw_string_node, &escape_sequences);
+        let categorization = self.categorize_string(&string_contents, origin_node, false);
 
-        if RE_FSTRING.is_match(&string_contents) {
+        if categorization.is_format {
             self.format_string(raw_string_node, origin_node, string_contents)
         } else {
-            Ok(self.process_string(string_contents))
+            Ok(self.process_string(string_contents, origin_node))
         }
     }
 
@@ -3858,8 +3867,12 @@ impl Parser {
         escape_sequences: &Vec<(String, usize, usize)>,
     ) -> String {
         let original_contents = self.get_text(raw_string_node);
-        let is_byte = original_contents.starts_with('b');
-        if escape_sequences.is_empty() || is_byte {
+
+        if escape_sequences.is_empty()
+            || self
+                .categorize_string(&original_contents, raw_string_node, false)
+                .is_byte
+        {
             original_contents
         } else {
             // substitute the new characters
@@ -3952,6 +3965,35 @@ impl Parser {
         prefix
     }
 
+    /// categorize_string will attempt to figure out what th prefix is of a string
+    /// Failures are logged as recoverable and the string is otherwise categorized
+    /// As a vanilla string with no prefix
+    fn categorize_string(
+        &mut self,
+        string_with_prefix: &str,
+        node: &Node,
+        record_invalid_prefix: bool,
+    ) -> StringCategory {
+        match categorize_string(string_with_prefix) {
+            Ok(string_category) => string_category,
+            Err(invalid_string_category_error) => {
+                if record_invalid_prefix {
+                    self.record_recoverable_error(
+                        RecoverableError::UnexpectedExpression(format!(
+                            "Invalid string prefix: {:?}",
+                            invalid_string_category_error.invalid_prefix
+                        )),
+                        node,
+                    );
+                }
+
+                StringCategory {
+                    ..Default::default()
+                }
+            }
+        }
+    }
+
     /// process_string performs the following:
     ///  1. We check if a string is prefixed with a 'b' or 'r', if so
     ///  this is stripped out and added back as a prefix to the output of the
@@ -3969,10 +4011,13 @@ impl Parser {
     ///  6. We add escape characters again if needed (' -> \' or " -> \"). In practice,
     ///  this is relevant only when the the string contains both single (') and double
     ///  (") quotes.
-    fn process_string(&mut self, string_contents: String) -> ExprDesc {
+    fn process_string(&mut self, string_contents: String, node: &Node) -> ExprDesc {
         let mut string_contents = string_contents;
-        let byte = string_contents.starts_with('b');
-        let raw = string_contents.starts_with('r');
+        let categorization = self.categorize_string(&string_contents, node, true);
+
+        let byte = categorization.is_byte;
+        let raw = categorization.is_raw;
+
         let prefix = if byte { "b" } else { "" };
 
         if raw || byte {
@@ -4098,15 +4143,13 @@ impl Parser {
     ) -> ErrorableResult<isize> {
         match isize::from_str_radix(&const_value[2..], radix) {
             Ok(value) => Ok(value),
-            Err(error_msg) => {
-                return Err(self.record_recoverable_error(
-                    RecoverableError::UnexpectedExpression(format!(
-                        "cannot parse integer (Not a binary {:?}): {:?} as {:?}",
-                        variant_name, const_value, error_msg
-                    )),
-                    node,
-                ));
-            }
+            Err(error_msg) => Err(self.record_recoverable_error(
+                RecoverableError::UnexpectedExpression(format!(
+                    "cannot parse integer (Not a binary {:?}): {:?} as {:?}",
+                    variant_name, const_value, error_msg
+                )),
+                node,
+            )),
         }
     }
 

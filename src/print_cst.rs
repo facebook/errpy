@@ -17,6 +17,7 @@ pub mod errors;
 pub mod parser_pre_process;
 pub mod printers;
 pub mod sitter;
+pub mod string_helpers;
 
 /// Python Parser which will output Tree-sitter CST
 #[derive(ClapParser)]

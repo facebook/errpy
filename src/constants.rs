@@ -8,11 +8,6 @@ use phf::phf_map;
 use regex::Regex;
 
 lazy_static! {
-    // Match f-strings, i.e. strings starting with one of f/rf/fr
-    pub static ref RE_FSTRING: Regex = Regex::new("^[^\"']*f[^\"']*(?:\"|').*").unwrap();
-}
-
-lazy_static! {
     // Match multiline interpolations containing parentheses, e.g. {\na\n}
     pub static ref RE_MULTILINE_F_PARENTHESES: Regex = Regex::new("\\{.*\\(.*\\\\n.*").unwrap();
 }

@@ -15215,10 +15215,17 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
-1 Recoverable error detected:
+2 Recoverable errors detected:
 SyntaxError: invalid syntax at [19:8 - 19:15]
 CST Stack:
     {Node ERROR (18, 7) - (18, 14)}
+    {Node concatenated_string (18, 4) - (18, 29)}
+    {Node expression_statement (18, 4) - (18, 29)}
+    {Node block (18, 4) - (22, 12)}
+    {Node function_definition (17, 0) - (22, 12)}
+    {Node module (0, 0) - (25, 0)}
+UnexpectedExpression: Invalid string prefix: "garbage" at [19:5 - 19:30]
+CST Stack:
     {Node concatenated_string (18, 4) - (18, 29)}
     {Node expression_statement (18, 4) - (18, 29)}
     {Node block (18, 4) - (22, 12)}

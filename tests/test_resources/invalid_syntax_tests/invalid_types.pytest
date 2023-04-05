@@ -8,3 +8,8 @@ message = b"something " \
           "another {a} line"
 message = "something " \
           b"another {a} line"
+
+## invalid string prefix
+something = a"a string"
+something = asdasd"a string"
+something = ru"a string"

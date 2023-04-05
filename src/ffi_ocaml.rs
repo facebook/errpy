@@ -16,6 +16,7 @@ pub mod constants;
 pub mod cst_to_ast;
 pub mod errors;
 pub mod sitter;
+pub mod string_helpers;
 
 ocamlrep_ocamlpool::ocaml_ffi! {
     fn parse_module(_source_text: bstr::BString) -> Result< (ast::Mod_, Vec<ast::RecoverableErrorWithLocation>), String> {

@@ -16,6 +16,7 @@ pub mod errors;
 pub mod parser_pre_process;
 pub mod printers;
 pub mod sitter;
+pub mod string_helpers;
 
 /// Python Parser which will output AST and optional pretty print of input code from derived AST
 #[derive(clap::Parser)]

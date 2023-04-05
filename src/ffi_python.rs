@@ -21,6 +21,7 @@ pub mod errors;
 pub mod parser_pre_process;
 pub mod printers;
 pub mod sitter;
+pub mod string_helpers;
 
 #[pyfunction]
 fn py_parse_module_print_ast(input_code: String) -> PyResult<(String, String)> {
