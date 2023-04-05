@@ -22,6 +22,7 @@ type constant_desc =
   | Bool of bool
   | Num of num
   | Str of string
+  | ByteStr of string
 [@@deriving show]
 
 type constant = constant_desc option [@@deriving show]

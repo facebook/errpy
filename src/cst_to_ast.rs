@@ -3520,7 +3520,7 @@ impl Parser {
                         .to_string()
                         + "=";
 
-                    let expr = self.string(format!("'{}'", expr));
+                    let expr = self.string(format!("'{}'", expr), false);
                     expressions.push(self.new_expr(expr, origin_node));
                 }
                 let interpolation_text = node_text[start_col..end_col].to_string();
@@ -3622,7 +3622,8 @@ impl Parser {
                         let mut format_spec_expressions = vec![];
                         let interpolation_node_str =
                             self.get_text(interpolation_component_node)[1..].to_string();
-                        let string_desc = self.string(format!("'{}'", interpolation_node_str,));
+                        let string_desc =
+                            self.string(format!("'{}'", interpolation_node_str,), false);
                         format_spec_expressions.push(self.new_expr(string_desc, origin_node));
                         *format_spec =
                             Some(self.new_expr(
@@ -3665,7 +3666,7 @@ impl Parser {
 
         for child_string in strings {
             if let ExprDesc::Constant {
-                value: Some(ConstantDesc::Str(astring)),
+                value: Some(ConstantDesc::Str(astring) | ConstantDesc::ByteStr(astring)),
                 kind: _,
             } = &*child_string.desc
             {
@@ -3738,13 +3739,13 @@ impl Parser {
                     if !expressions.is_empty() && !child_expressions.is_empty() {
                         let last_item: &Expr = expressions.last().unwrap();
                         if let ExprDesc::Constant {
-                            value: Some(ConstantDesc::Str(_)),
+                            value: Some(ConstantDesc::Str(_) | ConstantDesc::ByteStr(_)),
                             kind: _,
                         } = &*last_item.desc
                         {
                             let to_add_first_item = child_expressions.first().unwrap();
                             if let ExprDesc::Constant {
-                                value: Some(ConstantDesc::Str(_)),
+                                value: Some(ConstantDesc::Str(_) | ConstantDesc::ByteStr(_)),
                                 kind: _,
                             } = &*to_add_first_item.desc
                             {
@@ -3761,7 +3762,7 @@ impl Parser {
 
                     expressions.extend(child_expressions);
                 } else if let ExprDesc::Constant {
-                    value: Some(ConstantDesc::Str(_)),
+                    value: Some(ConstantDesc::Str(_) | ConstantDesc::ByteStr(_)),
                     kind: _,
                 } = &*child_string.desc
                 {
@@ -3769,7 +3770,7 @@ impl Parser {
                     if !expressions.is_empty() {
                         let last_item = expressions.last().unwrap();
                         if let ExprDesc::Constant {
-                            value: Some(ConstantDesc::Str(_)),
+                            value: Some(ConstantDesc::Str(_) | ConstantDesc::ByteStr(_)),
                             kind: _,
                         } = &*last_item.desc
                         {
@@ -4057,7 +4058,7 @@ impl Parser {
             }
         };
 
-        self.string(format!("{prefix}{string_contents}"))
+        self.string(format!("{prefix}{string_contents}"), byte)
     }
 
     // string: $ => seq(
@@ -4065,9 +4066,13 @@ impl Parser {
     //   repeat(choice($.interpolation, $._escape_interpolation, $.escape_sequence, $._not_escape_sequence, $._string_content)),
     //   alias($._string_end, '"')
     // ),
-    fn string(&mut self, const_value: String) -> ExprDesc {
+    fn string(&mut self, const_value: String, is_byte_string: bool) -> ExprDesc {
         ExprDesc::Constant {
-            value: Some(ConstantDesc::Str(const_value)),
+            value: Some(if is_byte_string {
+                ConstantDesc::ByteStr(const_value)
+            } else {
+                ConstantDesc::Str(const_value)
+            }),
             kind: None,
         }
     }

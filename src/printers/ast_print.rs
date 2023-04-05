@@ -785,6 +785,7 @@ impl fmt::Display for ConstantDesc {
             rest => {
                 let res = match rest {
                     ConstantDesc::Str(vala) => vala,
+                    ConstantDesc::ByteStr(vala) => vala,
                     ConstantDesc::Bool(true) => "True",
                     ConstantDesc::Bool(false) => "False",
                     ConstantDesc::Num(Num::BigInt(stra)) => stra,

@@ -1520,6 +1520,7 @@ impl ConstantDesc {
             rest => {
                 let res = match rest {
                     ConstantDesc::Str(vala) => vala,
+                    ConstantDesc::ByteStr(vala) => vala,
                     ConstantDesc::Num(Num::BigInt(vala)) => vala,
                     ConstantDesc::Bool(true) => "True",
                     ConstantDesc::Bool(false) => "False",

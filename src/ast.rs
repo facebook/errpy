@@ -47,6 +47,7 @@ pub enum ConstantDesc {
     Bool(bool),
     Num(Num),
     Str(String),
+    ByteStr(String),
 }
 
 #[rust_to_ocaml(attr = "deriving show")]
