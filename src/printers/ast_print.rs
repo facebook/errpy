@@ -782,10 +782,12 @@ impl fmt::Display for ConstantDesc {
             ConstantDesc::Num(Num::Complex(vala)) => {
                 write!(f, "{}j", cpython_float_to_string(vala, true))
             }
+            ConstantDesc::ByteStr(vala) => {
+                write!(f, "b{}", vala)
+            }
             rest => {
                 let res = match rest {
                     ConstantDesc::Str(vala) => vala,
-                    ConstantDesc::ByteStr(vala) => vala,
                     ConstantDesc::Bool(true) => "True",
                     ConstantDesc::Bool(false) => "False",
                     ConstantDesc::Num(Num::BigInt(stra)) => stra,

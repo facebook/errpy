@@ -3670,7 +3670,7 @@ impl Parser {
     fn sew_strings_together(&mut self, strings: Vec<Expr>, conc_str_node: &Node) -> ExprDesc {
         let mut one_big_string = String::from("");
         let mut needs_doublequote = false;
-        let mut prev_byte = false;
+        let mut is_previous_token_byte = false;
         let mut first = true;
 
         for child_string in strings {
@@ -3679,8 +3679,15 @@ impl Parser {
                 kind: _,
             } = &*child_string.desc
             {
-                let byte = astring.starts_with('b');
-                if !first && byte != prev_byte {
+                let is_byte = match &*child_string.desc {
+                    ExprDesc::Constant {
+                        value: Some(ConstantDesc::ByteStr(_)),
+                        kind: _,
+                    } => true,
+                    _ => false,
+                };
+
+                if !first && is_byte != is_previous_token_byte {
                     self.record_recoverable_error(
                         RecoverableError::SyntaxError(
                             "cannot mix bytes and nonbytes literals".to_string(),
@@ -3689,9 +3696,8 @@ impl Parser {
                     );
                 }
                 first = false;
-                prev_byte = byte;
-                let start = if byte { 2 } else { 1 };
-                let segment = &astring[start..astring.len() - 1].to_string();
+                is_previous_token_byte = is_byte;
+                let segment = &astring[1..astring.len() - 1].to_string();
                 if segment.contains('\'') {
                     needs_doublequote = true;
                 }
@@ -3699,7 +3705,7 @@ impl Parser {
             }
         }
 
-        let prefix = if prev_byte { "b" } else { "" };
+        let prefix = if is_previous_token_byte { "b" } else { "" };
         let quote_style = if needs_doublequote { "\"" } else { "'" };
         one_big_string = format!("{}{}{}{}", prefix, quote_style, one_big_string, quote_style);
         self.process_string(one_big_string, conc_str_node)
@@ -4000,14 +4006,14 @@ impl Parser {
     ///  6. We add escape characters again if needed (' -> \' or " -> \"). In practice,
     ///  this is relevant only when the the string contains both single (') and double
     ///  (") quotes.
+    ///
     fn process_string(&mut self, string_contents: String, node: &Node) -> ExprDesc {
+        // TODO: this method is getting quite unweildly, we should refactor it.
         let mut string_contents = string_contents;
         let categorization = self.categorize_string(&string_contents, node, true);
 
         let byte = categorization.is_byte;
         let raw = categorization.is_raw;
-
-        let prefix = if byte { "b" } else { "" };
 
         if raw || byte {
             string_contents = string_contents[1..].to_string();
@@ -4104,7 +4110,7 @@ impl Parser {
             }
         };
 
-        self.string(format!("{prefix}{string_contents}"), byte)
+        self.string(string_contents, byte)
     }
 
     // string: $ => seq(
