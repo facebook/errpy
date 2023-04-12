@@ -19,6 +19,18 @@ pub struct InvalidStringCategoryError {
     pub invalid_prefix: String,
 }
 
+/// Return a string containing all characters prior to the first ' or "
+pub fn string_prefix(string_contents: &str) -> String {
+    let mut prefix: String = String::from("");
+    for ch in string_contents.chars() {
+        if ch == '\'' || ch == '"' {
+            break;
+        }
+        prefix.push(ch);
+    }
+    prefix
+}
+
 /// categorize_string will return a StringCategory
 /// containing the type of string which has been passed to the function
 /// i.e. a byte, format, unicode or raw string as signified by the prefix
@@ -32,14 +44,7 @@ pub fn categorize_string(
     // "r" | "u" | "f" | "b"
     // "fr" | "rf"
     // "br"| "rb"
-    let mut prefix = String::from("");
-
-    for character in to_categorize.chars() {
-        if character == '\'' || character == '"' {
-            break;
-        }
-        prefix.push(character);
-    }
+    let mut prefix = string_prefix(to_categorize);
 
     prefix = prefix.to_lowercase();
     match prefix.len() {

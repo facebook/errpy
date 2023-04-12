@@ -46,6 +46,7 @@ use sitter::NodeType;
 use sitter::Production;
 use sitter::ProductionKind;
 use string_helpers::categorize_string;
+use string_helpers::string_prefix;
 use string_helpers::StringCategory;
 use tree_sitter::Node;
 use tree_sitter::Parser as SitterParser;
@@ -3392,7 +3393,7 @@ impl Parser {
         let quote_idx = node_text.chars().position(|c| quotes.contains(&c)).unwrap();
         let apostrophe_or_quote = node_text[quote_idx..quote_idx + 1].to_string();
 
-        let mut prev_idx = self.string_prefix(&node_text).len() + 1;
+        let mut prev_idx = string_prefix(&node_text).len() + 1;
         let mut node_text = node_text;
         let mut multiline_offsets = HashMap::new();
         let base_row = format_node.start_position().row;
@@ -3951,18 +3952,6 @@ impl Parser {
         }
 
         new_node_text.to_string()
-    }
-
-    // Return a string containing all characters prior to the first ' or "
-    fn string_prefix(&mut self, string_contents: &str) -> String {
-        let mut prefix: String = String::from("");
-        for ch in string_contents.chars() {
-            if ch == '\'' || ch == '"' {
-                break;
-            }
-            prefix.push(ch);
-        }
-        prefix
     }
 
     /// categorize_string will attempt to figure out what th prefix is of a string
