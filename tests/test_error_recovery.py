@@ -42,6 +42,9 @@ class TestSpecificInputs(ErrorRecoveryCommon):
     def test_unimplemented_syntax(self) -> None:
         self.compare_recovered_ast_many("unimplemented_syntax.pytest")
 
+    def test_parso_tests(self) -> None:
+        self.compare_recovered_ast_many("parso_error_recovery_tests.pytest")
+
 
 if __name__ == "__main__":
     unittest.main()
