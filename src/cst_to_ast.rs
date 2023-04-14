@@ -3440,17 +3440,31 @@ impl Parser {
 
         let mut has_interpolation_nodes = false;
 
+        let mut unicode_offset: usize = 0;
+
         for interpolation_node in format_node.named_children(&mut format_node.walk()) {
             // walk all interpolated nodes and
             // push each one to expressions as FormattedValue's
             // push any intervening string chunks to expressions as strings
-            if interpolation_node.kind() == "interpolation" {
+            // but watch out for unicode escape_sequence's as these are to be treated as an offset
+            if interpolation_node.kind() == "escape_sequence" {
+                let escape_sequence = self.get_text(&interpolation_node);
+                if escape_sequence.to_uppercase().starts_with("\\U") {
+                    unicode_offset += 3;
+                } else if escape_sequence.starts_with("\\x") {
+                    unicode_offset += 2;
+                }
+            } else if interpolation_node.kind() == "interpolation" {
                 has_interpolation_nodes = true;
 
                 let start_row = interpolation_node.start_position().row;
                 let end_row = interpolation_node.end_position().row;
                 let mut start_col = interpolation_node.start_position().column;
                 let mut end_col = interpolation_node.end_position().column;
+
+                start_col -= unicode_offset;
+                end_col -= unicode_offset;
+
                 if is_multiline && start_row > base_row {
                     // if multiline, we need line column offset adjustment
                     // might be a CPython bug
