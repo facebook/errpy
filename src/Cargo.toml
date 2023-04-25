@@ -29,4 +29,4 @@ rust_to_ocaml_attr = { path = "../vendor/ocaml/interop/rust_to_ocaml/rust_to_oca
 serde = { version = "1.0.136", features = ["derive", "rc"] }
 thiserror = "1.0.36"
 tree-sitter = "0.20.8"
-tree-sitter-python = "0.20.2"
+tree_sitter_python = { path = "../vendor/tree-sitter-python" }
