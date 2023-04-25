@@ -3361,6 +3361,193 @@ impl Parser {
             || string.starts_with("f\'\'\'") && string.ends_with("\'\'\'") && string.len() >= 7
     }
 
+    /// multiline f strings are interesting and require some giggling around so
+    /// that we can consistantly extract substring strings from the string.
+    /// Essentially we must:
+    /// - Offset 2 extra chars off start of String (""" is 2 more chars wider than ")
+    /// - remove newlines and do some offset calculations
+    /// - keep track of column offsets on a per line basis
+    fn format_multiline_string_node_text_inplace(
+        &mut self,
+        node_text: &mut String,
+        base_row: usize,
+        prev_idx: &mut usize,
+        multiline_offsets: &mut HashMap<usize, usize>,
+    ) {
+        let mut cur_row = base_row;
+        multiline_offsets.insert(cur_row, 0);
+        // move chars across one at a time and update offsets as approperiate
+        let mut new_node_text = String::from("");
+        let mut prev_char_is_backslash = false;
+
+        for ch in node_text.chars() {
+            if ch == '\n' {
+                if !prev_char_is_backslash {
+                    new_node_text.push('\\');
+                    new_node_text.push('n');
+                } else {
+                    new_node_text.pop();
+                }
+
+                cur_row += 1;
+                multiline_offsets.insert(cur_row, new_node_text.len());
+            } else {
+                new_node_text.push(ch);
+            }
+            prev_char_is_backslash = ch == '\\';
+        }
+        node_text.clear();
+        node_text.push_str(new_node_text.as_str());
+        if self.is_triple_quote_multiline(node_text) {
+            *prev_idx += 2;
+        }
+    }
+
+    /// walk all interpolated nodes and
+    /// push each one to expressions as FormattedValue's
+    /// push any intervening string chunks to expressions as strings
+    /// but watch out for unicode escape_sequences as these are to be treated as an offset
+    fn handle_format_string_interpolation_node_inplace(
+        &mut self,
+        maybe_interpolation_node: Node,
+        origin_node: &Node,
+        expressions: &mut Vec<Expr>,
+        base_col: usize,
+        base_row: usize,
+        unicode_offset: &mut usize,
+        prev_idx: &mut usize,
+        is_multiline: bool,
+        node_text: &str,
+        apostrophe_or_quote: &String,
+        multiline_offsets: &HashMap<usize, usize>,
+    ) -> ErrorableResult<()> {
+        if maybe_interpolation_node.kind() == "escape_sequence" {
+            let escape_sequence = self.get_text(&maybe_interpolation_node);
+            if escape_sequence.to_uppercase().starts_with("\\U") {
+                *unicode_offset += 3;
+            } else if escape_sequence.starts_with("\\x") {
+                *unicode_offset += 2;
+            };
+        } else if maybe_interpolation_node.kind() == "interpolation" {
+            let start_row = maybe_interpolation_node.start_position().row;
+            let end_row = maybe_interpolation_node.end_position().row;
+            let mut start_col = maybe_interpolation_node.start_position().column;
+            let mut end_col = maybe_interpolation_node.end_position().column;
+
+            start_col -= *unicode_offset;
+            end_col -= *unicode_offset;
+
+            if is_multiline && start_row > base_row {
+                // if multiline, we need line column offset adjustment
+                // might be a CPython bug
+                start_col += multiline_offsets.get(&start_row).unwrap();
+                end_col += multiline_offsets.get(&end_row).unwrap();
+            } else if is_multiline && start_row == base_row && start_row != end_row {
+                // if multiline and interpoaltion brackets begin in first line and
+                // end in further lines, we need line column adjustment for ending row
+                start_col -= base_col;
+                end_col += multiline_offsets.get(&end_row).unwrap();
+            } else {
+                // single line f-literal or first line of multiline f-literal
+                // => decrease by code before the f-literal
+                start_col -= base_col;
+                end_col -= base_col;
+            }
+
+            // add next FormattedValue corresponding to {} region
+            let interpolation_expression = maybe_interpolation_node
+                .child(1)
+                .expect("expression node of interpolation node");
+
+            let mut format_spec: Option<Expr> = None;
+            let mut conversion: Option<isize> = Some(-1);
+            let mut has_equals = false;
+
+            // format_specifier and/or type_conversion may be specified for interpolation_node
+            self.extract_interpolation_node_optionals(
+                &maybe_interpolation_node,
+                origin_node,
+                &mut format_spec,
+                &mut conversion,
+                &mut has_equals,
+            );
+
+            if start_col > *prev_idx {
+                // indicates that there is a string at one of the following two locations
+                // start of the f-string before the first {} (formatted value)
+                // in between two {}'s
+                // strings after the last {} are handled after iterating through
+                //the interpolation nodes
+                let mut string_before_tidy_braces =
+                    self.tidy_double_braces(node_text[*prev_idx..start_col].to_string());
+
+                if has_equals {
+                    string_before_tidy_braces = string_before_tidy_braces
+                        + interpolation_expression
+                            .utf8_text(self.code.as_bytes())
+                            .expect("Could not fetch param name")
+                        + "="
+                }
+                // in multiline string allowed to have " inside """ """
+                // so we have to "\"" or '\'' respectively to correctly preprocess substring
+                if is_multiline {
+                    string_before_tidy_braces = string_before_tidy_braces.replace(
+                        apostrophe_or_quote,
+                        &format!("{}{}", "\\", apostrophe_or_quote),
+                    );
+                }
+                let string_desc = self.process_string(
+                    format!(
+                        "{}{}{}",
+                        apostrophe_or_quote, string_before_tidy_braces, apostrophe_or_quote
+                    ),
+                    &maybe_interpolation_node,
+                );
+                expressions.push(self.new_expr(string_desc, origin_node));
+            } else if has_equals {
+                // Create new const expression
+                let expr = interpolation_expression
+                    .utf8_text(self.code.as_bytes())
+                    .expect("Could not fetch param name")
+                    .to_string()
+                    + "=";
+
+                let expr = self.string(format!("'{}'", expr), false);
+                expressions.push(self.new_expr(expr, origin_node));
+            }
+            let interpolation_text = node_text[start_col..end_col].to_string();
+
+            let value = if is_multiline
+                && interpolation_expression.start_position().row > base_row
+                && !interpolation_text.starts_with("{\\n")
+                && !RE_MULTILINE_F_PARENTHESES.is_match(&interpolation_text)
+            {
+                // potential CPython bug here, column offsets for interpolation nodes for
+                // nodes on the nth (where n>0) line are off by one, so we must correct them
+                // and add the base col (code before the literal, e.g. assignment statement)
+                let prev_offset = self.increment_expression_column_offset;
+                self.increment_expression_column_offset = 1 + (base_col as isize);
+                let expr_node = self.expression(&interpolation_expression)?;
+                self.increment_expression_column_offset = prev_offset;
+                expr_node
+            } else {
+                self.expression(&interpolation_expression)?
+            };
+
+            expressions.push(self.new_expr(
+                ExprDesc::FormattedValue {
+                    value,
+                    conversion,
+                    format_spec,
+                },
+                origin_node,
+            ));
+
+            *prev_idx = end_col;
+        }
+        Ok(())
+    }
+
     // string: $ => seq(
     //   alias($._string_start, '"'),
     //   repeat(choice($.interpolation, $._escape_interpolation, $.escape_sequence, $._not_escape_sequence, $._string_content)),
@@ -3399,179 +3586,37 @@ impl Parser {
         let base_row = format_node.start_position().row;
         let base_col = format_node.start_position().column;
 
-        let is_multiline = if node_text.contains('\n') || self.is_triple_quote_multiline(&node_text)
-        {
-            // multiline f strings are interesting and require some giggling around so
-            // that we can consistantly extract substring strings from the string.
-            // Essentially we must:
-            // Offset 2 extra chars off start of String (""" is 2 more chars wider than ")
-            // we also need to remove newlines and do some offset calculations
-            // keep track of column offsets on a per line basis
-            let mut cur_row = base_row;
-            multiline_offsets.insert(cur_row, 0);
-            // move chars across one at a time and update offsets as approperiate
-            let mut new_node_text = String::from("");
-            let mut prev_char_is_backslash = false;
-
-            for ch in node_text.chars() {
-                if ch == '\n' {
-                    if !prev_char_is_backslash {
-                        new_node_text.push('\\');
-                        new_node_text.push('n');
-                    } else {
-                        new_node_text.pop();
-                    }
-
-                    cur_row += 1;
-                    multiline_offsets.insert(cur_row, new_node_text.len());
-                } else {
-                    new_node_text.push(ch);
-                }
-                prev_char_is_backslash = ch == '\\';
-            }
-            node_text = new_node_text;
-            if self.is_triple_quote_multiline(&node_text) {
-                prev_idx += 2;
-            }
-            true
-        } else {
-            false
-        };
+        let is_multiline = node_text.contains('\n') || self.is_triple_quote_multiline(&node_text);
+        if is_multiline {
+            self.format_multiline_string_node_text_inplace(
+                &mut node_text,
+                base_row,
+                &mut prev_idx,
+                &mut multiline_offsets,
+            );
+        }
 
         let mut has_interpolation_nodes = false;
 
         let mut unicode_offset: usize = 0;
 
         for interpolation_node in format_node.named_children(&mut format_node.walk()) {
-            // walk all interpolated nodes and
-            // push each one to expressions as FormattedValue's
-            // push any intervening string chunks to expressions as strings
-            // but watch out for unicode escape_sequence's as these are to be treated as an offset
-            if interpolation_node.kind() == "escape_sequence" {
-                let escape_sequence = self.get_text(&interpolation_node);
-                if escape_sequence.to_uppercase().starts_with("\\U") {
-                    unicode_offset += 3;
-                } else if escape_sequence.starts_with("\\x") {
-                    unicode_offset += 2;
-                }
-            } else if interpolation_node.kind() == "interpolation" {
+            self.handle_format_string_interpolation_node_inplace(
+                interpolation_node,
+                origin_node,
+                &mut expressions,
+                base_col,
+                base_row,
+                &mut unicode_offset,
+                &mut prev_idx,
+                is_multiline,
+                &node_text,
+                &apostrophe_or_quote,
+                &multiline_offsets,
+            )?;
+
+            if interpolation_node.kind() == "interpolation" {
                 has_interpolation_nodes = true;
-
-                let start_row = interpolation_node.start_position().row;
-                let end_row = interpolation_node.end_position().row;
-                let mut start_col = interpolation_node.start_position().column;
-                let mut end_col = interpolation_node.end_position().column;
-
-                start_col -= unicode_offset;
-                end_col -= unicode_offset;
-
-                if is_multiline && start_row > base_row {
-                    // if multiline, we need line column offset adjustment
-                    // might be a CPython bug
-                    start_col += multiline_offsets.get(&start_row).unwrap();
-                    end_col += multiline_offsets.get(&end_row).unwrap();
-                } else if is_multiline && start_row == base_row && start_row != end_row {
-                    // if multiline and interpoaltion brackets begin in first line and
-                    // end in further lines, we need line column adjustment for ending row
-                    start_col -= base_col;
-                    end_col += multiline_offsets.get(&end_row).unwrap();
-                } else {
-                    // single line f-literal or first line of multiline f-literal
-                    // => decrease by code before the f-literal
-                    start_col -= base_col;
-                    end_col -= base_col;
-                }
-
-                // add next FormattedValue corresponding to {} region
-                let interpolation_expression = interpolation_node
-                    .child(1)
-                    .expect("expression node of interpolation node");
-
-                let mut format_spec: Option<Expr> = None;
-                let mut conversion: Option<isize> = Some(-1);
-                let mut has_equals = false;
-
-                // format_specifier and/or type_conversion may be specified for interpolation_node
-                self.extract_interpolation_node_optionals(
-                    &interpolation_node,
-                    origin_node,
-                    &mut format_spec,
-                    &mut conversion,
-                    &mut has_equals,
-                );
-
-                if start_col > prev_idx {
-                    // indicates that there is a string at one of the following two locations
-                    // start of the f-string before the first {} (formatted value)
-                    // in between two {}'s
-                    // strings after the last {} are handled after iterating through
-                    //the interpolation nodes
-                    let mut string_before_tidy_braces =
-                        self.tidy_double_braces(node_text[prev_idx..start_col].to_string());
-
-                    if has_equals {
-                        string_before_tidy_braces = string_before_tidy_braces
-                            + interpolation_expression
-                                .utf8_text(self.code.as_bytes())
-                                .expect("Could not fetch param name")
-                            + "="
-                    }
-                    // in multiline string allowed to have " inside """ """
-                    // so we have to "\"" or '\'' respectively to correctly preprocess substring
-                    if is_multiline {
-                        string_before_tidy_braces = string_before_tidy_braces.replace(
-                            &apostrophe_or_quote,
-                            &format!("{}{}", "\\", apostrophe_or_quote),
-                        );
-                    }
-                    let string_desc = self.process_string(
-                        format!(
-                            "{}{}{}",
-                            apostrophe_or_quote, string_before_tidy_braces, apostrophe_or_quote
-                        ),
-                        &interpolation_node,
-                    );
-                    expressions.push(self.new_expr(string_desc, origin_node));
-                } else if has_equals {
-                    // Create new const expression
-                    let expr = interpolation_expression
-                        .utf8_text(self.code.as_bytes())
-                        .expect("Could not fetch param name")
-                        .to_string()
-                        + "=";
-
-                    let expr = self.string(format!("'{}'", expr), false);
-                    expressions.push(self.new_expr(expr, origin_node));
-                }
-                let interpolation_text = node_text[start_col..end_col].to_string();
-
-                let value = if is_multiline
-                    && interpolation_expression.start_position().row > base_row
-                    && !interpolation_text.starts_with("{\\n")
-                    && !RE_MULTILINE_F_PARENTHESES.is_match(&interpolation_text)
-                {
-                    // potential CPython bug here, column offsets for interpolation nodes for
-                    // nodes on the nth (where n>0) line are off by one, so we must correct them
-                    // and add the base col (code before the literal, e.g. assignment statement)
-                    let prev_offset = self.increment_expression_column_offset;
-                    self.increment_expression_column_offset = 1 + (base_col as isize);
-                    let expr_node = self.expression(&interpolation_expression)?;
-                    self.increment_expression_column_offset = prev_offset;
-                    expr_node
-                } else {
-                    self.expression(&interpolation_expression)?
-                };
-
-                expressions.push(self.new_expr(
-                    ExprDesc::FormattedValue {
-                        value,
-                        conversion,
-                        format_spec,
-                    },
-                    origin_node,
-                ));
-
-                prev_idx = end_col;
             }
         }
         // adjusted_node_text is only required in case if there is leftover string
