@@ -1,0 +1,1 @@
+This sample tests class-based pattern matching when the class is marked final and can be discriminated based on the argument patterns.
