@@ -3119,9 +3119,9 @@ impl Parser {
     //         '>',
     //         '<>',
     //         'in',
-    //         seq('not', 'in'),
+    //         alias(seq('not', 'in'), 'not in'),
     //         'is',
-    //         seq('is', 'not')
+    //         alias(seq('is', 'not'), 'is not')
     //       )),
     //     $.primary_expression
     //   ))
@@ -3144,7 +3144,6 @@ impl Parser {
         next_itr.next();
         let mut skip_next = false;
         for child in all_items.iter() {
-            let next_child_type = next_itr.next().map(get_node_type);
             if skip_next {
                 skip_next = false;
                 continue;
@@ -3158,12 +3157,15 @@ impl Parser {
                 },
                 _ => {
                     // must be an operator
-                    if let Some(cmp_operator) = get_comp_op(child_type, next_child_type) {
-                        if cmp_operator == Cmpop::NotIn {
-                            skip_next = true;
-                        }
-
+                    if let Some(cmp_operator) = get_comp_op(child_type) {
                         ops.push(cmp_operator);
+
+                        match cmp_operator {
+                            Cmpop::IsNot | Cmpop::NotIn => {
+                                skip_next = true;
+                            }
+                            _ => (),
+                        }
                     }
                 }
             }
@@ -3421,13 +3423,19 @@ impl Parser {
         apostrophe_or_quote: &String,
         multiline_offsets: &HashMap<usize, usize>,
     ) -> ErrorableResult<()> {
-        if maybe_interpolation_node.kind() == "escape_sequence" {
-            let escape_sequence = self.get_text(&maybe_interpolation_node);
-            if escape_sequence.to_uppercase().starts_with("\\U") {
-                *unicode_offset += 3;
-            } else if escape_sequence.starts_with("\\x") {
-                *unicode_offset += 2;
-            };
+        if maybe_interpolation_node.kind() == "string_content" {
+            for maybe_escape_sequence in
+                maybe_interpolation_node.named_children(&mut maybe_interpolation_node.walk())
+            {
+                if maybe_escape_sequence.kind() == "escape_sequence" {
+                    let escape_sequence = self.get_text(&maybe_escape_sequence);
+                    if escape_sequence.to_uppercase().starts_with("\\U") {
+                        *unicode_offset += 3;
+                    } else if escape_sequence.starts_with("\\x") {
+                        *unicode_offset += 2;
+                    }
+                }
+            }
         } else if maybe_interpolation_node.kind() == "interpolation" {
             let start_row = maybe_interpolation_node.start_position().row;
             let end_row = maybe_interpolation_node.end_position().row;
@@ -3548,19 +3556,33 @@ impl Parser {
         Ok(())
     }
 
-    // string: $ => seq(
-    //   alias($._string_start, '"'),
-    //   repeat(choice($.interpolation, $._escape_interpolation, $.escape_sequence, $._not_escape_sequence, $._string_content)),
-    //   alias($._string_end, '"')
-    // ),
     //
-    // interpolation: $ => seq(
-    //   '{',
-    //   $.expression,
-    //   optional('='),
-    //   optional($.type_conversion),
-    //   optional($.format_specifier),
-    //   '}'
+    // string: $ => seq(
+    //    field('prefix', alias($._string_start, '"')),
+    //    repeat(choice(
+    //      field('interpolation', $.interpolation),
+    //      field('string_content', $.string_content)
+    //    )),
+    //    field('suffix', alias($._string_end, '"'))
+    //  ),
+    //
+    //
+    // string_content: $ => prec.right(0, repeat1(
+    //    choice(
+    //      $._escape_interpolation,
+    //      $.escape_sequence,
+    //      $._not_escape_sequence,
+    //      $._string_content
+    //    ))),
+    //
+    //  interpolation: $ => seq(
+    //    token.immediate('{'),
+    //    field('expression', $._f_expression),
+    //    optional('='),
+    //    optional(field('type_conversion', $.type_conversion)),
+    //    optional(field('format_specifier', $.format_specifier)),
+    //    '}'
+    //  ),
     // ),
     // origin_node will be different from format_node where the format string exists within
     // a concatenated string
@@ -3874,43 +3896,47 @@ impl Parser {
     ) -> ErrorableResult<ExprDesc> {
         // collect escape sequences and parse into corresponding unicode characters
         let mut escape_sequences = vec![];
-        for child in raw_string_node.children(&mut raw_string_node.walk()) {
-            if child.kind() == "escape_sequence" {
-                let escape_sequence = self.get_text(&child);
-                if escape_sequence.to_uppercase().starts_with("\\U")
-                    || escape_sequence.starts_with("\\x")
-                {
-                    let escape_code = u32::from_str_radix(&escape_sequence[2..], 16).unwrap();
-                    let escape_sequence = if escape_code < 32 // unprintable ascii
-                        || escape_code == 92  // backslash
-                        || escape_code == 173  // soft hyphen
-                        || (127..=160).contains(&escape_code)
+        for string_content_nodes in
+            raw_string_node.children_by_field_name("string_content", &mut raw_string_node.walk())
+        {
+            for child in string_content_nodes.named_children(&mut raw_string_node.walk()) {
+                if child.kind() == "escape_sequence" {
+                    let escape_sequence = self.get_text(&child);
+                    if escape_sequence.to_uppercase().starts_with("\\U")
+                        || escape_sequence.starts_with("\\x")
                     {
-                        // code corresponds to a non-printable character, or character
-                        // with a special escape sequence. we need to manually create
-                        // the new escape sequence
-                        match escape_code {
-                            9 => String::from("\\t"),
-                            10 => String::from("\\n"),
-                            13 => String::from("\\r"),
-                            92 => String::from("\\\\"),
-                            _ => format!("\\x{:02x}", escape_code),
-                        }
-                    } else {
-                        let as_unicode = std::char::from_u32(escape_code);
-                        // In cases where escape_code is not a valid u32, it
-                        // seems that CPython formats the unicode character
-                        // as escape_sequence.to_lowercase() so we do the same
-                        match as_unicode {
-                            Some(formatted) => format!("{}", formatted),
-                            None => escape_sequence.to_lowercase(),
-                        }
-                    };
-                    escape_sequences.push((
-                        escape_sequence,
-                        child.start_byte() - raw_string_node.start_byte(),
-                        child.end_byte() - raw_string_node.start_byte(),
-                    ));
+                        let escape_code = u32::from_str_radix(&escape_sequence[2..], 16).unwrap();
+                        let escape_sequence = if escape_code < 32 // unprintable ascii
+                            || escape_code == 92  // backslash
+                            || escape_code == 173  // soft hyphen
+                            || (127..=160).contains(&escape_code)
+                        {
+                            // code corresponds to a non-printable character, or character
+                            // with a special escape sequence. we need to manually create
+                            // the new escape sequence
+                            match escape_code {
+                                9 => String::from("\\t"),
+                                10 => String::from("\\n"),
+                                13 => String::from("\\r"),
+                                92 => String::from("\\\\"),
+                                _ => format!("\\x{:02x}", escape_code),
+                            }
+                        } else {
+                            let as_unicode = std::char::from_u32(escape_code);
+                            // In cases where escape_code is not a valid u32, it
+                            // seems that CPython formats the unicode character
+                            // as escape_sequence.to_lowercase() so we do the same
+                            match as_unicode {
+                                Some(formatted) => format!("{}", formatted),
+                                None => escape_sequence.to_lowercase(),
+                            }
+                        };
+                        escape_sequences.push((
+                            escape_sequence,
+                            child.start_byte() - raw_string_node.start_byte(),
+                            child.end_byte() - raw_string_node.start_byte(),
+                        ));
+                    }
                 }
             }
         }
@@ -4173,10 +4199,13 @@ impl Parser {
     }
 
     // string: $ => seq(
-    //   alias($._string_start, '"'),
-    //   repeat(choice($.interpolation, $._escape_interpolation, $.escape_sequence, $._not_escape_sequence, $._string_content)),
-    //   alias($._string_end, '"')
-    // ),
+    //  field('prefix', alias($._string_start, '"')),
+    //  repeat(choice(
+    //    field('interpolation', $.interpolation),
+    //    field('string_content', $.string_content)
+    //  )),
+    //  field('suffix', alias($._string_end, '"'))
+    //),
     fn string(&mut self, const_value: String, is_byte_string: bool) -> ExprDesc {
         ExprDesc::Constant {
             value: Some(if is_byte_string {
@@ -4379,8 +4408,7 @@ pub fn get_node_text(code: &String, node: &Node) -> String {
         .to_string()
 }
 
-fn get_comp_op(operator: &NodeType, operator_next: Option<NodeType>) -> Option<Cmpop> {
-    // We need to look one token ahead to deal with `not in` and `is not` cases
+fn get_comp_op(operator: &NodeType) -> Option<Cmpop> {
     match operator {
         NodeType::ComparisonOperator(cmp_operator) => Some(match cmp_operator {
             ComparisonOperator::LESS_THAN => Cmpop::Lt,
@@ -4393,16 +4421,10 @@ fn get_comp_op(operator: &NodeType, operator_next: Option<NodeType>) -> Option<C
                 panic!("unexpected comparison operator node {:?}", cmp_operator)
             }
         }),
-        // deal with `not in` and `is not`
         NodeType::Keyword(Keyword::IN) => Some(Cmpop::In),
-        NodeType::Keyword(Keyword::IS) => match operator_next {
-            Some(NodeType::Keyword(Keyword::NOT)) => Some(Cmpop::IsNot),
-            _ => Some(Cmpop::Is),
-        },
-        NodeType::Keyword(Keyword::NOT) => match operator_next {
-            Some(NodeType::Keyword(Keyword::IN)) => Some(Cmpop::NotIn),
-            _ => None,
-        },
+        NodeType::Keyword(Keyword::IS) => Some(Cmpop::Is),
+        NodeType::Keyword(Keyword::IS_NOT) => Some(Cmpop::IsNot),
+        NodeType::Keyword(Keyword::NOT_IN) => Some(Cmpop::NotIn),
         _ => None,
     }
 }

@@ -13206,34 +13206,40 @@ def somethingelse():                          | def somethingelse():
                                               |                                               
 def format_a_string(astring: str) -> str:     | def format_a_string(astring: str) -> str:     
     return ','.join([x for x in astring])     |     return ','.join([x for x in astring])     
-                                              |                                               
-def main( -> int:                             | def main() -> int:                            
-    """DOC_STRING"""                          |     """DOC_STRING"""                          
-    somethingelse()                           |     somethingelse()                           
-    fib(12)                                   |     fib(12)                                   
-    astring = format_a_string()               |     astring = format_a_string()               
-    return 0                                  |     return 0                                  
-if __name__ == '__main__':                    | if __name__ == '__main__':                    
-    main()                                    |     main()                                    
+                                              | 
+def main( -> int:                             | 
+    """DOC_STRING"""                          | 
+    somethingelse()                           | 
+    fib(12)                                   | 
+    astring = format_a_string()               | 
+    return 0                                  | 
+if __name__ == '__main__':                    | 
+    main()                                    | 
                                               | 
 
+1 Recoverable error detected:
+SyntaxError: invalid syntax at [18:1 - 25:11]
+CST Stack:
+    {Node ERROR (17, 0) - (24, 10)}
+    {Node module (0, 0) - (25, 0)}
 
 ERRPY Recovered AST diff:
 --- 
 +++ 
-@@ -15,11 +15,11 @@
- def format_a_string(astring: str) -> str:
-     return ','.join([x for x in astring])
+@@ -13,4 +13,13 @@
+     pass
  
--def main() -> int:
+ def format_a_string(astring: str) -> str:
+-    return ','.join([x for x in astring])+    return ','.join([x for x in astring])
++
 +def main( -> int:
-     """DOC_STRING"""
-     somethingelse()
-     fib(12)
-     astring = format_a_string()
-     return 0
- if __name__ == '__main__':
--    main()+    main()
++    """DOC_STRING"""
++    somethingelse()
++    fib(12)
++    astring = format_a_string()
++    return 0
++if __name__ == '__main__':
++    main()
 
 
 ===============================================================================
