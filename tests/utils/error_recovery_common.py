@@ -58,7 +58,9 @@ def validate_code_and_agument_errors(pprint_ast: str, errors: str) -> str:
 
 class ErrorRecoveryCommon(ASTTestCommon):
     def compare_recovered_ast_many(
-        self, many_fname: str, test_dir: str = ERROR_RECOVERY_SPECIFIC_TESTS_DIR
+        self,
+        many_fname: str,
+        test_dir: str = ERROR_RECOVERY_SPECIFIC_TESTS_DIR,
     ) -> None:
         """Iterate through series of inputs delimited by ## and check pprint ast
         of each against expected recovered pprint ast"""
@@ -80,58 +82,9 @@ class ErrorRecoveryCommon(ASTTestCommon):
                 pprint_ast += errors
             got_results += f"##{code_title}\n{pprint_ast.strip()}\n\n"
 
-        got_results = (
-            "@" + "generated\n\n" + got_results
-        )  # help diff review tool undestand this to be generated
-
-        expected_results = None
-        try:
-            expected_results = read_code(expected_results_fname, flavour=test_dir)
-        except Exception:
-            write_file(expected_results_fname, got_results, flavour=test_dir)
-            self.fail(
-                "No '%s' file defined, so created a new one! Check this document and ensure results match expectation. Future runs will treat contents as correct test result"
-                % (expected_results_fname)
-            )
-
-        # great now we can check the results against what's expected
-        if expected_results != got_results:
-            expected_results = ast_utils.format_ast_with_indentation(expected_results)
-            got_results = ast_utils.format_ast_with_indentation(got_results)
-
-            if WRITE_EXPECTED_RESULTS_NEWFILE:
-                new_results_fname = (
-                    expected_results_fname + EXPECTED_RESULTS_POSTFIX_NEW
-                )
-                print(
-                    "test config variable: '{}' is set in '{}'. Writing results to new file: '{}' (for diffing etc)".format(
-                        TEST_ERRPY_RESULTS_NEWFILE_CONFIG_KEY,
-                        TEST_CONFIG_FNAME,
-                        new_results_fname,
-                    )
-                )
-                try:
-                    write_file(new_results_fname, got_results, flavour=test_dir)
-                    print(f"new file write of: {new_results_fname} complete")
-                except Exception:
-                    print(
-                        "new file write failed due to: {}".format(
-                            traceback.format_exc()
-                        )
-                    )
-
-            print("Test for: %s failed:\n" % (many_fname))
-            expected_results = expected_results or ""
-
-            diff = unified_diff(
-                pprint_ast.splitlines(keepends=True),
-                expected_results.splitlines(keepends=True),
-            )
-            print("".join(diff), end="")
-
-            print("\n\n")
-
-            self.fail("Test for: %s failed" % (many_fname))
+        self.check_vs_expects_file(
+            test_dir, many_fname, expected_results_fname, got_results
+        )
 
     def check_error_recovery_char_by_char(self, many_fname: str) -> None:
         def generator(

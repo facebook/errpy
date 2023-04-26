@@ -91,6 +91,68 @@ def format_side_by_side(left_input: str, right_input: str) -> str:
 
 
 class ASTTestCommon(unittest.TestCase):
+    def check_vs_expects_file(
+        self,
+        test_dir: str,
+        failed_for: str,
+        expected_results_fname: str,
+        got_results: str,
+    ) -> None:
+        """
+        This method supports 'expect' style tests where we compare the output of a test, 'got_results' against what was expected which is persisted
+        in a file 'expected_results_fname'.
+
+        Three things can happen wihtin this flow:
+         - If there is no expected results already persisted in 'expected_results_fname' then this is created using the obtained 'got_results' results
+           and the calling unit test fails.
+         - If the two test outputs differ (obtained and expected) then a new 'expected_results_fname' file is committed to disk and the test fails.
+         - If the two test outputs match then this part of the test passes, horray!.
+        """
+
+        got_results = (
+            "@" + "generated\n\n" + got_results
+        )  # help diff review tool undestand this to be generated
+
+        expected_results = None
+        try:
+            expected_results = read_code(expected_results_fname, flavour=test_dir)
+        except Exception:
+            write_file(expected_results_fname, got_results, flavour=test_dir)
+            self.fail(
+                "No '%s' file defined, so created a new one! Check this document and ensure results match expectation. Future runs will treat contents as correct test result"
+                % (expected_results_fname)
+            )
+
+        # great now we can check the results against what's expected
+        if expected_results != got_results:
+            expected_results = ast_utils.format_ast_with_indentation(expected_results)
+            got_results = ast_utils.format_ast_with_indentation(got_results)
+
+            if WRITE_EXPECTED_RESULTS_NEWFILE:
+                new_results_fname = (
+                    expected_results_fname + EXPECTED_RESULTS_POSTFIX_NEW
+                )
+                print(
+                    "test config variable: '{}' is set in '{}'. Writing results to new file: '{}' (for diffing etc)".format(
+                        TEST_ERRPY_RESULTS_NEWFILE_CONFIG_KEY,
+                        TEST_CONFIG_FNAME,
+                        new_results_fname,
+                    )
+                )
+                try:
+                    write_file(new_results_fname, got_results, flavour=test_dir)
+                    print(f"new file write of: {new_results_fname} complete")
+                except Exception:
+                    print(
+                        "new file write failed due to: {}".format(
+                            traceback.format_exc()
+                        )
+                    )
+
+            print("Test for: %s failed:\n" % (failed_for))
+
+            self.fail("Test for: %s failed" % (failed_for))
+
     def splitmany_test_cases(
         self, many_fname: str, flavour: str
     ) -> List[Tuple[str, str]]:
