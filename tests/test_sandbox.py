@@ -67,8 +67,11 @@ class TestSandbox(unittest.TestCase):
     def test_sandbox_just_ast(self) -> None:
         self.check_ast_file("sandbox.pytest", pretty_print=False, flat_ast=False)
 
-    def test_sandbox_flat_ast_and_pretty(self) -> None:
+    def test_sandbox_flat_ast(self) -> None:
         self.check_ast_file("sandbox.pytest", pretty_print=False, flat_ast=True)
+
+    def test_sandbox_flat_ast_and_pretty(self) -> None:
+        self.check_ast_file("sandbox.pytest", pretty_print=True, flat_ast=True)
 
 
 if __name__ == "__main__":
