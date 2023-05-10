@@ -115,12 +115,7 @@ def get_cpython_ast(
         ast_inst = ast.parse(source)
         ast_dump = ast.dump(ast_inst, include_attributes=True)
         if pretty_print:
-            return (
-                ast_dump
-                + "\n"
-                # pyre-ignore # unparse exists in 3.10 only...
-                + ast.unparse(ast_inst)
-            )
+            return ast_dump + "\n" + ast.unparse(ast_inst)
         else:
             return ast_dump
     except BaseException as e:
