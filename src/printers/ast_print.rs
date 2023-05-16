@@ -18,9 +18,12 @@ use ast::Expr;
 use ast::ExprContext;
 use ast::ExprDesc;
 use ast::Keyword;
+use ast::MatchCase;
 use ast::Mod_;
 use ast::Num;
 use ast::Operator;
+use ast::Pattern;
+use ast::PatternDesc;
 use ast::Stmt;
 use ast::StmtDesc;
 use ast::Unaryop;
@@ -30,8 +33,8 @@ use crate::ast;
 use crate::cst_to_ast::ASTAndMetaData;
 
 pub const UNKOWN_NODE_MOD: &str = "~~?AST Mod_ Node Missing formatting?~~";
-pub const UNKOWN_NODE_STMT: &str = "~~?AST StmtDesc Node Missing formatting?~~";
 pub const UNKOWN_NODE_EXPR: &str = "~~?AST ExprDesc Node Missing formatting?~~";
+pub const UNKOWN_NODE_PATTERNDESC: &str = "~~?AST PatternDesc Node Missing formatting?~~";
 
 impl fmt::Display for ASTAndMetaData {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
@@ -311,7 +314,14 @@ impl fmt::Display for StmtDesc {
                     format_vec(decorator_list),
                 )
             }
-            _ => write!(f, "{}", UNKOWN_NODE_STMT), // ignore
+            StmtDesc::Match { subject, cases } => {
+                write!(
+                    f,
+                    "Match(subject={}, cases=[{}], ",
+                    subject,
+                    format_vec(cases),
+                )
+            }
         }
     }
 }
@@ -371,6 +381,55 @@ impl fmt::Display for Expr {
             self.end_lineno.unwrap(),
             self.end_col_offset.unwrap()
         )
+    }
+}
+
+impl fmt::Display for MatchCase {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        let guard_str = match &self.guard {
+            Some(guard) => format!("guard={}, ", guard),
+            _ => String::from(""),
+        };
+
+        write!(
+            f,
+            "match_case(pattern={}, {}body=[{}])",
+            self.pattern,
+            guard_str,
+            format_vec(&self.body),
+        )
+    }
+}
+
+impl fmt::Display for Pattern {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(
+            f,
+            "{}lineno={}, col_offset={}, end_lineno={}, end_col_offset={})",
+            self.desc, self.lineno, self.col_offset, self.end_lineno, self.end_col_offset
+        )
+    }
+}
+
+impl fmt::Display for PatternDesc {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            PatternDesc::MatchValue(expr) => write!(f, "MatchValue(value={}, ", expr),
+            PatternDesc::MatchAs { pattern, name } => {
+                let pattern_str = match pattern {
+                    Some(pattern) => format!("pattern={}, ", pattern),
+                    _ => String::from(""),
+                };
+
+                let name_str = match name {
+                    Some(name) => format!("name={}, ", name),
+                    _ => String::from(""),
+                };
+
+                write!(f, "MatchAs({}{}", pattern_str, name_str)
+            }
+            _ => write!(f, "{}", UNKOWN_NODE_PATTERNDESC), // ignore
+        }
     }
 }
 

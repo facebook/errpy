@@ -1,5 +1,4 @@
 match_case(pattern, guard, body)
-MatchValue(value)
 MatchSingleton(value)
 MatchSequence(patterns)
 MatchStar(name)
@@ -21,7 +20,6 @@ PEP 636 - positional arguments
 PEP 636 - constants and enums
 PEP 636 - dict mappings
 PEP 636 - builtin classes
-PEP 636 - quick intro: literals 1
 PEP 636 - quick intro: literals 2
 PEP 636 - quick intro: unpacking
 PEP 636 - quick intro: attribute capture

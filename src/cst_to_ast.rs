@@ -23,9 +23,12 @@ use ast::Expr;
 use ast::ExprContext;
 use ast::ExprDesc;
 use ast::Keyword as AstKeyword;
+use ast::MatchCase;
 use ast::Mod_;
 use ast::Num;
 use ast::Operator;
+use ast::Pattern;
+use ast::PatternDesc;
 use ast::Stmt;
 use ast::StmtDesc;
 use ast::Unaryop;
@@ -459,12 +462,13 @@ impl Parser {
                     WITH_STATEMENT => self.with_statement(rule.node)?,
                     FUNCTION_DEFINITION => self.function_definition(rule.node, vec![])?,
                     CLASS_DEFINITION => self.class_definition(rule.node, vec![])?,
-                    // MATCH_STATEMENT,
+                    MATCH_STATEMENT => self.match_statement(rule.node)?,
+                    // ,
 
                     // uncomment above when writing the production and delete from here
                     // the order above is that in the tree sitter grammar so easier to
                     // check for now
-                    PRINT_STATEMENT | EXEC_STATEMENT | MATCH_STATEMENT => {
+                    PRINT_STATEMENT | EXEC_STATEMENT => {
                         return Err(self.record_recoverable_error(
                             RecoverableError::UnimplementedStatement(format!("{:?}", rule.node)),
                             rule.node,
@@ -476,6 +480,170 @@ impl Parser {
                 Ok(Stmt::new(statement_desc, rule.node, rule.node))
             }
         }
+    }
+
+    // match_statement: $ => seq(
+    // 'match',
+    //  commaSep1(field('subject', $.expression)),
+    //  optional(','),
+    //  ':',
+    //  repeat(field('alternative', $.case_clause))),
+    // ),
+    fn match_statement(&mut self, match_node: &Node) -> ErrorableResult<StmtDesc> {
+        let mut cases: Vec<MatchCase> = vec![];
+
+        for case_clause_node in
+            match_node.children_by_field_name("alternative", &mut match_node.walk())
+        {
+            let case_clause = self.case_clause(&case_clause_node);
+
+            match case_clause {
+                Ok(case_clause) => cases.push(case_clause),
+                _ => (), // Error will already have been flagged so there isn't
+                         // anything special to do here besides ignoring the
+                         // case_clause
+            }
+        }
+
+        let subject_node = match_node
+            .child_by_field_name("subject")
+            .expect("subject node");
+        let subject = self.expression(&subject_node)?;
+
+        Ok(StmtDesc::Match { subject, cases })
+    }
+
+    //  case_clause: $ => seq(
+    //   'case',
+    //   commaSep1(
+    //     field(
+    //       'pattern',
+    //       choice($.case_pattern, $.case_open_sequence_pattern),
+    //    )
+    //   ),
+    //   optional(','),
+    //   optional(field('guard', $.if_clause)),
+    //   ':',
+    //   field('consequence', $._suite)
+    // ),
+    fn case_clause(&mut self, case_clause_node: &Node) -> ErrorableResult<MatchCase> {
+        let pattern_node = &case_clause_node
+            .child_by_field_name("pattern")
+            .expect("missing pattern");
+
+        let pattern_desc: PatternDesc = match pattern_node.kind() {
+            "case_pattern" => self.case_pattern(pattern_node)?,
+            _ => self.case_open_sequence_pattern(pattern_node)?,
+        };
+
+        let start_position = pattern_node.start_position();
+        let end_position = pattern_node.end_position();
+
+        let pattern = Pattern {
+            desc: Box::new(pattern_desc),
+            lineno: start_position.row as isize + 1,
+            col_offset: start_position.column as isize,
+            end_lineno: end_position.row as isize + 1,
+            end_col_offset: end_position.column as isize,
+        };
+
+        let guard = match &case_clause_node.child_by_field_name("guard") {
+            Some(gaurd) => Some(self.expression(gaurd)?),
+            None => None,
+        };
+
+        let body_node = case_clause_node
+            .child_by_field_name("consequence")
+            .expect("missing body");
+        let mut body = vec![];
+        self.block(&body_node, &mut body);
+
+        Ok(MatchCase {
+            pattern,
+            guard,
+            body,
+        })
+    }
+
+    fn case_pattern(&mut self, pattern_node: &Node) -> ErrorableResult<PatternDesc> {
+        let as_or_or_pattern_node = &pattern_node.child(0).expect("child");
+
+        match as_or_or_pattern_node.kind() {
+            "case_as_pattern" => self.case_as_pattern(as_or_or_pattern_node),
+            _ => self.case_or_pattern(as_or_or_pattern_node),
+        }
+    }
+
+    fn case_as_pattern(&mut self, as_pattern_node: &Node) -> ErrorableResult<PatternDesc> {
+        Err(self.record_recoverable_error(
+            RecoverableError::UnimplementedStatement(format!("{:?}", as_pattern_node)),
+            as_pattern_node,
+        ))
+    }
+
+    // case_or_pattern: $ => seq(
+    //  $.case_closed_pattern, repeat(seq('|', $.case_closed_pattern))),
+    fn case_or_pattern(&mut self, or_pattern_node: &Node) -> ErrorableResult<PatternDesc> {
+        let mut case_closed_patterns = vec![];
+
+        for case_closed_pattern_node in or_pattern_node.named_children(&mut or_pattern_node.walk())
+        {
+            match self.case_closed_pattern(&case_closed_pattern_node) {
+                Ok(case_closed_pattern) => case_closed_patterns.push(case_closed_pattern),
+                _ => (),
+            }
+        }
+
+        match case_closed_patterns.len() {
+            1 => Ok(case_closed_patterns.pop().unwrap()),
+            _ => Err(self.record_recoverable_error(
+                RecoverableError::UnimplementedStatement(format!(
+                    "{:?} where there not just one case_closed_pattern",
+                    or_pattern_node
+                )),
+                or_pattern_node,
+            )),
+        }
+        // TODO: more than one case_closed_pattern resolves to: Ok(PatternDesc::Or(case_closed_patterns))
+    }
+
+    fn case_closed_pattern(
+        &mut self,
+        case_closed_pattern_node: &Node,
+    ) -> ErrorableResult<PatternDesc> {
+        let one_child = &case_closed_pattern_node.child(0).unwrap();
+
+        let node_kind = one_child.kind();
+        match node_kind {
+            "case_literal_pattern" => {
+                let value = self.expression(&one_child.child(0).unwrap())?;
+                Ok(PatternDesc::MatchValue(value))
+            }
+            "case_wildcard_pattern" => Ok(PatternDesc::MatchAs {
+                pattern: None,
+                name: None,
+            }),
+            _ => Err(self.record_recoverable_error(
+                RecoverableError::UnimplementedStatement(format!(
+                    "case_closed_pattern_node of kind: {}",
+                    node_kind
+                )),
+                one_child,
+            )),
+        }
+    }
+
+    fn case_open_sequence_pattern(
+        &mut self,
+        open_sequence_pattern_clause_node: &Node,
+    ) -> ErrorableResult<PatternDesc> {
+        Err(self.record_recoverable_error(
+            RecoverableError::UnimplementedStatement(format!(
+                "{:?}",
+                open_sequence_pattern_clause_node
+            )),
+            open_sequence_pattern_clause_node,
+        ))
     }
 
     // decorated_definition: $ => seq(

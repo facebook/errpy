@@ -15,9 +15,11 @@ use ast::ExcepthandlerDesc;
 use ast::Expr;
 use ast::ExprDesc;
 use ast::Keyword;
+use ast::MatchCase;
 use ast::Mod_;
 use ast::Num;
 use ast::Operator;
+use ast::PatternDesc;
 use ast::Stmt;
 use ast::StmtDesc;
 use ast::Unaryop;
@@ -27,7 +29,7 @@ use num_enum::TryFromPrimitive;
 use printers::ast_pretty_print_helper::PrintHelper;
 use printers::ast_print::cpython_float_to_string;
 use printers::ast_print::UNKOWN_NODE_MOD;
-use printers::ast_print::UNKOWN_NODE_STMT;
+use printers::ast_print::UNKOWN_NODE_PATTERNDESC;
 
 use crate::ast;
 use crate::cst_to_ast::ASTAndMetaData;
@@ -529,7 +531,47 @@ impl Stmt {
                 body,
                 decorator_list,
             } => format_class_def(name, bases, keywords, body, decorator_list, pprint_output),
-            _ => pprint_output.push_str(UNKOWN_NODE_STMT), // ignore
+            StmtDesc::Match { subject, cases } => {
+                pprint_output.push_str("match ");
+                subject.desc.pprint(pprint_output);
+                pprint_output.push_str(":\n");
+                pprint_output.inc_ident();
+
+                for case in cases {
+                    pprint_output.push_ident();
+                    case.pprint(pprint_output);
+                }
+
+                pprint_output.dec_ident();
+            }
+        }
+    }
+}
+
+impl MatchCase {
+    pub fn pprint(&self, pprint_output: &mut PrintHelper) {
+        pprint_output.push_str("case ");
+        self.pattern.desc.pprint(pprint_output);
+        // TODO: implement formatting for guard
+        pprint_output.push_str(":\n");
+
+        format_block(&self.body, pprint_output);
+        pprint_output.push_str("\n");
+    }
+}
+
+impl PatternDesc {
+    pub fn pprint(&self, pprint_output: &mut PrintHelper) {
+        match self {
+            PatternDesc::MatchValue(expr) => expr.desc.pprint(pprint_output),
+            PatternDesc::MatchAs { pattern, name } => {
+                if pattern.is_none() && name.is_none() {
+                    pprint_output.push_str("_");
+                } else {
+                    // TODO: implement MatchAs for non wildcard case
+                }
+            }
+            _ => pprint_output.push_str(UNKOWN_NODE_PATTERNDESC),
         }
     }
 }
