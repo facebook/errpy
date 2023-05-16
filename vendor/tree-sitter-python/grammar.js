@@ -539,8 +539,7 @@ module.exports = grammar({
     case_literal_pattern: $ => choice(
       $.string,
       $.concatenated_string,
-      $.integer,
-      $.float,
+      seq(field('neg', optional('-')), choice($.integer, $.float)),
       $.true,
       $.false,
       $.none

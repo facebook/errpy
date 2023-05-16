@@ -1040,7 +1040,18 @@
   {
     "type": "case_literal_pattern",
     "named": true,
-    "fields": {},
+    "fields": {
+      "neg": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "-",
+            "named": false
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": false,
       "required": true,

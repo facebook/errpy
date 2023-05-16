@@ -636,6 +636,15 @@ impl Parser {
         }
     }
 
+    // case_closed_pattern: $ => choice(
+    //  $.case_literal_pattern,
+    //  $.dotted_name,
+    //  $.case_wildcard_pattern,
+    //  $.case_group_pattern,
+    //  $.case_sequence_pattern,
+    //  $.case_mapping_pattern,
+    //  $.case_class_pattern,
+    // ),
     fn case_closed_pattern(&mut self, case_closed_pattern_node: &Node) -> ErrorableResult<Pattern> {
         let one_child = &case_closed_pattern_node.child(0).unwrap();
 
@@ -645,19 +654,7 @@ impl Parser {
             self.case_group_pattern(one_child)
         } else {
             let pattern_desc = match node_kind {
-                "case_literal_pattern" => {
-                    // True, False, None are mapped to MatchSingleton, everything else to MatchValue
-                    let one_childs_child = &one_child.child(0).unwrap();
-                    match one_childs_child.kind() {
-                        "false" => PatternDesc::MatchSingleton(Some(ConstantDesc::Bool(false))),
-                        "true" => PatternDesc::MatchSingleton(Some(ConstantDesc::Bool(true))),
-                        "none" => PatternDesc::MatchSingleton(None),
-                        _ => {
-                            let value = self.expression(one_childs_child)?;
-                            PatternDesc::MatchValue(value)
-                        }
-                    }
-                }
+                "case_literal_pattern" => self.case_literal_pattern(one_child)?,
                 "case_wildcard_pattern" => PatternDesc::MatchAs {
                     pattern: None,
                     name: None,
@@ -702,6 +699,44 @@ impl Parser {
 
             Ok(self.new_pattern(pattern_desc, case_closed_pattern_node))
         }
+    }
+
+    // case_literal_pattern: $ => choice(
+    //   $.string,
+    //   $.concatenated_string,
+    //   seq(field('neg', optional('-')), $.integer),
+    //   $.float,
+    //   $.true,
+    //   $.false,
+    //   $.none
+    // ),
+    fn case_literal_pattern(
+        &mut self,
+        literal_pattern_node: &Node,
+    ) -> ErrorableResult<PatternDesc> {
+        // True, False, None are mapped to MatchSingleton, everything else to MatchValue
+        if literal_pattern_node.child_by_field_name("neg").is_some() {
+            // negative number
+            let child_node = &literal_pattern_node.child(1).unwrap();
+            let operand = self.expression(child_node)?;
+            let expr_desc = ExprDesc::UnaryOp {
+                op: Unaryop::USub,
+                operand,
+            };
+            let value = self.new_expr(expr_desc, literal_pattern_node);
+            return Ok(PatternDesc::MatchValue(value));
+        }
+
+        let child_node = &literal_pattern_node.child(0).unwrap();
+        Ok(match child_node.kind() {
+            "false" => PatternDesc::MatchSingleton(Some(ConstantDesc::Bool(false))),
+            "true" => PatternDesc::MatchSingleton(Some(ConstantDesc::Bool(true))),
+            "none" => PatternDesc::MatchSingleton(None),
+            _ => {
+                let value = self.expression(child_node)?;
+                PatternDesc::MatchValue(value)
+            }
+        })
     }
 
     // case_class_pattern: $ => choice(

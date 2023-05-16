@@ -354,3 +354,10 @@ match color:
         print("Grass is green")
     case Color.BLUE:
         print("I'm feeling the blues :(")
+
+## Match value - negative numbers
+    match xx:
+        case 3 | -3:
+            pass
+        case 3. | -3.:
+            pass

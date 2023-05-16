@@ -648,6 +648,90 @@ match 0:
             (true)))))))
 
 ================================================================================
+literals
+================================================================================
+match xxx:
+    case 3 | -3:
+      pass
+    case "something":
+      pass
+    case "something" "else":
+      pass
+    case 1.0 | -1.0:
+      pass
+    case True | False:
+      pass
+    case None:
+      pass
+--------------------------------------------------------------------------------
+
+(module
+  (match_statement
+    (identifier)
+    (case_clause
+      (case_pattern
+        (case_or_pattern
+          (case_closed_pattern
+            (case_literal_pattern
+              (integer)))
+          (case_closed_pattern
+            (case_literal_pattern
+              (integer)))))
+      (block
+        (pass_statement)))
+    (case_clause
+      (case_pattern
+        (case_or_pattern
+          (case_closed_pattern
+            (case_literal_pattern
+              (string
+                (string_content))))))
+      (block
+        (pass_statement)))
+    (case_clause
+      (case_pattern
+        (case_or_pattern
+          (case_closed_pattern
+            (case_literal_pattern
+              (concatenated_string
+                (string
+                  (string_content))
+                (string
+                  (string_content)))))))
+      (block
+        (pass_statement)))
+    (case_clause
+      (case_pattern
+        (case_or_pattern
+          (case_closed_pattern
+            (case_literal_pattern
+              (float)))
+          (case_closed_pattern
+            (case_literal_pattern
+              (float)))))
+      (block
+        (pass_statement)))
+    (case_clause
+      (case_pattern
+        (case_or_pattern
+          (case_closed_pattern
+            (case_literal_pattern
+              (true)))
+          (case_closed_pattern
+            (case_literal_pattern
+              (false)))))
+      (block
+        (pass_statement)))
+    (case_clause
+      (case_pattern
+        (case_or_pattern
+          (case_closed_pattern
+            (case_literal_pattern
+              (none)))))
+      (block
+        (pass_statement)))))
+
+================================================================================
 Comma separated cases
 ================================================================================
 match (0, 1, 2):
