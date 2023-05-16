@@ -260,6 +260,19 @@ impl Parser {
         &self.ast_and_metadata
     }
 
+    fn new_pattern(&mut self, pattern_desc: PatternDesc, node: &Node) -> Pattern {
+        let start_position = node.start_position();
+        let end_position = node.end_position();
+
+        Pattern {
+            desc: Box::new(pattern_desc),
+            lineno: start_position.row as isize + 1,
+            col_offset: start_position.column as isize,
+            end_lineno: end_position.row as isize + 1,
+            end_col_offset: end_position.column as isize,
+        }
+    }
+
     fn new_expr(&mut self, desc: ExprDesc, node: &Node) -> Expr {
         self.new_expr_with_start_end_node(desc, node, node)
     }
@@ -545,16 +558,7 @@ impl Parser {
             _ => self.case_open_sequence_pattern(pattern_node)?,
         };
 
-        let start_position = pattern_node.start_position();
-        let end_position = pattern_node.end_position();
-
-        let pattern = Pattern {
-            desc: Box::new(pattern_desc),
-            lineno: start_position.row as isize + 1,
-            col_offset: start_position.column as isize,
-            end_lineno: end_position.row as isize + 1,
-            end_col_offset: end_position.column as isize,
-        };
+        let pattern = self.new_pattern(pattern_desc, pattern_node);
 
         let guard = match &case_clause_node.child_by_field_name("guard") {
             Some(gaurd) => Some(self.expression(gaurd)?),
@@ -593,27 +597,33 @@ impl Parser {
     // case_or_pattern: $ => seq(
     //  $.case_closed_pattern, repeat(seq('|', $.case_closed_pattern))),
     fn case_or_pattern(&mut self, or_pattern_node: &Node) -> ErrorableResult<PatternDesc> {
-        let mut case_closed_patterns = vec![];
-
+        let mut case_closed_pattern_nodes = vec![];
         for case_closed_pattern_node in or_pattern_node.named_children(&mut or_pattern_node.walk())
         {
-            match self.case_closed_pattern(&case_closed_pattern_node) {
-                Ok(case_closed_pattern) => case_closed_patterns.push(case_closed_pattern),
-                _ => (),
-            }
+            case_closed_pattern_nodes.push(case_closed_pattern_node);
         }
 
-        match case_closed_patterns.len() {
-            1 => Ok(case_closed_patterns.pop().unwrap()),
-            _ => Err(self.record_recoverable_error(
-                RecoverableError::UnimplementedStatement(format!(
-                    "{:?} where there not just one case_closed_pattern",
-                    or_pattern_node
-                )),
-                or_pattern_node,
-            )),
+        match case_closed_pattern_nodes.len() {
+            1 => {
+                let case_closed_pattern_node = case_closed_pattern_nodes.pop().unwrap();
+                self.case_closed_pattern(&case_closed_pattern_node)
+            }
+            _ => {
+                let mut or_choices = vec![];
+
+                for case_closed_pattern_node in case_closed_pattern_nodes {
+                    match self.case_closed_pattern(&case_closed_pattern_node) {
+                        Ok(case_closed_pattern) => {
+                            let pattern =
+                                self.new_pattern(case_closed_pattern, &case_closed_pattern_node);
+                            or_choices.push(pattern);
+                        }
+                        _ => (),
+                    }
+                }
+                Ok(PatternDesc::MatchOr(or_choices))
+            }
         }
-        // TODO: more than one case_closed_pattern resolves to: Ok(PatternDesc::Or(case_closed_patterns))
     }
 
     fn case_closed_pattern(

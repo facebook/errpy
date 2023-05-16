@@ -414,6 +414,9 @@ impl fmt::Display for Pattern {
 impl fmt::Display for PatternDesc {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
+            PatternDesc::MatchOr(or_choices) => {
+                write!(f, "MatchOr(patterns=[{}], ", format_vec(or_choices))
+            }
             PatternDesc::MatchValue(expr) => write!(f, "MatchValue(value={}, ", expr),
             PatternDesc::MatchAs { pattern, name } => {
                 let pattern_str = match pattern {

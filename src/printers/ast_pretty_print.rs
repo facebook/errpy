@@ -32,6 +32,7 @@ use printers::ast_print::UNKOWN_NODE_MOD;
 use printers::ast_print::UNKOWN_NODE_PATTERNDESC;
 
 use crate::ast;
+use crate::ast::Pattern;
 use crate::cst_to_ast::ASTAndMetaData;
 use crate::printers;
 
@@ -262,6 +263,18 @@ fn format_vec_keywords(keywords: &[Keyword], pprint_output: &mut PrintHelper) {
     }
     if at_least_one {
         pprint_output.pop_many(2);
+    }
+}
+
+fn format_vec_pattern(or_choices: &[Pattern], pprint_output: &mut PrintHelper) {
+    let mut at_least_one = false;
+    for or_choice in or_choices.iter() {
+        at_least_one = true;
+        or_choice.desc.pprint(pprint_output);
+        pprint_output.push_str(" | ");
+    }
+    if at_least_one {
+        pprint_output.pop_many(3);
     }
 }
 
@@ -563,6 +576,7 @@ impl MatchCase {
 impl PatternDesc {
     pub fn pprint(&self, pprint_output: &mut PrintHelper) {
         match self {
+            PatternDesc::MatchOr(or_choices) => format_vec_pattern(or_choices, pprint_output),
             PatternDesc::MatchValue(expr) => expr.desc.pprint(pprint_output),
             PatternDesc::MatchAs { pattern, name } => {
                 if pattern.is_none() && name.is_none() {
