@@ -77,6 +77,14 @@ match x:
     case [x] | (y):
         orthing()
 
+## MatchOr(patterns) more complex to pretty print
+match x:
+    case [x] | (y):
+        orthing()
+    case [x] | (y) | ( a | b | c):
+        # prety printer needs to add extra params for above
+        orthing()
+
 ## dotted_name as case pattern
 match x:
     case x:

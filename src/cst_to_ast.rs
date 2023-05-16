@@ -553,12 +553,13 @@ impl Parser {
             .child_by_field_name("pattern")
             .expect("missing pattern");
 
-        let pattern_desc: PatternDesc = match pattern_node.kind() {
+        let pattern = match pattern_node.kind() {
             "case_pattern" => self.case_pattern(pattern_node)?,
-            _ => self.case_open_sequence_pattern(pattern_node)?,
+            _ => {
+                let pattern_desc = self.case_open_sequence_pattern(pattern_node)?;
+                self.new_pattern(pattern_desc, pattern_node)
+            }
         };
-
-        let pattern = self.new_pattern(pattern_desc, pattern_node);
 
         let guard = match &case_clause_node.child_by_field_name("guard") {
             Some(guard) => Some(self.if_clause(guard)?),
@@ -578,11 +579,14 @@ impl Parser {
         })
     }
 
-    fn case_pattern(&mut self, pattern_node: &Node) -> ErrorableResult<PatternDesc> {
+    fn case_pattern(&mut self, pattern_node: &Node) -> ErrorableResult<Pattern> {
         let as_or_or_pattern_node = &pattern_node.child(0).expect("child");
 
         match as_or_or_pattern_node.kind() {
-            "case_as_pattern" => self.case_as_pattern(as_or_or_pattern_node),
+            "case_as_pattern" => {
+                let case_as_pattern = self.case_as_pattern(as_or_or_pattern_node)?;
+                Ok(self.new_pattern(case_as_pattern, pattern_node))
+            }
             _ => self.case_or_pattern(as_or_or_pattern_node),
         }
     }
@@ -591,8 +595,7 @@ impl Parser {
         let or_pattern_node = as_pattern_node
             .child_by_field_name("or_pattern")
             .expect("missing as pattern left hand side pattern");
-        let case_pattern = self.case_or_pattern(&or_pattern_node)?;
-        let pattern = Some(self.new_pattern(case_pattern, &or_pattern_node));
+        let pattern = Some(self.case_or_pattern(&or_pattern_node)?);
 
         let name_node = as_pattern_node
             .child_by_field_name("identifier")
@@ -604,7 +607,7 @@ impl Parser {
 
     // case_or_pattern: $ => seq(
     //  $.case_closed_pattern, repeat(seq('|', $.case_closed_pattern))),
-    fn case_or_pattern(&mut self, or_pattern_node: &Node) -> ErrorableResult<PatternDesc> {
+    fn case_or_pattern(&mut self, or_pattern_node: &Node) -> ErrorableResult<Pattern> {
         let mut case_closed_pattern_nodes = vec![];
         for case_closed_pattern_node in or_pattern_node.named_children(&mut or_pattern_node.walk())
         {
@@ -622,100 +625,113 @@ impl Parser {
                 for case_closed_pattern_node in case_closed_pattern_nodes {
                     match self.case_closed_pattern(&case_closed_pattern_node) {
                         Ok(case_closed_pattern) => {
-                            let pattern =
-                                self.new_pattern(case_closed_pattern, &case_closed_pattern_node);
-                            or_choices.push(pattern);
+                            or_choices.push(case_closed_pattern);
                         }
                         _ => (),
                     }
                 }
-                Ok(PatternDesc::MatchOr(or_choices))
+                let match_or = PatternDesc::MatchOr(or_choices);
+                Ok(self.new_pattern(match_or, or_pattern_node))
             }
         }
     }
 
-    fn case_closed_pattern(
-        &mut self,
-        case_closed_pattern_node: &Node,
-    ) -> ErrorableResult<PatternDesc> {
+    fn case_closed_pattern(&mut self, case_closed_pattern_node: &Node) -> ErrorableResult<Pattern> {
         let one_child = &case_closed_pattern_node.child(0).unwrap();
 
         let node_kind = one_child.kind();
-        match node_kind {
-            "case_literal_pattern" => {
-                // True, False, None are mapped to MatchSingleton, everything else to MatchValue
-                let one_childs_child = &one_child.child(0).unwrap();
-                Ok(match one_childs_child.kind() {
-                    "false" => PatternDesc::MatchSingleton(Some(ConstantDesc::Bool(false))),
-                    "true" => PatternDesc::MatchSingleton(Some(ConstantDesc::Bool(true))),
-                    "none" => PatternDesc::MatchSingleton(None),
-                    _ => {
-                        let value = self.expression(one_childs_child)?;
-                        PatternDesc::MatchValue(value)
-                    }
-                })
-            }
-            "case_wildcard_pattern" => Ok(PatternDesc::MatchAs {
-                pattern: None,
-                name: None,
-            }),
-            "dotted_name" => {
-                // One element is translated to a identifier wrapped into a MatchAs
-                // More than one is translated into Attribute access pattern wrapped in a MatchValue
-                let mut name_parts = vec![];
-                for part in one_child.named_children(&mut one_child.walk()) {
-                    name_parts.push(part);
-                }
 
-                match name_parts.len() {
-                    1 => Ok(PatternDesc::MatchAs {
-                        pattern: None,
-                        name: Some(self.get_valid_identifier(&name_parts.pop().unwrap())),
-                    }),
-                    _ => {
-                        // numtiple dot namess: `a.b.c` treated as a MatchValue of Attribute accesses
-                        let mut head_expression: Option<ExprDesc> = None;
-                        let mut prev_node: Option<Node> = None;
-                        for part_node in name_parts {
-                            let part_as_string = self.get_valid_identifier(&part_node);
-                            let ctx = ExprContext::Load;
-                            head_expression = Some(match head_expression {
-                                None => ExprDesc::Name {
-                                    id: part_as_string,
-                                    ctx,
-                                },
-                                Some(head_expression) => {
-                                    let head_as_expr = self.new_expr_with_start_end_node(
-                                        head_expression,
-                                        one_child,
-                                        &prev_node.unwrap(),
-                                    );
-
-                                    ExprDesc::Attribute {
-                                        value: head_as_expr,
-                                        attr: part_as_string,
-                                        ctx,
-                                    }
-                                }
-                            });
-                            prev_node = Some(part_node);
+        if node_kind == "case_group_pattern" {
+            self.case_group_pattern(one_child)
+        } else {
+            let pattern_desc = match node_kind {
+                "case_literal_pattern" => {
+                    // True, False, None are mapped to MatchSingleton, everything else to MatchValue
+                    let one_childs_child = &one_child.child(0).unwrap();
+                    match one_childs_child.kind() {
+                        "false" => PatternDesc::MatchSingleton(Some(ConstantDesc::Bool(false))),
+                        "true" => PatternDesc::MatchSingleton(Some(ConstantDesc::Bool(true))),
+                        "none" => PatternDesc::MatchSingleton(None),
+                        _ => {
+                            let value = self.expression(one_childs_child)?;
+                            PatternDesc::MatchValue(value)
                         }
-
-                        Ok(PatternDesc::MatchValue(
-                            self.new_expr(head_expression.unwrap(), one_child),
-                        ))
                     }
                 }
-            }
-            "case_sequence_pattern" => self.case_sequence_pattern(one_child),
-            _ => Err(self.record_recoverable_error(
-                RecoverableError::UnimplementedStatement(format!(
-                    "case_closed_pattern_node of kind: {}",
-                    node_kind
-                )),
-                one_child,
-            )),
+                "case_wildcard_pattern" => PatternDesc::MatchAs {
+                    pattern: None,
+                    name: None,
+                },
+                "dotted_name" => {
+                    // One element is translated to a identifier wrapped into a MatchAs
+                    // More than one is translated into Attribute access pattern wrapped in a MatchValue
+                    let mut name_parts = vec![];
+                    for part in one_child.named_children(&mut one_child.walk()) {
+                        name_parts.push(part);
+                    }
+
+                    match name_parts.len() {
+                        1 => PatternDesc::MatchAs {
+                            pattern: None,
+                            name: Some(self.get_valid_identifier(&name_parts.pop().unwrap())),
+                        },
+                        _ => {
+                            // numtiple dot namess: `a.b.c` treated as a MatchValue of Attribute accesses
+                            let mut head_expression: Option<ExprDesc> = None;
+                            let mut prev_node: Option<Node> = None;
+                            for part_node in name_parts {
+                                let part_as_string = self.get_valid_identifier(&part_node);
+                                let ctx = ExprContext::Load;
+                                head_expression = Some(match head_expression {
+                                    None => ExprDesc::Name {
+                                        id: part_as_string,
+                                        ctx,
+                                    },
+                                    Some(head_expression) => {
+                                        let head_as_expr = self.new_expr_with_start_end_node(
+                                            head_expression,
+                                            one_child,
+                                            &prev_node.unwrap(),
+                                        );
+
+                                        ExprDesc::Attribute {
+                                            value: head_as_expr,
+                                            attr: part_as_string,
+                                            ctx,
+                                        }
+                                    }
+                                });
+                                prev_node = Some(part_node);
+                            }
+
+                            PatternDesc::MatchValue(
+                                self.new_expr(head_expression.unwrap(), one_child),
+                            )
+                        }
+                    }
+                }
+                "case_sequence_pattern" => self.case_sequence_pattern(one_child)?,
+                _ => {
+                    return Err(self.record_recoverable_error(
+                        RecoverableError::UnimplementedStatement(format!(
+                            "case_closed_pattern_node of kind: {}",
+                            node_kind
+                        )),
+                        one_child,
+                    ));
+                }
+            };
+
+            Ok(self.new_pattern(pattern_desc, case_closed_pattern_node))
         }
+    }
+
+    // case_group_pattern: $ => seq( '(', field("case_pattern", $.case_pattern), ')'),
+    fn case_group_pattern(&mut self, group_pattern_node: &Node) -> ErrorableResult<Pattern> {
+        let case_pattern_node = &group_pattern_node
+            .child_by_field_name("case_pattern")
+            .expect("case_pattern of case_group_pattern");
+        self.case_pattern(case_pattern_node)
     }
 
     // case_sequence_pattern: $ => choice(
@@ -761,11 +777,10 @@ impl Parser {
             .child_by_field_name("maybe_star")
             .unwrap();
 
-        let pattern_desc = self.case_maybe_star_pattern(&maybe_star_pattern_node);
-        match pattern_desc {
-            Ok(pattern_desc) => {
-                let as_pattern = self.new_pattern(pattern_desc, &maybe_star_pattern_node);
-                patterns.push(as_pattern);
+        let pattern = self.case_maybe_star_pattern(&maybe_star_pattern_node);
+        match pattern {
+            Ok(pattern) => {
+                patterns.push(pattern);
             }
             _ => (), // error already reported
         }
@@ -788,11 +803,10 @@ impl Parser {
         for maybe_star_pattern_node in
             maybe_sequence_pattern_node.named_children(&mut maybe_sequence_pattern_node.walk())
         {
-            let pattern_desc = self.case_maybe_star_pattern(&maybe_star_pattern_node);
-            match pattern_desc {
-                Ok(pattern_desc) => {
-                    let as_pattern = self.new_pattern(pattern_desc, &maybe_star_pattern_node);
-                    patterns.push(as_pattern);
+            let pattern = self.case_maybe_star_pattern(&maybe_star_pattern_node);
+            match pattern {
+                Ok(pattern) => {
+                    patterns.push(pattern);
                 }
                 _ => (), // error already reported
             }
@@ -806,7 +820,7 @@ impl Parser {
     fn case_maybe_star_pattern(
         &mut self,
         maybe_sequence_pattern_node: &Node,
-    ) -> ErrorableResult<PatternDesc> {
+    ) -> ErrorableResult<Pattern> {
         let one_child = &maybe_sequence_pattern_node.child(0).unwrap();
         match one_child.kind() {
             "case_star_pattern" => Ok(self.case_star_pattern(one_child)),
@@ -818,18 +832,19 @@ impl Parser {
     //  seq('*', $.identifier),
     //  seq('*', $.case_wildcard_pattern)
     // ),
-    fn case_star_pattern(&mut self, star_pattern_node: &Node) -> PatternDesc {
+    fn case_star_pattern(&mut self, star_pattern_node: &Node) -> Pattern {
         let one_child = &star_pattern_node
             .child(1)
             .expect("case_star_pattern child node");
 
-        match one_child.kind() {
+        let pattern_desc = match one_child.kind() {
             "identifier" => {
                 let name = Some(self.get_valid_identifier(one_child));
                 PatternDesc::MatchStar(name)
             }
             _ => PatternDesc::MatchStar(None), // case_wildcard_pattern
-        }
+        };
+        self.new_pattern(pattern_desc, star_pattern_node)
     }
 
     // decorated_definition: $ => seq(

@@ -266,11 +266,28 @@ fn format_vec_keywords(keywords: &[Keyword], pprint_output: &mut PrintHelper) {
     }
 }
 
-fn format_vec_pattern(or_choices: &[Pattern], pprint_output: &mut PrintHelper, delimiter: &str) {
+fn format_vec_pattern(
+    or_choices: &[Pattern],
+    pprint_output: &mut PrintHelper,
+    delimiter: &str,
+    parenthesis_on_or: bool,
+) {
     let mut at_least_one = false;
     for or_choice in or_choices.iter() {
         at_least_one = true;
-        or_choice.desc.pprint(pprint_output);
+
+        if let PatternDesc::MatchOr(_) = *or_choice.desc {
+            if parenthesis_on_or {
+                pprint_output.push_str("(");
+            }
+            or_choice.desc.pprint(pprint_output);
+            if parenthesis_on_or {
+                pprint_output.push_str(")");
+            }
+        } else {
+            or_choice.desc.pprint(pprint_output);
+        }
+
         pprint_output.push_str(delimiter);
     }
     if at_least_one {
@@ -585,11 +602,11 @@ impl PatternDesc {
     pub fn pprint(&self, pprint_output: &mut PrintHelper) {
         match self {
             PatternDesc::MatchOr(or_choices) => {
-                format_vec_pattern(or_choices, pprint_output, " | ")
+                format_vec_pattern(or_choices, pprint_output, " | ", true)
             }
             PatternDesc::MatchSequence(choices) => {
                 pprint_output.push_str("[");
-                format_vec_pattern(choices, pprint_output, ", ");
+                format_vec_pattern(choices, pprint_output, ", ", false);
                 pprint_output.push_str("]");
             }
             PatternDesc::MatchStar(name) => match name {

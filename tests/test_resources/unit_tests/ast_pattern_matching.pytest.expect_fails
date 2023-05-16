@@ -1,6 +1,5 @@
 MatchClass(cls, patterns, kwd_attrs, kwd_patterns)
 MatchMapping(keys, patterns, rest)
-MatchOr(patterns)
 PEP 636 - builtin classes
 PEP 636 - constants and enums
 PEP 636 - dict mappings
@@ -10,6 +9,4 @@ PEP 636 - quick intro: attribute capture
 PEP 636 - quick intro: guard
 PEP 636 - quick intro: literals 2
 PEP 636 - quick intro: nesting
-PEP 636 - sub patterns 1
-PEP 636 - sub patterns 2
 match_case(pattern, guard, body)
