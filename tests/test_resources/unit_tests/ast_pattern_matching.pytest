@@ -60,10 +60,22 @@ match x:
 
 ## MatchClass(cls, patterns, kwd_attrs, kwd_patterns)
 match x:
-    case Point2D(0, 0):
-        somethign()
-    case Point3D(x=0, y=0, z=0):
-        somethign2()
+    case Something(): # no args
+        foo1()
+    case Something.Else(): # more complex class name
+        foo2()
+    case Point2D(0, 1, 2): # three args
+        foo3()
+    case Point3D(x=0, y=0, z=0): # kw args
+        foo4()
+    case Point3D(34, x=0, y=0, z=0): # positional + kw args
+        foo5()
+    case Point2D(0, 1, 2,): # three args + trail comma
+        foo6()
+    case Point3D(x=0, y=0, z=0,): # kw args + trail comma
+        foo7()
+    case Point3D(34, x=0, y=0, z=0,): # positional + kw args + trail comma
+        foo8()
 
 ## MatchAs(pattern, name)
 match x:
@@ -269,8 +281,9 @@ def http_error(status):
             return "Something's wrong with the Internet"
 
 ##PEP 636 - quick intro: literals 2
-case 401 | 403 | 404:
-    return "Not allowed"
+match something():
+    case 401 | 403 | 404:
+        return "Not allowed"
 
 ##PEP 636 - quick intro: unpacking
 # point is an (x, y) tuple

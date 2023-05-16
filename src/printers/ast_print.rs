@@ -34,7 +34,6 @@ use crate::cst_to_ast::ASTAndMetaData;
 
 pub const UNKOWN_NODE_MOD: &str = "~~?AST Mod_ Node Missing formatting?~~";
 pub const UNKOWN_NODE_EXPR: &str = "~~?AST ExprDesc Node Missing formatting?~~";
-pub const UNKOWN_NODE_PATTERNDESC: &str = "~~?AST PatternDesc Node Missing formatting?~~";
 
 impl fmt::Display for ASTAndMetaData {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
@@ -420,6 +419,21 @@ impl fmt::Display for PatternDesc {
             PatternDesc::MatchSequence(choices) => {
                 write!(f, "MatchSequence(patterns=[{}], ", format_vec(choices))
             }
+            PatternDesc::MatchClass {
+                cls,
+                patterns,
+                kwd_attrs,
+                kwd_patterns,
+            } => {
+                write!(
+                    f,
+                    "MatchClass(cls={}, patterns=[{}], kwd_attrs=[{}], kwd_patterns=[{}], ",
+                    cls,
+                    format_vec(patterns),
+                    format_vec_names(kwd_attrs),
+                    format_vec(kwd_patterns)
+                )
+            }
             PatternDesc::MatchStar(name) => match name {
                 Some(name) => write!(f, "MatchStar(name='{}', ", name),
                 None => write!(f, "MatchStar("),
@@ -460,7 +474,6 @@ impl fmt::Display for PatternDesc {
 
                 write!(f, "MatchAs({}{}", pattern_str, name_str)
             }
-            _ => write!(f, "{}", UNKOWN_NODE_PATTERNDESC), // ignore
         }
     }
 }

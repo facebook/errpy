@@ -677,41 +677,18 @@ impl Parser {
                         },
                         _ => {
                             // numtiple dot namess: `a.b.c` treated as a MatchValue of Attribute accesses
-                            let mut head_expression: Option<ExprDesc> = None;
-                            let mut prev_node: Option<Node> = None;
-                            for part_node in name_parts {
-                                let part_as_string = self.get_valid_identifier(&part_node);
-                                let ctx = ExprContext::Load;
-                                head_expression = Some(match head_expression {
-                                    None => ExprDesc::Name {
-                                        id: part_as_string,
-                                        ctx,
-                                    },
-                                    Some(head_expression) => {
-                                        let head_as_expr = self.new_expr_with_start_end_node(
-                                            head_expression,
-                                            one_child,
-                                            &prev_node.unwrap(),
-                                        );
+                            let expr_desc = self
+                                .wrap_dotted_name_into_attribute_access_for_case_patterns(
+                                    name_parts, one_child,
+                                );
 
-                                        ExprDesc::Attribute {
-                                            value: head_as_expr,
-                                            attr: part_as_string,
-                                            ctx,
-                                        }
-                                    }
-                                });
-                                prev_node = Some(part_node);
-                            }
-
-                            PatternDesc::MatchValue(
-                                self.new_expr(head_expression.unwrap(), one_child),
-                            )
+                            PatternDesc::MatchValue(self.new_expr(expr_desc, one_child))
                         }
                     }
                 }
                 "case_sequence_pattern" => self.case_sequence_pattern(one_child)?,
                 "case_mapping_pattern" => self.case_mapping_pattern(one_child)?,
+                "case_class_pattern" => self.case_class_pattern(one_child)?,
                 _ => {
                     return Err(self.record_recoverable_error(
                         RecoverableError::UnimplementedStatement(format!(
@@ -725,6 +702,172 @@ impl Parser {
 
             Ok(self.new_pattern(pattern_desc, case_closed_pattern_node))
         }
+    }
+
+    // case_class_pattern: $ => choice(
+    //  seq($.dotted_name, '(', ')'),
+    //  seq($.dotted_name, '(', $.case_positional_patterns, optional(','), ')'),
+    //  seq($.dotted_name, '(', $.case_keyword_patterns, optional(','), ')'),
+    //  seq($.dotted_name, '(', $.case_positional_patterns, ',', $.case_keyword_patterns, optional(','), ')'),
+    // ),
+    fn case_class_pattern(&mut self, class_pattern_node: &Node) -> ErrorableResult<PatternDesc> {
+        let dotted_name_node = class_pattern_node.child(0).unwrap();
+
+        let cls: Expr = self.handle_class_pattern_name(&dotted_name_node);
+        let mut patterns: Vec<Pattern> = vec![];
+        let mut kwd_attrs: Vec<String> = vec![];
+        let mut kwd_patterns: Vec<Pattern> = vec![];
+
+        let mut child_nodes = vec![];
+        for child_node in class_pattern_node.named_children(&mut class_pattern_node.walk()) {
+            child_nodes.push(child_node);
+        }
+
+        match child_nodes.len() {
+            2 => {
+                let second_node = child_nodes.get(1).unwrap();
+                match second_node.kind() {
+                    "case_positional_patterns" => {
+                        self.case_positional_patterns(second_node, &mut patterns)
+                    }
+                    "case_keyword_patterns" => {
+                        self.case_keyword_patterns(second_node, &mut kwd_attrs, &mut kwd_patterns)
+                    }
+                    _ => (),
+                }
+            }
+            3 => {
+                let case_positional_patterns_node = child_nodes.get(1).unwrap();
+                let case_keyword_patterns_node = child_nodes.get(2).unwrap();
+
+                self.case_positional_patterns(case_positional_patterns_node, &mut patterns);
+                self.case_keyword_patterns(
+                    case_keyword_patterns_node,
+                    &mut kwd_attrs,
+                    &mut kwd_patterns,
+                )
+            }
+            _ => (),
+        }
+
+        Ok(PatternDesc::MatchClass {
+            cls,
+            patterns,
+            kwd_attrs,
+            kwd_patterns,
+        })
+    }
+
+    fn wrap_dotted_name_into_attribute_access_for_case_patterns(
+        &mut self,
+        name_parts: Vec<Node>,
+        node: &Node,
+    ) -> ExprDesc {
+        let mut head_expression: Option<ExprDesc> = None;
+        let mut prev_node: Option<Node> = None;
+        for part_node in name_parts {
+            let part_as_string = self.get_valid_identifier(&part_node);
+            let ctx = ExprContext::Load;
+            head_expression = Some(match head_expression {
+                None => ExprDesc::Name {
+                    id: part_as_string,
+                    ctx,
+                },
+                Some(head_expression) => {
+                    let head_as_expr = self.new_expr_with_start_end_node(
+                        head_expression,
+                        node,
+                        &prev_node.unwrap(),
+                    );
+
+                    ExprDesc::Attribute {
+                        value: head_as_expr,
+                        attr: part_as_string,
+                        ctx,
+                    }
+                }
+            });
+            prev_node = Some(part_node);
+        }
+
+        head_expression.unwrap()
+    }
+
+    fn handle_class_pattern_name(&mut self, dotted_name_node: &Node) -> Expr {
+        // One element is translated to a Name node
+        // More than one is translated into Attribute access pattern of Name nodes
+        let mut name_parts = vec![];
+        for part in dotted_name_node.named_children(&mut dotted_name_node.walk()) {
+            name_parts.push(part);
+        }
+
+        let ctx = ExprContext::Load;
+
+        let expr_desc = match name_parts.len() {
+            1 => {
+                let id = self.get_valid_identifier(&name_parts.pop().unwrap());
+                ExprDesc::Name { id, ctx }
+            }
+            _ => self.wrap_dotted_name_into_attribute_access_for_case_patterns(
+                name_parts,
+                dotted_name_node,
+            ),
+        };
+        self.new_expr(expr_desc, dotted_name_node)
+    }
+
+    // case_positional_patterns: $ => prec.left(commaSep1($.case_pattern)),
+    fn case_positional_patterns(
+        &mut self,
+        positional_patterns_node: &Node,
+        patterns: &mut Vec<Pattern>,
+    ) {
+        for case_pattern_node in
+            positional_patterns_node.named_children(&mut positional_patterns_node.walk())
+        {
+            match self.case_pattern(&case_pattern_node) {
+                Ok(pattern) => patterns.push(pattern),
+                _ => (),
+            }
+        }
+    }
+
+    // case_keyword_patterns: $ => prec.left(commaSep1($.case_keyword_pattern)),
+    fn case_keyword_patterns(
+        &mut self,
+        keyword_patterns_node: &Node,
+        kwd_attrs: &mut Vec<String>,
+        kwd_patterns: &mut Vec<Pattern>,
+    ) {
+        for keyword_pattern_node in
+            keyword_patterns_node.named_children(&mut keyword_patterns_node.walk())
+        {
+            // we ignore the ErrorableResult here as it will have already been handled in `case_key_value_pattern`
+            // we cal .ok() and discard the result here to keep the clippy linter quiet
+            self.case_keyword_pattern(&keyword_pattern_node, kwd_attrs, kwd_patterns)
+                .ok();
+        }
+    }
+
+    // case_keyword_pattern: $ => seq(field("name", $.identifier), "=", field("value", $.case_pattern)),
+    fn case_keyword_pattern(
+        &mut self,
+        keyword_patterns_node: &Node,
+        kwd_attrs: &mut Vec<String>,
+        kwd_patterns: &mut Vec<Pattern>,
+    ) -> ErrorableResult<()> {
+        let key_node = &keyword_patterns_node
+            .child_by_field_name("name")
+            .expect("name node of keyword pattern");
+        let value_node = &keyword_patterns_node
+            .child_by_field_name("value")
+            .expect("value node of keyword pattern");
+
+        kwd_attrs.push(self.get_valid_identifier(key_node));
+
+        kwd_patterns.push(self.case_pattern(value_node)?);
+
+        Ok(())
     }
 
     // case_mapping_pattern: $ => choice(

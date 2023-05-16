@@ -29,7 +29,6 @@ use num_enum::TryFromPrimitive;
 use printers::ast_pretty_print_helper::PrintHelper;
 use printers::ast_print::cpython_float_to_string;
 use printers::ast_print::UNKOWN_NODE_MOD;
-use printers::ast_print::UNKOWN_NODE_PATTERNDESC;
 
 use crate::ast;
 use crate::ast::Pattern;
@@ -609,6 +608,37 @@ impl PatternDesc {
                 format_vec_pattern(choices, pprint_output, ", ", false);
                 pprint_output.push_str("]");
             }
+            PatternDesc::MatchClass {
+                cls,
+                patterns,
+                kwd_attrs,
+                kwd_patterns,
+            } => {
+                cls.desc.pprint(pprint_output);
+                pprint_output.push_str("(");
+                let mut at_least_one_instance = false;
+
+                for pattern in patterns {
+                    at_least_one_instance = true;
+                    (*pattern.desc).pprint(pprint_output);
+                    pprint_output.push_str(", ");
+                }
+
+                for instance in kwd_attrs.iter().zip(kwd_patterns.iter()) {
+                    at_least_one_instance = true;
+
+                    let (name, pattern) = instance;
+                    pprint_output.push_str(format!("{}=", name).as_str());
+                    (*pattern.desc).pprint(pprint_output);
+                    pprint_output.push_str(", ");
+                }
+
+                if at_least_one_instance {
+                    pprint_output.pop_many(2);
+                }
+
+                pprint_output.push_str(")");
+            }
             PatternDesc::MatchStar(name) => match name {
                 Some(name) => pprint_output.push_str(format!("*{}", name).as_str()),
                 None => pprint_output.push_str("*_"),
@@ -661,7 +691,6 @@ impl PatternDesc {
                     pprint_output.push_str(name.clone().unwrap().as_str());
                 }
             }
-            _ => pprint_output.push_str(UNKOWN_NODE_PATTERNDESC),
         }
     }
 }
