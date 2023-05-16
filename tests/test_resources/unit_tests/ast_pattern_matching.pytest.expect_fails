@@ -1,26 +1,19 @@
-match_case(pattern, guard, body)
-MatchSequence(patterns)
-MatchStar(name)
-MatchMapping(keys, patterns, rest)
-MatchClass(cls, patterns, kwd_attrs, kwd_patterns)
 MatchAs(pattern, name)
+MatchClass(cls, patterns, kwd_attrs, kwd_patterns)
+MatchMapping(keys, patterns, rest)
 MatchOr(patterns)
-PEP 636 - simple
-PEP 636 - simple multiple patterns
-PEP 636 - specific values
-PEP 636 - multple values
+MatchStar(name)
 PEP 636 - adding a wildcard
-PEP 636 - or patterns
-PEP 636 - sub patterns 1
-PEP 636 - sub patterns 2
-PEP 636 - conditions
-PEP 636 - matching objects
-PEP 636 - positional arguments
+PEP 636 - builtin classes
 PEP 636 - constants and enums
 PEP 636 - dict mappings
-PEP 636 - builtin classes
-PEP 636 - quick intro: literals 2
-PEP 636 - quick intro: unpacking
+PEP 636 - matching objects
+PEP 636 - multple values
+PEP 636 - positional arguments
 PEP 636 - quick intro: attribute capture
-PEP 636 - quick intro: nesting
 PEP 636 - quick intro: guard
+PEP 636 - quick intro: literals 2
+PEP 636 - quick intro: nesting
+PEP 636 - sub patterns 1
+PEP 636 - sub patterns 2
+match_case(pattern, guard, body)

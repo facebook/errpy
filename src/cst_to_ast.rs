@@ -699,6 +699,7 @@ impl Parser {
                     }
                 }
             }
+            "case_sequence_pattern" => self.case_sequence_pattern(one_child),
             _ => Err(self.record_recoverable_error(
                 RecoverableError::UnimplementedStatement(format!(
                     "case_closed_pattern_node of kind: {}",
@@ -709,17 +710,105 @@ impl Parser {
         }
     }
 
+    // case_sequence_pattern: $ => choice(
+    //    seq('[', optional($.case_maybe_sequence_pattern), ']'),
+    //    seq('(', optional($.case_open_sequence_pattern), ')'),
+    // ),
+    fn case_sequence_pattern(
+        &mut self,
+        sequence_pattern_node: &Node,
+    ) -> ErrorableResult<PatternDesc> {
+        if sequence_pattern_node.child_count() == 3 {
+            let maybe_or_open_sequence_pattern_node = &sequence_pattern_node.child(1).unwrap();
+            match maybe_or_open_sequence_pattern_node.kind() {
+                "case_maybe_sequence_pattern" => {
+                    let mut patterns = vec![];
+
+                    self.case_maybe_sequence_pattern(
+                        maybe_or_open_sequence_pattern_node,
+                        &mut patterns,
+                    );
+                    Ok(PatternDesc::MatchSequence(patterns))
+                }
+                _ => {
+                    // "case_open_sequence_pattern"
+                    self.case_open_sequence_pattern(maybe_or_open_sequence_pattern_node)
+                }
+            }
+        } else {
+            Ok(PatternDesc::MatchSequence(vec![]))
+        }
+    }
+
+    // case_open_sequence_pattern: $ => seq(
+    //  field("maybe_star", $.case_maybe_star_pattern), ',', field("maybe_sequence", optional($.case_maybe_sequence_pattern))
+    // ),
     fn case_open_sequence_pattern(
         &mut self,
-        open_sequence_pattern_clause_node: &Node,
+        open_sequence_pattern_node: &Node,
     ) -> ErrorableResult<PatternDesc> {
-        Err(self.record_recoverable_error(
-            RecoverableError::UnimplementedStatement(format!(
-                "{:?}",
-                open_sequence_pattern_clause_node
+        let mut patterns = vec![];
+
+        let maybe_star_pattern_node = open_sequence_pattern_node
+            .child_by_field_name("maybe_star")
+            .unwrap();
+
+        let pattern_desc = self.case_maybe_star_pattern(&maybe_star_pattern_node);
+        match pattern_desc {
+            Ok(pattern_desc) => {
+                let as_pattern = self.new_pattern(pattern_desc, &maybe_star_pattern_node);
+                patterns.push(as_pattern);
+            }
+            _ => (), // error already reported
+        }
+
+        if let Some(maybe_maybe_sequence_pattern_node) =
+            open_sequence_pattern_node.child_by_field_name("maybe_sequence")
+        {
+            self.case_maybe_sequence_pattern(&maybe_maybe_sequence_pattern_node, &mut patterns)
+        }
+
+        Ok(PatternDesc::MatchSequence(patterns))
+    }
+
+    // case_maybe_sequence_pattern: $ => prec.left(seq(commaSep1($.case_maybe_star_pattern), optional(','))),
+    fn case_maybe_sequence_pattern(
+        &mut self,
+        maybe_sequence_pattern_node: &Node,
+        patterns: &mut Vec<Pattern>,
+    ) {
+        for maybe_star_pattern_node in
+            maybe_sequence_pattern_node.named_children(&mut maybe_sequence_pattern_node.walk())
+        {
+            let pattern_desc = self.case_maybe_star_pattern(&maybe_star_pattern_node);
+            match pattern_desc {
+                Ok(pattern_desc) => {
+                    let as_pattern = self.new_pattern(pattern_desc, &maybe_star_pattern_node);
+                    patterns.push(as_pattern);
+                }
+                _ => (), // error already reported
+            }
+        }
+    }
+
+    // case_maybe_star_pattern: $ => prec.left(choice(
+    //   $.case_star_pattern,
+    //   $.case_pattern
+    // )),
+    fn case_maybe_star_pattern(
+        &mut self,
+        maybe_sequence_pattern_node: &Node,
+    ) -> ErrorableResult<PatternDesc> {
+        let one_child = &maybe_sequence_pattern_node.child(0).unwrap();
+        match one_child.kind() {
+            "case_star_pattern" => Err(self.record_recoverable_error(
+                RecoverableError::UnimplementedStatement(
+                    "case_maybe_star_pattern of kind: case_star_pattern".to_string(),
+                ),
+                one_child,
             )),
-            open_sequence_pattern_clause_node,
-        ))
+            _ => self.case_pattern(one_child),
+        }
     }
 
     // decorated_definition: $ => seq(

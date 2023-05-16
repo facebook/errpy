@@ -2,17 +2,10 @@
 
 ##match statement
 match x:
+    case [x] if x > 0:
+        a = 10
 
-2 Recoverable errors detected:
-UnimplementedStatement: case_closed_pattern_node of kind: case_sequence_pattern at [2:10 - 2:13]
-CST Stack:
-    {Node case_sequence_pattern (1, 9) - (1, 12)}
-    {Node case_closed_pattern (1, 9) - (1, 12)}
-    {Node case_or_pattern (1, 9) - (1, 12)}
-    {Node case_pattern (1, 9) - (1, 12)}
-    {Node case_clause (1, 4) - (2, 12)}
-    {Node match_statement (0, 0) - (4, 12)}
-    {Node module (0, 0) - (5, 0)}
+1 Recoverable error detected:
 UnimplementedStatement: case_closed_pattern_node of kind: case_class_pattern at [4:10 - 4:17]
 CST Stack:
     {Node case_class_pattern (3, 9) - (3, 16)}
@@ -22,22 +15,14 @@ CST Stack:
     {Node case_clause (3, 4) - (4, 12)}
     {Node match_statement (0, 0) - (4, 12)}
     {Node module (0, 0) - (5, 0)}
-Output AST is not valid according to CPython: expected an indented block after 'match' statement on line 1 (<unknown>, line 2)
 
 ##match statement with other code
 a = 100
 match x:
+    case [x] if x > 0:
+        a = 10
 b = 200
-2 Recoverable errors detected:
-UnimplementedStatement: case_closed_pattern_node of kind: case_sequence_pattern at [3:10 - 3:13]
-CST Stack:
-    {Node case_sequence_pattern (2, 9) - (2, 12)}
-    {Node case_closed_pattern (2, 9) - (2, 12)}
-    {Node case_or_pattern (2, 9) - (2, 12)}
-    {Node case_pattern (2, 9) - (2, 12)}
-    {Node case_clause (2, 4) - (3, 12)}
-    {Node match_statement (1, 0) - (5, 12)}
-    {Node module (0, 0) - (7, 0)}
+1 Recoverable error detected:
 UnimplementedStatement: case_closed_pattern_node of kind: case_class_pattern at [5:10 - 5:17]
 CST Stack:
     {Node case_class_pattern (4, 9) - (4, 16)}
@@ -47,5 +32,4 @@ CST Stack:
     {Node case_clause (4, 4) - (5, 12)}
     {Node match_statement (1, 0) - (5, 12)}
     {Node module (0, 0) - (7, 0)}
-Output AST is not valid according to CPython: expected an indented block after 'match' statement on line 2 (<unknown>, line 3)
 

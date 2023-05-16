@@ -266,15 +266,15 @@ fn format_vec_keywords(keywords: &[Keyword], pprint_output: &mut PrintHelper) {
     }
 }
 
-fn format_vec_pattern(or_choices: &[Pattern], pprint_output: &mut PrintHelper) {
+fn format_vec_pattern(or_choices: &[Pattern], pprint_output: &mut PrintHelper, delimiter: &str) {
     let mut at_least_one = false;
     for or_choice in or_choices.iter() {
         at_least_one = true;
         or_choice.desc.pprint(pprint_output);
-        pprint_output.push_str(" | ");
+        pprint_output.push_str(delimiter);
     }
     if at_least_one {
-        pprint_output.pop_many(3);
+        pprint_output.pop_many(delimiter.len());
     }
 }
 
@@ -584,7 +584,14 @@ impl MatchCase {
 impl PatternDesc {
     pub fn pprint(&self, pprint_output: &mut PrintHelper) {
         match self {
-            PatternDesc::MatchOr(or_choices) => format_vec_pattern(or_choices, pprint_output),
+            PatternDesc::MatchOr(or_choices) => {
+                format_vec_pattern(or_choices, pprint_output, " | ")
+            }
+            PatternDesc::MatchSequence(choices) => {
+                pprint_output.push_str("[");
+                format_vec_pattern(choices, pprint_output, ", ");
+                pprint_output.push_str("]");
+            }
             PatternDesc::MatchValue(expr) => expr.desc.pprint(pprint_output),
             PatternDesc::MatchSingleton(constant) => match constant {
                 Some(constant) => constant.pprint(pprint_output),

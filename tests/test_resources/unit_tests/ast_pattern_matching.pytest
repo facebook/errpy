@@ -94,6 +94,15 @@ match x:
     case x if y > 2:
         a=10
 
+## MatchSequence's
+match xx:
+    case [x]:
+        something(x)
+    case [x, y]:
+        something(x, y)
+    case (x, y):
+        something(x, y)
+
 # The next set of tests are taken from [PEP 636](https://peps.python.org/pep-0636/)
 
 ##PEP 636 - simple
@@ -133,13 +142,11 @@ match command.split():
     case ["quit"]: ... # Code omitted for brevity
     case ["go", direction]: ...
     case ["drop", *objects]: ...
-    ... # Other cases
     case _:
         print(f"Sorry, I couldn't understand {command!r}")
 
 ##PEP 636 - or patterns
 match command.split():
-    ... # Other cases
     case ["north"] | ["go", "north"]:
         current_room = current_room.neighbor("north")
     case ["get", obj] | ["pick", "up", obj] | ["pick", obj, "up"]:
@@ -171,7 +178,6 @@ match event.get():
         game.quit()
     case KeyPress(key_name="up arrow"):
         game.go_north()
-    ...
     case KeyPress():
         pass # Ignore other keystrokes
     case other_event:
