@@ -417,6 +417,10 @@ impl fmt::Display for PatternDesc {
             PatternDesc::MatchOr(or_choices) => {
                 write!(f, "MatchOr(patterns=[{}], ", format_vec(or_choices))
             }
+            PatternDesc::MatchSingleton(constant) => match constant {
+                Some(constant) => write!(f, "MatchSingleton(value={}, ", constant),
+                None => write!(f, "MatchSingleton(value=None, "),
+            },
             PatternDesc::MatchValue(expr) => write!(f, "MatchValue(value={}, ", expr),
             PatternDesc::MatchAs { pattern, name } => {
                 let pattern_str = match pattern {

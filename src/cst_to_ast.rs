@@ -635,8 +635,17 @@ impl Parser {
         let node_kind = one_child.kind();
         match node_kind {
             "case_literal_pattern" => {
-                let value = self.expression(&one_child.child(0).unwrap())?;
-                Ok(PatternDesc::MatchValue(value))
+                // True, False, None are mapped to MatchSingleton, everything else to MatchValue
+                let one_childs_child = &one_child.child(0).unwrap();
+                Ok(match one_childs_child.kind() {
+                    "false" => PatternDesc::MatchSingleton(Some(ConstantDesc::Bool(false))),
+                    "true" => PatternDesc::MatchSingleton(Some(ConstantDesc::Bool(true))),
+                    "none" => PatternDesc::MatchSingleton(None),
+                    _ => {
+                        let value = self.expression(one_childs_child)?;
+                        PatternDesc::MatchValue(value)
+                    }
+                })
             }
             "case_wildcard_pattern" => Ok(PatternDesc::MatchAs {
                 pattern: None,

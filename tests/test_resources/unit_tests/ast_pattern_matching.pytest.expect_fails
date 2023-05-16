@@ -1,5 +1,4 @@
 match_case(pattern, guard, body)
-MatchSingleton(value)
 MatchSequence(patterns)
 MatchStar(name)
 MatchMapping(keys, patterns, rest)

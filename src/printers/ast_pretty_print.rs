@@ -586,6 +586,10 @@ impl PatternDesc {
         match self {
             PatternDesc::MatchOr(or_choices) => format_vec_pattern(or_choices, pprint_output),
             PatternDesc::MatchValue(expr) => expr.desc.pprint(pprint_output),
+            PatternDesc::MatchSingleton(constant) => match constant {
+                Some(constant) => constant.pprint(pprint_output),
+                None => pprint_output.push_str("None"),
+            },
             PatternDesc::MatchAs { pattern, name } => {
                 if pattern.is_none() && name.is_none() {
                     pprint_output.push_str("_");
