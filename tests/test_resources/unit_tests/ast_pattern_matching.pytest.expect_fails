@@ -1,13 +1,10 @@
 MatchClass(cls, patterns, kwd_attrs, kwd_patterns)
 MatchMapping(keys, patterns, rest)
 MatchOr(patterns)
-MatchStar(name)
-PEP 636 - adding a wildcard
 PEP 636 - builtin classes
 PEP 636 - constants and enums
 PEP 636 - dict mappings
 PEP 636 - matching objects
-PEP 636 - multple values
 PEP 636 - positional arguments
 PEP 636 - quick intro: attribute capture
 PEP 636 - quick intro: guard

@@ -592,6 +592,10 @@ impl PatternDesc {
                 format_vec_pattern(choices, pprint_output, ", ");
                 pprint_output.push_str("]");
             }
+            PatternDesc::MatchStar(name) => match name {
+                Some(name) => pprint_output.push_str(format!("*{}", name).as_str()),
+                None => pprint_output.push_str("*_"),
+            },
             PatternDesc::MatchValue(expr) => expr.desc.pprint(pprint_output),
             PatternDesc::MatchSingleton(constant) => match constant {
                 Some(constant) => constant.pprint(pprint_output),

@@ -809,13 +809,26 @@ impl Parser {
     ) -> ErrorableResult<PatternDesc> {
         let one_child = &maybe_sequence_pattern_node.child(0).unwrap();
         match one_child.kind() {
-            "case_star_pattern" => Err(self.record_recoverable_error(
-                RecoverableError::UnimplementedStatement(
-                    "case_maybe_star_pattern of kind: case_star_pattern".to_string(),
-                ),
-                one_child,
-            )),
+            "case_star_pattern" => Ok(self.case_star_pattern(one_child)),
             _ => self.case_pattern(one_child),
+        }
+    }
+
+    // case_star_pattern: $ => choice(
+    //  seq('*', $.identifier),
+    //  seq('*', $.case_wildcard_pattern)
+    // ),
+    fn case_star_pattern(&mut self, star_pattern_node: &Node) -> PatternDesc {
+        let one_child = &star_pattern_node
+            .child(1)
+            .expect("case_star_pattern child node");
+
+        match one_child.kind() {
+            "identifier" => {
+                let name = Some(self.get_valid_identifier(one_child));
+                PatternDesc::MatchStar(name)
+            }
+            _ => PatternDesc::MatchStar(None), // case_wildcard_pattern
         }
     }
 

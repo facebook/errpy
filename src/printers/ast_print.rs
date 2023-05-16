@@ -420,6 +420,10 @@ impl fmt::Display for PatternDesc {
             PatternDesc::MatchSequence(choices) => {
                 write!(f, "MatchSequence(patterns=[{}], ", format_vec(choices))
             }
+            PatternDesc::MatchStar(name) => match name {
+                Some(name) => write!(f, "MatchStar(name='{}', ", name),
+                None => write!(f, "MatchStar("),
+            },
             PatternDesc::MatchSingleton(constant) => match constant {
                 Some(constant) => write!(f, "MatchSingleton(value={}, ", constant),
                 None => write!(f, "MatchSingleton(value=None, "),
