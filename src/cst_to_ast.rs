@@ -261,8 +261,17 @@ impl Parser {
     }
 
     fn new_expr(&mut self, desc: ExprDesc, node: &Node) -> Expr {
-        let start_position = node.start_position();
-        let end_position = node.end_position();
+        self.new_expr_with_start_end_node(desc, node, node)
+    }
+
+    fn new_expr_with_start_end_node(
+        &mut self,
+        desc: ExprDesc,
+        start_node: &Node,
+        end_node: &Node,
+    ) -> Expr {
+        let start_position = start_node.start_position();
+        let end_position = end_node.end_position();
 
         Expr::new(
             desc,
@@ -623,6 +632,54 @@ impl Parser {
                 pattern: None,
                 name: None,
             }),
+            "dotted_name" => {
+                // One element is translated to a identifier wrapped into a MatchAs
+                // More than one is translated into Attribute access pattern wrapped in a MatchValue
+                let mut name_parts = vec![];
+                for part in one_child.named_children(&mut one_child.walk()) {
+                    name_parts.push(part);
+                }
+
+                match name_parts.len() {
+                    1 => Ok(PatternDesc::MatchAs {
+                        pattern: None,
+                        name: Some(self.get_valid_identifier(&name_parts.pop().unwrap())),
+                    }),
+                    _ => {
+                        // numtiple dot namess: `a.b.c` treated as a MatchValue of Attribute accesses
+                        let mut head_expression: Option<ExprDesc> = None;
+                        let mut prev_node: Option<Node> = None;
+                        for part_node in name_parts {
+                            let part_as_string = self.get_valid_identifier(&part_node);
+                            let ctx = ExprContext::Load;
+                            head_expression = Some(match head_expression {
+                                None => ExprDesc::Name {
+                                    id: part_as_string,
+                                    ctx,
+                                },
+                                Some(head_expression) => {
+                                    let head_as_expr = self.new_expr_with_start_end_node(
+                                        head_expression,
+                                        one_child,
+                                        &prev_node.unwrap(),
+                                    );
+
+                                    ExprDesc::Attribute {
+                                        value: head_as_expr,
+                                        attr: part_as_string,
+                                        ctx,
+                                    }
+                                }
+                            });
+                            prev_node = Some(part_node);
+                        }
+
+                        Ok(PatternDesc::MatchValue(
+                            self.new_expr(head_expression.unwrap(), one_child),
+                        ))
+                    }
+                }
+            }
             _ => Err(self.record_recoverable_error(
                 RecoverableError::UnimplementedStatement(format!(
                     "case_closed_pattern_node of kind: {}",

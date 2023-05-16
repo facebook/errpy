@@ -567,8 +567,8 @@ impl PatternDesc {
             PatternDesc::MatchAs { pattern, name } => {
                 if pattern.is_none() && name.is_none() {
                     pprint_output.push_str("_");
-                } else {
-                    // TODO: implement MatchAs for non wildcard case
+                } else if name.is_some() {
+                    pprint_output.push_str(name.clone().unwrap().as_str());
                 }
             }
             _ => pprint_output.push_str(UNKOWN_NODE_PATTERNDESC),

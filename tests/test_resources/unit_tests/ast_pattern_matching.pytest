@@ -77,6 +77,13 @@ match x:
     case [x] | (y):
         orthing()
 
+## dotted_name as case pattern
+match x:
+    case x:
+        f=99
+    case a.b.c.d:
+        f=99
+
 # The next set of tests are taken from [PEP 636](https://peps.python.org/pep-0636/)
 
 ##PEP 636 - simple

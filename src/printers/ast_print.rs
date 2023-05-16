@@ -422,7 +422,7 @@ impl fmt::Display for PatternDesc {
                 };
 
                 let name_str = match name {
-                    Some(name) => format!("name={}, ", name),
+                    Some(name) => format!("name='{}', ", name),
                     _ => String::from(""),
                 };
 
