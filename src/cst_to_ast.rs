@@ -561,7 +561,7 @@ impl Parser {
         let pattern = self.new_pattern(pattern_desc, pattern_node);
 
         let guard = match &case_clause_node.child_by_field_name("guard") {
-            Some(gaurd) => Some(self.expression(gaurd)?),
+            Some(guard) => Some(self.if_clause(guard)?),
             None => None,
         };
 

@@ -565,7 +565,15 @@ impl MatchCase {
     pub fn pprint(&self, pprint_output: &mut PrintHelper) {
         pprint_output.push_str("case ");
         self.pattern.desc.pprint(pprint_output);
-        // TODO: implement formatting for guard
+
+        match &self.guard {
+            Some(if_clause) => {
+                pprint_output.push_str(" if ");
+                (*if_clause.desc).pprint(pprint_output);
+            }
+            None => (),
+        }
+
         pprint_output.push_str(":\n");
 
         format_block(&self.body, pprint_output);
@@ -1469,9 +1477,9 @@ impl Comprehension {
         pprint_output.push_str(" in ");
         self.iter.desc.pprint(pprint_output);
         pprint_output.push_str(" ");
-        for gaurd in self.ifs.iter() {
+        for guard in self.ifs.iter() {
             pprint_output.push_str("if ");
-            gaurd.desc.pprint(pprint_output);
+            guard.desc.pprint(pprint_output);
             pprint_output.push_str(" ");
         }
 
