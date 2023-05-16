@@ -797,6 +797,55 @@
     }
   },
   {
+    "type": "case_as_pattern",
+    "named": true,
+    "fields": {
+      "identifier": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "or_pattern": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "case_or_pattern",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "case_class_pattern",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "case_keyword_patterns",
+          "named": true
+        },
+        {
+          "type": "case_positional_patterns",
+          "named": true
+        },
+        {
+          "type": "dotted_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "case_clause",
     "named": true,
     "fields": {
@@ -825,11 +874,300 @@
         "required": true,
         "types": [
           {
+            "type": "case_open_sequence_pattern",
+            "named": true
+          },
+          {
             "type": "case_pattern",
             "named": true
           }
         ]
       }
+    }
+  },
+  {
+    "type": "case_closed_pattern",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "case_class_pattern",
+          "named": true
+        },
+        {
+          "type": "case_group_pattern",
+          "named": true
+        },
+        {
+          "type": "case_literal_pattern",
+          "named": true
+        },
+        {
+          "type": "case_mapping_pattern",
+          "named": true
+        },
+        {
+          "type": "case_sequence_pattern",
+          "named": true
+        },
+        {
+          "type": "case_wildcard_pattern",
+          "named": true
+        },
+        {
+          "type": "dotted_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "case_double_star_pattern",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "case_group_pattern",
+    "named": true,
+    "fields": {
+      "case_pattern": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "case_pattern",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "case_items_pattern",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "case_key_value_pattern",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "case_key_value_pattern",
+    "named": true,
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "case_literal_pattern",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "case_pattern",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "case_keyword_pattern",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "case_pattern",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "case_keyword_patterns",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "case_keyword_pattern",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "case_literal_pattern",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "concatenated_string",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "none",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "true",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "case_mapping_pattern",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "case_double_star_pattern",
+          "named": true
+        },
+        {
+          "type": "case_items_pattern",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "case_maybe_sequence_pattern",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "case_maybe_star_pattern",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "case_maybe_star_pattern",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "case_pattern",
+          "named": true
+        },
+        {
+          "type": "case_star_pattern",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "case_open_sequence_pattern",
+    "named": true,
+    "fields": {
+      "maybe_sequence": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "case_maybe_sequence_pattern",
+            "named": true
+          }
+        ]
+      },
+      "maybe_star": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "case_maybe_star_pattern",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "case_or_pattern",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "case_closed_pattern",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -841,15 +1179,64 @@
       "required": true,
       "types": [
         {
-          "type": "attribute",
+          "type": "case_as_pattern",
+          "named": true
+        },
+        {
+          "type": "case_or_pattern",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "case_positional_patterns",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "case_pattern",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "case_sequence_pattern",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "case_maybe_sequence_pattern",
+          "named": true
+        },
+        {
+          "type": "case_open_sequence_pattern",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "case_star_pattern",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "case_wildcard_pattern",
           "named": true
         },
         {
           "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "subscript",
           "named": true
         }
       ]
@@ -2960,6 +3347,10 @@
   {
     "type": "case",
     "named": false
+  },
+  {
+    "type": "case_wildcard_pattern",
+    "named": true
   },
   {
     "type": "class",

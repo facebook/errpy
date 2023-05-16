@@ -24,22 +24,41 @@ match command.split():
       (argument_list))
     (case_clause
       (case_pattern
-        (list
-          (string (string_content))))
+        (case_or_pattern
+          (case_closed_pattern
+            (case_sequence_pattern
+              (case_maybe_sequence_pattern
+                (case_maybe_star_pattern
+                  (case_pattern
+                    (case_or_pattern
+                      (case_closed_pattern
+                        (case_literal_pattern
+                          (string
+                            (string_content))))))))))))
       (block
         (expression_statement
           (call
             (identifier)
             (argument_list
-              (string (string_content)))))
+              (string
+                (string_content)))))
         (expression_statement
           (call
             (identifier)
             (argument_list)))))
     (case_clause
       (case_pattern
-        (list
-          (string (string_content))))
+        (case_or_pattern
+          (case_closed_pattern
+            (case_sequence_pattern
+              (case_maybe_sequence_pattern
+                (case_maybe_star_pattern
+                  (case_pattern
+                    (case_or_pattern
+                      (case_closed_pattern
+                        (case_literal_pattern
+                          (string
+                            (string_content))))))))))))
       (block
         (expression_statement
           (call
@@ -49,9 +68,23 @@ match command.split():
             (argument_list)))))
     (case_clause
       (case_pattern
-        (list
-          (string (string_content))
-          (identifier)))
+        (case_or_pattern
+          (case_closed_pattern
+            (case_sequence_pattern
+              (case_maybe_sequence_pattern
+                (case_maybe_star_pattern
+                  (case_pattern
+                    (case_or_pattern
+                      (case_closed_pattern
+                        (case_literal_pattern
+                          (string
+                            (string_content)))))))
+                (case_maybe_star_pattern
+                  (case_pattern
+                    (case_or_pattern
+                      (case_closed_pattern
+                        (dotted_name
+                          (identifier)))))))))))
       (block
         (expression_statement
           (call
@@ -63,9 +96,23 @@ match command.split():
               (identifier))))))
     (case_clause
       (case_pattern
-        (list
-          (string (string_content))
-          (identifier)))
+        (case_or_pattern
+          (case_closed_pattern
+            (case_sequence_pattern
+              (case_maybe_sequence_pattern
+                (case_maybe_star_pattern
+                  (case_pattern
+                    (case_or_pattern
+                      (case_closed_pattern
+                        (case_literal_pattern
+                          (string
+                            (string_content)))))))
+                (case_maybe_star_pattern
+                  (case_pattern
+                    (case_or_pattern
+                      (case_closed_pattern
+                        (dotted_name
+                          (identifier)))))))))))
       (block
         (expression_statement
           (assignment
@@ -97,10 +144,20 @@ match command.split():
       (argument_list))
     (case_clause
       (case_pattern
-        (list
-          (string (string_content))
-          (list_splat
-            (identifier))))
+        (case_or_pattern
+          (case_closed_pattern
+            (case_sequence_pattern
+              (case_maybe_sequence_pattern
+                (case_maybe_star_pattern
+                  (case_pattern
+                    (case_or_pattern
+                      (case_closed_pattern
+                        (case_literal_pattern
+                          (string
+                            (string_content)))))))
+                (case_maybe_star_pattern
+                  (case_star_pattern
+                    (identifier))))))))
       (block
         (for_statement
           (identifier)
@@ -139,30 +196,65 @@ match command.split():
     (comment)
     (case_clause
       (case_pattern
-        (list
-          (string (string_content))))
+        (case_or_pattern
+          (case_closed_pattern
+            (case_sequence_pattern
+              (case_maybe_sequence_pattern
+                (case_maybe_star_pattern
+                  (case_pattern
+                    (case_or_pattern
+                      (case_closed_pattern
+                        (case_literal_pattern
+                          (string
+                            (string_content))))))))))))
       (block
         (expression_statement
           (ellipsis))
         (comment)))
     (case_clause
       (case_pattern
-        (list
-          (string (string_content))
-          (identifier)))
+        (case_or_pattern
+          (case_closed_pattern
+            (case_sequence_pattern
+              (case_maybe_sequence_pattern
+                (case_maybe_star_pattern
+                  (case_pattern
+                    (case_or_pattern
+                      (case_closed_pattern
+                        (case_literal_pattern
+                          (string
+                            (string_content)))))))
+                (case_maybe_star_pattern
+                  (case_pattern
+                    (case_or_pattern
+                      (case_closed_pattern
+                        (dotted_name
+                          (identifier)))))))))))
       (block
         (pass_statement)))
     (case_clause
       (case_pattern
-        (list
-          (string (string_content))
-          (list_splat
-            (identifier))))
+        (case_or_pattern
+          (case_closed_pattern
+            (case_sequence_pattern
+              (case_maybe_sequence_pattern
+                (case_maybe_star_pattern
+                  (case_pattern
+                    (case_or_pattern
+                      (case_closed_pattern
+                        (case_literal_pattern
+                          (string
+                            (string_content)))))))
+                (case_maybe_star_pattern
+                  (case_star_pattern
+                    (identifier))))))))
       (block
         (pass_statement)))
     (case_clause
       (case_pattern
-        (identifier))
+        (case_or_pattern
+          (case_closed_pattern
+            (case_wildcard_pattern))))
       (block
         (expression_statement
           (call
@@ -194,12 +286,34 @@ match command.split():
       (argument_list))
     (case_clause
       (case_pattern
-        (binary_operator
-          (list
-            (string (string_content)))
-          (list
-            (string (string_content))
-            (string (string_content)))))
+        (case_or_pattern
+          (case_closed_pattern
+            (case_sequence_pattern
+              (case_maybe_sequence_pattern
+                (case_maybe_star_pattern
+                  (case_pattern
+                    (case_or_pattern
+                      (case_closed_pattern
+                        (case_literal_pattern
+                          (string
+                            (string_content))))))))))
+          (case_closed_pattern
+            (case_sequence_pattern
+              (case_maybe_sequence_pattern
+                (case_maybe_star_pattern
+                  (case_pattern
+                    (case_or_pattern
+                      (case_closed_pattern
+                        (case_literal_pattern
+                          (string
+                            (string_content)))))))
+                (case_maybe_star_pattern
+                  (case_pattern
+                    (case_or_pattern
+                      (case_closed_pattern
+                        (case_literal_pattern
+                          (string
+                            (string_content))))))))))))
       (block
         (expression_statement
           (assignment
@@ -209,22 +323,73 @@ match command.split():
                 (identifier)
                 (identifier))
               (argument_list
-                (string (string_content))))))))
+                (string
+                  (string_content))))))))
     (case_clause
       (case_pattern
-        (binary_operator
-          (binary_operator
-            (list
-              (string (string_content))
-              (identifier))
-            (list
-              (string (string_content))
-              (string (string_content))
-              (identifier)))
-          (list
-            (string (string_content))
-            (identifier)
-            (string (string_content)))))
+        (case_or_pattern
+          (case_closed_pattern
+            (case_sequence_pattern
+              (case_maybe_sequence_pattern
+                (case_maybe_star_pattern
+                  (case_pattern
+                    (case_or_pattern
+                      (case_closed_pattern
+                        (case_literal_pattern
+                          (string
+                            (string_content)))))))
+                (case_maybe_star_pattern
+                  (case_pattern
+                    (case_or_pattern
+                      (case_closed_pattern
+                        (dotted_name
+                          (identifier)))))))))
+          (case_closed_pattern
+            (case_sequence_pattern
+              (case_maybe_sequence_pattern
+                (case_maybe_star_pattern
+                  (case_pattern
+                    (case_or_pattern
+                      (case_closed_pattern
+                        (case_literal_pattern
+                          (string
+                            (string_content)))))))
+                (case_maybe_star_pattern
+                  (case_pattern
+                    (case_or_pattern
+                      (case_closed_pattern
+                        (case_literal_pattern
+                          (string
+                            (string_content)))))))
+                (case_maybe_star_pattern
+                  (case_pattern
+                    (case_or_pattern
+                      (case_closed_pattern
+                        (dotted_name
+                          (identifier)))))))))
+          (case_closed_pattern
+            (case_sequence_pattern
+              (case_maybe_sequence_pattern
+                (case_maybe_star_pattern
+                  (case_pattern
+                    (case_or_pattern
+                      (case_closed_pattern
+                        (case_literal_pattern
+                          (string
+                            (string_content)))))))
+                (case_maybe_star_pattern
+                  (case_pattern
+                    (case_or_pattern
+                      (case_closed_pattern
+                        (dotted_name
+                          (identifier))))))
+                (case_maybe_star_pattern
+                  (case_pattern
+                    (case_or_pattern
+                      (case_closed_pattern
+                        (case_literal_pattern
+                          (string
+                            (string_content))))))))))))
       (block
         (pass_statement)))))
 
@@ -246,19 +411,42 @@ match command.split():
       (argument_list))
     (case_clause
       (case_pattern
-        (list
-          (string (string_content))
-          (as_pattern
-            (parenthesized_expression
-              (binary_operator
-                (binary_operator
-                  (binary_operator
-                    (string (string_content))
-                    (string (string_content)))
-                  (string (string_content)))
-                (string (string_content))))
-            (as_pattern_target
-              (identifier)))))
+        (case_or_pattern
+          (case_closed_pattern
+            (case_sequence_pattern
+              (case_maybe_sequence_pattern
+                (case_maybe_star_pattern
+                  (case_pattern
+                    (case_or_pattern
+                      (case_closed_pattern
+                        (case_literal_pattern
+                          (string
+                            (string_content)))))))
+                (case_maybe_star_pattern
+                  (case_pattern
+                    (case_as_pattern
+                      (case_or_pattern
+                        (case_closed_pattern
+                          (case_group_pattern
+                            (case_pattern
+                              (case_or_pattern
+                                (case_closed_pattern
+                                  (case_literal_pattern
+                                    (string
+                                      (string_content))))
+                                (case_closed_pattern
+                                  (case_literal_pattern
+                                    (string
+                                      (string_content))))
+                                (case_closed_pattern
+                                  (case_literal_pattern
+                                    (string
+                                      (string_content))))
+                                (case_closed_pattern
+                                  (case_literal_pattern
+                                    (string
+                                      (string_content)))))))))
+                      (identifier)))))))))
       (block
         (expression_statement
           (assignment
@@ -308,7 +496,8 @@ def foo(**match): pass
         (identifier))
       (expression_list
         (integer)
-        (string (string_content)))))
+        (string
+          (string_content)))))
   (expression_statement
     (assignment
       (pattern_list
@@ -364,7 +553,8 @@ field = call(match=r".*\.txt$")
         (argument_list
           (keyword_argument
             (identifier)
-            (string (string_content))))))))
+            (string
+              (string_content))))))))
 
 ================================================================================
 Match kwargs 2
@@ -432,7 +622,10 @@ match 0:
     (integer)
     (case_clause
       (case_pattern
-        (integer))
+        (case_or_pattern
+          (case_closed_pattern
+            (case_literal_pattern
+              (integer)))))
       (if_clause
         (false))
       (block
@@ -442,7 +635,10 @@ match 0:
             (false)))))
     (case_clause
       (case_pattern
-        (integer))
+        (case_or_pattern
+          (case_closed_pattern
+            (case_literal_pattern
+              (integer)))))
       (if_clause
         (true))
       (block
@@ -468,20 +664,37 @@ match (0, 1, 2):
       (integer)
       (integer))
     (case_clause
-      (case_pattern
-        (integer))
-      (case_pattern
-        (integer))
+      (case_open_sequence_pattern
+        (case_maybe_star_pattern
+          (case_pattern
+            (case_or_pattern
+              (case_closed_pattern
+                (case_literal_pattern
+                  (integer))))))
+        (case_maybe_sequence_pattern
+          (case_maybe_star_pattern
+            (case_pattern
+              (case_or_pattern
+                (case_closed_pattern
+                  (case_literal_pattern
+                    (integer))))))))
       (block
         (expression_statement
           (assignment
             (identifier)
             (integer)))))
     (case_clause
-      (case_pattern
-        (integer))
-      (case_pattern
-        (identifier))
+      (case_open_sequence_pattern
+        (case_maybe_star_pattern
+          (case_pattern
+            (case_or_pattern
+              (case_closed_pattern
+                (case_literal_pattern
+                  (integer))))))
+        (case_maybe_sequence_pattern
+          (case_maybe_star_pattern
+            (case_star_pattern
+              (identifier)))))
       (block
         (expression_statement
           (assignment
@@ -500,8 +713,10 @@ match x,:
   (match_statement
     (identifier)
     (case_clause
-      (case_pattern
-        (identifier))
+      (case_open_sequence_pattern
+        (case_maybe_star_pattern
+          (case_star_pattern
+            (identifier))))
       (block
         (expression_statement
           (assignment
@@ -523,10 +738,20 @@ match ..., ...:
     (ellipsis)
     (ellipsis)
     (case_clause
-      (case_pattern
-        (identifier))
-      (case_pattern
-        (identifier))
+      (case_open_sequence_pattern
+        (case_maybe_star_pattern
+          (case_pattern
+            (case_or_pattern
+              (case_closed_pattern
+                (dotted_name
+                  (identifier))))))
+        (case_maybe_sequence_pattern
+          (case_maybe_star_pattern
+            (case_pattern
+              (case_or_pattern
+                (case_closed_pattern
+                  (dotted_name
+                    (identifier))))))))
       (block
         (return_statement
           (call
@@ -553,7 +778,10 @@ match match:
     (identifier)
     (case_clause
       (case_pattern
-        (identifier))
+        (case_or_pattern
+          (case_closed_pattern
+            (dotted_name
+              (identifier)))))
       (block
         (expression_statement
           (assignment
@@ -576,7 +804,8 @@ if match := re.fullmatch(r"(-)?(\d+:)?\d?\d:\d\d(\.\d*)?", time, flags=re.ASCII)
           (identifier)
           (identifier))
         (argument_list
-          (string (string_content))
+          (string
+            (string_content))
           (identifier)
           (keyword_argument
             (identifier)
@@ -586,3 +815,847 @@ if match := re.fullmatch(r"(-)?(\d+:)?\d?\d:\d\d(\.\d*)?", time, flags=re.ASCII)
     (block
       (return_statement
         (integer)))))
+
+================================================================================
+Matching objects
+================================================================================
+match event.get():
+    case Click(position=(x, y)):
+        handle_click_at(x, y)
+    case KeyPress(key_name="Q") | Quit():
+        game.quit()
+    case KeyPress(key_name="up arrow"):
+        game.go_north()
+        ...
+    case KeyPress():
+        pass # Ignore other keystrokes
+    case other_event:
+        raise ValueError(f"Unrecognized event: {other_event}")
+--------------------------------------------------------------------------------
+
+(module
+  (match_statement
+    (call
+      (attribute
+        (identifier)
+        (identifier))
+      (argument_list))
+    (case_clause
+      (case_pattern
+        (case_or_pattern
+          (case_closed_pattern
+            (case_class_pattern
+              (dotted_name
+                (identifier))
+              (case_keyword_patterns
+                (case_keyword_pattern
+                  (identifier)
+                  (case_pattern
+                    (case_or_pattern
+                      (case_closed_pattern
+                        (case_sequence_pattern
+                          (case_open_sequence_pattern
+                            (case_maybe_star_pattern
+                              (case_pattern
+                                (case_or_pattern
+                                  (case_closed_pattern
+                                    (dotted_name
+                                      (identifier))))))
+                            (case_maybe_sequence_pattern
+                              (case_maybe_star_pattern
+                                (case_pattern
+                                  (case_or_pattern
+                                    (case_closed_pattern
+                                      (dotted_name
+                                        (identifier))))))))))))))))))
+      (block
+        (expression_statement
+          (call
+            (identifier)
+            (argument_list
+              (identifier)
+              (identifier))))))
+    (case_clause
+      (case_pattern
+        (case_or_pattern
+          (case_closed_pattern
+            (case_class_pattern
+              (dotted_name
+                (identifier))
+              (case_keyword_patterns
+                (case_keyword_pattern
+                  (identifier)
+                  (case_pattern
+                    (case_or_pattern
+                      (case_closed_pattern
+                        (case_literal_pattern
+                          (string
+                            (string_content))))))))))
+          (case_closed_pattern
+            (case_class_pattern
+              (dotted_name
+                (identifier))))))
+      (block
+        (expression_statement
+          (call
+            (attribute
+              (identifier)
+              (identifier))
+            (argument_list)))))
+    (case_clause
+      (case_pattern
+        (case_or_pattern
+          (case_closed_pattern
+            (case_class_pattern
+              (dotted_name
+                (identifier))
+              (case_keyword_patterns
+                (case_keyword_pattern
+                  (identifier)
+                  (case_pattern
+                    (case_or_pattern
+                      (case_closed_pattern
+                        (case_literal_pattern
+                          (string
+                            (string_content))))))))))))
+      (block
+        (expression_statement
+          (call
+            (attribute
+              (identifier)
+              (identifier))
+            (argument_list)))
+        (expression_statement
+          (ellipsis))))
+    (case_clause
+      (case_pattern
+        (case_or_pattern
+          (case_closed_pattern
+            (case_class_pattern
+              (dotted_name
+                (identifier))))))
+      (block
+        (pass_statement)
+        (comment)))
+    (case_clause
+      (case_pattern
+        (case_or_pattern
+          (case_closed_pattern
+            (dotted_name
+              (identifier)))))
+      (block
+        (raise_statement
+          (call
+            (identifier)
+            (argument_list
+              (string
+                (string_content)
+                (interpolation
+                  (identifier))))))))))
+
+================================================================================
+Positional arguments
+================================================================================
+match event.get():
+    case Click((x, y)):
+        handle_click_at(x, y)
+--------------------------------------------------------------------------------
+
+(module
+  (match_statement
+    (call
+      (attribute
+        (identifier)
+        (identifier))
+      (argument_list))
+    (case_clause
+      (case_pattern
+        (case_or_pattern
+          (case_closed_pattern
+            (case_class_pattern
+              (dotted_name
+                (identifier))
+              (case_positional_patterns
+                (case_pattern
+                  (case_or_pattern
+                    (case_closed_pattern
+                      (case_sequence_pattern
+                        (case_open_sequence_pattern
+                          (case_maybe_star_pattern
+                            (case_pattern
+                              (case_or_pattern
+                                (case_closed_pattern
+                                  (dotted_name
+                                    (identifier))))))
+                          (case_maybe_sequence_pattern
+                            (case_maybe_star_pattern
+                              (case_pattern
+                                (case_or_pattern
+                                  (case_closed_pattern
+                                    (dotted_name
+                                      (identifier)))))))))))))))))
+      (block
+        (expression_statement
+          (call
+            (identifier)
+            (argument_list
+              (identifier)
+              (identifier))))))))
+
+================================================================================
+Constants and enums
+================================================================================
+match event.get():
+    case Click((x, y), button=Button.LEFT):  # This is a left click
+        handle_click_at(x, y)
+    case Click():
+        pass  # ignore other clicks
+--------------------------------------------------------------------------------
+
+(module
+  (match_statement
+    (call
+      (attribute
+        (identifier)
+        (identifier))
+      (argument_list))
+    (case_clause
+      (case_pattern
+        (case_or_pattern
+          (case_closed_pattern
+            (case_class_pattern
+              (dotted_name
+                (identifier))
+              (case_positional_patterns
+                (case_pattern
+                  (case_or_pattern
+                    (case_closed_pattern
+                      (case_sequence_pattern
+                        (case_open_sequence_pattern
+                          (case_maybe_star_pattern
+                            (case_pattern
+                              (case_or_pattern
+                                (case_closed_pattern
+                                  (dotted_name
+                                    (identifier))))))
+                          (case_maybe_sequence_pattern
+                            (case_maybe_star_pattern
+                              (case_pattern
+                                (case_or_pattern
+                                  (case_closed_pattern
+                                    (dotted_name
+                                      (identifier)))))))))))))
+              (case_keyword_patterns
+                (case_keyword_pattern
+                  (identifier)
+                  (case_pattern
+                    (case_or_pattern
+                      (case_closed_pattern
+                        (dotted_name
+                          (identifier)
+                          (identifier)))))))))))
+      (comment)
+      (block
+        (expression_statement
+          (call
+            (identifier)
+            (argument_list
+              (identifier)
+              (identifier))))))
+    (case_clause
+      (case_pattern
+        (case_or_pattern
+          (case_closed_pattern
+            (case_class_pattern
+              (dotted_name
+                (identifier))))))
+      (block
+        (pass_statement))))
+  (comment))
+
+================================================================================
+Dict mappings
+================================================================================
+for action in actions:
+    match action:
+        case {"text": message, "color": c}:
+            ui.set_text_color(c)
+            ui.display(message)
+        case {"sleep": duration}:
+            ui.wait(duration)
+        case {"sound": url, "format": "ogg"}:
+            ui.play(url)
+        case {"sound": _, "format": _}:
+            warning("Unsupported audio format")
+--------------------------------------------------------------------------------
+
+(module
+  (for_statement
+    (identifier)
+    (identifier)
+    (block
+      (match_statement
+        (identifier)
+        (case_clause
+          (case_pattern
+            (case_or_pattern
+              (case_closed_pattern
+                (case_mapping_pattern
+                  (case_items_pattern
+                    (case_key_value_pattern
+                      (case_literal_pattern
+                        (string
+                          (string_content)))
+                      (case_pattern
+                        (case_or_pattern
+                          (case_closed_pattern
+                            (dotted_name
+                              (identifier))))))
+                    (case_key_value_pattern
+                      (case_literal_pattern
+                        (string
+                          (string_content)))
+                      (case_pattern
+                        (case_or_pattern
+                          (case_closed_pattern
+                            (dotted_name
+                              (identifier)))))))))))
+          (block
+            (expression_statement
+              (call
+                (attribute
+                  (identifier)
+                  (identifier))
+                (argument_list
+                  (identifier))))
+            (expression_statement
+              (call
+                (attribute
+                  (identifier)
+                  (identifier))
+                (argument_list
+                  (identifier))))))
+        (case_clause
+          (case_pattern
+            (case_or_pattern
+              (case_closed_pattern
+                (case_mapping_pattern
+                  (case_items_pattern
+                    (case_key_value_pattern
+                      (case_literal_pattern
+                        (string
+                          (string_content)))
+                      (case_pattern
+                        (case_or_pattern
+                          (case_closed_pattern
+                            (dotted_name
+                              (identifier)))))))))))
+          (block
+            (expression_statement
+              (call
+                (attribute
+                  (identifier)
+                  (identifier))
+                (argument_list
+                  (identifier))))))
+        (case_clause
+          (case_pattern
+            (case_or_pattern
+              (case_closed_pattern
+                (case_mapping_pattern
+                  (case_items_pattern
+                    (case_key_value_pattern
+                      (case_literal_pattern
+                        (string
+                          (string_content)))
+                      (case_pattern
+                        (case_or_pattern
+                          (case_closed_pattern
+                            (dotted_name
+                              (identifier))))))
+                    (case_key_value_pattern
+                      (case_literal_pattern
+                        (string
+                          (string_content)))
+                      (case_pattern
+                        (case_or_pattern
+                          (case_closed_pattern
+                            (case_literal_pattern
+                              (string
+                                (string_content))))))))))))
+          (block
+            (expression_statement
+              (call
+                (attribute
+                  (identifier)
+                  (identifier))
+                (argument_list
+                  (identifier))))))
+        (case_clause
+          (case_pattern
+            (case_or_pattern
+              (case_closed_pattern
+                (case_mapping_pattern
+                  (case_items_pattern
+                    (case_key_value_pattern
+                      (case_literal_pattern
+                        (string
+                          (string_content)))
+                      (case_pattern
+                        (case_or_pattern
+                          (case_closed_pattern
+                            (case_wildcard_pattern)))))
+                    (case_key_value_pattern
+                      (case_literal_pattern
+                        (string
+                          (string_content)))
+                      (case_pattern
+                        (case_or_pattern
+                          (case_closed_pattern
+                            (case_wildcard_pattern))))))))))
+          (block
+            (expression_statement
+              (call
+                (identifier)
+                (argument_list
+                  (string
+                    (string_content)))))))))))
+
+================================================================================
+Builtin classes
+================================================================================
+for action in actions:
+    match action:
+        case {"text": str(message), "color": str(c)}:
+            ui.set_text_color(c)
+            ui.display(message)
+        case {"sleep": float(duration)}:
+            ui.wait(duration)
+        case {"sound": str(url), "format": "ogg"}:
+            ui.play(url)
+        case {"sound": _, "format": _}:
+            warning("Unsupported audio format")
+--------------------------------------------------------------------------------
+
+(module
+  (for_statement
+    (identifier)
+    (identifier)
+    (block
+      (match_statement
+        (identifier)
+        (case_clause
+          (case_pattern
+            (case_or_pattern
+              (case_closed_pattern
+                (case_mapping_pattern
+                  (case_items_pattern
+                    (case_key_value_pattern
+                      (case_literal_pattern
+                        (string
+                          (string_content)))
+                      (case_pattern
+                        (case_or_pattern
+                          (case_closed_pattern
+                            (case_class_pattern
+                              (dotted_name
+                                (identifier))
+                              (case_positional_patterns
+                                (case_pattern
+                                  (case_or_pattern
+                                    (case_closed_pattern
+                                      (dotted_name
+                                        (identifier)))))))))))
+                    (case_key_value_pattern
+                      (case_literal_pattern
+                        (string
+                          (string_content)))
+                      (case_pattern
+                        (case_or_pattern
+                          (case_closed_pattern
+                            (case_class_pattern
+                              (dotted_name
+                                (identifier))
+                              (case_positional_patterns
+                                (case_pattern
+                                  (case_or_pattern
+                                    (case_closed_pattern
+                                      (dotted_name
+                                        (identifier))))))))))))))))
+          (block
+            (expression_statement
+              (call
+                (attribute
+                  (identifier)
+                  (identifier))
+                (argument_list
+                  (identifier))))
+            (expression_statement
+              (call
+                (attribute
+                  (identifier)
+                  (identifier))
+                (argument_list
+                  (identifier))))))
+        (case_clause
+          (case_pattern
+            (case_or_pattern
+              (case_closed_pattern
+                (case_mapping_pattern
+                  (case_items_pattern
+                    (case_key_value_pattern
+                      (case_literal_pattern
+                        (string
+                          (string_content)))
+                      (case_pattern
+                        (case_or_pattern
+                          (case_closed_pattern
+                            (case_class_pattern
+                              (dotted_name
+                                (identifier))
+                              (case_positional_patterns
+                                (case_pattern
+                                  (case_or_pattern
+                                    (case_closed_pattern
+                                      (dotted_name
+                                        (identifier))))))))))))))))
+          (block
+            (expression_statement
+              (call
+                (attribute
+                  (identifier)
+                  (identifier))
+                (argument_list
+                  (identifier))))))
+        (case_clause
+          (case_pattern
+            (case_or_pattern
+              (case_closed_pattern
+                (case_mapping_pattern
+                  (case_items_pattern
+                    (case_key_value_pattern
+                      (case_literal_pattern
+                        (string
+                          (string_content)))
+                      (case_pattern
+                        (case_or_pattern
+                          (case_closed_pattern
+                            (case_class_pattern
+                              (dotted_name
+                                (identifier))
+                              (case_positional_patterns
+                                (case_pattern
+                                  (case_or_pattern
+                                    (case_closed_pattern
+                                      (dotted_name
+                                        (identifier)))))))))))
+                    (case_key_value_pattern
+                      (case_literal_pattern
+                        (string
+                          (string_content)))
+                      (case_pattern
+                        (case_or_pattern
+                          (case_closed_pattern
+                            (case_literal_pattern
+                              (string
+                                (string_content))))))))))))
+          (block
+            (expression_statement
+              (call
+                (attribute
+                  (identifier)
+                  (identifier))
+                (argument_list
+                  (identifier))))))
+        (case_clause
+          (case_pattern
+            (case_or_pattern
+              (case_closed_pattern
+                (case_mapping_pattern
+                  (case_items_pattern
+                    (case_key_value_pattern
+                      (case_literal_pattern
+                        (string
+                          (string_content)))
+                      (case_pattern
+                        (case_or_pattern
+                          (case_closed_pattern
+                            (case_wildcard_pattern)))))
+                    (case_key_value_pattern
+                      (case_literal_pattern
+                        (string
+                          (string_content)))
+                      (case_pattern
+                        (case_or_pattern
+                          (case_closed_pattern
+                            (case_wildcard_pattern))))))))))
+          (block
+            (expression_statement
+              (call
+                (identifier)
+                (argument_list
+                  (string
+                    (string_content)))))))))))
+
+================================================================================
+Complex case patterns on classes
+================================================================================
+match x:
+    case Something(): # no args
+        foo1()
+    case Something.Else(): # more complex class name
+        foo2()
+    case Point2D(0, 1, 2): # three args
+        foo3()
+    case Point3D(x=0, y=0, z=0): # kw args
+        foo4()
+    case Point3D(34, x=0, y=0, z=0): # positional + kw args
+        foo5()
+    case Point2D(0, 1, 2,): # three args + trail comma
+        foo6()
+    case Point3D(x=0, y=0, z=0,): # kw args + trail comma
+        foo7()
+    case Point3D(34, x=0, y=0, z=0,): # positional + kw args + trail comma
+        foo8()
+--------------------------------------------------------------------------------
+
+(module
+  (match_statement
+    (identifier)
+    (case_clause
+      (case_pattern
+        (case_or_pattern
+          (case_closed_pattern
+            (case_class_pattern
+              (dotted_name
+                (identifier))))))
+      (comment)
+      (block
+        (expression_statement
+          (call
+            (identifier)
+            (argument_list)))))
+    (case_clause
+      (case_pattern
+        (case_or_pattern
+          (case_closed_pattern
+            (case_class_pattern
+              (dotted_name
+                (identifier)
+                (identifier))))))
+      (comment)
+      (block
+        (expression_statement
+          (call
+            (identifier)
+            (argument_list)))))
+    (case_clause
+      (case_pattern
+        (case_or_pattern
+          (case_closed_pattern
+            (case_class_pattern
+              (dotted_name
+                (identifier))
+              (case_positional_patterns
+                (case_pattern
+                  (case_or_pattern
+                    (case_closed_pattern
+                      (case_literal_pattern
+                        (integer)))))
+                (case_pattern
+                  (case_or_pattern
+                    (case_closed_pattern
+                      (case_literal_pattern
+                        (integer)))))
+                (case_pattern
+                  (case_or_pattern
+                    (case_closed_pattern
+                      (case_literal_pattern
+                        (integer))))))))))
+      (comment)
+      (block
+        (expression_statement
+          (call
+            (identifier)
+            (argument_list)))))
+    (case_clause
+      (case_pattern
+        (case_or_pattern
+          (case_closed_pattern
+            (case_class_pattern
+              (dotted_name
+                (identifier))
+              (case_keyword_patterns
+                (case_keyword_pattern
+                  (identifier)
+                  (case_pattern
+                    (case_or_pattern
+                      (case_closed_pattern
+                        (case_literal_pattern
+                          (integer))))))
+                (case_keyword_pattern
+                  (identifier)
+                  (case_pattern
+                    (case_or_pattern
+                      (case_closed_pattern
+                        (case_literal_pattern
+                          (integer))))))
+                (case_keyword_pattern
+                  (identifier)
+                  (case_pattern
+                    (case_or_pattern
+                      (case_closed_pattern
+                        (case_literal_pattern
+                          (integer)))))))))))
+      (comment)
+      (block
+        (expression_statement
+          (call
+            (identifier)
+            (argument_list)))))
+    (case_clause
+      (case_pattern
+        (case_or_pattern
+          (case_closed_pattern
+            (case_class_pattern
+              (dotted_name
+                (identifier))
+              (case_positional_patterns
+                (case_pattern
+                  (case_or_pattern
+                    (case_closed_pattern
+                      (case_literal_pattern
+                        (integer))))))
+              (case_keyword_patterns
+                (case_keyword_pattern
+                  (identifier)
+                  (case_pattern
+                    (case_or_pattern
+                      (case_closed_pattern
+                        (case_literal_pattern
+                          (integer))))))
+                (case_keyword_pattern
+                  (identifier)
+                  (case_pattern
+                    (case_or_pattern
+                      (case_closed_pattern
+                        (case_literal_pattern
+                          (integer))))))
+                (case_keyword_pattern
+                  (identifier)
+                  (case_pattern
+                    (case_or_pattern
+                      (case_closed_pattern
+                        (case_literal_pattern
+                          (integer)))))))))))
+      (comment)
+      (block
+        (expression_statement
+          (call
+            (identifier)
+            (argument_list)))))
+    (case_clause
+      (case_pattern
+        (case_or_pattern
+          (case_closed_pattern
+            (case_class_pattern
+              (dotted_name
+                (identifier))
+              (case_positional_patterns
+                (case_pattern
+                  (case_or_pattern
+                    (case_closed_pattern
+                      (case_literal_pattern
+                        (integer)))))
+                (case_pattern
+                  (case_or_pattern
+                    (case_closed_pattern
+                      (case_literal_pattern
+                        (integer)))))
+                (case_pattern
+                  (case_or_pattern
+                    (case_closed_pattern
+                      (case_literal_pattern
+                        (integer))))))))))
+      (comment)
+      (block
+        (expression_statement
+          (call
+            (identifier)
+            (argument_list)))))
+    (case_clause
+      (case_pattern
+        (case_or_pattern
+          (case_closed_pattern
+            (case_class_pattern
+              (dotted_name
+                (identifier))
+              (case_keyword_patterns
+                (case_keyword_pattern
+                  (identifier)
+                  (case_pattern
+                    (case_or_pattern
+                      (case_closed_pattern
+                        (case_literal_pattern
+                          (integer))))))
+                (case_keyword_pattern
+                  (identifier)
+                  (case_pattern
+                    (case_or_pattern
+                      (case_closed_pattern
+                        (case_literal_pattern
+                          (integer))))))
+                (case_keyword_pattern
+                  (identifier)
+                  (case_pattern
+                    (case_or_pattern
+                      (case_closed_pattern
+                        (case_literal_pattern
+                          (integer)))))))))))
+      (comment)
+      (block
+        (expression_statement
+          (call
+            (identifier)
+            (argument_list)))))
+    (case_clause
+      (case_pattern
+        (case_or_pattern
+          (case_closed_pattern
+            (case_class_pattern
+              (dotted_name
+                (identifier))
+              (case_positional_patterns
+                (case_pattern
+                  (case_or_pattern
+                    (case_closed_pattern
+                      (case_literal_pattern
+                        (integer))))))
+              (case_keyword_patterns
+                (case_keyword_pattern
+                  (identifier)
+                  (case_pattern
+                    (case_or_pattern
+                      (case_closed_pattern
+                        (case_literal_pattern
+                          (integer))))))
+                (case_keyword_pattern
+                  (identifier)
+                  (case_pattern
+                    (case_or_pattern
+                      (case_closed_pattern
+                        (case_literal_pattern
+                          (integer))))))
+                (case_keyword_pattern
+                  (identifier)
+                  (case_pattern
+                    (case_or_pattern
+                      (case_closed_pattern
+                        (case_literal_pattern
+                          (integer)))))))))))
+      (comment)
+      (block
+        (expression_statement
+          (call
+            (identifier)
+            (argument_list)))))))

@@ -40,6 +40,9 @@ module.exports = grammar({
     [$.with_item, $._collection_elements],
     [$.named_expression, $.as_pattern],
     [$.match_statement, $.primary_expression],
+    [$.case_clause, $.case_maybe_star_pattern],
+    [$.case_positional_patterns],
+    [$.case_keyword_patterns],
   ],
 
   supertypes: $ => [
@@ -286,7 +289,7 @@ module.exports = grammar({
       commaSep1(
         field(
           'pattern',
-          alias(choice($.expression, $.list_splat_pattern), $.case_pattern),
+          choice($.case_pattern, $.case_open_sequence_pattern),
         )
       ),
       optional(','),
@@ -508,6 +511,93 @@ module.exports = grammar({
     )),
 
     dotted_name: $ => sep1($.identifier, '.'),
+
+    // Match cases
+
+    case_pattern: $ => choice(
+      $.case_as_pattern,
+      $.case_or_pattern
+    ),
+
+    case_as_pattern: $ => seq(
+      field("or_pattern", $.case_or_pattern), 'as', field("identifier", $.identifier)),
+
+    case_or_pattern: $ => seq(
+      $.case_closed_pattern, repeat(seq('|', $.case_closed_pattern))),
+
+
+    case_closed_pattern: $ => choice(
+      $.case_literal_pattern,
+      $.dotted_name,
+      $.case_wildcard_pattern,
+      $.case_group_pattern,
+      $.case_sequence_pattern,
+      $.case_mapping_pattern,
+      $.case_class_pattern,
+    ),
+
+    case_literal_pattern: $ => choice(
+      $.string,
+      $.concatenated_string,
+      $.integer,
+      $.float,
+      $.true,
+      $.false,
+      $.none
+    ),
+
+    case_wildcard_pattern: $ => "_",
+
+    case_group_pattern: $ => seq('(', field("case_pattern", $.case_pattern), ')'),
+
+    case_sequence_pattern: $ => choice(
+      seq('[', optional($.case_maybe_sequence_pattern), ']'),
+      seq('(', optional($.case_open_sequence_pattern), ')'),
+    ),
+
+    case_open_sequence_pattern: $ => seq(
+      field("maybe_star", $.case_maybe_star_pattern), ',', field("maybe_sequence", optional($.case_maybe_sequence_pattern))
+    ),
+
+    case_maybe_sequence_pattern: $ => prec.left(seq(commaSep1($.case_maybe_star_pattern), optional(','))),
+
+    case_maybe_star_pattern: $ => prec.left(choice(
+      $.case_star_pattern,
+      $.case_pattern
+    )),
+
+    case_mapping_pattern: $ => choice(
+      seq('{', '}'),
+      seq('{', $.case_double_star_pattern, optional(','), '}'),
+      seq('{', $.case_items_pattern, $.case_double_star_pattern, optional(','), '}'),
+      seq('{', $.case_items_pattern, '}'),
+    ),
+
+    case_items_pattern: $ => seq(commaSep1($.case_key_value_pattern), optional(',')),
+
+    case_key_value_pattern: $ => seq(
+      field("key", $.case_literal_pattern), ':', field("value", $.case_pattern)
+    ),
+
+    case_star_pattern: $ => choice(
+      seq('*', $.identifier),
+      seq('*', $.case_wildcard_pattern)
+    ),
+
+    case_double_star_pattern: $ => seq('**', $.identifier),
+
+    case_class_pattern: $ => choice(
+      seq($.dotted_name, '(', ')'),
+      seq($.dotted_name, '(', $.case_positional_patterns, optional(','), ')'),
+      seq($.dotted_name, '(', $.case_keyword_patterns, optional(','), ')'),
+      seq($.dotted_name, '(', $.case_positional_patterns, ',', $.case_keyword_patterns, optional(','), ')'),
+    ),
+
+    case_positional_patterns: $ => commaSep1($.case_pattern),
+
+    case_keyword_patterns: $ => commaSep1($.case_keyword_pattern),
+
+    case_keyword_pattern: $ => seq(field("name", $.identifier), "=", field("value", $.case_pattern)),
 
     // Patterns
 
