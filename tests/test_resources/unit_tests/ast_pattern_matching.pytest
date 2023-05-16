@@ -103,6 +103,13 @@ match xx:
     case (x, y):
         something(x, y)
 
+## MatchAs
+match xx:
+    case y as f:
+        dd()
+    case [x] as y:
+        gg()
+
 # The next set of tests are taken from [PEP 636](https://peps.python.org/pep-0636/)
 
 ##PEP 636 - simple

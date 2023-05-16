@@ -1,4 +1,3 @@
-MatchAs(pattern, name)
 MatchClass(cls, patterns, kwd_attrs, kwd_patterns)
 MatchMapping(keys, patterns, rest)
 MatchOr(patterns)

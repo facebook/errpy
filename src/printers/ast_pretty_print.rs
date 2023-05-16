@@ -600,6 +600,13 @@ impl PatternDesc {
             PatternDesc::MatchAs { pattern, name } => {
                 if pattern.is_none() && name.is_none() {
                     pprint_output.push_str("_");
+                } else if pattern.is_some() {
+                    pattern.as_ref().unwrap().desc.pprint(pprint_output);
+
+                    if name.is_some() {
+                        pprint_output.push_str(" as ");
+                        pprint_output.push_str(name.clone().unwrap().as_str());
+                    }
                 } else if name.is_some() {
                     pprint_output.push_str(name.clone().unwrap().as_str());
                 }

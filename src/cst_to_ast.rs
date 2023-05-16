@@ -588,10 +588,18 @@ impl Parser {
     }
 
     fn case_as_pattern(&mut self, as_pattern_node: &Node) -> ErrorableResult<PatternDesc> {
-        Err(self.record_recoverable_error(
-            RecoverableError::UnimplementedStatement(format!("{:?}", as_pattern_node)),
-            as_pattern_node,
-        ))
+        let or_pattern_node = as_pattern_node
+            .child_by_field_name("or_pattern")
+            .expect("missing as pattern left hand side pattern");
+        let case_pattern = self.case_or_pattern(&or_pattern_node)?;
+        let pattern = Some(self.new_pattern(case_pattern, &or_pattern_node));
+
+        let name_node = as_pattern_node
+            .child_by_field_name("identifier")
+            .expect("missing as pattern identifier");
+        let name = Some(self.get_valid_identifier(&name_node));
+
+        Ok(PatternDesc::MatchAs { pattern, name })
     }
 
     // case_or_pattern: $ => seq(
