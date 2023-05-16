@@ -1,8 +1,6 @@
 MatchClass(cls, patterns, kwd_attrs, kwd_patterns)
-MatchMapping(keys, patterns, rest)
 PEP 636 - builtin classes
 PEP 636 - constants and enums
-PEP 636 - dict mappings
 PEP 636 - matching objects
 PEP 636 - positional arguments
 PEP 636 - quick intro: attribute capture

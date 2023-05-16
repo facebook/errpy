@@ -711,6 +711,7 @@ impl Parser {
                     }
                 }
                 "case_sequence_pattern" => self.case_sequence_pattern(one_child)?,
+                "case_mapping_pattern" => self.case_mapping_pattern(one_child)?,
                 _ => {
                     return Err(self.record_recoverable_error(
                         RecoverableError::UnimplementedStatement(format!(
@@ -724,6 +725,92 @@ impl Parser {
 
             Ok(self.new_pattern(pattern_desc, case_closed_pattern_node))
         }
+    }
+
+    // case_mapping_pattern: $ => choice(
+    //   seq('{', '}'),
+    //   seq('{', $.case_double_star_pattern, optional(','), '}'),
+    //   seq('{', $.case_items_pattern, $.case_double_star_pattern, optional(','), '}'),
+    //   seq('{', $.case_items_pattern, '}'),
+    // ),
+    fn case_mapping_pattern(&mut self, group_pattern_node: &Node) -> ErrorableResult<PatternDesc> {
+        let child_count = group_pattern_node.child_count();
+
+        let mut keys: Vec<Expr> = vec![];
+        let mut patterns: Vec<Pattern> = vec![];
+        let mut rest: Option<String> = None;
+
+        if child_count != 2 {
+            let second_child = &group_pattern_node
+                .child(1)
+                .expect("first child of group mapping pattern node");
+            let third_child = &group_pattern_node
+                .child(2)
+                .expect("second child of group mapping pattern node");
+
+            match (second_child.kind(), third_child.kind()) {
+                ("case_items_pattern", "case_double_star_pattern") => {
+                    self.case_items_pattern(second_child, &mut keys, &mut patterns);
+                    rest = Some(self.case_double_star_pattern(third_child));
+                }
+                ("case_double_star_pattern", _) => {
+                    rest = Some(self.case_double_star_pattern(second_child));
+                }
+                ("case_items_pattern", _) => {
+                    self.case_items_pattern(second_child, &mut keys, &mut patterns);
+                }
+                _ => (),
+            }
+        }
+
+        Ok(PatternDesc::MatchMapping {
+            keys,
+            patterns,
+            rest,
+        })
+    }
+
+    // case_items_pattern: $ => seq(commaSep1($.case_key_value_pattern), optional(',')),
+    fn case_items_pattern(
+        &mut self,
+        case_items_pattern_node: &Node,
+        keys: &mut Vec<Expr>,
+        patterns: &mut Vec<Pattern>,
+    ) {
+        for case_key_value_pattern_node in
+            case_items_pattern_node.named_children(&mut case_items_pattern_node.walk())
+        {
+            // we ignore the ErrorableResult here as it will have already been handled in `case_key_value_pattern`
+            // we cal .ok() and discard the result here to keep the clippy linter quiet
+            self.case_key_value_pattern(&case_key_value_pattern_node, keys, patterns)
+                .ok();
+        }
+    }
+
+    fn case_key_value_pattern(
+        &mut self,
+        case_items_pattern_node: &Node,
+        keys: &mut Vec<Expr>,
+        patterns: &mut Vec<Pattern>,
+    ) -> ErrorableResult<()> {
+        let key_node = case_items_pattern_node
+            .child_by_field_name("key")
+            .expect("key node of key value pattern");
+        let value_node = &case_items_pattern_node
+            .child_by_field_name("value")
+            .expect("value node of key value pattern");
+
+        let key_node_child = &key_node.child(0).unwrap();
+        keys.push(self.expression(key_node_child)?);
+
+        patterns.push(self.case_pattern(value_node)?);
+
+        Ok(())
+    }
+
+    fn case_double_star_pattern(&mut self, group_pattern_node: &Node) -> String {
+        let identifier = &group_pattern_node.child(1).expect("identifier");
+        self.get_valid_identifier(identifier)
     }
 
     // case_group_pattern: $ => seq( '(', field("case_pattern", $.case_pattern), ')'),

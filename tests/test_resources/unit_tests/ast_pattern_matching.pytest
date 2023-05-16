@@ -226,15 +226,21 @@ match event.get():
 ##PEP 636 - dict mappings
 for action in actions:
     match action:
-        case {"text": message, "color": c}:
+        case {}:
+            nothing()
+        case {'text': message, 'color': c}:
             ui.set_text_color(c)
             ui.display(message)
-        case {"sleep": duration}:
+        case {'sleep': duration}:
             ui.wait(duration)
-        case {"sound": url, "format": "ogg"}:
+        case {'sound': url, 'format': 'ogg'}:
             ui.play(url)
-        case {"sound": _, "format": _}:
-            warning("Unsupported audio format")
+        case {'sound': _, 'format': _}:
+            warning('Unsupported audio format')
+        case {'something': _, **others}:
+            warning('Another Unsupported audio format')
+        case {**just_double_star}:
+            warning('just double star')
 
 ##PEP 636 - builtin classes
 for action in actions:

@@ -618,6 +618,35 @@ impl PatternDesc {
                 Some(constant) => constant.pprint(pprint_output),
                 None => pprint_output.push_str("None"),
             },
+
+            PatternDesc::MatchMapping {
+                keys,
+                patterns,
+                rest,
+            } => {
+                pprint_output.push_str("{");
+
+                let mut at_least_one_instance = false;
+
+                for instance in keys.iter().zip(patterns.iter()) {
+                    at_least_one_instance = true;
+
+                    let (expression, pattern) = instance;
+                    (*expression.desc).pprint(pprint_output);
+                    pprint_output.push_str(": ");
+                    (*pattern.desc).pprint(pprint_output);
+                    pprint_output.push_str(", ");
+                }
+
+                if let Some(rest) = rest {
+                    pprint_output.push_str(format!("**{}", rest).as_str());
+                } else if at_least_one_instance {
+                    pprint_output.pop_many(2);
+                }
+
+                pprint_output.push_str("}");
+            }
+
             PatternDesc::MatchAs { pattern, name } => {
                 if pattern.is_none() && name.is_none() {
                     pprint_output.push_str("_");

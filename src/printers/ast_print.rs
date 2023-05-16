@@ -429,6 +429,24 @@ impl fmt::Display for PatternDesc {
                 None => write!(f, "MatchSingleton(value=None, "),
             },
             PatternDesc::MatchValue(expr) => write!(f, "MatchValue(value={}, ", expr),
+            PatternDesc::MatchMapping {
+                keys,
+                patterns,
+                rest,
+            } => {
+                let rest_format = match rest {
+                    Some(rest) => format!("rest='{}', ", rest),
+                    _ => "".to_string(),
+                };
+
+                write!(
+                    f,
+                    "MatchMapping(keys=[{}], patterns=[{}], {}",
+                    format_vec(keys),
+                    format_vec(patterns),
+                    rest_format,
+                )
+            }
             PatternDesc::MatchAs { pattern, name } => {
                 let pattern_str = match pattern {
                     Some(pattern) => format!("pattern={}, ", pattern),
