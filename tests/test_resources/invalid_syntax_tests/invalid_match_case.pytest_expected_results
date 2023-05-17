@@ -1,0 +1,15 @@
+@generated
+
+##cannot use general expression in place of a case pattern
+match xx:
+    case x:
+        pass
+
+1 Recoverable error detected:
+SyntaxError: invalid syntax at [2:11 - 2:13]
+CST Stack:
+    {Node ERROR (1, 10) - (1, 12)}
+    {Node case_clause (1, 4) - (2, 12)}
+    {Node match_statement (0, 0) - (2, 12)}
+    {Node module (0, 0) - (3, 0)}
+
