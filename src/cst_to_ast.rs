@@ -88,7 +88,6 @@ pub struct Parser {
     pub ast_and_metadata: ASTAndMetaData,
     // contingent on if we are on lhs or rhs of assignment or del expression
     current_expr_ctx: Vec<Option<ExprContext>>,
-    increment_expression_column_offset: isize,
     integer_overflow_error: ParseIntError,
     python_keywords: HashSet<String>,
 }
@@ -241,7 +240,6 @@ impl Parser {
             code,
             ast_and_metadata: ASTAndMetaData::new(),
             current_expr_ctx: Vec::new(),
-            increment_expression_column_offset: 0,
             integer_overflow_error: "184467440737095516150".parse::<isize>().err().unwrap(),
             // keywords obtained through running: buck2 run errpy/facebook/scripts:list_python_keywords -- errpy/facebook/scripts/peg_grammar_specs/3.10
             python_keywords: vec![
@@ -289,9 +287,9 @@ impl Parser {
         Expr::new(
             desc,
             start_position.row as isize + 1,
-            start_position.column as isize + self.increment_expression_column_offset,
+            start_position.column as isize,
             end_position.row as isize + 1,
-            end_position.column as isize + self.increment_expression_column_offset,
+            end_position.column as isize,
         )
     }
 
@@ -312,13 +310,9 @@ impl Parser {
 
         let location = RecoverableErrorLocation {
             lineno: start_position.row as isize + 1,
-            col_offset: start_position.column as isize
-                + self.increment_expression_column_offset
-                + 1,
+            col_offset: start_position.column as isize + 1,
             end_lineno: end_position.row as isize + 1,
-            end_col_offset: end_position.column as isize
-                + self.increment_expression_column_offset
-                + 1,
+            end_col_offset: end_position.column as isize + 1,
         };
 
         let stack = assemble_node_stack(node);
@@ -2864,9 +2858,9 @@ impl Parser {
                     Expr::new(
                         if_desc,
                         start_position.row as isize + 1,
-                        start_position.column as isize + self.increment_expression_column_offset,
+                        start_position.column as isize,
                         end_position.row as isize + 1,
-                        end_position.column as isize + self.increment_expression_column_offset,
+                        end_position.column as isize,
                     )
                 }
                 NAMED_EXPRESSION => {
@@ -3682,9 +3676,9 @@ impl Parser {
                     ctx: self.get_expression_context(),
                 },
                 start_position.row as isize + 1,
-                start_position.column as isize + self.increment_expression_column_offset,
+                start_position.column as isize,
                 end_position.row as isize + 1,
-                end_position.column as isize + self.increment_expression_column_offset,
+                end_position.column as isize,
             )
         };
 
@@ -4164,13 +4158,7 @@ impl Parser {
                 && !interpolation_text.starts_with("{\\n")
                 && !RE_MULTILINE_F_PARENTHESES.is_match(&interpolation_text)
             {
-                // potential CPython bug here, column offsets for interpolation nodes for
-                // nodes on the nth (where n>0) line are off by one, so we must correct them
-                // and add the base col (code before the literal, e.g. assignment statement)
-                let prev_offset = self.increment_expression_column_offset;
-                self.increment_expression_column_offset = 1 + (base_col as isize);
                 let expr_node = self.expression(&interpolation_expression)?;
-                self.increment_expression_column_offset = prev_offset;
                 expr_node
             } else {
                 self.expression(&interpolation_expression)?
