@@ -3,10 +3,14 @@
 name = "tree_sitter_python"
 version = "0.0.0"
 edition = "2021"
+build = "bindings/rust/build.rs"
+include = ["bindings/rust/*", "grammar.js", "queries/*", "src/*"]
 
 [lib]
 path = "bindings/rust/lib.rs"
-edition = "2018"
 
 [dependencies]
 tree-sitter = "0.20.8"
+
+[build-dependencies]
+cc = "1.0"
