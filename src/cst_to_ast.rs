@@ -35,7 +35,6 @@ use ast::Unaryop;
 use ast::Withitem;
 use constants::HEXA_CONVERSION;
 use constants::OCTAL_MAP;
-use constants::RE_MULTILINE_F_PARENTHESES;
 use constants::SPECIAL_CHARS;
 use errors::ParserError;
 use errors::RecoverableError;
@@ -4151,18 +4150,8 @@ impl Parser {
                 let expr = self.string(format!("'{}'", expr), false);
                 expressions.push(self.new_expr(expr, origin_node));
             }
-            let interpolation_text = node_text[start_col..end_col].to_string();
 
-            let value = if is_multiline
-                && interpolation_expression.start_position().row > base_row
-                && !interpolation_text.starts_with("{\\n")
-                && !RE_MULTILINE_F_PARENTHESES.is_match(&interpolation_text)
-            {
-                let expr_node = self.expression(&interpolation_expression)?;
-                expr_node
-            } else {
-                self.expression(&interpolation_expression)?
-            };
+            let value = self.expression(&interpolation_expression)?;
 
             expressions.push(self.new_expr(
                 ExprDesc::FormattedValue {

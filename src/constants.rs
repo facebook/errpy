@@ -3,14 +3,7 @@
 // This source code is licensed under the MIT license found in the
 // LICENSE file in the root directory of this source tree
 
-use lazy_static::lazy_static;
 use phf::phf_map;
-use regex::Regex;
-
-lazy_static! {
-    // Match multiline interpolations containing parentheses, e.g. {\na\n}
-    pub static ref RE_MULTILINE_F_PARENTHESES: Regex = Regex::new("\\{.*\\(.*\\\\n.*").unwrap();
-}
 
 pub static SPECIAL_CHARS: [char; 13] = [
     'a', 'b', 'f', 'n', 'r', 't', 'u', 'v', 'x', 'N', 'U', '\'', '\"',
