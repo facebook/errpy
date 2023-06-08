@@ -4180,7 +4180,21 @@ impl<'parser> FilteredCSTParser<'parser> {
         node_text: &str,
         apostrophe_or_quote: &String,
         multiline_offsets: &HashMap<usize, usize>,
+        current_row: &mut Option<usize>,
     ) -> ErrorableResult<()> {
+        let start_row = maybe_interpolation_node.start_position().row;
+
+        // unicode_offset only applies to entries on the same row as the unicode character
+        // after this the offset should no longer apply:
+        if let Some(some_current_row) = current_row {
+            if start_row != *some_current_row {
+                *unicode_offset = 0;
+                *current_row = Some(start_row);
+            }
+        } else {
+            *current_row = Some(start_row);
+        }
+
         if maybe_interpolation_node.kind() == "string_content" {
             for maybe_escape_sequence in maybe_interpolation_node.named_children(self.filtered_cst)
             {
@@ -4194,7 +4208,6 @@ impl<'parser> FilteredCSTParser<'parser> {
                 }
             }
         } else if maybe_interpolation_node.kind() == "interpolation" {
-            let start_row = maybe_interpolation_node.start_position().row;
             let end_row = maybe_interpolation_node.end_position().row;
             let mut start_col = maybe_interpolation_node.start_position().column;
             let mut end_col = maybe_interpolation_node.end_position().column;
@@ -4362,6 +4375,7 @@ impl<'parser> FilteredCSTParser<'parser> {
         let mut has_interpolation_nodes = false;
 
         let mut unicode_offset: usize = 0;
+        let mut current_row = None;
 
         for interpolation_node in format_node.named_children(self.filtered_cst) {
             if interpolation_node.kind() == "interpolation" {
@@ -4380,6 +4394,7 @@ impl<'parser> FilteredCSTParser<'parser> {
                 &node_text,
                 &apostrophe_or_quote,
                 &multiline_offsets,
+                &mut current_row,
             )?;
         }
         // adjusted_node_text is only required in case if there is leftover string

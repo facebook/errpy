@@ -353,6 +353,11 @@ newline2 = "\U0000000a"
 cr = "\x0d"
 backslash = "\x5c"
 
+## multiline strings with unicode escape sequences
+xx = f"""\x40
+{another_variable}
+"""
+
 ## long integers
 timestamp1 = 9223372036854775810
 timestamp2 = -9223372036854775810
