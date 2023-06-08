@@ -5003,7 +5003,7 @@ def fib(a: int) -> int:                       | def fib(a: int) -> int:
     (ba, bb) = tmp                            |     (ba, bb) = tmp                            
     inset = a in {0, 1}                       |     inset = a in {0, 1}                       
     if a <= 2 or a == 1:                      |     if a <= 2 or a == 1:                      
-        return  def 1                         |         return                                
+        return  def 1                         |         return 1                              
     elif inset:                               |     elif inset:                               
         return 1                              |         return 1                              
     else:                                     |     else:                                     
@@ -5043,7 +5043,7 @@ ERRPY Recovered AST diff:
      (ba, bb) = tmp
      inset = a in {0, 1}
      if a <= 2 or a == 1:
--        return
+-        return 1
 +        return  def 1
      elif inset:
          return 1
@@ -5066,7 +5066,7 @@ def fib(a: int) -> int:                       | def fib(a: int) -> int:
     (ba, bb) = tmp                            |     (ba, bb) = tmp                            
     inset = a in {0, 1}                       |     inset = a in {0, 1}                       
     if a <= 2 or a == 1:                      |     if a <= 2 or a == 1:                      
-        return 1 def                          |         return                                
+        return 1 def                          |         return def                            
     elif inset:                               |     elif inset:                               
         return 1                              |         return 1                              
     else:                                     |     else:                                     
@@ -5088,7 +5088,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
-1 Recoverable error detected:
+2 Recoverable errors detected:
 SyntaxError: invalid syntax at [6:16 - 6:17]
 CST Stack:
     {Node ERROR (5, 15) - (5, 16)}
@@ -5098,7 +5098,16 @@ CST Stack:
     {Node block (1, 4) - (9, 38)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-
+SyntaxError: keyword: "def" cannot be used as identifier at [6:18 - 6:21]
+CST Stack:
+    {Node identifier (5, 17) - (5, 20)}
+    {Node return_statement (5, 8) - (5, 20)}
+    {Node block (5, 8) - (5, 20)}
+    {Node if_statement (4, 4) - (9, 38)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
+Output AST is not valid according to CPython: invalid syntax (<unknown>, line 6)
 ERRPY Recovered AST diff:
 --- 
 +++ 
@@ -5106,7 +5115,7 @@ ERRPY Recovered AST diff:
      (ba, bb) = tmp
      inset = a in {0, 1}
      if a <= 2 or a == 1:
--        return
+-        return def
 +        return 1 def 
      elif inset:
          return 1
@@ -6252,7 +6261,7 @@ def fib(a: int) -> int:                       | def fib(a: int) -> int:
     if a <= 2 or a == 1:                      |     if a <= 2 or a == 1:                      
         return 1                              |         return 1                              
     elif inset:                               |     elif inset:                               
-        return  def 1                         |         return                                
+        return  def 1                         |         return 1                              
     else:                                     |     else:                                     
         return fib(a - 1) + fib(a - 2)        |         return fib(a - 1) + fib(a - 2)        
                                               |                                               
@@ -6291,7 +6300,7 @@ ERRPY Recovered AST diff:
      if a <= 2 or a == 1:
          return 1
      elif inset:
--        return
+-        return 1
 +        return  def 1
      else:
          return fib(a - 1) + fib(a - 2)
@@ -6316,7 +6325,7 @@ def fib(a: int) -> int:                       | def fib(a: int) -> int:
     if a <= 2 or a == 1:                      |     if a <= 2 or a == 1:                      
         return 1                              |         return 1                              
     elif inset:                               |     elif inset:                               
-        return 1 def                          |         return                                
+        return 1 def                          |         return def                            
     else:                                     |     else:                                     
         return fib(a - 1) + fib(a - 2)        |         return fib(a - 1) + fib(a - 2)        
                                               |                                               
@@ -6336,7 +6345,7 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
-1 Recoverable error detected:
+2 Recoverable errors detected:
 SyntaxError: invalid syntax at [8:16 - 8:17]
 CST Stack:
     {Node ERROR (7, 15) - (7, 16)}
@@ -6347,7 +6356,17 @@ CST Stack:
     {Node block (1, 4) - (9, 38)}
     {Node function_definition (0, 0) - (9, 38)}
     {Node module (0, 0) - (25, 0)}
-
+SyntaxError: keyword: "def" cannot be used as identifier at [8:18 - 8:21]
+CST Stack:
+    {Node identifier (7, 17) - (7, 20)}
+    {Node return_statement (7, 8) - (7, 20)}
+    {Node block (7, 8) - (7, 20)}
+    {Node elif_clause (6, 4) - (7, 20)}
+    {Node if_statement (4, 4) - (9, 38)}
+    {Node block (1, 4) - (9, 38)}
+    {Node function_definition (0, 0) - (9, 38)}
+    {Node module (0, 0) - (25, 0)}
+Output AST is not valid according to CPython: invalid syntax (<unknown>, line 8)
 ERRPY Recovered AST diff:
 --- 
 +++ 
@@ -6355,7 +6374,7 @@ ERRPY Recovered AST diff:
      if a <= 2 or a == 1:
          return 1
      elif inset:
--        return
+-        return def
 +        return 1 def 
      else:
          return fib(a - 1) + fib(a - 2)
@@ -7257,7 +7276,7 @@ def fib(a: int) -> int:                         | def fib(a: int) -> int:
     elif inset:                                 |     elif inset:                                 
         return 1                                |         return 1                                
     else:                                       |     else:                                       
-        return  def fib(a - 1) + fib(a - 2)     |         return                                  
+        return  def fib(a - 1) + fib(a - 2)     |         return fib(a - 1) + fib(a - 2)          
                                                 |                                                 
 def somethingelse():                            | def somethingelse():                            
     pass                                        |     pass                                        
@@ -7294,7 +7313,7 @@ ERRPY Recovered AST diff:
      elif inset:
          return 1
      else:
--        return
+-        return fib(a - 1) + fib(a - 2)
 +        return  def fib(a - 1) + fib(a - 2)
  
  def somethingelse():
@@ -7320,7 +7339,7 @@ def fib(a: int) -> int:                         | def fib(a: int) -> int:
     elif inset:                                 |     elif inset:                                 
         return 1                                |         return 1                                
     else:                                       |     else:                                       
-        return f def ib(a - 1) + fib(a - 2)     |         return                                  
+        return f def ib(a - 1) + fib(a - 2)     |         return ib(a - 1) + fib(a - 2)           
                                                 |                                                 
 def somethingelse():                            | def somethingelse():                            
     pass                                        |     pass                                        
@@ -7357,7 +7376,7 @@ ERRPY Recovered AST diff:
      elif inset:
          return 1
      else:
--        return
+-        return ib(a - 1) + fib(a - 2)
 +        return f def ib(a - 1) + fib(a - 2)
  
  def somethingelse():
@@ -7448,7 +7467,7 @@ def fib(a: int) -> int:                         | def fib(a: int) -> int:
     elif inset:                                 |     elif inset:                                 
         return 1                                |         return 1                                
     else:                                       |     else:                                       
-        return fib def (a - 1) + fib(a - 2)     |         return                                  
+        return fib def (a - 1) + fib(a - 2)     |         return def(a - 1) + fib(a - 2)          
                                                 |                                                 
 def somethingelse():                            | def somethingelse():                            
     pass                                        |     pass                                        
@@ -7466,7 +7485,7 @@ if __name__ == '__main__':                      | if __name__ == '__main__':
     main()                                      |     main()                                      
                                                 | 
 
-1 Recoverable error detected:
+2 Recoverable errors detected:
 SyntaxError: invalid syntax at [10:16 - 10:19]
 CST Stack:
     {Node ERROR (9, 15) - (9, 18)}
@@ -7477,7 +7496,19 @@ CST Stack:
     {Node block (1, 4) - (9, 43)}
     {Node function_definition (0, 0) - (9, 43)}
     {Node module (0, 0) - (25, 0)}
-
+SyntaxError: keyword: "def" cannot be used as identifier at [10:20 - 10:23]
+CST Stack:
+    {Node identifier (9, 19) - (9, 22)}
+    {Node call (9, 19) - (9, 30)}
+    {Node binary_operator (9, 19) - (9, 43)}
+    {Node return_statement (9, 8) - (9, 43)}
+    {Node block (9, 8) - (9, 43)}
+    {Node else_clause (8, 4) - (9, 43)}
+    {Node if_statement (4, 4) - (9, 43)}
+    {Node block (1, 4) - (9, 43)}
+    {Node function_definition (0, 0) - (9, 43)}
+    {Node module (0, 0) - (25, 0)}
+Output AST is not valid according to CPython: invalid syntax (<unknown>, line 10)
 ERRPY Recovered AST diff:
 --- 
 +++ 
@@ -7485,7 +7516,7 @@ ERRPY Recovered AST diff:
      elif inset:
          return 1
      else:
--        return
+-        return def(a - 1) + fib(a - 2)
 +        return fib def (a - 1) + fib(a - 2)
  
  def somethingelse():
@@ -12829,7 +12860,7 @@ def somethingelse():                               | def somethingelse():
     pass                                           |     pass                                           
                                                    |                                                    
 def format_a_string(astring: str) -> str:          | def format_a_string(astring: str) -> str:          
-    return  def ','.join([x for x in astring])     |     return                                         
+    return  def ','.join([x for x in astring])     |     return ','.join([x for x in astring])          
                                                    |                                                    
 def main() -> int:                                 | def main() -> int:                                 
     """DOC_STRING"""                               |     """DOC_STRING"""                               
@@ -12857,7 +12888,7 @@ ERRPY Recovered AST diff:
      pass
  
  def format_a_string(astring: str) -> str:
--    return
+-    return ','.join([x for x in astring])
 +    return  def ','.join([x for x in astring])
  
  def main() -> int:
@@ -12975,7 +13006,7 @@ def somethingelse():                               | def somethingelse():
     pass                                           |     pass                                           
                                                    |                                                    
 def format_a_string(astring: str) -> str:          | def format_a_string(astring: str) -> str:          
-    return ',' def .join([x for x in astring])     |     return                                         
+    return ',' def .join([x for x in astring])     |     return def.join([x for x in astring])          
                                                    |                                                    
 def main() -> int:                                 | def main() -> int:                                 
     """DOC_STRING"""                               |     """DOC_STRING"""                               
@@ -12987,7 +13018,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
     main()                                         |     main()                                         
                                                    | 
 
-1 Recoverable error detected:
+2 Recoverable errors detected:
 SyntaxError: invalid syntax at [16:12 - 16:15]
 CST Stack:
     {Node ERROR (15, 11) - (15, 14)}
@@ -12995,7 +13026,16 @@ CST Stack:
     {Node block (15, 4) - (15, 46)}
     {Node function_definition (14, 0) - (15, 46)}
     {Node module (0, 0) - (25, 0)}
-
+SyntaxError: keyword: "def" cannot be used as identifier at [16:16 - 16:19]
+CST Stack:
+    {Node identifier (15, 15) - (15, 18)}
+    {Node attribute (15, 15) - (15, 24)}
+    {Node call (15, 15) - (15, 46)}
+    {Node return_statement (15, 4) - (15, 46)}
+    {Node block (15, 4) - (15, 46)}
+    {Node function_definition (14, 0) - (15, 46)}
+    {Node module (0, 0) - (25, 0)}
+Output AST is not valid according to CPython: invalid syntax (<unknown>, line 16)
 ERRPY Recovered AST diff:
 --- 
 +++ 
@@ -13003,7 +13043,7 @@ ERRPY Recovered AST diff:
      pass
  
  def format_a_string(astring: str) -> str:
--    return
+-    return def.join([x for x in astring])
 +    return ',' def .join([x for x in astring])
  
  def main() -> int:
@@ -13105,7 +13145,7 @@ def somethingelse():                               | def somethingelse():
     pass                                           |     pass                                           
                                                    |                                                    
 def format_a_string(astring: str) -> str:          | def format_a_string(astring: str) -> str:          
-    return ','.j def oin([x for x in astring])     |     return                                         
+    return ','.j def oin([x for x in astring])     |     return oin([x for x in astring])               
                                                    |                                                    
 def main() -> int:                                 | def main() -> int:                                 
     """DOC_STRING"""                               |     """DOC_STRING"""                               
@@ -13133,7 +13173,7 @@ ERRPY Recovered AST diff:
      pass
  
  def format_a_string(astring: str) -> str:
--    return
+-    return oin([x for x in astring])
 +    return ','.j def oin([x for x in astring])
  
  def main() -> int:
@@ -13226,7 +13266,7 @@ def somethingelse():                               | def somethingelse():
     pass                                           |     pass                                           
                                                    |                                                    
 def format_a_string(astring: str) -> str:          | def format_a_string(astring: str) -> str:          
-    return ','.joi def n([x for x in astring])     |     return                                         
+    return ','.joi def n([x for x in astring])     |     return n([x for x in astring])                 
                                                    |                                                    
 def main() -> int:                                 | def main() -> int:                                 
     """DOC_STRING"""                               |     """DOC_STRING"""                               
@@ -13254,7 +13294,7 @@ ERRPY Recovered AST diff:
      pass
  
  def format_a_string(astring: str) -> str:
--    return
+-    return n([x for x in astring])
 +    return ','.joi def n([x for x in astring])
  
  def main() -> int:
@@ -14485,7 +14525,7 @@ def somethingelse():                               | def somethingelse():
     pass                                           |     pass                                           
                                                    |                                                    
 def format_a_string(astring: str) -> str:          | def format_a_string(astring: str) -> str:          
-    return ','.join([x for x in astring]) def      |     return                                         
+    return ','.join([x for x in astring]) def      |     return def                                     
                                                    |                                                    
 def main() -> int:                                 | def main() -> int:                                 
     """DOC_STRING"""                               |     """DOC_STRING"""                               
@@ -14497,7 +14537,7 @@ if __name__ == '__main__':                         | if __name__ == '__main__':
     main()                                         |     main()                                         
                                                    | 
 
-1 Recoverable error detected:
+2 Recoverable errors detected:
 SyntaxError: invalid syntax at [16:12 - 16:42]
 CST Stack:
     {Node ERROR (15, 11) - (15, 41)}
@@ -14505,7 +14545,14 @@ CST Stack:
     {Node block (15, 4) - (15, 45)}
     {Node function_definition (14, 0) - (15, 45)}
     {Node module (0, 0) - (25, 0)}
-
+SyntaxError: keyword: "def" cannot be used as identifier at [16:43 - 16:46]
+CST Stack:
+    {Node identifier (15, 42) - (15, 45)}
+    {Node return_statement (15, 4) - (15, 45)}
+    {Node block (15, 4) - (15, 45)}
+    {Node function_definition (14, 0) - (15, 45)}
+    {Node module (0, 0) - (25, 0)}
+Output AST is not valid according to CPython: invalid syntax (<unknown>, line 16)
 ERRPY Recovered AST diff:
 --- 
 +++ 
@@ -14513,7 +14560,7 @@ ERRPY Recovered AST diff:
      pass
  
  def format_a_string(astring: str) -> str:
--    return
+-    return def
 +    return ','.join([x for x in astring]) def 
  
  def main() -> int:
@@ -15696,7 +15743,7 @@ def format_a_string(astring: str) -> str:     | def format_a_string(astring: str
     return ','.join([x for x in astring])     |     return ','.join([x for x in astring])     
                                               |                                               
 def main() -> int:                            | def main() -> int:                            
-    "" def "DOC_STRING"""                     |     """eDOC_STRING"""                         
+    "" def "DOC_STRING"""                     |     """DOC_STRING"""                          
     somethingelse()                           |     somethingelse()                           
     fib(12)                                   |     fib(12)                                   
     astring = format_a_string()               |     astring = format_a_string()               
@@ -15705,17 +15752,10 @@ if __name__ == '__main__':                    | if __name__ == '__main__':
     main()                                    |     main()                                    
                                               | 
 
-2 Recoverable errors detected:
+1 Recoverable error detected:
 SyntaxError: invalid syntax at [19:8 - 19:11]
 CST Stack:
     {Node ERROR (18, 7) - (18, 10)}
-    {Node concatenated_string (18, 4) - (18, 25)}
-    {Node expression_statement (18, 4) - (18, 25)}
-    {Node block (18, 4) - (22, 12)}
-    {Node function_definition (17, 0) - (22, 12)}
-    {Node module (0, 0) - (25, 0)}
-UnexpectedExpression: Invalid string prefix: "def" at [19:5 - 19:26]
-CST Stack:
     {Node concatenated_string (18, 4) - (18, 25)}
     {Node expression_statement (18, 4) - (18, 25)}
     {Node block (18, 4) - (22, 12)}
@@ -15729,7 +15769,7 @@ ERRPY Recovered AST diff:
      return ','.join([x for x in astring])
  
  def main() -> int:
--    """eDOC_STRING"""
+-    """DOC_STRING"""
 +    "" def "DOC_STRING"""
      somethingelse()
      fib(12)
@@ -19597,7 +19637,7 @@ def main() -> int:                            | def main() -> int:
     somethingelse()                           |     somethingelse()                           
     fib(12)                                   |     fib(12)                                   
     astring = format_a_string()               |     astring = format_a_string()               
-    return  def 0                             |     return                                    
+    return  def 0                             |     return 0                                  
 if __name__ == '__main__':                    | if __name__ == '__main__':                    
     main()                                    |     main()                                    
                                               | 
@@ -19618,7 +19658,7 @@ ERRPY Recovered AST diff:
      somethingelse()
      fib(12)
      astring = format_a_string()
--    return
+-    return 0
 +    return  def 0
  if __name__ == '__main__':
 -    main()+    main()
@@ -19652,12 +19692,12 @@ def main() -> int:                            | def main() -> int:
     somethingelse()                           |     somethingelse()                           
     fib(12)                                   |     fib(12)                                   
     astring = format_a_string()               |     astring = format_a_string()               
-    return 0 def                              |     return                                    
+    return 0 def                              |     return def                                
 if __name__ == '__main__':                    | if __name__ == '__main__':                    
     main()                                    |     main()                                    
                                               | 
 
-1 Recoverable error detected:
+2 Recoverable errors detected:
 SyntaxError: invalid syntax at [23:12 - 23:13]
 CST Stack:
     {Node ERROR (22, 11) - (22, 12)}
@@ -19665,7 +19705,14 @@ CST Stack:
     {Node block (18, 4) - (22, 16)}
     {Node function_definition (17, 0) - (22, 16)}
     {Node module (0, 0) - (25, 0)}
-
+SyntaxError: keyword: "def" cannot be used as identifier at [23:14 - 23:17]
+CST Stack:
+    {Node identifier (22, 13) - (22, 16)}
+    {Node return_statement (22, 4) - (22, 16)}
+    {Node block (18, 4) - (22, 16)}
+    {Node function_definition (17, 0) - (22, 16)}
+    {Node module (0, 0) - (25, 0)}
+Output AST is not valid according to CPython: invalid syntax (<unknown>, line 23)
 ERRPY Recovered AST diff:
 --- 
 +++ 
@@ -19673,7 +19720,7 @@ ERRPY Recovered AST diff:
      somethingelse()
      fib(12)
      astring = format_a_string()
--    return
+-    return def
 +    return 0 def 
  if __name__ == '__main__':
 -    main()+    main()

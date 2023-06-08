@@ -6459,7 +6459,7 @@ def fib(a: int) -> int:                       | def fib(a: int) -> int:
     elif inset:                               |     elif inset:                               
         return 1                              |         return 1                              
     else:                                     |     else:                                     
-        return f ib(a - 1) + fib(a - 2)       |         return                                
+        return f ib(a - 1) + fib(a - 2)       |         return ib(a - 1) + fib(a - 2)         
                                               |                                               
 def somethingelse():                          | def somethingelse():                          
     pass                                      |     pass                                      
@@ -6496,7 +6496,7 @@ ERRPY Recovered AST diff:
      elif inset:
          return 1
      else:
--        return
+-        return ib(a - 1) + fib(a - 2)
 +        return f ib(a - 1) + fib(a - 2)
  
  def somethingelse():

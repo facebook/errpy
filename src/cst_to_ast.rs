@@ -39,6 +39,8 @@ use constants::SPECIAL_CHARS;
 use errors::ParserError;
 use errors::RecoverableError;
 use itertools::join;
+use node_wrapper::build_node_tree;
+use node_wrapper::Node;
 use sitter::get_node_type;
 use sitter::AugAssignOperator;
 use sitter::BinaryOperator;
@@ -50,12 +52,14 @@ use sitter::ProductionKind;
 use string_helpers::categorize_string;
 use string_helpers::string_prefix;
 use string_helpers::StringCategory;
-use tree_sitter::Node;
+use tree_sitter::Node as TSNode;
 use tree_sitter::Parser as SitterParser;
 
 use crate::ast;
 use crate::constants;
 use crate::errors;
+use crate::node_wrapper;
+use crate::node_wrapper::FilteredCST;
 use crate::sitter;
 use crate::string_helpers;
 
@@ -85,6 +89,13 @@ pub struct RecoverableErrorLocation {
 pub struct Parser {
     code: String,
     pub ast_and_metadata: ASTAndMetaData,
+}
+
+#[derive(Debug)]
+pub struct FilteredCSTParser<'a> {
+    // `Filtered cst parser` is created after an initial phase of parsing in `Parser`
+    parser: &'a mut Parser,
+    filtered_cst: &'a FilteredCST<'a>,
     // contingent on if we are on lhs or rhs of assignment or del expression
     current_expr_ctx: Vec<Option<ExprContext>>,
     integer_overflow_error: ParseIntError,
@@ -223,38 +234,84 @@ impl Arg {
     }
 }
 
-fn assemble_node_stack(node: &Node) -> Vec<String> {
-    let mut result: Vec<String> = Vec::new();
-    let mut current: Option<Node> = Some(*node);
-    while let Some(n) = current {
-        result.push(format!("{:?}", n));
-        current = n.parent();
-    }
-    result
-}
-
 impl Parser {
     pub fn new(code: String) -> Self {
         Parser {
             code,
             ast_and_metadata: ASTAndMetaData::new(),
-            current_expr_ctx: Vec::new(),
-            integer_overflow_error: "184467440737095516150".parse::<isize>().err().unwrap(),
-            // keywords obtained through running: buck2 run errpy/facebook/scripts:list_python_keywords -- errpy/facebook/scripts/peg_grammar_specs/3.10
-            python_keywords: vec![
-                "and", "as", "assert", "async", "await", "break", "class", "continue", "def",
-                "del", "elif", "else", "except", "finally", "for", "from", "global", "if",
-                "import", "in", "is", "lambda", "nonlocal", "not", "or", "pass", "raise", "return",
-                "try", "while", "with", "yield",
-            ]
-            .into_iter()
-            .map(String::from)
-            .collect(),
         }
     }
 
     pub fn get_ast_and_metadata(&self) -> &ASTAndMetaData {
         &self.ast_and_metadata
+    }
+
+    ///
+    /// Public entry point to parse code.
+    /// Code is defined at construction time (`new`) but it could also be passed
+    /// to this function. We could also pass a delta
+    ///
+    pub fn parse(&mut self) -> Result<(), ParserError> {
+        let mut cst_to_ast = SitterParser::new();
+        cst_to_ast.set_language(tree_sitter_python::language())?;
+        let tree = match cst_to_ast.parse(&self.code, None) {
+            Some(t) => t,
+            None => return Err(ParserError::DidNotComplete),
+        };
+
+        let tree_sitter_root_node = tree.root_node();
+        self.find_error_nodes(tree_sitter_root_node);
+
+        let filtered_cst = build_node_tree(tree_sitter_root_node);
+        let mut filtered_cst_parser = FilteredCSTParser::new(self, &filtered_cst);
+        filtered_cst_parser.parse_module(filtered_cst.get_root());
+        Ok(())
+    }
+
+    fn assemble_node_stack_tsnode(&mut self, node: &TSNode) -> Vec<String> {
+        let mut result: Vec<String> = Vec::new();
+        let mut current: Option<TSNode> = Some(*node);
+        while let Some(n) = current {
+            result.push(format!("{:?}", n));
+            current = n.parent();
+        }
+        result
+    }
+
+    ///
+    /// Mark all error nodes from the Tree-sitter CST as SyntaxErrors
+    ///
+    fn find_error_nodes(&mut self, node: TSNode) {
+        if node.kind() == "ERROR" {
+            let parser_error = RecoverableError::SyntaxError("invalid syntax".to_string());
+
+            let start_position = node.start_position();
+            let end_position = node.end_position();
+
+            let location = RecoverableErrorLocation {
+                lineno: start_position.row as isize + 1,
+                col_offset: start_position.column as isize + 1,
+                end_lineno: end_position.row as isize + 1,
+                end_col_offset: end_position.column as isize + 1,
+            };
+
+            let stack = self.assemble_node_stack_tsnode(&node);
+
+            self.ast_and_metadata
+                .recoverable_errors
+                .push(RecoverableErrorWithLocation {
+                    parser_error,
+                    location,
+                    stack,
+                });
+
+            // don't process child nodes of ERROR nodes - otherwise this can
+            // lead to a cascade of ERROR nodes being reported
+            return;
+        }
+        for child in node.children(&mut node.walk()) {
+            self.find_error_nodes(child);
+        }
     }
 
     fn new_pattern(&mut self, pattern_desc: PatternDesc, node: &Node) -> Pattern {
@@ -291,19 +348,40 @@ impl Parser {
             end_position.column as isize,
         )
     }
+}
+
+impl<'parser> FilteredCSTParser<'parser> {
+    pub fn new(parser: &'parser mut Parser, filtered_cst: &'parser FilteredCST) -> Self {
+        FilteredCSTParser {
+            parser,
+            filtered_cst,
+            current_expr_ctx: Vec::new(),
+            integer_overflow_error: "184467440737095516150".parse::<isize>().err().unwrap(),
+            // keywords obtained through running: buck2 run errpy/facebook/scripts:list_python_keywords -- errpy/facebook/scripts/peg_grammar_specs/3.10
+            python_keywords: vec![
+                "and", "as", "assert", "async", "await", "break", "class", "continue", "def",
+                "del", "elif", "else", "except", "finally", "for", "from", "global", "if",
+                "import", "in", "is", "lambda", "nonlocal", "not", "or", "pass", "raise", "return",
+                "try", "while", "with", "yield",
+            ]
+            .into_iter()
+            .map(String::from)
+            .collect(),
+        }
+    }
+
+    fn assemble_node_stack(&mut self, node: &Node) -> Vec<String> {
+        let mut result: Vec<String> = Vec::new();
+        let mut current: Option<&Node> = Some(node);
+
+        while let Some(some_node) = current {
+            result.push(format!("{:?}", some_node));
+            current = some_node.parent(self.filtered_cst);
+        }
+        result
+    }
 
     fn record_recoverable_error(&mut self, parser_error: RecoverableError, node: &Node) {
-        if node.kind() == "ERROR" {
-            // Error nodes should only be recorded as SyntaxError's
-            // TODO: remove this code when we have filtered out ERROR nodes
-            // from the CST to be walked [once they have already been marked]
-            // as SyntaxError's
-            if let RecoverableError::SyntaxError(_) = parser_error {
-            } else {
-                return;
-            }
-        }
-
         let start_position = node.start_position();
         let end_position = node.end_position();
 
@@ -314,9 +392,10 @@ impl Parser {
             end_col_offset: end_position.column as isize + 1,
         };
 
-        let stack = assemble_node_stack(node);
+        let stack = self.assemble_node_stack(node);
 
-        self.ast_and_metadata
+        self.parser
+            .ast_and_metadata
             .recoverable_errors
             .push(RecoverableErrorWithLocation {
                 parser_error,
@@ -325,50 +404,12 @@ impl Parser {
             });
     }
 
-    ///
-    /// Public entry point to parse code.
-    /// Code is defined at construction time (`new`) but it could also be passed
-    /// to this function. We could also pass a delta
-    ///
-    pub fn parse(&mut self) -> Result<(), ParserError> {
-        let mut cst_to_ast = SitterParser::new();
-        cst_to_ast.set_language(tree_sitter_python::language())?;
-        let tree = match cst_to_ast.parse(&self.code, None) {
-            Some(t) => t,
-            None => return Err(ParserError::DidNotComplete),
-        };
-
-        let root = &tree.root_node();
-
-        self.find_error_nodes(root);
-        self.parse_module(root);
-        Ok(())
-    }
-
-    ///
-    /// Mark all error nodes from the Tree-sitter CST as SyntaxErrors
-    ///
-    fn find_error_nodes(&mut self, node: &Node) {
-        if node.kind() == "ERROR" {
-            self.record_recoverable_error(
-                RecoverableError::SyntaxError("invalid syntax".to_string()),
-                node,
-            );
-            // don't process child nodes of ERROR nodes - otherwise this can
-            // lead to a cascade of ERROR nodes being reported
-            return;
-        }
-        for child in node.children(&mut node.walk()) {
-            self.find_error_nodes(&child);
-        }
-    }
-
     // Process a module.
     // module: $ => repeat($._statement),
-    fn parse_module(&mut self, root: &Node) {
+    pub fn parse_module(&mut self, root: &Node) {
         // root must be a module
         if root.kind() != "module" {
-            self.ast_and_metadata.ast = Some(Mod_::Module {
+            self.parser.ast_and_metadata.ast = Some(Mod_::Module {
                 body: vec![],
                 type_ignores: vec![],
             });
@@ -376,7 +417,7 @@ impl Parser {
         }
         let mut body = vec![];
         self.block(root, &mut body);
-        self.ast_and_metadata.ast = Some(Mod_::Module {
+        self.parser.ast_and_metadata.ast = Some(Mod_::Module {
             body,
             type_ignores: vec![],
         });
@@ -391,8 +432,8 @@ impl Parser {
     // Process a generic block updating `statements`.
     // Generally sequences of `repeat($._statement)`
     fn block(&mut self, block: &Node, statements: &mut Vec<Stmt>) {
-        for child in block.named_children(&mut block.walk()) {
-            let node_type = get_node_type(&child);
+        for child in block.named_children(self.filtered_cst) {
+            let node_type = get_node_type(child);
             match &node_type {
                 NodeType::Production(production) => match &production.production_kind {
                     ProductionKind::COMMENT => (),
@@ -504,13 +545,12 @@ impl Parser {
     //  ':',
     //  repeat(field('alternative', $.case_clause))),
     // ),
-    fn match_statement(&mut self, match_node: &Node) -> ErrorableResult<StmtDesc> {
+    fn match_statement<'a>(&mut self, match_node: &'a Node<'a>) -> ErrorableResult<StmtDesc> {
         let mut cases: Vec<MatchCase> = vec![];
 
-        for case_clause_node in
-            match_node.children_by_field_name("alternative", &mut match_node.walk())
+        for case_clause_node in match_node.children_by_field_name(self.filtered_cst, "alternative")
         {
-            let case_clause = self.case_clause(&case_clause_node);
+            let case_clause = self.case_clause(case_clause_node);
 
             match case_clause {
                 Ok(case_clause) => cases.push(case_clause),
@@ -521,9 +561,9 @@ impl Parser {
         }
 
         let subject_node = match_node
-            .child_by_field_name("subject")
+            .child_by_field_name(self.filtered_cst, "subject")
             .expect("subject node");
-        let subject = self.expression(&subject_node)?;
+        let subject = self.expression(subject_node)?;
 
         Ok(StmtDesc::Match { subject, cases })
     }
@@ -541,29 +581,29 @@ impl Parser {
     //   ':',
     //   field('consequence', $._suite)
     // ),
-    fn case_clause(&mut self, case_clause_node: &Node) -> ErrorableResult<MatchCase> {
-        let pattern_node = &case_clause_node
-            .child_by_field_name("pattern")
+    fn case_clause<'a>(&mut self, case_clause_node: &'a Node<'a>) -> ErrorableResult<MatchCase> {
+        let pattern_node = case_clause_node
+            .child_by_field_name(self.filtered_cst, "pattern")
             .expect("missing pattern");
 
         let pattern = match pattern_node.kind() {
             "case_pattern" => self.case_pattern(pattern_node)?,
             _ => {
                 let pattern_desc = self.case_open_sequence_pattern(pattern_node)?;
-                self.new_pattern(pattern_desc, pattern_node)
+                self.parser.new_pattern(pattern_desc, pattern_node)
             }
         };
 
-        let guard = match &case_clause_node.child_by_field_name("guard") {
+        let guard = match &case_clause_node.child_by_field_name(self.filtered_cst, "guard") {
             Some(guard) => Some(self.if_clause(guard)?),
             None => None,
         };
 
         let body_node = case_clause_node
-            .child_by_field_name("consequence")
+            .child_by_field_name(self.filtered_cst, "consequence")
             .expect("missing body");
         let mut body = vec![];
-        self.block(&body_node, &mut body);
+        self.block(body_node, &mut body);
 
         Ok(MatchCase {
             pattern,
@@ -573,12 +613,12 @@ impl Parser {
     }
 
     fn case_pattern(&mut self, pattern_node: &Node) -> ErrorableResult<Pattern> {
-        let as_or_or_pattern_node = &pattern_node.child(0).expect("child");
+        let as_or_or_pattern_node = &pattern_node.child(self.filtered_cst, 0).expect("child");
 
         match as_or_or_pattern_node.kind() {
             "case_as_pattern" => {
                 let case_as_pattern = self.case_as_pattern(as_or_or_pattern_node)?;
-                Ok(self.new_pattern(case_as_pattern, pattern_node))
+                Ok(self.parser.new_pattern(case_as_pattern, pattern_node))
             }
             _ => self.case_or_pattern(as_or_or_pattern_node),
         }
@@ -586,14 +626,14 @@ impl Parser {
 
     fn case_as_pattern(&mut self, as_pattern_node: &Node) -> ErrorableResult<PatternDesc> {
         let or_pattern_node = as_pattern_node
-            .child_by_field_name("or_pattern")
+            .child_by_field_name(self.filtered_cst, "or_pattern")
             .expect("missing as pattern left hand side pattern");
-        let pattern = Some(self.case_or_pattern(&or_pattern_node)?);
+        let pattern = Some(self.case_or_pattern(or_pattern_node)?);
 
         let name_node = as_pattern_node
-            .child_by_field_name("identifier")
+            .child_by_field_name(self.filtered_cst, "identifier")
             .expect("missing as pattern identifier");
-        let name = Some(self.get_valid_identifier(&name_node));
+        let name = Some(self.get_valid_identifier(name_node));
 
         Ok(PatternDesc::MatchAs { pattern, name })
     }
@@ -602,21 +642,20 @@ impl Parser {
     //  $.case_closed_pattern, repeat(seq('|', $.case_closed_pattern))),
     fn case_or_pattern(&mut self, or_pattern_node: &Node) -> ErrorableResult<Pattern> {
         let mut case_closed_pattern_nodes = vec![];
-        for case_closed_pattern_node in or_pattern_node.named_children(&mut or_pattern_node.walk())
-        {
+        for case_closed_pattern_node in or_pattern_node.named_children(self.filtered_cst) {
             case_closed_pattern_nodes.push(case_closed_pattern_node);
         }
 
         match case_closed_pattern_nodes.len() {
             1 => {
                 let case_closed_pattern_node = case_closed_pattern_nodes.pop().unwrap();
-                self.case_closed_pattern(&case_closed_pattern_node)
+                self.case_closed_pattern(case_closed_pattern_node)
             }
             _ => {
                 let mut or_choices = vec![];
 
                 for case_closed_pattern_node in case_closed_pattern_nodes {
-                    match self.case_closed_pattern(&case_closed_pattern_node) {
+                    match self.case_closed_pattern(case_closed_pattern_node) {
                         Ok(case_closed_pattern) => {
                             or_choices.push(case_closed_pattern);
                         }
@@ -624,7 +663,7 @@ impl Parser {
                     }
                 }
                 let match_or = PatternDesc::MatchOr(or_choices);
-                Ok(self.new_pattern(match_or, or_pattern_node))
+                Ok(self.parser.new_pattern(match_or, or_pattern_node))
             }
         }
     }
@@ -638,8 +677,13 @@ impl Parser {
     //  $.case_mapping_pattern,
     //  $.case_class_pattern,
     // ),
-    fn case_closed_pattern(&mut self, case_closed_pattern_node: &Node) -> ErrorableResult<Pattern> {
-        let one_child = &case_closed_pattern_node.child(0).unwrap();
+    fn case_closed_pattern<'a>(
+        &mut self,
+        case_closed_pattern_node: &'a Node<'a>,
+    ) -> ErrorableResult<Pattern> {
+        let one_child = &case_closed_pattern_node
+            .child(self.filtered_cst, 0)
+            .unwrap();
 
         let node_kind = one_child.kind();
 
@@ -656,14 +700,14 @@ impl Parser {
                     // One element is translated to a identifier wrapped into a MatchAs
                     // More than one is translated into Attribute access pattern wrapped in a MatchValue
                     let mut name_parts = vec![];
-                    for part in one_child.named_children(&mut one_child.walk()) {
+                    for part in one_child.named_children(self.filtered_cst) {
                         name_parts.push(part);
                     }
 
                     match name_parts.len() {
                         1 => PatternDesc::MatchAs {
                             pattern: None,
-                            name: Some(self.get_valid_identifier(&name_parts.pop().unwrap())),
+                            name: Some(self.get_valid_identifier(name_parts.pop().unwrap())),
                         },
                         _ => {
                             // numtiple dot namess: `a.b.c` treated as a MatchValue of Attribute accesses
@@ -672,7 +716,7 @@ impl Parser {
                                     name_parts, one_child,
                                 );
 
-                            PatternDesc::MatchValue(self.new_expr(expr_desc, one_child))
+                            PatternDesc::MatchValue(self.parser.new_expr(expr_desc, one_child))
                         }
                     }
                 }
@@ -690,7 +734,9 @@ impl Parser {
                 }
             };
 
-            Ok(self.new_pattern(pattern_desc, case_closed_pattern_node))
+            Ok(self
+                .parser
+                .new_pattern(pattern_desc, case_closed_pattern_node))
         }
     }
 
@@ -703,24 +749,27 @@ impl Parser {
     //   $.false,
     //   $.none
     // ),
-    fn case_literal_pattern(
+    fn case_literal_pattern<'a>(
         &mut self,
-        literal_pattern_node: &Node,
+        literal_pattern_node: &'a Node<'a>,
     ) -> ErrorableResult<PatternDesc> {
         // True, False, None are mapped to MatchSingleton, everything else to MatchValue
-        if literal_pattern_node.child_by_field_name("neg").is_some() {
+        if literal_pattern_node
+            .child_by_field_name(self.filtered_cst, "neg")
+            .is_some()
+        {
             // negative number
-            let child_node = &literal_pattern_node.child(1).unwrap();
+            let child_node = &literal_pattern_node.child(self.filtered_cst, 1).unwrap();
             let operand = self.expression(child_node)?;
             let expr_desc = ExprDesc::UnaryOp {
                 op: Unaryop::USub,
                 operand,
             };
-            let value = self.new_expr(expr_desc, literal_pattern_node);
+            let value = self.parser.new_expr(expr_desc, literal_pattern_node);
             return Ok(PatternDesc::MatchValue(value));
         }
 
-        let child_node = &literal_pattern_node.child(0).unwrap();
+        let child_node = &literal_pattern_node.child(self.filtered_cst, 0).unwrap();
         Ok(match child_node.kind() {
             "false" => PatternDesc::MatchSingleton(Some(ConstantDesc::Bool(false))),
             "true" => PatternDesc::MatchSingleton(Some(ConstantDesc::Bool(true))),
@@ -739,15 +788,15 @@ impl Parser {
     //  seq($.dotted_name, '(', $.case_positional_patterns, ',', $.case_keyword_patterns, optional(','), ')'),
     // ),
     fn case_class_pattern(&mut self, class_pattern_node: &Node) -> ErrorableResult<PatternDesc> {
-        let dotted_name_node = class_pattern_node.child(0).unwrap();
+        let dotted_name_node = class_pattern_node.child(self.filtered_cst, 0).unwrap();
 
-        let cls: Expr = self.handle_class_pattern_name(&dotted_name_node);
+        let cls: Expr = self.handle_class_pattern_name(dotted_name_node);
         let mut patterns: Vec<Pattern> = vec![];
         let mut kwd_attrs: Vec<String> = vec![];
         let mut kwd_patterns: Vec<Pattern> = vec![];
 
         let mut child_nodes = vec![];
-        for child_node in class_pattern_node.named_children(&mut class_pattern_node.walk()) {
+        for child_node in class_pattern_node.named_children(self.filtered_cst) {
             child_nodes.push(child_node);
         }
 
@@ -788,13 +837,13 @@ impl Parser {
 
     fn wrap_dotted_name_into_attribute_access_for_case_patterns(
         &mut self,
-        name_parts: Vec<Node>,
+        name_parts: Vec<&Node>,
         node: &Node,
     ) -> ExprDesc {
         let mut head_expression: Option<ExprDesc> = None;
-        let mut prev_node: Option<Node> = None;
+        let mut prev_node: Option<&Node> = None;
         for part_node in name_parts {
-            let part_as_string = self.get_valid_identifier(&part_node);
+            let part_as_string = self.get_valid_identifier(part_node);
             let ctx = ExprContext::Load;
             head_expression = Some(match head_expression {
                 None => ExprDesc::Name {
@@ -802,10 +851,10 @@ impl Parser {
                     ctx,
                 },
                 Some(head_expression) => {
-                    let head_as_expr = self.new_expr_with_start_end_node(
+                    let head_as_expr = self.parser.new_expr_with_start_end_node(
                         head_expression,
                         node,
-                        &prev_node.unwrap(),
+                        prev_node.unwrap(),
                     );
 
                     ExprDesc::Attribute {
@@ -825,7 +874,7 @@ impl Parser {
         // One element is translated to a Name node
         // More than one is translated into Attribute access pattern of Name nodes
         let mut name_parts = vec![];
-        for part in dotted_name_node.named_children(&mut dotted_name_node.walk()) {
+        for part in dotted_name_node.named_children(self.filtered_cst) {
             name_parts.push(part);
         }
 
@@ -833,7 +882,7 @@ impl Parser {
 
         let expr_desc = match name_parts.len() {
             1 => {
-                let id = self.get_valid_identifier(&name_parts.pop().unwrap());
+                let id = self.get_valid_identifier(name_parts.pop().unwrap());
                 ExprDesc::Name { id, ctx }
             }
             _ => self.wrap_dotted_name_into_attribute_access_for_case_patterns(
@@ -841,7 +890,7 @@ impl Parser {
                 dotted_name_node,
             ),
         };
-        self.new_expr(expr_desc, dotted_name_node)
+        self.parser.new_expr(expr_desc, dotted_name_node)
     }
 
     // case_positional_patterns: $ => prec.left(commaSep1($.case_pattern)),
@@ -850,10 +899,8 @@ impl Parser {
         positional_patterns_node: &Node,
         patterns: &mut Vec<Pattern>,
     ) {
-        for case_pattern_node in
-            positional_patterns_node.named_children(&mut positional_patterns_node.walk())
-        {
-            match self.case_pattern(&case_pattern_node) {
+        for case_pattern_node in positional_patterns_node.named_children(self.filtered_cst) {
+            match self.case_pattern(case_pattern_node) {
                 Ok(pattern) => patterns.push(pattern),
                 _ => (),
             }
@@ -867,12 +914,10 @@ impl Parser {
         kwd_attrs: &mut Vec<String>,
         kwd_patterns: &mut Vec<Pattern>,
     ) {
-        for keyword_pattern_node in
-            keyword_patterns_node.named_children(&mut keyword_patterns_node.walk())
-        {
+        for keyword_pattern_node in keyword_patterns_node.named_children(self.filtered_cst) {
             // we ignore the ErrorableResult here as it will have already been handled in `case_key_value_pattern`
             // we cal .ok() and discard the result here to keep the clippy linter quiet
-            self.case_keyword_pattern(&keyword_pattern_node, kwd_attrs, kwd_patterns)
+            self.case_keyword_pattern(keyword_pattern_node, kwd_attrs, kwd_patterns)
                 .ok();
         }
     }
@@ -885,10 +930,10 @@ impl Parser {
         kwd_patterns: &mut Vec<Pattern>,
     ) -> ErrorableResult<()> {
         let key_node = &keyword_patterns_node
-            .child_by_field_name("name")
+            .child_by_field_name(self.filtered_cst, "name")
             .expect("name node of keyword pattern");
         let value_node = &keyword_patterns_node
-            .child_by_field_name("value")
+            .child_by_field_name(self.filtered_cst, "value")
             .expect("value node of keyword pattern");
 
         kwd_attrs.push(self.get_valid_identifier(key_node));
@@ -913,10 +958,10 @@ impl Parser {
 
         if child_count != 2 {
             let second_child = &group_pattern_node
-                .child(1)
+                .child(self.filtered_cst, 1)
                 .expect("first child of group mapping pattern node");
             let third_child = &group_pattern_node
-                .child(2)
+                .child(self.filtered_cst, 2)
                 .expect("second child of group mapping pattern node");
 
             match (second_child.kind(), third_child.kind()) {
@@ -948,30 +993,29 @@ impl Parser {
         keys: &mut Vec<Expr>,
         patterns: &mut Vec<Pattern>,
     ) {
-        for case_key_value_pattern_node in
-            case_items_pattern_node.named_children(&mut case_items_pattern_node.walk())
+        for case_key_value_pattern_node in case_items_pattern_node.named_children(self.filtered_cst)
         {
             // we ignore the ErrorableResult here as it will have already been handled in `case_key_value_pattern`
             // we cal .ok() and discard the result here to keep the clippy linter quiet
-            self.case_key_value_pattern(&case_key_value_pattern_node, keys, patterns)
+            self.case_key_value_pattern(case_key_value_pattern_node, keys, patterns)
                 .ok();
         }
     }
 
-    fn case_key_value_pattern(
+    fn case_key_value_pattern<'a>(
         &mut self,
-        case_items_pattern_node: &Node,
+        case_items_pattern_node: &'a Node<'a>,
         keys: &mut Vec<Expr>,
         patterns: &mut Vec<Pattern>,
     ) -> ErrorableResult<()> {
         let key_node = case_items_pattern_node
-            .child_by_field_name("key")
+            .child_by_field_name(self.filtered_cst, "key")
             .expect("key node of key value pattern");
         let value_node = &case_items_pattern_node
-            .child_by_field_name("value")
+            .child_by_field_name(self.filtered_cst, "value")
             .expect("value node of key value pattern");
 
-        let key_node_child = &key_node.child(0).unwrap();
+        let key_node_child = &key_node.child(self.filtered_cst, 0).unwrap();
         keys.push(self.expression(key_node_child)?);
 
         patterns.push(self.case_pattern(value_node)?);
@@ -980,14 +1024,16 @@ impl Parser {
     }
 
     fn case_double_star_pattern(&mut self, group_pattern_node: &Node) -> String {
-        let identifier = &group_pattern_node.child(1).expect("identifier");
+        let identifier = &group_pattern_node
+            .child(self.filtered_cst, 1)
+            .expect("identifier");
         self.get_valid_identifier(identifier)
     }
 
     // case_group_pattern: $ => seq( '(', field("case_pattern", $.case_pattern), ')'),
     fn case_group_pattern(&mut self, group_pattern_node: &Node) -> ErrorableResult<Pattern> {
         let case_pattern_node = &group_pattern_node
-            .child_by_field_name("case_pattern")
+            .child_by_field_name(self.filtered_cst, "case_pattern")
             .expect("case_pattern of case_group_pattern");
         self.case_pattern(case_pattern_node)
     }
@@ -1001,7 +1047,8 @@ impl Parser {
         sequence_pattern_node: &Node,
     ) -> ErrorableResult<PatternDesc> {
         if sequence_pattern_node.child_count() == 3 {
-            let maybe_or_open_sequence_pattern_node = &sequence_pattern_node.child(1).unwrap();
+            let maybe_or_open_sequence_pattern_node =
+                &sequence_pattern_node.child(self.filtered_cst, 1).unwrap();
             match maybe_or_open_sequence_pattern_node.kind() {
                 "case_maybe_sequence_pattern" => {
                     let mut patterns = vec![];
@@ -1032,10 +1079,10 @@ impl Parser {
         let mut patterns = vec![];
 
         let maybe_star_pattern_node = open_sequence_pattern_node
-            .child_by_field_name("maybe_star")
+            .child_by_field_name(self.filtered_cst, "maybe_star")
             .unwrap();
 
-        let pattern = self.case_maybe_star_pattern(&maybe_star_pattern_node);
+        let pattern = self.case_maybe_star_pattern(maybe_star_pattern_node);
         match pattern {
             Ok(pattern) => {
                 patterns.push(pattern);
@@ -1044,9 +1091,9 @@ impl Parser {
         }
 
         if let Some(maybe_maybe_sequence_pattern_node) =
-            open_sequence_pattern_node.child_by_field_name("maybe_sequence")
+            open_sequence_pattern_node.child_by_field_name(self.filtered_cst, "maybe_sequence")
         {
-            self.case_maybe_sequence_pattern(&maybe_maybe_sequence_pattern_node, &mut patterns)
+            self.case_maybe_sequence_pattern(maybe_maybe_sequence_pattern_node, &mut patterns)
         }
 
         Ok(PatternDesc::MatchSequence(patterns))
@@ -1058,10 +1105,9 @@ impl Parser {
         maybe_sequence_pattern_node: &Node,
         patterns: &mut Vec<Pattern>,
     ) {
-        for maybe_star_pattern_node in
-            maybe_sequence_pattern_node.named_children(&mut maybe_sequence_pattern_node.walk())
+        for maybe_star_pattern_node in maybe_sequence_pattern_node.named_children(self.filtered_cst)
         {
-            let pattern = self.case_maybe_star_pattern(&maybe_star_pattern_node);
+            let pattern = self.case_maybe_star_pattern(maybe_star_pattern_node);
             match pattern {
                 Ok(pattern) => {
                     patterns.push(pattern);
@@ -1079,7 +1125,9 @@ impl Parser {
         &mut self,
         maybe_sequence_pattern_node: &Node,
     ) -> ErrorableResult<Pattern> {
-        let one_child = &maybe_sequence_pattern_node.child(0).unwrap();
+        let one_child = &maybe_sequence_pattern_node
+            .child(self.filtered_cst, 0)
+            .unwrap();
         match one_child.kind() {
             "case_star_pattern" => Ok(self.case_star_pattern(one_child)),
             _ => self.case_pattern(one_child),
@@ -1092,7 +1140,7 @@ impl Parser {
     // ),
     fn case_star_pattern(&mut self, star_pattern_node: &Node) -> Pattern {
         let one_child = &star_pattern_node
-            .child(1)
+            .child(self.filtered_cst, 1)
             .expect("case_star_pattern child node");
 
         let pattern_desc = match one_child.kind() {
@@ -1102,7 +1150,7 @@ impl Parser {
             }
             _ => PatternDesc::MatchStar(None), // case_wildcard_pattern
         };
-        self.new_pattern(pattern_desc, star_pattern_node)
+        self.parser.new_pattern(pattern_desc, star_pattern_node)
     }
 
     // decorated_definition: $ => seq(
@@ -1112,28 +1160,30 @@ impl Parser {
     //     $.function_definition
     //   ))
     // ),
-    fn decorated_definition(&mut self, node: &Node) -> ErrorableResult<Stmt> {
+    fn decorated_definition<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<Stmt> {
         use ProductionKind::*;
 
         // resolves to a class definition or funcdef
         let mut decorator_list: Vec<Expr> = vec![];
 
-        for child in node.named_children(&mut node.walk()) {
-            let node_type = get_node_type(&child);
+        for child in node.named_children(self.filtered_cst) {
+            let node_type = get_node_type(child);
             match &node_type {
                 NodeType::Production(production) => match &production.production_kind {
                     FUNCTION_DEFINITION => {
-                        let func_def = self.function_definition(&child, decorator_list)?;
-                        return Ok(Stmt::new(func_def, &child, &child));
+                        let func_def = self.function_definition(child, decorator_list)?;
+                        return Ok(Stmt::new(func_def, child, child));
                     }
                     CLASS_DEFINITION => {
-                        let class_def = self.class_definition(&child, decorator_list)?;
-                        return Ok(Stmt::new(class_def, &child, &child));
+                        let class_def = self.class_definition(child, decorator_list)?;
+                        return Ok(Stmt::new(class_def, child, child));
                     }
                     DECORATOR => {
                         // decorator
-                        let dec_expr_node = child.child(1).expect("dectorator missing elaboration");
-                        let dec_expr = self.expression(&dec_expr_node)?;
+                        let dec_expr_node = child
+                            .child(self.filtered_cst, 1)
+                            .expect("dectorator missing elaboration");
+                        let dec_expr = self.expression(dec_expr_node)?;
                         decorator_list.push(dec_expr);
                     }
                     _ => (),
@@ -1149,7 +1199,7 @@ impl Parser {
     //   'global',
     //   commaSep1($.identifier)
     // ),
-    fn global_statement(&mut self, node: &Node) -> ErrorableResult<StmtDesc> {
+    fn global_statement<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<StmtDesc> {
         let mut identifiers = vec![];
         self.parse_identifiers(node, &mut identifiers)?;
         Ok(StmtDesc::Global(identifiers))
@@ -1159,20 +1209,20 @@ impl Parser {
     //   'nonlocal',
     //   commaSep1($.identifier)
     // ),
-    fn nonlocal_statement(&mut self, node: &Node) -> ErrorableResult<StmtDesc> {
+    fn nonlocal_statement<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<StmtDesc> {
         let mut identifiers = vec![];
         self.parse_identifiers(node, &mut identifiers)?;
 
         Ok(StmtDesc::Nonlocal(identifiers))
     }
 
-    fn parse_identifiers(
+    fn parse_identifiers<'a>(
         &mut self,
-        node: &Node,
+        node: &'a Node<'a>,
         identifiers: &mut Vec<String>,
     ) -> ErrorableResult<()> {
-        for child in node.named_children(&mut node.walk()) {
-            let identifier = self.get_valid_identifier(&child);
+        for child in node.named_children(self.filtered_cst) {
+            let identifier = self.get_valid_identifier(child);
             identifiers.push(identifier);
         }
         Ok(())
@@ -1194,35 +1244,42 @@ impl Parser {
     //   ':',
     //   field('body', $._suite)
     // ),
-    fn function_definition(
+    fn function_definition<'a>(
         &mut self,
-        func_def: &Node,
+        func_def: &'a Node<'a>,
         decorator_list: Vec<Expr>,
     ) -> ErrorableResult<StmtDesc> {
         let name_node = func_def
-            .child_by_field_name("name")
+            .child_by_field_name(self.filtered_cst, "name")
             .expect("missing function name");
-        let name = self.get_valid_identifier(&name_node);
+        let name = self.get_valid_identifier(name_node);
         let parameters_node = func_def
-            .child_by_field_name("parameters")
+            .child_by_field_name(self.filtered_cst, "parameters")
             .expect("missing function parameters");
-        let parameters = self.get_parameters(&parameters_node)?;
+        let parameters = self.get_parameters(parameters_node)?;
         let body_node = func_def
-            .child_by_field_name("body")
+            .child_by_field_name(self.filtered_cst, "body")
             .expect("missing function body");
         let mut body = vec![];
-        self.block(&body_node, &mut body);
+        self.block(body_node, &mut body);
 
-        let return_annotation_node = func_def.child_by_field_name("return_type");
+        let return_annotation_node = func_def.child_by_field_name(self.filtered_cst, "return_type");
         let return_annotation_expr = match &return_annotation_node {
             Some(ret_annotation) => {
-                let annotation_node = ret_annotation.child(0).expect("type node missing type");
-                Some(self.expression(&annotation_node)?)
+                let annotation_node = ret_annotation
+                    .child(self.filtered_cst, 0)
+                    .expect("type node missing type");
+                Some(self.expression(annotation_node)?)
             }
             _ => None,
         };
 
-        if self.get_text(&func_def.child(0).expect("def or async node expected")) == "async" {
+        if self.get_text(
+            func_def
+                .child(self.filtered_cst, 0)
+                .expect("def or async node expected"),
+        ) == "async"
+        {
             Ok(StmtDesc::AsyncFunctionDef {
                 name,
                 args: parameters,
@@ -1265,7 +1322,7 @@ impl Parser {
     //   $.positional_separator,
     //   $.dictionary_splat_pattern
     // ),
-    fn get_parameters(&mut self, parameters: &Node) -> ErrorableResult<Arguments> {
+    fn get_parameters<'a>(&mut self, parameters: &'a Node<'a>) -> ErrorableResult<Arguments> {
         use ProductionKind::*;
 
         let mut posonlyargs: Vec<Arg> = vec![];
@@ -1278,8 +1335,8 @@ impl Parser {
 
         let mut require_kw_args = false;
 
-        for parameter in parameters.named_children(&mut parameters.walk()) {
-            let parameter_annotation = get_node_type(&parameter);
+        for parameter in parameters.named_children(self.filtered_cst) {
+            let parameter_annotation = get_node_type(parameter);
             match &parameter_annotation {
                 NodeType::Production(param) => match &param.production_kind {
                     IDENTIFIER => {
@@ -1294,7 +1351,7 @@ impl Parser {
                     TYPED_PARAMETER => {
                         self.get_parameters_typed_parameter(
                             param.node,
-                            &parameter,
+                            parameter,
                             &mut require_kw_args,
                             &mut kwonlyargs,
                             &mut kw_defaults,
@@ -1324,11 +1381,13 @@ impl Parser {
                         )?;
                     }
                     LIST_SPLAT_PATTERN => {
-                        let ident_node =
-                            &param.node.child(1).expect("identifier of starred missing");
+                        let ident_node = &param
+                            .node
+                            .child(self.filtered_cst, 1)
+                            .expect("identifier of starred missing");
                         let identifier = self.get_valid_identifier(ident_node);
 
-                        vararg = Some(Arg::new_simple(identifier, ident_node, &parameter));
+                        vararg = Some(Arg::new_simple(identifier, ident_node, parameter));
                         require_kw_args = true;
                     }
                     TUPLE_PATTERN => panic!("unimplemented token in get_parameters: TUPLE_PATTERN"),
@@ -1345,11 +1404,11 @@ impl Parser {
                     DICTIONARY_SPLAT_PATTERN => {
                         let ident_node = &param
                             .node
-                            .child(1)
+                            .child(self.filtered_cst, 1)
                             .expect("identifier of dictionary argument");
                         let identifier = self.get_valid_identifier(ident_node);
 
-                        kwarg = Some(Arg::new_simple(identifier, ident_node, &parameter));
+                        kwarg = Some(Arg::new_simple(identifier, ident_node, parameter));
                     }
                     _ => {
                         return Err(self.record_recoverable_error(
@@ -1357,7 +1416,7 @@ impl Parser {
                                 "unexpected function parameter: {:?}",
                                 param
                             )),
-                            &parameter,
+                            parameter,
                         ));
                     }
                 },
@@ -1377,9 +1436,9 @@ impl Parser {
     }
 
     // identifier: $ => /[_\p{XID_Start}][_\p{XID_Continue}]*/,
-    fn get_parameters_identifier(
+    fn get_parameters_identifier<'a>(
         &mut self,
-        node: &Node,
+        node: &'a Node<'a>,
         require_kw_args: &bool,
         kwonlyargs: &mut Vec<Arg>,
         kw_defaults: &mut Vec<Option<Expr>>,
@@ -1407,10 +1466,10 @@ impl Parser {
     //   ':',
     //   field('type', $.type)
     // )),
-    fn get_parameters_typed_parameter(
+    fn get_parameters_typed_parameter<'a>(
         &mut self,
-        node: &Node,
-        parameter: &Node,
+        node: &'a Node<'a>,
+        parameter: &'a Node<'a>,
         require_kw_args: &mut bool,
         kwonlyargs: &mut Vec<Arg>,
         kw_defaults: &mut Vec<Option<Expr>>,
@@ -1421,15 +1480,17 @@ impl Parser {
         use ProductionKind::*;
 
         let typed_parameter_node = node
-            .child_by_field_name("type")
+            .child_by_field_name(self.filtered_cst, "type")
             .expect("default param missing type");
         let annotation_node = typed_parameter_node
-            .child(0)
+            .child(self.filtered_cst, 0)
             .expect("type node missing type");
 
-        let annotation_expr = self.expression(&annotation_node)?;
+        let annotation_expr = self.expression(annotation_node)?;
 
-        let ident_node = &node.child(0).expect("typed param id, *id or **id missing");
+        let ident_node = node
+            .child(self.filtered_cst, 0)
+            .expect("typed param id, *id or **id missing");
         let ident_node_type = get_node_type(ident_node);
         match ident_node_type {
             NodeType::Production(param) => match &param.production_kind {
@@ -1445,7 +1506,10 @@ impl Parser {
                     };
                 }
                 LIST_SPLAT_PATTERN => {
-                    let ident_node = &param.node.child(1).expect("identifier of starred missing");
+                    let ident_node = &param
+                        .node
+                        .child(self.filtered_cst, 1)
+                        .expect("identifier of starred missing");
                     let identifier = self.get_valid_identifier(ident_node);
 
                     *vararg = Some(Arg::new_with_type(
@@ -1460,7 +1524,7 @@ impl Parser {
                 DICTIONARY_SPLAT_PATTERN => {
                     let ident_node = &param
                         .node
-                        .child(1)
+                        .child(self.filtered_cst, 1)
                         .expect("identifier of dictionary argument");
                     let identifier = self.get_valid_identifier(ident_node);
 
@@ -1483,9 +1547,9 @@ impl Parser {
     //   '=',
     //   field('value', $.expression)
     // ),
-    fn get_parameters_default_parameter(
+    fn get_parameters_default_parameter<'a>(
         &mut self,
-        node: &Node,
+        node: &'a Node<'a>,
         require_kw_args: &bool,
         kwonlyargs: &mut Vec<Arg>,
         kw_defaults: &mut Vec<Option<Expr>>,
@@ -1493,14 +1557,14 @@ impl Parser {
         defaults: &mut Vec<Expr>,
     ) -> ErrorableResult<()> {
         let name_node = &node
-            .child_by_field_name("name")
+            .child_by_field_name(self.filtered_cst, "name")
             .expect("default param missing name");
 
         let identifier = self.get_valid_identifier(name_node);
         let arg = Arg::new_simple(identifier, name_node, name_node);
 
         let default_value_node = &node
-            .child_by_field_name("value")
+            .child_by_field_name(self.filtered_cst, "value")
             .expect("default param missing value");
         let default_value = self.expression(default_value_node)?;
 
@@ -1525,9 +1589,9 @@ impl Parser {
     //   '=',
     //   field('value', $.expression)
     // )),
-    fn get_parameters_typed_default_parameter(
+    fn get_parameters_typed_default_parameter<'a>(
         &mut self,
-        node: &Node,
+        node: &'a Node<'a>,
         require_kw_args: &bool,
         kwonlyargs: &mut Vec<Arg>,
         kw_defaults: &mut Vec<Option<Expr>>,
@@ -1535,21 +1599,21 @@ impl Parser {
         defaults: &mut Vec<Expr>,
     ) -> ErrorableResult<()> {
         let name_node = &node
-            .child_by_field_name("name")
+            .child_by_field_name(self.filtered_cst, "name")
             .expect("typed default param missing name");
 
         let typed_default_parameter_node = &node
-            .child_by_field_name("type")
+            .child_by_field_name(self.filtered_cst, "type")
             .expect("typed default param missing name");
         let annotation_node = typed_default_parameter_node
-            .child(0)
+            .child(self.filtered_cst, 0)
             .expect("type node missing type");
 
         let default_value_node = &node
-            .child_by_field_name("value")
+            .child_by_field_name(self.filtered_cst, "value")
             .expect("typed default param missing name");
 
-        let annotation_expr = self.expression(&annotation_node)?;
+        let annotation_expr = self.expression(annotation_node)?;
 
         let identifier = self.get_valid_identifier(name_node);
 
@@ -1585,27 +1649,27 @@ impl Parser {
     //   ':',
     //   field('body', $._suite)
     // ),
-    fn class_definition(
+    fn class_definition<'a>(
         &mut self,
-        class_def: &Node,
+        class_def: &'a Node<'a>,
         decorator_list: Vec<Expr>,
     ) -> ErrorableResult<StmtDesc> {
         let name_node = class_def
-            .child_by_field_name("name")
+            .child_by_field_name(self.filtered_cst, "name")
             .expect("missing class name");
-        let name = self.get_valid_identifier(&name_node);
+        let name = self.get_valid_identifier(name_node);
         let body_node = class_def
-            .child_by_field_name("body")
+            .child_by_field_name(self.filtered_cst, "body")
             .expect("missing class body");
         let mut body = vec![];
-        self.block(&body_node, &mut body);
+        self.block(body_node, &mut body);
 
         let mut bases: Vec<Expr> = vec![];
         let mut keywords: Vec<AstKeyword> = vec![];
 
-        match class_def.child_by_field_name("superclasses") {
+        match class_def.child_by_field_name(self.filtered_cst, "superclasses") {
             Some(superclasses_node) => {
-                self.argument_list(&superclasses_node, &mut bases, &mut keywords)?;
+                self.argument_list(superclasses_node, &mut bases, &mut keywords)?;
             }
             _ => (),
         }
@@ -1623,47 +1687,51 @@ impl Parser {
     //   'assert',
     //   commaSep1($.expression)
     // ),
-    fn assert_statement(&mut self, node: &Node) -> ErrorableResult<StmtDesc> {
-        let test_node = node.child(1).unwrap();
-        let test = self.expression(&test_node)?;
+    fn assert_statement<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<StmtDesc> {
+        let test_node = node.child(self.filtered_cst, 1).unwrap();
+        let test = self.expression(test_node)?;
 
         let mut msg = None;
         if node.child_count() == 4 {
-            let msg_node = node.child(3).unwrap();
-            msg = Some(self.expression(&msg_node)?);
+            let msg_node = node.child(self.filtered_cst, 3).unwrap();
+            msg = Some(self.expression(msg_node)?);
         }
 
         Ok(StmtDesc::Assert { test, msg })
     }
 
-    fn dotted_name_to_string(&mut self, node: &Node) -> ErrorableResult<String> {
+    fn dotted_name_to_string<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<String> {
         Ok(join(
-            node.named_children(&mut node.walk())
-                .map(|x| self.get_valid_identifier(&x)),
+            node.named_children(self.filtered_cst)
+                .map(|x| self.get_valid_identifier(x)),
             ".",
         ))
     }
 
-    fn get_aliases(&mut self, node: &Node, aliases: &mut Vec<Alias>) -> ErrorableResult<()> {
-        for alias_child in node.named_children(&mut node.walk()) {
-            match alias_child.child_by_field_name("alias") {
+    fn get_aliases<'a>(
+        &mut self,
+        node: &'a Node<'a>,
+        aliases: &mut Vec<Alias>,
+    ) -> ErrorableResult<()> {
+        for alias_child in node.named_children(self.filtered_cst) {
+            match alias_child.child_by_field_name(self.filtered_cst, "alias") {
                 Some(alias_name) => {
                     aliases.push(Alias::new(
                         self.dotted_name_to_string(
-                            &alias_child
-                                .child_by_field_name("name")
+                            alias_child
+                                .child_by_field_name(self.filtered_cst, "name")
                                 .expect("missing aliased_import name"),
                         )?,
-                        Some(self.get_valid_identifier(&alias_name)),
-                        &alias_child,
+                        Some(self.get_valid_identifier(alias_name)),
+                        alias_child,
                     ));
                 }
                 _ => {
                     // straight dotted name: a.b.c etc
                     aliases.push(Alias::new(
-                        self.dotted_name_to_string(&alias_child)?,
+                        self.dotted_name_to_string(alias_child)?,
                         None,
-                        &alias_child,
+                        alias_child,
                     ));
                 }
             }
@@ -1680,7 +1748,7 @@ impl Parser {
     //   'as',
     //   field('alias', $.identifier)
     // ),
-    fn import_statement(&mut self, node: &Node) -> ErrorableResult<StmtDesc> {
+    fn import_statement<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<StmtDesc> {
         let mut aliases: Vec<Alias> = vec![];
         self.get_aliases(node, &mut aliases)?;
         Ok(StmtDesc::Import(aliases))
@@ -1704,12 +1772,12 @@ impl Parser {
     //  $.import_prefix,
     //  optional($.dotted_name)
     //),
-    fn import_from_statement(&mut self, node: &Node) -> ErrorableResult<StmtDesc> {
+    fn import_from_statement<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<StmtDesc> {
         let mut names: Vec<Alias> = vec![];
         let mut level: isize = 0;
 
         let module_name_node = node
-            .child_by_field_name("module_name")
+            .child_by_field_name(self.filtered_cst, "module_name")
             .expect("import_from_statement missing module_name");
         let module__ = match module_name_node.kind() {
             "relative_import" => {
@@ -1720,50 +1788,50 @@ impl Parser {
                 // preceding a dotted name indicates how many levels upwards
                 // one must look for the import dependency
 
-                let import_prefix = module_name_node.child(0).expect("import_prefix");
+                let import_prefix = module_name_node
+                    .child(self.filtered_cst, 0)
+                    .expect("import_prefix");
                 level = import_prefix.child_count() as isize;
 
                 if module_name_node.child_count() == 2 {
-                    let dotted_name = module_name_node.child(1).expect("dotted_name");
-                    Some(self.dotted_name_to_string(&dotted_name)?)
+                    let dotted_name = module_name_node
+                        .child(self.filtered_cst, 1)
+                        .expect("dotted_name");
+                    Some(self.dotted_name_to_string(dotted_name)?)
                 } else {
                     None
                 }
             }
-            _ => Some(self.dotted_name_to_string(&module_name_node)?),
+            _ => Some(self.dotted_name_to_string(module_name_node)?),
         };
 
         let aliases_or_wildcard = &node
-            .child(3)
+            .child(self.filtered_cst, 3)
             .expect("list of imports for import_from_statement");
         match aliases_or_wildcard.kind() {
             "wildcard_import" => {
                 names.push(Alias::new(String::from("*"), None, aliases_or_wildcard))
             }
             _ => {
-                for alias in node.named_children(&mut node.walk()) {
+                for alias in node.named_children(self.filtered_cst) {
                     if alias == module_name_node {
                         continue; // skip the `from xyz`, `xzy` node as processed already
                     }
-                    match alias.child_by_field_name("alias") {
+                    match alias.child_by_field_name(self.filtered_cst, "alias") {
                         Some(alias_name) => {
                             names.push(Alias::new(
                                 self.dotted_name_to_string(
-                                    &alias
-                                        .child_by_field_name("name")
+                                    alias
+                                        .child_by_field_name(self.filtered_cst, "name")
                                         .expect("missing aliased_import name"),
                                 )?,
-                                Some(self.get_valid_identifier(&alias_name)),
-                                &alias,
+                                Some(self.get_valid_identifier(alias_name)),
+                                alias,
                             ));
                         }
                         _ => {
                             // straight dotted name: a.b.c etc
-                            names.push(Alias::new(
-                                self.dotted_name_to_string(&alias)?,
-                                None,
-                                &alias,
-                            ));
+                            names.push(Alias::new(self.dotted_name_to_string(alias)?, None, alias));
                         }
                     }
                 }
@@ -1786,7 +1854,7 @@ impl Parser {
     //     seq('(', $._import_list, ')'),
     //   )
     // ),
-    fn future_import_statement(&mut self, node: &Node) -> ErrorableResult<StmtDesc> {
+    fn future_import_statement<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<StmtDesc> {
         let mut names: Vec<Alias> = vec![];
         self.get_aliases(node, &mut names)?;
 
@@ -1801,7 +1869,7 @@ impl Parser {
     //  $.expression,
     //  $.expression_list
     // ),
-    fn expressions(&mut self, node: &Node) -> ErrorableResult<Expr> {
+    fn expressions<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<Expr> {
         match node.kind() {
             "expression_list" => {
                 let mut expressions: Vec<Expr> = vec![];
@@ -1812,16 +1880,16 @@ impl Parser {
                     ctx: self.get_expression_context(),
                 };
 
-                Ok(self.new_expr(tuple_desc, node))
+                Ok(self.parser.new_expr(tuple_desc, node))
             }
             _ => self.expression(node),
         }
     }
 
-    fn expression_list(&mut self, node: &Node, expressions: &mut Vec<Expr>) {
-        for child in node.named_children(&mut node.walk()) {
+    fn expression_list<'a>(&mut self, node: &'a Node<'a>, expressions: &mut Vec<Expr>) {
+        for child in node.named_children(self.filtered_cst) {
             // it is ok to leave out a subexpression if there is a problem with it
-            match self.expression(&child) {
+            match self.expression(child) {
                 Ok(arg) => expressions.push(arg),
                 _ => (),
             };
@@ -1834,10 +1902,10 @@ impl Parser {
     //   'return',
     //   optional($._expressions)
     // ),
-    fn return_statement(&mut self, node: &Node) -> ErrorableResult<StmtDesc> {
+    fn return_statement<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<StmtDesc> {
         let mut expr = None;
         if node.child_count() == 2 {
-            expr = Some(self.expressions(&node.child(1).unwrap())?);
+            expr = Some(self.expressions(node.child(self.filtered_cst, 1).unwrap())?);
         }
 
         Ok(StmtDesc::Return(expr))
@@ -1848,19 +1916,19 @@ impl Parser {
     //   optional($._expressions),
     //   optional(seq('from', field('cause', $.expression)))
     // ),
-    fn raise_statement(&mut self, node: &Node) -> ErrorableResult<StmtDesc> {
+    fn raise_statement<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<StmtDesc> {
         let mut exc = None;
         let mut cause = None;
-        match node.child_by_field_name("cause") {
+        match node.child_by_field_name(self.filtered_cst, "cause") {
             Some(from_node) => {
-                let expr_node = node.child(1).unwrap();
-                exc = Some(self.expression(&expr_node)?);
+                let expr_node = node.child(self.filtered_cst, 1).unwrap();
+                exc = Some(self.expression(expr_node)?);
 
-                cause = Some(self.expression(&from_node)?);
+                cause = Some(self.expression(from_node)?);
             }
-            _ => match node.child(1) {
+            _ => match node.child(self.filtered_cst, 1) {
                 Some(expr_node) => {
-                    exc = Some(self.expression(&expr_node)?);
+                    exc = Some(self.expression(expr_node)?);
                 }
                 _ => (),
             },
@@ -1877,14 +1945,14 @@ impl Parser {
     //   $.augmented_assignment,
     //   $.yield
     // ),
-    fn expression_statement(&mut self, node: &Node) -> ErrorableResult<StmtDesc> {
+    fn expression_statement<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<StmtDesc> {
         use ProductionKind::*;
 
         let expression_statement = if 1 == node.child_count() {
-            let child_expression = node.child(0).ok_or_else(|| {
+            let child_expression = node.child(self.filtered_cst, 0).ok_or_else(|| {
                 self.record_recoverable_error(RecoverableError::MissingChild, node)
             })?;
-            let child_expression_type = get_node_type(&child_expression);
+            let child_expression_type = get_node_type(child_expression);
             match child_expression_type {
                 NodeType::Production(ref rule) => {
                     match &rule.production_kind {
@@ -1910,16 +1978,19 @@ impl Parser {
                         AUGMENTED_ASSIGNMENT => self.aug_assign(rule.node)?,
                         YIELD => {
                             let yeild_desc = self.yield_statement(rule.node)?;
-                            StmtDesc::Expr(self.new_expr(yeild_desc, node))
+                            StmtDesc::Expr(self.parser.new_expr(yeild_desc, node))
                         }
                         _ => {
-                            let expression = self.expression(&child_expression)?;
+                            let expression = self.expression(child_expression)?;
 
                             // If the expression statement has a trailing comma we
                             // should treat it as a tuple of size one, otherwise
                             // it is a plain expression.
-                            let ends_in_comma =
-                                node.child(node.child_count() - 1).unwrap().kind() == ",";
+                            let ends_in_comma = node
+                                .child(self.filtered_cst, node.child_count() - 1)
+                                .unwrap()
+                                .kind()
+                                == ",";
                             if ends_in_comma {
                                 let mut expressions = vec![];
                                 expressions.push(expression);
@@ -1928,7 +1999,7 @@ impl Parser {
                                     ctx: self.get_expression_context(),
                                 };
 
-                                StmtDesc::Expr(self.new_expr(tuple_desc, node))
+                                StmtDesc::Expr(self.parser.new_expr(tuple_desc, node))
                             } else {
                                 StmtDesc::Expr(expression)
                             }
@@ -1940,7 +2011,7 @@ impl Parser {
         } else {
             // sequence of expressions: seq(commaSep1($.expression), optional(',')),
             let tuple_desc = self.tuple(node)?;
-            StmtDesc::Expr(self.new_expr(tuple_desc, node))
+            StmtDesc::Expr(self.parser.new_expr(tuple_desc, node))
         };
 
         Ok(expression_statement)
@@ -1951,17 +2022,17 @@ impl Parser {
     //   'del',
     //   $._expressions
     // ),
-    fn delete_statement(&mut self, node: &Node) -> ErrorableResult<StmtDesc> {
+    fn delete_statement<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<StmtDesc> {
         let mut expressions: Vec<Expr> = vec![];
 
         self.set_expression_context(ExprContext::Del);
 
-        let expressions_node = node.child(1).unwrap();
+        let expressions_node = node.child(self.filtered_cst, 1).unwrap();
 
         match expressions_node.kind() {
-            "expression_list" => self.expression_list(&expressions_node, &mut expressions),
+            "expression_list" => self.expression_list(expressions_node, &mut expressions),
             _ => {
-                let expression = self.expression(&expressions_node)?;
+                let expression = self.expression(expressions_node)?;
                 expressions.push(expression);
             }
         };
@@ -1981,36 +2052,43 @@ impl Parser {
     //   field('body', $._suite),
     //   field('alternative', optional($.else_clause))
     // ),
-    fn for_statement(&mut self, for_node: &Node) -> ErrorableResult<StmtDesc> {
+    fn for_statement<'a>(&mut self, for_node: &'a Node<'a>) -> ErrorableResult<StmtDesc> {
         self.set_expression_context(ExprContext::Store);
         let target_node = for_node
-            .child_by_field_name("left")
+            .child_by_field_name(self.filtered_cst, "left")
             .expect("missing left in for statement");
-        let target = self.assign_left_hand_side(&target_node)?;
+        let target = self.assign_left_hand_side(target_node)?;
         self.pop_expression_context();
 
         let iter_node = for_node
-            .child_by_field_name("right")
+            .child_by_field_name(self.filtered_cst, "right")
             .expect("missing right in for statement");
-        let iter = self.expressions(&iter_node)?;
+        let iter = self.expressions(iter_node)?;
 
         let body_node = for_node
-            .child_by_field_name("body")
+            .child_by_field_name(self.filtered_cst, "body")
             .expect("missing body in for statement");
         let mut body_block = vec![];
-        self.block(&body_node, &mut body_block);
+        self.block(body_node, &mut body_block);
 
         let mut orelse_block = vec![];
 
-        let orelse_node = for_node.child_by_field_name("alternative");
+        let orelse_node = for_node.child_by_field_name(self.filtered_cst, "alternative");
         match &orelse_node {
-            Some(orelse_cont) => match &orelse_cont.child_by_field_name("body") {
-                Some(body_cont) => self.block(body_cont, &mut orelse_block),
-                _ => (),
-            },
+            Some(orelse_cont) => {
+                match &orelse_cont.child_by_field_name(self.filtered_cst, "body") {
+                    Some(body_cont) => self.block(body_cont, &mut orelse_block),
+                    _ => (),
+                }
+            }
             _ => (),
         }
-        if for_node.child(0).unwrap().kind().eq("async") {
+        if for_node
+            .child(self.filtered_cst, 0)
+            .unwrap()
+            .kind()
+            .eq("async")
+        {
             Ok(StmtDesc::AsyncFor {
                 target,
                 iter,
@@ -2029,10 +2107,10 @@ impl Parser {
         }
     }
 
-    fn process_withitem_as_pattern_or_expression(
+    fn process_withitem_as_pattern_or_expression<'a>(
         &mut self,
         items: &mut Vec<Withitem>,
-        pattern_or_expression: &Node,
+        pattern_or_expression: &'a Node<'a>,
     ) -> ErrorableResult<()> {
         let mut optional_vars: Option<Expr> = None;
         let pattern_or_expression_type = &get_node_type(pattern_or_expression);
@@ -2042,19 +2120,19 @@ impl Parser {
                 ProductionKind::AS_PATTERN => {
                     let node = rule.node;
                     let lhs_expression = pattern_or_expression
-                        .child(0)
+                        .child(self.filtered_cst, 0)
                         .expect("expression for with_item");
                     let target_expression = node
-                        .child(2)
+                        .child(self.filtered_cst, 2)
                         .expect("target for with_item")
-                        .child(0)
+                        .child(self.filtered_cst, 0)
                         .expect("pattern target");
 
                     self.set_expression_context(ExprContext::Store);
-                    optional_vars = Some(self.expression(&target_expression)?);
+                    optional_vars = Some(self.expression(target_expression)?);
                     self.pop_expression_context();
 
-                    let context_expr: Expr = self.expression(&lhs_expression)?;
+                    let context_expr: Expr = self.expression(lhs_expression)?;
 
                     items.push(Withitem {
                         context_expr,
@@ -2064,16 +2142,16 @@ impl Parser {
                 _ => {
                     if pattern_or_expression.child_count() >= 5 {
                         let sub_expression = pattern_or_expression
-                            .child(4)
+                            .child(self.filtered_cst, 4)
                             .expect("target for with_item");
                         if sub_expression.kind() == "as_pattern" {
                             let target_expression = sub_expression
-                                .child(2)
+                                .child(self.filtered_cst, 2)
                                 .expect("target for with_item as")
-                                .child(0)
+                                .child(self.filtered_cst, 0)
                                 .expect("pattern target");
                             self.set_expression_context(ExprContext::Store);
-                            optional_vars = Some(self.expression(&target_expression)?);
+                            optional_vars = Some(self.expression(target_expression)?);
                             self.pop_expression_context();
                         }
                     }
@@ -2107,22 +2185,28 @@ impl Parser {
     // with_item: $ => prec.dynamic(1, seq(
     //   field('value', $.expression),
     // )),
-    fn with_statement(&mut self, with_node: &Node) -> ErrorableResult<StmtDesc> {
-        let is_async: bool = with_node.child(0).unwrap().kind().eq("async");
+    fn with_statement<'a>(&mut self, with_node: &'a Node<'a>) -> ErrorableResult<StmtDesc> {
+        let is_async: bool = with_node
+            .child(self.filtered_cst, 0)
+            .unwrap()
+            .kind()
+            .eq("async");
         let body_node = with_node
-            .child_by_field_name("body")
+            .child_by_field_name(self.filtered_cst, "body")
             .expect("missing body in with statement");
         let mut body = vec![];
-        self.block(&body_node, &mut body);
+        self.block(body_node, &mut body);
 
         let mut items: Vec<Withitem> = vec![];
 
         let with_clause_node_idx = if is_async { 2 } else { 1 };
-        let with_clause_node = with_node.child(with_clause_node_idx).unwrap();
+        let with_clause_node = with_node
+            .child(self.filtered_cst, with_clause_node_idx)
+            .unwrap();
 
-        for with_item_node in with_clause_node.named_children(&mut with_node.walk()) {
+        for with_item_node in with_clause_node.named_children(self.filtered_cst) {
             let expression_node = &with_item_node
-                .child(0)
+                .child(self.filtered_cst, 0)
                 .expect("with_item to wrap an expression or as_pattern");
 
             let expression_node_type = &get_node_type(expression_node);
@@ -2130,12 +2214,10 @@ impl Parser {
             match expression_node_type {
                 NodeType::Production(rule) => match &rule.production_kind {
                     ProductionKind::TUPLE => {
-                        for tuple_child_node in
-                            expression_node.named_children(&mut with_node.walk())
-                        {
+                        for tuple_child_node in expression_node.named_children(self.filtered_cst) {
                             match self.process_withitem_as_pattern_or_expression(
                                 &mut items,
-                                &tuple_child_node,
+                                tuple_child_node,
                             ) {
                                 Ok(_) => (),
                                 Err(error) => return Err(error),
@@ -2225,49 +2307,52 @@ impl Parser {
     //   ':',
     //   $._suite
     // ),
-    fn try_statement(&mut self, try_node: &Node) -> ErrorableResult<StmtDesc> {
+    fn try_statement<'a>(&mut self, try_node: &'a Node<'a>) -> ErrorableResult<StmtDesc> {
         let mut body: Vec<Stmt> = vec![];
         let mut handlers: Vec<Excepthandler> = vec![];
         let mut orelse: Vec<Stmt> = vec![];
         let mut finalbody: Vec<Stmt> = vec![];
 
         let body_node = try_node
-            .child_by_field_name("body")
+            .child_by_field_name(self.filtered_cst, "body")
             .expect("missing body in for statement");
-        self.block(&body_node, &mut body);
+        self.block(body_node, &mut body);
 
-        for child_node in try_node.named_children(&mut try_node.walk()) {
+        for child_node in try_node.named_children(self.filtered_cst) {
             match child_node.kind() {
                 "except_clause" => {
                     let mut type__: Option<Expr> = None;
                     let mut name: Option<String> = None;
                     let mut body: Vec<Stmt> = vec![];
                     self.block(
-                        &child_node
-                            .child(child_node.child_count() - 1)
+                        child_node
+                            .child(self.filtered_cst, child_node.child_count() - 1)
                             .expect("exception handler body"),
                         &mut body,
                     );
 
                     if child_node.child_count() > 3 {
                         // not just `except: ...`
-                        let expr_node = &child_node.child(1).expect("expression or as_pattern");
+                        let expr_node = &child_node
+                            .child(self.filtered_cst, 1)
+                            .expect("expression or as_pattern");
                         let expr_type = &get_node_type(expr_node);
                         type__ = match expr_type {
                             NodeType::Production(rule) => match &rule.production_kind {
                                 ProductionKind::AS_PATTERN => {
                                     let node = rule.node;
-                                    let lhs_expression =
-                                        node.child(0).expect("expression for exception handler");
+                                    let lhs_expression = node
+                                        .child(self.filtered_cst, 0)
+                                        .expect("expression for exception handler");
                                     let target_expression = node
-                                        .child(2)
+                                        .child(self.filtered_cst, 2)
                                         .expect("target for exception handler")
-                                        .child(0)
+                                        .child(self.filtered_cst, 0)
                                         .expect("pattern target");
 
-                                    name = Some(self.get_valid_identifier(&target_expression));
+                                    name = Some(self.get_valid_identifier(target_expression));
 
-                                    Some(self.expression(&lhs_expression)?)
+                                    Some(self.expression(lhs_expression)?)
                                 }
                                 _ => Some(self.expression(expr_node)?),
                             },
@@ -2277,15 +2362,23 @@ impl Parser {
 
                     handlers.push(Excepthandler::new(
                         ExcepthandlerDesc::ExceptHandler { type__, name, body },
-                        &child_node,
+                        child_node,
                     ));
                 }
                 "except_group_clause" => panic!("except* not supported until Python 3.11"),
                 "else_clause" => {
-                    self.block(&child_node.child(2).expect("else body"), &mut orelse);
+                    self.block(
+                        child_node.child(self.filtered_cst, 2).expect("else body"),
+                        &mut orelse,
+                    );
                 }
                 "finally_clause" => {
-                    self.block(&child_node.child(2).expect("finally body"), &mut finalbody);
+                    self.block(
+                        child_node
+                            .child(self.filtered_cst, 2)
+                            .expect("finally body"),
+                        &mut finalbody,
+                    );
                 }
                 _ => (),
             }
@@ -2306,26 +2399,28 @@ impl Parser {
     //   field('body', $._suite),
     //   optional(field('alternative', $.else_clause))
     // ),
-    fn while_statement(&mut self, for_node: &Node) -> ErrorableResult<StmtDesc> {
+    fn while_statement<'a>(&mut self, for_node: &'a Node<'a>) -> ErrorableResult<StmtDesc> {
         let test_node = for_node
-            .child_by_field_name("condition")
+            .child_by_field_name(self.filtered_cst, "condition")
             .expect("missing condition in while statement");
-        let test = self.expression(&test_node)?;
+        let test = self.expression(test_node)?;
 
         let body_node = for_node
-            .child_by_field_name("body")
+            .child_by_field_name(self.filtered_cst, "body")
             .expect("missing body in for statement");
         let mut body = vec![];
-        self.block(&body_node, &mut body);
+        self.block(body_node, &mut body);
 
         let mut orelse = vec![];
 
-        let orelse_node = for_node.child_by_field_name("alternative");
+        let orelse_node = for_node.child_by_field_name(self.filtered_cst, "alternative");
         match &orelse_node {
-            Some(orelse_cont) => match &orelse_cont.child_by_field_name("body") {
-                Some(body_cont) => self.block(body_cont, &mut orelse),
-                _ => (),
-            },
+            Some(orelse_cont) => {
+                match &orelse_cont.child_by_field_name(self.filtered_cst, "body") {
+                    Some(body_cont) => self.block(body_cont, &mut orelse),
+                    _ => (),
+                }
+            }
             _ => (),
         }
 
@@ -2342,43 +2437,43 @@ impl Parser {
     //   repeat(field('alternative', $.elif_clause)),
     //   optional(field('alternative', $.else_clause))
     // ),
-    fn if_statement(&mut self, if_node: &Node) -> ErrorableResult<StmtDesc> {
+    fn if_statement<'a>(&mut self, if_node: &'a Node<'a>) -> ErrorableResult<StmtDesc> {
         let condition_node = if_node
-            .child_by_field_name("condition")
+            .child_by_field_name(self.filtered_cst, "condition")
             .expect("missing condition in if statement");
-        let condition = self.expression(&condition_node)?;
+        let condition = self.expression(condition_node)?;
         let block_node = if_node
-            .child_by_field_name("consequence")
+            .child_by_field_name(self.filtered_cst, "consequence")
             .expect("missing consequence in if statement");
         let mut block = vec![];
-        self.block(&block_node, &mut block);
+        self.block(block_node, &mut block);
 
         let mut elif_elses = vec![];
 
-        for elif_or_else in if_node.children_by_field_name("alternative", &mut if_node.walk()) {
+        for elif_or_else in if_node.children_by_field_name(self.filtered_cst, "alternative") {
             elif_elses.push(elif_or_else);
         }
 
         let mut last_orelse = vec![];
 
         for elif_or_else in elif_elses.iter().rev() {
-            match elif_or_else.child_by_field_name("body") {
+            match elif_or_else.child_by_field_name(self.filtered_cst, "body") {
                 Some(else_body) => {
                     last_orelse = vec![];
-                    self.block(&else_body, &mut last_orelse);
+                    self.block(else_body, &mut last_orelse);
                 }
                 _ => {
                     //elif body
                     let elif_condition_node = elif_or_else
-                        .child_by_field_name("condition")
+                        .child_by_field_name(self.filtered_cst, "condition")
                         .expect("missing condition in if statement");
-                    let elif_condition = self.expression(&elif_condition_node)?;
+                    let elif_condition = self.expression(elif_condition_node)?;
 
                     let elif_block_node = elif_or_else
-                        .child_by_field_name("consequence")
+                        .child_by_field_name(self.filtered_cst, "consequence")
                         .expect("missing consequence in if statement");
                     let mut elif_block = vec![];
-                    self.block(&elif_block_node, &mut elif_block);
+                    self.block(elif_block_node, &mut elif_block);
 
                     let elif_statement = Stmt::new(
                         StmtDesc::If {
@@ -2414,17 +2509,21 @@ impl Parser {
     //     optional($._expressions)
     //   )
     // )),
-    fn yield_statement(&mut self, node: &Node) -> ErrorableResult<ExprDesc> {
+    fn yield_statement<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<ExprDesc> {
         let yield_statement = match node.child_count() {
             2 => {
-                let rhs_expr = node.child(1).expect("expected yield rhs");
-                let expr = self.expressions(&rhs_expr)?;
+                let rhs_expr = node
+                    .child(self.filtered_cst, 1)
+                    .expect("expected yield rhs");
+                let expr = self.expressions(rhs_expr)?;
 
                 ExprDesc::Yield(Some(expr))
             }
             3 => {
-                let rhs_expr = node.child(2).expect("expected yield from rhs");
-                let expr = self.expression(&rhs_expr)?;
+                let rhs_expr = node
+                    .child(self.filtered_cst, 2)
+                    .expect("expected yield from rhs");
+                let expr = self.expression(rhs_expr)?;
 
                 ExprDesc::YieldFrom(expr)
             }
@@ -2442,27 +2541,27 @@ impl Parser {
     //   )),
     //   field('right', $._right_hand_side)
     // ),
-    fn aug_assign(&mut self, node: &Node) -> ErrorableResult<StmtDesc> {
+    fn aug_assign<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<StmtDesc> {
         let target_node = node
-            .child_by_field_name("left")
+            .child_by_field_name(self.filtered_cst, "left")
             .expect("missing left in aug_assign");
         let operator_node = node
-            .child_by_field_name("operator")
+            .child_by_field_name(self.filtered_cst, "operator")
             .expect("missing operator in aug_assign");
         let value_node = node
-            .child_by_field_name("right")
+            .child_by_field_name(self.filtered_cst, "right")
             .expect("missing right in aug_assign");
 
-        let target = self.assign_left_hand_side(&target_node)?;
+        let target = self.assign_left_hand_side(target_node)?;
 
-        let operator_type = get_node_type(&operator_node);
+        let operator_type = get_node_type(operator_node);
         let operator = match &operator_type {
             &NodeType::AugAssignOperator(op) => Operator::from(op),
             _ => panic!("missing AugAssignOperator operator"),
         };
 
         let mut targets = vec![];
-        let value = self.assign_right_hand_side(&value_node, &mut targets)?;
+        let value = self.assign_right_hand_side(value_node, &mut targets)?;
 
         Ok(StmtDesc::AugAssign {
             target,
@@ -2479,37 +2578,40 @@ impl Parser {
     //     seq(':', field('type', $.type), '=', field('right', $._right_hand_side))
     //   )
     // ),
-    fn assignment(
+    fn assignment<'a>(
         &mut self,
-        node: &Node,
+        node: &'a Node<'a>,
     ) -> Result<(Vec<Expr>, Option<Expr>, Option<Expr>, Option<String>, isize), ()> {
         let mut targets = vec![];
 
         let lhs = node
-            .child_by_field_name("left")
+            .child_by_field_name(self.filtered_cst, "left")
             .expect("missing left hand side");
 
         // simple is a 'boolean integer' (what?) set to True for a Name node in target
         // that do not appear in between parenthesis and are hence pure names and not expressions.
         let simple: isize = if lhs.kind() == "identifier" { 1 } else { 0 };
 
-        let lhs_expr = self.assign_left_hand_side(&lhs)?;
+        let lhs_expr = self.assign_left_hand_side(lhs)?;
 
         targets.push(lhs_expr);
 
         // deal with types...
         let ty = None;
 
-        let type_annot = if let Some(type_node) = node.child_by_field_name("type") {
-            let type_expr_node = type_node.child(0).expect("expression of type node");
-            Some(self.expression(&type_expr_node)?)
-        } else {
-            None
-        };
+        let type_annot =
+            if let Some(type_node) = node.child_by_field_name(self.filtered_cst, "type") {
+                let type_expr_node = type_node
+                    .child(self.filtered_cst, 0)
+                    .expect("expression of type node");
+                Some(self.expression(type_expr_node)?)
+            } else {
+                None
+            };
 
         // get right hand side, if any
-        let rhs = if let Some(rhs_node) = node.child_by_field_name("right") {
-            Some(self.assign_right_hand_side(&rhs_node, &mut targets)?)
+        let rhs = if let Some(rhs_node) = node.child_by_field_name(self.filtered_cst, "right") {
+            Some(self.assign_right_hand_side(rhs_node, &mut targets)?)
         } else {
             None
         };
@@ -2524,9 +2626,9 @@ impl Parser {
     //   $.augmented_assignment,
     //   $.yield
     // ),
-    fn assign_right_hand_side(
+    fn assign_right_hand_side<'a>(
         &mut self,
-        rhs_node: &Node,
+        rhs_node: &'a Node<'a>,
         targets: &mut Vec<Expr>,
     ) -> ErrorableResult<Expr> {
         use ProductionKind::*;
@@ -2536,7 +2638,7 @@ impl Parser {
             NodeType::Production(rule) => match &rule.production_kind {
                 EXPRESSION_LIST => {
                     let tuple_desc = self.tuple(rule.node)?;
-                    self.new_expr(tuple_desc, rhs_node)
+                    self.parser.new_expr(tuple_desc, rhs_node)
                 }
                 ASSIGNMENT => {
                     let (mut targetsx, _type_annot, rhsx, _ty, _simple) =
@@ -2553,7 +2655,7 @@ impl Parser {
                 }
                 YIELD => {
                     let yield_desc = self.yield_statement(rule.node)?;
-                    self.new_expr(yield_desc, rhs_node)
+                    self.parser.new_expr(yield_desc, rhs_node)
                 }
                 //TODO: what about yeild, augmented assignment
                 _ => self.expression(rhs_node)?,
@@ -2578,12 +2680,12 @@ impl Parser {
     //   )
     // ),
     //
-    fn pattern_list(&mut self, pattern_list_node: &Node) -> Expr {
+    fn pattern_list<'a>(&mut self, pattern_list_node: &'a Node<'a>) -> Expr {
         // pattern lists are processed like tuples of patterns
         let mut patterns = vec![];
 
-        for pattern_node in pattern_list_node.named_children(&mut pattern_list_node.walk()) {
-            match self.pattern(&pattern_node) {
+        for pattern_node in pattern_list_node.named_children(self.filtered_cst) {
+            match self.pattern(pattern_node) {
                 Ok(expression) => patterns.push(expression),
                 _ => (),
             }
@@ -2594,7 +2696,7 @@ impl Parser {
             ctx: self.get_expression_context(),
         };
 
-        self.new_expr(tuple_desc, pattern_list_node)
+        self.parser.new_expr(tuple_desc, pattern_list_node)
     }
 
     //
@@ -2603,7 +2705,7 @@ impl Parser {
     //   $.pattern_list,
     // ),
     //
-    fn assign_left_hand_side(&mut self, lhs: &Node) -> ErrorableResult<Expr> {
+    fn assign_left_hand_side<'a>(&mut self, lhs: &'a Node<'a>) -> ErrorableResult<Expr> {
         self.set_expression_context(ExprContext::Store);
         let lhs_type = &get_node_type(lhs);
         // left hand side, assignment target
@@ -2637,7 +2739,7 @@ impl Parser {
     //     $.tuple_pattern,
     //     $.list_pattern
     // ),
-    fn pattern(&mut self, node: &Node) -> ErrorableResult<Expr> {
+    fn pattern<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<Expr> {
         use ProductionKind::*;
 
         let node_type = &get_node_type(node);
@@ -2645,7 +2747,7 @@ impl Parser {
             NodeType::Production(rule) => match &rule.production_kind {
                 IDENTIFIER => {
                     let name_desc = self.name(rule.node);
-                    self.new_expr(name_desc, rule.node)
+                    self.parser.new_expr(name_desc, rule.node)
                 }
                 KEYWORD_IDENTIFIER => {
                     panic!(
@@ -2655,11 +2757,11 @@ impl Parser {
                 }
                 SUBSCRIPT => {
                     let subscript = self.subscript(node)?;
-                    self.new_expr(subscript, rule.node)
+                    self.parser.new_expr(subscript, rule.node)
                 }
                 ATTRIBUTE => {
                     let attribute = self.attribute(node)?;
-                    self.new_expr(attribute, rule.node)
+                    self.parser.new_expr(attribute, rule.node)
                 }
                 LIST_SPLAT_PATTERN => self.list_splat_pattern(node)?,
                 TUPLE_PATTERN => self.tuple_pattern(rule.node)?,
@@ -2688,10 +2790,10 @@ impl Parser {
         Ok(expr)
     }
 
-    fn comma_separated_patterns(&mut self, node: &Node, sub_patterns: &mut Vec<Expr>) {
-        for child in node.named_children(&mut node.walk()) {
+    fn comma_separated_patterns<'a>(&mut self, node: &'a Node<'a>, sub_patterns: &mut Vec<Expr>) {
+        for child in node.named_children(self.filtered_cst) {
             // it is ok to leave out a sub-pattern if there is a problem with it
-            match self.pattern(&child) {
+            match self.pattern(child) {
                 Ok(arg) => sub_patterns.push(arg),
                 _ => (),
             };
@@ -2703,13 +2805,13 @@ impl Parser {
     //   optional($._patterns),
     //   ')'
     // ),
-    fn tuple_pattern(&mut self, node: &Node) -> ErrorableResult<Expr> {
+    fn tuple_pattern<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<Expr> {
         if node.child_count() == 3 {
             // if single item in tuple, unwrap this and teat as individual item
             // e.g.
             // `(a) = g` would be treated simply as a=g (normal assignment)
             // but, `(a,) = g` would be treated as `(a,) = g` (tuple assignment)
-            let expr_node = &node.child(1).unwrap();
+            let expr_node = &node.child(self.filtered_cst, 1).unwrap();
             self.pattern(expr_node)
         } else {
             let mut sub_patterns = vec![];
@@ -2720,7 +2822,7 @@ impl Parser {
                 ctx: self.get_expression_context(),
             };
 
-            Ok(self.new_expr(tuple_pattern, node))
+            Ok(self.parser.new_expr(tuple_pattern, node))
         }
     }
 
@@ -2729,7 +2831,7 @@ impl Parser {
     //   optional($._patterns),
     //   ']'
     // ),
-    fn list_pattern(&mut self, node: &Node) -> ErrorableResult<Expr> {
+    fn list_pattern<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<Expr> {
         let mut sub_patterns = vec![];
         self.comma_separated_patterns(node, &mut sub_patterns);
 
@@ -2738,25 +2840,25 @@ impl Parser {
             ctx: self.get_expression_context(),
         };
 
-        Ok(self.new_expr(list_pattern, node))
+        Ok(self.parser.new_expr(list_pattern, node))
     }
 
     // list_splat_pattern: $ => seq(
     //   '*',
     //   choice($.identifier, $.keyword_identifier, $.subscript, $.attribute)
     // ),
-    fn list_splat_pattern(&mut self, node: &Node) -> ErrorableResult<Expr> {
+    fn list_splat_pattern<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<Expr> {
         use ProductionKind::*;
 
         // first node is *, second is the choice of ...
-        let actual_pattern_node = &node.child(1).unwrap();
+        let actual_pattern_node = &node.child(self.filtered_cst, 1).unwrap();
 
         let node_type = &get_node_type(actual_pattern_node);
         let value: Expr = match &node_type {
             NodeType::Production(rule) => match &rule.production_kind {
                 IDENTIFIER => {
                     let text_desc = self.name(rule.node);
-                    self.new_expr(text_desc, rule.node)
+                    self.parser.new_expr(text_desc, rule.node)
                 }
                 KEYWORD_IDENTIFIER => {
                     panic!(
@@ -2766,11 +2868,11 @@ impl Parser {
                 }
                 SUBSCRIPT => {
                     let subscript = self.subscript(rule.node)?;
-                    self.new_expr(subscript, rule.node)
+                    self.parser.new_expr(subscript, rule.node)
                 }
                 ATTRIBUTE => {
                     let attribute_desc = self.attribute(rule.node)?;
-                    self.new_expr(attribute_desc, rule.node)
+                    self.parser.new_expr(attribute_desc, rule.node)
                 }
                 _ => {
                     return Err(self.record_recoverable_error(
@@ -2798,7 +2900,7 @@ impl Parser {
             ctx: self.get_expression_context(),
         };
 
-        Ok(self.new_expr(starred, node))
+        Ok(self.parser.new_expr(starred, node))
     }
 
     // Process an ExprDesc.
@@ -2812,7 +2914,7 @@ impl Parser {
     //   $.conditional_expression,
     //   $.named_expression,
     // ),
-    fn expression(&mut self, node: &Node) -> ErrorableResult<Expr> {
+    fn expression<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<Expr> {
         use ProductionKind::*;
 
         let node_type = &get_node_type(node);
@@ -2821,36 +2923,38 @@ impl Parser {
             NodeType::Production(rule) => match &rule.production_kind {
                 COMPARISON_OPERATOR => {
                     let comparison_op_desc = self.comparison_operator(rule.node)?;
-                    self.new_expr(comparison_op_desc, rule.node)
+                    self.parser.new_expr(comparison_op_desc, rule.node)
                 }
                 NOT_OPERATOR => {
                     let not_op_desc = self.not_operator(rule.node)?;
-                    self.new_expr(not_op_desc, rule.node)
+                    self.parser.new_expr(not_op_desc, rule.node)
                 }
                 BOOLEAN_OPERATOR => {
                     let bool_op_desc = self.bool_op(rule.node)?;
-                    self.new_expr(bool_op_desc, rule.node)
+                    self.parser.new_expr(bool_op_desc, rule.node)
                 }
                 AWAIT => {
                     let await_desc = self.await_expr(rule.node)?;
-                    self.new_expr(await_desc, rule.node)
+                    self.parser.new_expr(await_desc, rule.node)
                 }
                 LAMBDA => {
                     let lambda_desc = self.lambda(rule.node)?;
-                    self.new_expr(lambda_desc, rule.node)
+                    self.parser.new_expr(lambda_desc, rule.node)
                 }
                 CONDITIONAL_EXPRESSION => {
                     let if_desc = self.if_exp(rule.node)?;
                     let node = rule.node;
-                    let sub_node = node.child(4).expect("if_exp missing orelse");
+                    let sub_node = node
+                        .child(self.filtered_cst, 4)
+                        .expect("if_exp missing orelse");
                     let start_position = node.start_position();
                     let mut end_position = node.end_position();
 
                     if sub_node.kind() == "as_pattern" {
                         end_position = node
-                            .child(4)
+                            .child(self.filtered_cst, 4)
                             .expect("if_exp missing orelse")
-                            .child(0)
+                            .child(self.filtered_cst, 0)
                             .expect("orelse missing child")
                             .end_position();
                     }
@@ -2864,12 +2968,14 @@ impl Parser {
                 }
                 NAMED_EXPRESSION => {
                     let named_desc = self.named_expression(rule.node)?;
-                    self.new_expr(named_desc, rule.node)
+                    self.parser.new_expr(named_desc, rule.node)
                 }
                 AS_PATTERN => {
-                    let body_node = node.child(0).expect("as_pattern missing body");
-                    let node_type = &get_node_type(&body_node);
-                    self.primary_expression(node_type, &body_node)?
+                    let body_node = node
+                        .child(self.filtered_cst, 0)
+                        .expect("as_pattern missing body");
+                    let node_type = &get_node_type(body_node);
+                    self.primary_expression(node_type, body_node)?
                 }
                 _ => self.primary_expression(node_type, rule.node)?,
             },
@@ -2959,7 +3065,7 @@ impl Parser {
                 ));
             }
         };
-        Ok(self.new_expr(exprdesc, node))
+        Ok(self.parser.new_expr(exprdesc, node))
     }
 
     // parenthesized_expression: $ => prec(PREC.parenthesized_expression, seq(
@@ -2967,13 +3073,13 @@ impl Parser {
     //   choice($.expression, $.yield),
     //   ')'
     // )),
-    fn parenthesized_expression(&mut self, node: &Node) -> ErrorableResult<Expr> {
+    fn parenthesized_expression<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<Expr> {
         let middle_node = &node
-            .child(1)
+            .child(self.filtered_cst, 1)
             .expect("middle node of parenthesized_expression");
         if middle_node.kind() == "yield" {
             let yield_desc = self.yield_statement(middle_node)?;
-            Ok(self.new_expr(yield_desc, middle_node))
+            Ok(self.parser.new_expr(yield_desc, middle_node))
         } else {
             self.expression(middle_node)
         }
@@ -2984,9 +3090,9 @@ impl Parser {
     //   ':=',
     //   field('value', $.expression)
     // ),
-    fn named_expression(&mut self, node: &Node) -> ErrorableResult<ExprDesc> {
+    fn named_expression<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<ExprDesc> {
         let target_node = &node
-            .child_by_field_name("name")
+            .child_by_field_name(self.filtered_cst, "name")
             .expect("named_expression missing name field");
 
         self.set_expression_context(ExprContext::Store);
@@ -2994,7 +3100,7 @@ impl Parser {
         self.pop_expression_context();
 
         let value_node = &node
-            .child_by_field_name("value")
+            .child_by_field_name(self.filtered_cst, "value")
             .expect("named_expression missing value field");
         let value = self.expression(value_node)?;
 
@@ -3007,7 +3113,7 @@ impl Parser {
     //   $._comprehension_clauses,
     //   ']'
     // ),
-    fn list_comp(&mut self, node: &Node) -> ErrorableResult<ExprDesc> {
+    fn list_comp<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<ExprDesc> {
         let mut generators = vec![];
         let elt = self.comprehension_core(node, &mut generators)?;
 
@@ -3020,7 +3126,7 @@ impl Parser {
     //   $._comprehension_clauses,
     //   '}'
     // ),
-    fn set_comp(&mut self, node: &Node) -> ErrorableResult<ExprDesc> {
+    fn set_comp<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<ExprDesc> {
         let mut generators = vec![];
         let elt = self.comprehension_core(node, &mut generators)?;
         Ok(ExprDesc::SetComp { elt, generators })
@@ -3032,7 +3138,7 @@ impl Parser {
     //   $._comprehension_clauses,
     //   ')'
     // ),
-    fn generator_expression(&mut self, node: &Node) -> ErrorableResult<ExprDesc> {
+    fn generator_expression<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<ExprDesc> {
         let mut generators = vec![];
         let elt = self.comprehension_core(node, &mut generators)?;
         Ok(ExprDesc::GeneratorExp { elt, generators })
@@ -3044,7 +3150,7 @@ impl Parser {
     //   $._comprehension_clauses,
     //   '}'
     // ),
-    fn dictionary_comprehension(&mut self, node: &Node) -> ErrorableResult<ExprDesc> {
+    fn dictionary_comprehension<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<ExprDesc> {
         let mut generators = vec![];
         let (key, value) = self.dictionary_pair(node, &mut generators)?;
 
@@ -3055,39 +3161,39 @@ impl Parser {
         })
     }
 
-    fn dictionary_pair(
+    fn dictionary_pair<'a>(
         &mut self,
-        node: &Node,
+        node: &'a Node<'a>,
         generators: &mut Vec<Comprehension>,
     ) -> ErrorableResult<(Expr, Expr)> {
         //let elt =
         let pair_node = node
-            .child_by_field_name("body")
+            .child_by_field_name(self.filtered_cst, "body")
             .expect("missing pair in dictionary_comprehension");
 
         let key_node = pair_node
-            .child_by_field_name("key")
+            .child_by_field_name(self.filtered_cst, "key")
             .expect("missing key in pair node of dictionary");
-        let key = self.expression(&key_node)?;
+        let key = self.expression(key_node)?;
 
         let value_node = pair_node
-            .child_by_field_name("value")
+            .child_by_field_name(self.filtered_cst, "value")
             .expect("missing value in pair node of dictionary");
-        let value = self.expression(&value_node)?;
+        let value = self.expression(value_node)?;
 
         self.comprehension_clauses(node, generators)?;
         Ok((key, value))
     }
 
-    fn comprehension_core(
+    fn comprehension_core<'a>(
         &mut self,
-        node: &Node,
+        node: &'a Node<'a>,
         generators: &mut Vec<Comprehension>,
     ) -> ErrorableResult<Expr> {
         let body_node = node
-            .child_by_field_name("body")
+            .child_by_field_name(self.filtered_cst, "body")
             .expect("missing body in comprehension");
-        let elt = self.expression(&body_node)?;
+        let elt = self.expression(body_node)?;
 
         self.comprehension_clauses(node, generators)?;
         Ok(elt)
@@ -3100,25 +3206,25 @@ impl Parser {
     //    $.if_clause
     //  ))
     // ),
-    fn comprehension_clauses(
+    fn comprehension_clauses<'a>(
         &mut self,
-        node: &Node,
+        node: &'a Node<'a>,
         generators: &mut Vec<Comprehension>,
     ) -> ErrorableResult<()> {
         use ProductionKind::*;
 
-        for child_node in node.named_children(&mut node.walk()) {
+        for child_node in node.named_children(self.filtered_cst) {
             //_comprehension_clauses
-            let child_type = &get_node_type(&child_node);
+            let child_type = &get_node_type(child_node);
             match child_type {
                 // for_in_clause
                 NodeType::Production(prod) => match prod.production_kind {
                     FOR_IN_CLAUSE => {
-                        let comp = self.comprehension_clause(&child_node)?;
+                        let comp = self.comprehension_clause(child_node)?;
                         generators.push(comp);
                     }
                     IF_CLAUSE => {
-                        let expr = self.if_clause(&child_node)?;
+                        let expr = self.if_clause(child_node)?;
                         generators.last_mut().unwrap().ifs.push(expr);
                     }
                     _ => (),
@@ -3150,13 +3256,13 @@ impl Parser {
     //   field('right', commaSep1($._expression_within_for_in_clause)),
     //   optional(',')
     // )),
-    fn comprehension_clause(&mut self, node: &Node) -> ErrorableResult<Comprehension> {
+    fn comprehension_clause<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<Comprehension> {
         let left_node = &node
-            .child_by_field_name("left")
+            .child_by_field_name(self.filtered_cst, "left")
             .expect("comprehension_clause missing left field");
 
         let right_node = &node
-            .child_by_field_name("right")
+            .child_by_field_name(self.filtered_cst, "right")
             .expect("comprehension_clause missing right field");
 
         self.set_expression_context(ExprContext::Store);
@@ -3173,7 +3279,7 @@ impl Parser {
             target,
             iter,
             ifs,
-            is_async: node.child(0).unwrap().kind().eq("async"),
+            is_async: node.child(self.filtered_cst, 0).unwrap().kind().eq("async"),
         })
     }
 
@@ -3181,8 +3287,10 @@ impl Parser {
     //   'if',
     //   $.expression
     // ),
-    fn if_clause(&mut self, node: &Node) -> ErrorableResult<Expr> {
-        let expr_node = &node.child(1).expect("if_clause missing expression");
+    fn if_clause<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<Expr> {
+        let expr_node = node
+            .child(self.filtered_cst, 1)
+            .expect("if_clause missing expression");
 
         self.expression(expr_node)
     }
@@ -3213,15 +3321,15 @@ impl Parser {
     //     field('right', $.primary_expression)
     //   ))));
     // },
-    fn binary_op(&mut self, node: &Node) -> ErrorableResult<ExprDesc> {
+    fn binary_op<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<ExprDesc> {
         let lhs_node = node
-            .child_by_field_name("left")
+            .child_by_field_name(self.filtered_cst, "left")
             .expect("missing lhs in binary op");
-        let left = self.expression(&lhs_node)?;
+        let left = self.expression(lhs_node)?;
         let operator_node = node
-            .child_by_field_name("operator")
+            .child_by_field_name(self.filtered_cst, "operator")
             .expect("missing operator in binary op");
-        let operator = match get_node_type(&operator_node) {
+        let operator = match get_node_type(operator_node) {
             NodeType::BinaryOperator(op) => Operator::try_from(op)
                 .expect("expected NodeType::BinaryOperator to have valid binary operator"),
             _ => {
@@ -3232,9 +3340,9 @@ impl Parser {
             }
         };
         let rhs_node = node
-            .child_by_field_name("right")
+            .child_by_field_name(self.filtered_cst, "right")
             .expect("missing rhs in binary op");
-        let right = self.expression(&rhs_node)?;
+        let right = self.expression(rhs_node)?;
 
         Ok(ExprDesc::BinOp {
             left,
@@ -3250,18 +3358,18 @@ impl Parser {
     //   '.',
     //   field('attribute', $.identifier)
     // )),
-    fn attribute(&mut self, node: &Node) -> ErrorableResult<ExprDesc> {
+    fn attribute<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<ExprDesc> {
         let lhs = node
-            .child_by_field_name("object")
+            .child_by_field_name(self.filtered_cst, "object")
             .expect("missing left hand side (attribute.object)");
-        let lhs_type = get_node_type(&lhs);
+        let lhs_type = get_node_type(lhs);
         self.set_expression_context(ExprContext::Load);
-        let value = self.primary_expression(&lhs_type, &lhs)?;
+        let value = self.primary_expression(&lhs_type, lhs)?;
         self.pop_expression_context();
         let rhs = node
-            .child_by_field_name("attribute")
+            .child_by_field_name(self.filtered_cst, "attribute")
             .expect("missing right hand side (attribute.attribute)");
-        let attr = self.get_valid_identifier(&rhs);
+        let attr = self.get_valid_identifier(rhs);
 
         Ok(ExprDesc::Attribute {
             value,
@@ -3297,19 +3405,19 @@ impl Parser {
     //  optional(',')
     // ),
     fn collection_elements(&mut self, node: &Node, exp_list: &mut Vec<Expr>) {
-        for child in node.named_children(&mut node.walk()) {
+        for child in node.named_children(self.filtered_cst) {
             // it is ok to leave out a subexpression if there is a problem with it
             match child.kind() {
                 "yield" => {
                     // I don't think we should support yield here
                     self.record_recoverable_error(
                         RecoverableError::UnimplementedStatement(format!("{:?}", &child)),
-                        &child,
+                        child,
                     );
                 }
                 "list_splat" => {
-                    match self.starred(&child) {
-                        Ok(starred) => exp_list.push(self.new_expr(starred, &child)),
+                    match self.starred(child) {
+                        Ok(starred) => exp_list.push(self.parser.new_expr(starred, child)),
                         _ => (),
                     };
                 }
@@ -3317,11 +3425,11 @@ impl Parser {
                     // TODO: add support for parenthesized_list_splat
                     self.record_recoverable_error(
                         RecoverableError::UnimplementedStatement(format!("{:?}", &child)),
-                        &child,
+                        child,
                     );
                 }
                 _ => {
-                    match self.expression(&child) {
+                    match self.expression(child) {
                         Ok(arg) => exp_list.push(arg),
                         _ => (),
                     };
@@ -3336,7 +3444,7 @@ impl Parser {
     //   optional($._collection_elements),
     //   ']'
     // ),
-    fn list(&mut self, node: &Node) -> ErrorableResult<ExprDesc> {
+    fn list<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<ExprDesc> {
         let mut expressions = vec![];
         self.collection_elements(node, &mut expressions);
 
@@ -3352,7 +3460,7 @@ impl Parser {
     //   optional($._collection_elements),
     //   ')'
     // ),
-    fn tuple(&mut self, node: &Node) -> ErrorableResult<ExprDesc> {
+    fn tuple<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<ExprDesc> {
         let mut expressions = vec![];
         self.collection_elements(node, &mut expressions);
 
@@ -3368,7 +3476,7 @@ impl Parser {
     //   $._collection_elements,
     //   '}'
     // ),
-    fn set(&mut self, node: &Node) -> ErrorableResult<ExprDesc> {
+    fn set<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<ExprDesc> {
         let mut expressions = vec![];
         self.collection_elements(node, &mut expressions);
 
@@ -3376,15 +3484,21 @@ impl Parser {
     }
 
     //Process Set expression
-    fn if_exp(&mut self, node: &Node) -> ErrorableResult<ExprDesc> {
-        let body_node = node.child(0).expect("if_exp missing body");
-        let body = self.expression(&body_node)?;
+    fn if_exp<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<ExprDesc> {
+        let body_node = node
+            .child(self.filtered_cst, 0)
+            .expect("if_exp missing body");
+        let body = self.expression(body_node)?;
 
-        let test_node = node.child(2).expect("if_exp missing test");
-        let test = self.expression(&test_node)?;
+        let test_node = node
+            .child(self.filtered_cst, 2)
+            .expect("if_exp missing test");
+        let test = self.expression(test_node)?;
 
-        let orelse_node = node.child(4).expect("if_exp missing orelse");
-        let orelse = self.expression(&orelse_node)?;
+        let orelse_node = node
+            .child(self.filtered_cst, 4)
+            .expect("if_exp missing orelse");
+        let orelse = self.expression(orelse_node)?;
 
         Ok(ExprDesc::IfExp { test, body, orelse })
     }
@@ -3406,41 +3520,47 @@ impl Parser {
         let mut keys = vec![];
         let mut values = vec![];
 
-        for pair_or_dictionary_splat in node.named_children(&mut node.walk()) {
-            let pair_or_dictionary_splat_type = get_node_type(&pair_or_dictionary_splat);
+        for pair_or_dictionary_splat in node.named_children(self.filtered_cst) {
+            let pair_or_dictionary_splat_type = get_node_type(pair_or_dictionary_splat);
             match &pair_or_dictionary_splat_type {
                 NodeType::Production(param) => match &param.production_kind {
                     PAIR => {
-                        let key_node = pair_or_dictionary_splat.child(0).ok_or_else(|| {
-                            self.record_recoverable_error(
-                                RecoverableError::MissingChild,
-                                &pair_or_dictionary_splat,
-                            )
-                        })?;
+                        let key_node = pair_or_dictionary_splat
+                            .child(self.filtered_cst, 0)
+                            .ok_or_else(|| {
+                                self.record_recoverable_error(
+                                    RecoverableError::MissingChild,
+                                    pair_or_dictionary_splat,
+                                )
+                            })?;
 
-                        let key = self.expression(&key_node)?;
+                        let key = self.expression(key_node)?;
                         keys.push(Some(key));
 
-                        let value_node = pair_or_dictionary_splat.child(2).ok_or_else(|| {
-                            self.record_recoverable_error(
-                                RecoverableError::MissingChild,
-                                &pair_or_dictionary_splat,
-                            )
-                        })?;
+                        let value_node = pair_or_dictionary_splat
+                            .child(self.filtered_cst, 2)
+                            .ok_or_else(|| {
+                                self.record_recoverable_error(
+                                    RecoverableError::MissingChild,
+                                    pair_or_dictionary_splat,
+                                )
+                            })?;
 
-                        let value = self.expression(&value_node)?;
+                        let value = self.expression(value_node)?;
                         values.push(value);
                     }
                     DICTIONARY_SPLAT => {
-                        let value_node = pair_or_dictionary_splat.child(1).ok_or_else(|| {
-                            self.record_recoverable_error(
-                                RecoverableError::MissingChild,
-                                &pair_or_dictionary_splat,
-                            )
-                        })?;
+                        let value_node = pair_or_dictionary_splat
+                            .child(self.filtered_cst, 1)
+                            .ok_or_else(|| {
+                                self.record_recoverable_error(
+                                    RecoverableError::MissingChild,
+                                    pair_or_dictionary_splat,
+                                )
+                            })?;
 
                         keys.push(None);
-                        let value = self.expression(&value_node)?;
+                        let value = self.expression(value_node)?;
                         values.push(value);
                     }
                     _ => {
@@ -3477,14 +3597,14 @@ impl Parser {
     //     $.argument_list
     //   ))
     // )),
-    fn call(&mut self, node: &Node) -> ErrorableResult<ExprDesc> {
+    fn call<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<ExprDesc> {
         let function = node
-            .child_by_field_name("function")
+            .child_by_field_name(self.filtered_cst, "function")
             .expect("missing function in call");
-        let func = self.expression(&function)?;
+        let func = self.expression(function)?;
 
         let argument_or_generator = node
-            .child_by_field_name("arguments")
+            .child_by_field_name(self.filtered_cst, "arguments")
             .expect("missing arguments (or generator) in call");
 
         let mut args = vec![];
@@ -3492,11 +3612,14 @@ impl Parser {
 
         match argument_or_generator.kind() {
             "generator_expression" => {
-                let generator_expression = self.generator_expression(&argument_or_generator)?;
-                args.push(self.new_expr(generator_expression, &argument_or_generator));
+                let generator_expression = self.generator_expression(argument_or_generator)?;
+                args.push(
+                    self.parser
+                        .new_expr(generator_expression, argument_or_generator),
+                );
             }
             _ => {
-                self.argument_list(&argument_or_generator, &mut args, &mut keywords)?;
+                self.argument_list(argument_or_generator, &mut args, &mut keywords)?;
             }
         }
 
@@ -3531,26 +3654,26 @@ impl Parser {
     ) -> ErrorableResult<()> {
         use ProductionKind::*;
 
-        for child in node.named_children(&mut node.walk()) {
-            let child_type = get_node_type(&child);
+        for child in node.named_children(self.filtered_cst) {
+            let child_type = get_node_type(child);
 
             match &child_type {
                 NodeType::Production(rule) => match &rule.production_kind {
                     //TODO: alias($.parenthesized_list_splat, $.parenthesized_expression), - what does this resolve to?
                     LIST_SPLAT => {
-                        let starred = self.starred(&child)?;
-                        arg_list.push(self.new_expr(starred, &child));
+                        let starred = self.starred(child)?;
+                        arg_list.push(self.parser.new_expr(starred, child));
                     }
                     DICTIONARY_SPLAT => {
-                        let keywordarg = self.dictionary_splat(&child)?;
+                        let keywordarg = self.dictionary_splat(child)?;
                         keyword_list.push(keywordarg);
                     }
                     KEYWORD_ARGUMENT => {
-                        let keywordarg = self.keyword_argument(&child)?;
+                        let keywordarg = self.keyword_argument(child)?;
                         keyword_list.push(keywordarg);
                     }
                     _ => {
-                        let expr = self.expression(&child)?;
+                        let expr = self.expression(child)?;
                         arg_list.push(expr);
                     }
                 },
@@ -3560,7 +3683,7 @@ impl Parser {
                             "unexpected argument handling: {:?}",
                             child_type
                         )),
-                        &child,
+                        child,
                     );
                 }
             };
@@ -3572,10 +3695,12 @@ impl Parser {
     //   '*',
     //   $.expression,
     // ),
-    fn starred(&mut self, node: &Node) -> ErrorableResult<ExprDesc> {
-        let identifier = node.child(1).expect("missing identifier in starred");
+    fn starred<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<ExprDesc> {
+        let identifier = node
+            .child(self.filtered_cst, 1)
+            .expect("missing identifier in starred");
 
-        let value = self.expression(&identifier)?;
+        let value = self.expression(identifier)?;
 
         Ok(ExprDesc::Starred {
             value,
@@ -3597,37 +3722,37 @@ impl Parser {
     //   optional($.expression),
     //   optional(seq(':', optional($.expression)))
     // ),
-    fn subscript(&mut self, node: &Node) -> ErrorableResult<ExprDesc> {
+    fn subscript<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<ExprDesc> {
         let value_node = node
-            .child_by_field_name("value")
+            .child_by_field_name(self.filtered_cst, "value")
             .expect("value field in subscript");
 
         // subscripts and their slies are always loaded, even if they are on the lhs of an assignment operation
         self.set_expression_context(ExprContext::Load);
-        let value = self.expression(&value_node)?;
+        let value = self.expression(value_node)?;
 
         // if many slices, then wrapped inside a Tuple, otherwise slice on its own if only one
         let mut slices: Vec<Expr> = vec![];
 
-        for subscript_node in node.children_by_field_name("subscript", &mut node.walk()) {
+        for subscript_node in node.children_by_field_name(self.filtered_cst, "subscript") {
             let mut slice_elements: Vec<Option<Expr>> = vec![];
 
             let mut last_expr: Option<Expr> = None;
 
             if subscript_node.kind() == "slice" {
-                for slice_child in subscript_node.children(&mut subscript_node.walk()) {
+                for slice_child in subscript_node.children(self.filtered_cst) {
                     // if : or something else
-                    let token = self.get_valid_identifier(&slice_child);
+                    let token = self.get_valid_identifier(slice_child);
                     if token == ":" {
                         slice_elements.push(last_expr);
                         last_expr = None;
                     } else {
-                        last_expr = Some(self.expression(&slice_child)?);
+                        last_expr = Some(self.expression(slice_child)?);
                     }
                 }
                 slice_elements.push(last_expr);
 
-                slices.push(self.new_expr(
+                slices.push(self.parser.new_expr(
                     ExprDesc::Slice {
                         lower: slice_elements.remove(0),
                         upper: {
@@ -3645,27 +3770,31 @@ impl Parser {
                             }
                         },
                     },
-                    &subscript_node,
+                    subscript_node,
                 ));
             } else {
                 // single expression
-                slices.push(self.expression(&subscript_node)?);
+                slices.push(self.expression(subscript_node)?);
             }
         }
 
-        let ends_in_comma = node.child(node.child_count() - 2).unwrap().kind() == ",";
+        let ends_in_comma = node
+            .child(self.filtered_cst, node.child_count() - 2)
+            .unwrap()
+            .kind()
+            == ",";
 
         let slice = if !ends_in_comma && slices.len() == 1 {
             slices.pop().expect("should be at least one slice")
         } else {
             // if ends in comma or if there are more than one slice
             let start_position = node
-                .child(2)
+                .child(self.filtered_cst, 2)
                 .expect("first element of tuple")
                 .start_position();
 
             let end_position = node
-                .child(node.child_count() - 2)
+                .child(self.filtered_cst, node.child_count() - 2)
                 .expect("']' node in subscript")
                 .end_position();
 
@@ -3694,12 +3823,12 @@ impl Parser {
     //   '**',
     //   $.expression
     // ),
-    fn dictionary_splat(&mut self, node: &Node) -> ErrorableResult<AstKeyword> {
+    fn dictionary_splat<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<AstKeyword> {
         let identifier = node
-            .child(1)
+            .child(self.filtered_cst, 1)
             .expect("missing identifier in dictionary_splat");
 
-        let value = self.expression(&identifier)?;
+        let value = self.expression(identifier)?;
 
         //Ok(Box::new(DictionaryFuncArg::new(
         Ok(AstKeyword::new(None, value, node))
@@ -3710,9 +3839,9 @@ impl Parser {
     //   '=',
     //   field('value', $.expression)
     // ),
-    fn keyword_argument(&mut self, node: &Node) -> ErrorableResult<AstKeyword> {
+    fn keyword_argument<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<AstKeyword> {
         let lhs = node
-            .child_by_field_name("name")
+            .child_by_field_name(self.filtered_cst, "name")
             .expect("missing lhs in keyword_argument");
         // TODO: keywords (await and async) are permitted in this location but
         // we use get_valid_identifier anyway as it would be strange for anyone
@@ -3720,13 +3849,13 @@ impl Parser {
         // If this turns out to be a problem then we can add a modifed version
         // of get_valid_identifier that permits await and async to be used as
         // identifiers
-        let arg = self.get_valid_identifier(&lhs);
+        let arg = self.get_valid_identifier(lhs);
 
         let rhs = node
-            .child_by_field_name("value")
+            .child_by_field_name(self.filtered_cst, "value")
             .expect("missing rhs in keyword_argument");
 
-        let value = self.expression(&rhs)?;
+        let value = self.expression(rhs)?;
 
         //Ok(Box::new(DictionaryFuncArg::new(
         Ok(AstKeyword::new(Some(arg), value, node))
@@ -3753,7 +3882,7 @@ impl Parser {
     //     $.primary_expression
     //   ))
     // )),
-    fn comparison_operator(&mut self, node: &Node) -> ErrorableResult<ExprDesc> {
+    fn comparison_operator<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<ExprDesc> {
         // we have to do some hoo haa re skipping nodes and reading ahead to accommodate the
         // fact that `is not` and `not in` are represented as two separate sets of nodes in the cst
 
@@ -3764,7 +3893,7 @@ impl Parser {
         // we need to examine more than one item so in a vector is needed
         let mut all_items = vec![];
 
-        for child in node.children(&mut node.walk()) {
+        for child in node.children(self.filtered_cst) {
             all_items.push(child);
         }
         let mut next_itr = all_items.iter();
@@ -3810,11 +3939,11 @@ impl Parser {
     //   'not',
     //   field('argument', $.expression)
     // )),
-    fn not_operator(&mut self, node: &Node) -> ErrorableResult<ExprDesc> {
+    fn not_operator<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<ExprDesc> {
         let arg = node
-            .child_by_field_name("argument")
+            .child_by_field_name(self.filtered_cst, "argument")
             .expect("missing argument in not operator");
-        let operand = self.expression(&arg)?;
+        let operand = self.expression(arg)?;
 
         Ok(ExprDesc::UnaryOp {
             op: Unaryop::Not,
@@ -3826,9 +3955,11 @@ impl Parser {
     //   'await',
     //   $.expression
     // )),
-    fn await_expr(&mut self, node: &Node) -> ErrorableResult<ExprDesc> {
-        let arg = node.child(1).expect("missing argument in await");
-        let arg = self.expression(&arg)?;
+    fn await_expr<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<ExprDesc> {
+        let arg = node
+            .child(self.filtered_cst, 1)
+            .expect("missing argument in await");
+        let arg = self.expression(arg)?;
 
         Ok(ExprDesc::Await(arg))
     }
@@ -3846,9 +3977,9 @@ impl Parser {
     //   ':',
     //   field('body', $.expression)
     // )),
-    fn lambda(&mut self, node: &Node) -> ErrorableResult<ExprDesc> {
-        let args = match node.child_by_field_name("parameters") {
-            Some(params_node) => self.get_parameters(&params_node)?,
+    fn lambda<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<ExprDesc> {
+        let args = match node.child_by_field_name(self.filtered_cst, "parameters") {
+            Some(params_node) => self.get_parameters(params_node)?,
             _ => Arguments {
                 posonlyargs: vec![],
                 args: vec![],
@@ -3861,9 +3992,9 @@ impl Parser {
         };
 
         let body_node = node
-            .child_by_field_name("body")
+            .child_by_field_name(self.filtered_cst, "body")
             .expect("missing body in lambda");
-        let body = self.expression(&body_node)?;
+        let body = self.expression(body_node)?;
 
         Ok(ExprDesc::Lambda { args, body })
     }
@@ -3880,11 +4011,11 @@ impl Parser {
     //     field('right', $.expression)
     //   ))
     // ),
-    fn bool_op(&mut self, node: &Node) -> ErrorableResult<ExprDesc> {
+    fn bool_op<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<ExprDesc> {
         let op_node = node
-            .child_by_field_name("operator")
+            .child_by_field_name(self.filtered_cst, "operator")
             .expect("missing operator in unary operator");
-        let op_type = get_node_type(&op_node);
+        let op_type = get_node_type(op_node);
         let operator = match op_type {
             NodeType::Keyword(Keyword::AND) => Boolop::And,
             NodeType::Keyword(Keyword::OR) => Boolop::Or,
@@ -3895,9 +4026,9 @@ impl Parser {
 
         for child_name in &["left", "right"] {
             let child_node = node
-                .child_by_field_name(child_name)
+                .child_by_field_name(self.filtered_cst, child_name)
                 .expect("missing child node in boolean_operator");
-            let child_node_expression = self.expression(&child_node)?;
+            let child_node_expression = self.expression(child_node)?;
 
             if let ExprDesc::BoolOp { op: child_op, .. } = &*child_node_expression.desc {
                 if child_node.kind() != "parenthesized_expression" && child_op == &operator {
@@ -3932,11 +4063,11 @@ impl Parser {
     //   field('operator', choice('+', '-', '~')),
     //   field('argument', $.primary_expression)
     // )),
-    fn unary_op(&mut self, node: &Node) -> ErrorableResult<ExprDesc> {
+    fn unary_op<'a>(&mut self, node: &'a Node<'a>) -> ErrorableResult<ExprDesc> {
         let operator_node = node
-            .child_by_field_name("operator")
+            .child_by_field_name(self.filtered_cst, "operator")
             .expect("missing operator in unary operator");
-        let operator_type = get_node_type(&operator_node);
+        let operator_type = get_node_type(operator_node);
         let operator = match operator_type {
             NodeType::BinaryOperator(BinaryOperator::MINUS) => Unaryop::USub,
             NodeType::BinaryOperator(BinaryOperator::PLUS) => Unaryop::UAdd,
@@ -3945,10 +4076,10 @@ impl Parser {
         };
 
         let arg = node
-            .child_by_field_name("argument")
+            .child_by_field_name(self.filtered_cst, "argument")
             .expect("missing argument in not operator");
-        let arg_type = get_node_type(&arg);
-        let operand = self.primary_expression(&arg_type, &arg)?;
+        let arg_type = get_node_type(arg);
+        let operand = self.primary_expression(&arg_type, arg)?;
 
         Ok(ExprDesc::UnaryOp {
             op: operator,
@@ -4036,10 +4167,10 @@ impl Parser {
     /// push each one to expressions as FormattedValue's
     /// push any intervening string chunks to expressions as strings
     /// but watch out for unicode escape_sequences as these are to be treated as an offset
-    fn handle_format_string_interpolation_node_inplace(
+    fn handle_format_string_interpolation_node_inplace<'a>(
         &mut self,
-        maybe_interpolation_node: Node,
-        origin_node: &Node,
+        maybe_interpolation_node: &'a Node<'a>,
+        origin_node: &'a Node<'a>,
         expressions: &mut Vec<Expr>,
         base_col: usize,
         base_row: usize,
@@ -4051,11 +4182,10 @@ impl Parser {
         multiline_offsets: &HashMap<usize, usize>,
     ) -> ErrorableResult<()> {
         if maybe_interpolation_node.kind() == "string_content" {
-            for maybe_escape_sequence in
-                maybe_interpolation_node.named_children(&mut maybe_interpolation_node.walk())
+            for maybe_escape_sequence in maybe_interpolation_node.named_children(self.filtered_cst)
             {
                 if maybe_escape_sequence.kind() == "escape_sequence" {
-                    let escape_sequence = self.get_text(&maybe_escape_sequence);
+                    let escape_sequence = self.get_text(maybe_escape_sequence);
                     if escape_sequence.to_uppercase().starts_with("\\U") {
                         *unicode_offset += 3;
                     } else if escape_sequence.starts_with("\\x") {
@@ -4091,7 +4221,7 @@ impl Parser {
 
             // add next FormattedValue corresponding to {} region
             let interpolation_expression = maybe_interpolation_node
-                .child(1)
+                .child(self.filtered_cst, 1)
                 .expect("expression node of interpolation node");
 
             let mut format_spec: Option<Expr> = None;
@@ -4100,7 +4230,7 @@ impl Parser {
 
             // format_specifier and/or type_conversion may be specified for interpolation_node
             self.extract_interpolation_node_optionals(
-                &maybe_interpolation_node,
+                maybe_interpolation_node,
                 origin_node,
                 &mut format_spec,
                 &mut conversion,
@@ -4119,7 +4249,7 @@ impl Parser {
                 if has_equals {
                     string_before_tidy_braces = string_before_tidy_braces
                         + interpolation_expression
-                            .utf8_text(self.code.as_bytes())
+                            .utf8_text(self.parser.code.as_bytes())
                             .expect("Could not fetch param name")
                         + "="
                 }
@@ -4136,24 +4266,24 @@ impl Parser {
                         "{}{}{}",
                         apostrophe_or_quote, string_before_tidy_braces, apostrophe_or_quote
                     ),
-                    &maybe_interpolation_node,
+                    maybe_interpolation_node,
                 );
-                expressions.push(self.new_expr(string_desc, origin_node));
+                expressions.push(self.parser.new_expr(string_desc, origin_node));
             } else if has_equals {
                 // Create new const expression
                 let expr = interpolation_expression
-                    .utf8_text(self.code.as_bytes())
+                    .utf8_text(self.parser.code.as_bytes())
                     .expect("Could not fetch param name")
                     .to_string()
                     + "=";
 
                 let expr = self.string(format!("'{}'", expr), false);
-                expressions.push(self.new_expr(expr, origin_node));
+                expressions.push(self.parser.new_expr(expr, origin_node));
             }
 
-            let value = self.expression(&interpolation_expression)?;
+            let value = self.expression(interpolation_expression)?;
 
-            expressions.push(self.new_expr(
+            expressions.push(self.parser.new_expr(
                 ExprDesc::FormattedValue {
                     value,
                     conversion,
@@ -4201,10 +4331,10 @@ impl Parser {
     // 2. Calculate offsets for each row in multiline string
     // 3. Iterate by string collecting: string before {}, strings in {} and strings after
     // 4. All subparts pushed respectively to expressions
-    fn format_string(
+    fn format_string<'a>(
         &mut self,
-        format_node: &Node,
-        origin_node: &Node,
+        format_node: &'a Node<'a>,
+        origin_node: &'a Node<'a>,
         node_text: String,
     ) -> ErrorableResult<ExprDesc> {
         let mut expressions: Vec<Expr> = vec![];
@@ -4233,7 +4363,11 @@ impl Parser {
 
         let mut unicode_offset: usize = 0;
 
-        for interpolation_node in format_node.named_children(&mut format_node.walk()) {
+        for interpolation_node in format_node.named_children(self.filtered_cst) {
+            if interpolation_node.kind() == "interpolation" {
+                has_interpolation_nodes = true;
+            }
+
             self.handle_format_string_interpolation_node_inplace(
                 interpolation_node,
                 origin_node,
@@ -4247,10 +4381,6 @@ impl Parser {
                 &apostrophe_or_quote,
                 &multiline_offsets,
             )?;
-
-            if interpolation_node.kind() == "interpolation" {
-                has_interpolation_nodes = true;
-            }
         }
         // adjusted_node_text is only required in case if there is leftover string
         // dropping last " symbol
@@ -4281,12 +4411,12 @@ impl Parser {
                     ),
                     origin_node,
                 );
-                self.new_expr(string_desc, origin_node)
+                self.parser.new_expr(string_desc, origin_node)
             } else {
                 // no interpolation nodes, just treat as normal string and cut of f from start
                 let normal_string = self.tidy_double_braces(node_text[1..].to_string());
                 let string_desc = self.process_string(normal_string, origin_node);
-                self.new_expr(string_desc, origin_node)
+                self.parser.new_expr(string_desc, origin_node)
             };
 
             expressions.push(expr);
@@ -4316,7 +4446,7 @@ impl Parser {
         if interpolation_node_count > 3 {
             for node_id in 2..(interpolation_node_count - 1) {
                 let interpolation_component_node = &interpolation_node
-                    .child(node_id)
+                    .child(self.filtered_cst, node_id)
                     .expect("interpolation_node child");
                 match interpolation_component_node.kind() {
                     "format_specifier" => {
@@ -4325,9 +4455,10 @@ impl Parser {
                             self.get_text(interpolation_component_node)[1..].to_string();
                         let string_desc =
                             self.string(format!("'{}'", interpolation_node_str,), false);
-                        format_spec_expressions.push(self.new_expr(string_desc, origin_node));
+                        format_spec_expressions
+                            .push(self.parser.new_expr(string_desc, origin_node));
                         *format_spec =
-                            Some(self.new_expr(
+                            Some(self.parser.new_expr(
                                 ExprDesc::JoinedStr(format_spec_expressions),
                                 origin_node,
                             ));
@@ -4403,18 +4534,18 @@ impl Parser {
         self.process_string(one_big_string, conc_str_node)
     }
 
-    fn extract_concatinated_strings(
+    fn extract_concatinated_strings<'a>(
         &mut self,
-        conc_str_node: &Node,
+        conc_str_node: &'a Node<'a>,
         strings: &mut Vec<Expr>,
     ) -> ErrorableResult<bool> {
         let mut contains_f_string = false;
-        for child_string_node in conc_str_node.named_children(&mut conc_str_node.walk()) {
-            let child_string_expr = self.raw_string(&child_string_node, conc_str_node)?;
+        for child_string_node in conc_str_node.named_children(self.filtered_cst) {
+            let child_string_expr = self.raw_string(child_string_node, conc_str_node)?;
             if let ExprDesc::JoinedStr(_) = child_string_expr {
                 contains_f_string = true;
             }
-            strings.push(self.new_expr(child_string_expr, &child_string_node));
+            strings.push(self.parser.new_expr(child_string_expr, child_string_node));
         }
         Ok(contains_f_string)
     }
@@ -4435,7 +4566,10 @@ impl Parser {
     /// merged together to form one large string at the boundry point
     /// f-string([a:FormattedValue, b:FormattedValue, c:str]) + f-string([d:str, e:FormattedValue, f:FormattedValue])
     /// => f-string([a:FormattedValue, b:FormattedValue, concat(c+d):str, e:FormattedValue, f:FormattedValue])
-    fn concatenated_string(&mut self, conc_str_node: &Node) -> ErrorableResult<ExprDesc> {
+    fn concatenated_string<'a>(
+        &mut self,
+        conc_str_node: &'a Node<'a>,
+    ) -> ErrorableResult<ExprDesc> {
         let mut strings: Vec<Expr> = vec![];
         let contains_f_string = self.extract_concatinated_strings(conc_str_node, &mut strings)?;
         if contains_f_string {
@@ -4461,7 +4595,7 @@ impl Parser {
                                 to_sew.push(expressions.pop().unwrap());
                                 to_sew.push(child_expressions.remove(0));
                                 let sewn_desc = self.sew_strings_together(to_sew, conc_str_node);
-                                expressions.push(self.new_expr(sewn_desc, conc_str_node));
+                                expressions.push(self.parser.new_expr(sewn_desc, conc_str_node));
                                 // and the rest of the items can be extended into the expressions list
                             }
                         }
@@ -4486,7 +4620,7 @@ impl Parser {
                             to_sew.push(expressions.pop().unwrap());
                             to_sew.push(child_string);
                             let sewn_desc = self.sew_strings_together(to_sew, conc_str_node);
-                            child_string = self.new_expr(sewn_desc, conc_str_node)
+                            child_string = self.parser.new_expr(sewn_desc, conc_str_node)
                         }
                     }
 
@@ -4500,19 +4634,19 @@ impl Parser {
         }
     }
 
-    fn raw_string(
+    fn raw_string<'a>(
         &mut self,
-        raw_string_node: &Node,
-        origin_node: &Node,
+        raw_string_node: &'a Node<'a>,
+        origin_node: &'a Node<'a>,
     ) -> ErrorableResult<ExprDesc> {
         // collect escape sequences and parse into corresponding unicode characters
         let mut escape_sequences = vec![];
         for string_content_nodes in
-            raw_string_node.children_by_field_name("string_content", &mut raw_string_node.walk())
+            raw_string_node.children_by_field_name(self.filtered_cst, "string_content")
         {
-            for child in string_content_nodes.named_children(&mut raw_string_node.walk()) {
+            for child in string_content_nodes.named_children(self.filtered_cst) {
                 if child.kind() == "escape_sequence" {
-                    let escape_sequence = self.get_text(&child);
+                    let escape_sequence = self.get_text(child);
                     if escape_sequence.to_uppercase().starts_with("\\U")
                         || escape_sequence.starts_with("\\x")
                     {
@@ -5009,7 +5143,7 @@ impl Parser {
     // Get a copy of the source code behind this node.
     // For identifiers that is the identifer name.
     fn get_text(&self, node: &Node) -> String {
-        get_node_text(&self.code, node)
+        get_node_text(&self.parser.code, node)
     }
 }
 

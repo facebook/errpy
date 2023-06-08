@@ -19,7 +19,7 @@
  This wrapping could be eliminated at some point or made cheaper.
 */
 
-use tree_sitter::Node;
+use crate::node_wrapper::Node;
 
 ///
 /// Token supertype after extraction from Tree-sitter CST
@@ -271,7 +271,7 @@ pub enum ProductionKind {
 }
 
 impl<'a> Production<'a> {
-    pub fn new(kind: ProductionKind, node: &'a Node) -> Self {
+    pub fn new(kind: ProductionKind, node: &'a Node<'a>) -> Self {
         Production {
             production_kind: kind,
             node,
@@ -282,7 +282,7 @@ impl<'a> Production<'a> {
 ///
 /// Wrap a sitter `Node` into its structured wrapper (`NodeType`)
 ///
-pub fn get_node_type<'a>(node: &'a Node) -> NodeType<'a> {
+pub fn get_node_type<'a>(node: &'a Node<'a>) -> NodeType<'a> {
     match node.kind() {
         // keywords
         "as" => NodeType::Keyword(Keyword::AS),

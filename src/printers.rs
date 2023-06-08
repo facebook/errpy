@@ -13,12 +13,15 @@ use cst_to_ast::ASTAndMetaData;
 use cst_to_ast::Parser as CSTToASTParser;
 use errors::recoverable_error_to_string;
 use errors::ParserError;
+use node_wrapper::build_node_tree;
+use node_wrapper::Node;
 use parser_pre_process::remove_comments;
-use tree_sitter::Node;
 use tree_sitter::Parser as TreeSitterParser;
 
 use crate::cst_to_ast;
 use crate::errors;
+use crate::node_wrapper;
+use crate::node_wrapper::FilteredCST;
 use crate::parser_pre_process;
 
 pub enum PrintingMode {
@@ -159,22 +162,21 @@ impl CSTPrinter {
             .set_language(tree_sitter_python::language())
             .expect("Fail to initialize TreeSitter");
         let tree = parser.parse(&self.code, None).expect("Fail to parse file");
-        let root = tree.root_node();
+        let filtered_cst = build_node_tree(tree.root_node());
         println!(">>> Tree-Sitter CST Nodes:\n");
-        self.print_cst_node(&root, "");
+        self.print_cst_node(&filtered_cst, filtered_cst.get_root(), "");
     }
 
-    fn print_cst_node(&self, node: &Node, indent: &str) {
+    fn print_cst_node(&self, filtered_cst: &FilteredCST, node: &Node, indent: &str) {
         println!(
             "{}{:?} :: {}",
             indent,
             node,
             get_node_text(&self.code, node).replace('\n', "\\n")
         );
-        let mut cursor = node.walk();
-        for child in node.children(&mut cursor) {
+        for child in node.children(filtered_cst) {
             let new_indent = format!("  {}", indent);
-            self.print_cst_node(&child, new_indent.as_str());
+            self.print_cst_node(filtered_cst, child, new_indent.as_str());
         }
     }
 }
