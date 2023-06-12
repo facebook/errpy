@@ -4163,6 +4163,26 @@ impl<'parser> FilteredCSTParser<'parser> {
         }
     }
 
+    fn handle_format_string_escape_sequence(&mut self, maybe_escape_sequence: &Node) -> usize {
+        let escape_sequence = self.get_text(maybe_escape_sequence);
+        if escape_sequence.to_uppercase().starts_with("\\U") {
+            let escape_sequence = self.get_text(maybe_escape_sequence);
+            let unicode = u32::from_str_radix(&escape_sequence[2..], 16).unwrap();
+
+            // correctly determine the amount to offset based on the number of bytes consumed by the unicode character...
+            // see also: https://en.wikipedia.org/wiki/UTF-8#Encoding
+            match char::from_u32(unicode).unwrap().len_utf8() {
+                2 => 4,
+                4 => 6,
+                _ => 3,
+            }
+        } else if escape_sequence.starts_with("\\x") {
+            2
+        } else {
+            0
+        }
+    }
+
     /// walk all interpolated nodes and
     /// push each one to expressions as FormattedValue's
     /// push any intervening string chunks to expressions as strings
@@ -4199,12 +4219,8 @@ impl<'parser> FilteredCSTParser<'parser> {
             for maybe_escape_sequence in maybe_interpolation_node.named_children(self.filtered_cst)
             {
                 if maybe_escape_sequence.kind() == "escape_sequence" {
-                    let escape_sequence = self.get_text(maybe_escape_sequence);
-                    if escape_sequence.to_uppercase().starts_with("\\U") {
-                        *unicode_offset += 3;
-                    } else if escape_sequence.starts_with("\\x") {
-                        *unicode_offset += 2;
-                    }
+                    *unicode_offset +=
+                        self.handle_format_string_escape_sequence(maybe_escape_sequence);
                 }
             }
         } else if maybe_interpolation_node.kind() == "interpolation" {

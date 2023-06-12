@@ -325,6 +325,7 @@ raw_emoji = r"\U0001F4A9"
 ## f-strings with unicode escape sequences
 f_string = f"{symbol} is \U0001F4A9"
 f_string2 = f"{something_else} is \u0001F4A9"
+f_string3 = f"{symbol} is \U0001F4A9 { symbol } "
 
 ## f-strings with unicode escape sequences not just at the end of the f string
 msg = 'a message'
@@ -338,6 +339,9 @@ unicode_f_string = f"\x09{msg} \x09 {msg} \x09"
 ## f-strings with mixed unicode escape sequences and backslash x not just at the end of the f string
 msg = 'a message'
 unicode_f_string = f"\u274C \x09 {msg} \x09"
+
+## f-strings with unusual unicode escape sequences
+xx = f"{title_string},\u00B1\u00B1{a_variable:>3.3f}More String"
 
 ## byte string with unicode escape sequence
 byte_string = b"Bj\xc3\xb6rk"  # should not be converted. Expected: b'Bj\xc3\xb6rk'
