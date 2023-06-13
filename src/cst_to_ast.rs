@@ -3039,7 +3039,6 @@ impl<'parser> FilteredCSTParser<'parser> {
                 CALL => self.call(rule.node)?,
                 LIST => self.list(rule.node)?,
                 LIST_COMPREHENSION => self.list_comp(rule.node)?,
-                LIST_SPLAT_PATTERN => self.starred(rule.node)?, // FIXME: why splat isn't in the comments?
                 DICTIONARY => self.dictionary(rule.node)?,
                 DICTIONARY_COMPREHENSION => self.dictionary_comprehension(rule.node)?,
                 SET => self.set(rule.node)?,
