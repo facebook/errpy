@@ -842,12 +842,28 @@ module.exports = grammar({
     ),
 
     _right_hand_side: $ => choice(
-      $.expression,
-      $.expression_list,
+      $._list_splat_or_expression,
+      $.list_splat_or_expressions,
       $.assignment,
       $.augmented_assignment,
       $.yield
     ),
+
+    list_splat_or_expressions: $ => prec.right(seq(
+      $._list_splat_or_expression,
+      choice(
+        ',',
+        seq(
+          repeat1(seq(
+            ',',
+            $._list_splat_or_expression
+          )),
+          optional(',')
+        ),
+      )
+    )),
+
+    _list_splat_or_expression: $ => choice($.list_splat, $.expression),
 
     yield: $ => prec.right(seq(
       'yield',

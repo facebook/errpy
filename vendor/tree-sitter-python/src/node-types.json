@@ -452,7 +452,11 @@
             "named": true
           },
           {
-            "type": "expression_list",
+            "type": "list_splat",
+            "named": true
+          },
+          {
+            "type": "list_splat_or_expressions",
             "named": true
           },
           {
@@ -592,7 +596,11 @@
             "named": true
           },
           {
-            "type": "expression_list",
+            "type": "list_splat",
+            "named": true
+          },
+          {
+            "type": "list_splat_or_expressions",
             "named": true
           },
           {
@@ -2340,6 +2348,25 @@
       "types": [
         {
           "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "list_splat_or_expressions",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "list_splat",
           "named": true
         }
       ]

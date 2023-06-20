@@ -287,6 +287,13 @@ a, z = d
 a, (b, c) = d
 (a, (b, c)) = d
 
+## Assign - with starred on right hand side
+a, b, *c = *d, None, None
+f = *d,
+
+## splats and dict splats appearing at the same time
+foo(0, *[1], **{'a': 2})
+
 ## list_splat_pattern four versions
 *a = b
 *print = b

@@ -212,6 +212,7 @@ pub enum ProductionKind {
     NAMED_EXPRESSION,
     AS_PATTERN,
     EXPRESSION_LIST,
+    LIST_SPLAT_OR_EXPRESSIONS,
 
     // `primary_expression`
     BINARY_OPERATOR,
@@ -578,6 +579,10 @@ pub fn get_node_type<'a>(node: &'a Node<'a>) -> NodeType<'a> {
         "expression_list" => {
             NodeType::Production(Production::new(ProductionKind::EXPRESSION_LIST, node))
         }
+        "list_splat_or_expressions" => NodeType::Production(Production::new(
+            ProductionKind::LIST_SPLAT_OR_EXPRESSIONS,
+            node,
+        )),
         "dictionary_splat_pattern" => NodeType::Production(Production::new(
             ProductionKind::DICTIONARY_SPLAT_PATTERN,
             node,

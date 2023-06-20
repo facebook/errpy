@@ -118,3 +118,13 @@ format_string = f"sometext {v!r:->8s}"
 format_string = f"sometext {v:->8s}"
 format_string = f"sometext {v!r}"
 format_string = f"sometext {v}"
+
+##PEP 448 – Additional Unpacking Generalizations
+print(*[1], *[2], 3)
+x=dict(**{'x': 1}, y=2, **{'z': 3})
+x=*range(4), 4
+x=[*range(4), 4]
+x={*range(4), 4}
+x={'x': 1, **{'y': 2}}
+x={**{'x': 2}, 'x': 1}
+ranges = [range(i) for i in range(5)]

@@ -2620,12 +2620,28 @@ impl<'parser> FilteredCSTParser<'parser> {
     }
 
     // _right_hand_side: $ => choice(
-    //   $.expression,
-    //   $.expression_list,
+    //   $._list_splat_or_expression,
+    //   $.splat_or_expressions,
     //   $.assignment,
     //   $.augmented_assignment,
     //   $.yield
     // ),
+    //
+    // list_splat_or_expressions: $ => prec.right(seq(
+    //     $._list_splat_or_expression,
+    //     choice(
+    //       ',',
+    //       seq(
+    //         repeat1(seq(
+    //           ',',
+    //           $._list_splat_or_expression
+    //         )),
+    //         optional(',')
+    //       ),
+    //     )
+    //   )),
+    //
+    //  _list_splat_or_expression: $ => choice($.list_splat, $.expression),
     fn assign_right_hand_side<'a>(
         &mut self,
         rhs_node: &'a Node<'a>,
@@ -2636,7 +2652,13 @@ impl<'parser> FilteredCSTParser<'parser> {
         let expr_type = &get_node_type(rhs_node);
         let rhs = match expr_type {
             NodeType::Production(rule) => match &rule.production_kind {
-                EXPRESSION_LIST => {
+                LIST_SPLAT => {
+                    let starred = self.starred(rule.node)?;
+                    self.parser.new_expr(starred, rhs_node)
+                }
+                LIST_SPLAT_OR_EXPRESSIONS => {
+                    // call tuple here as the two subrules needed by list_splat_or_expressions are list_splat
+                    // and expression which are both covered in tuple
                     let tuple_desc = self.tuple(rule.node)?;
                     self.parser.new_expr(tuple_desc, rhs_node)
                 }
@@ -2657,7 +2679,6 @@ impl<'parser> FilteredCSTParser<'parser> {
                     let yield_desc = self.yield_statement(rule.node)?;
                     self.parser.new_expr(yield_desc, rhs_node)
                 }
-                //TODO: what about yeild, augmented assignment
                 _ => self.expression(rhs_node)?,
             },
             _ => self.expression(rhs_node)?,

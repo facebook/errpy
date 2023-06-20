@@ -480,7 +480,7 @@ def foo(**match): pass
       (pattern_list
         (identifier)
         (identifier))
-      (expression_list
+      (list_splat_or_expressions
         (integer)
         (integer))))
   (expression_statement
@@ -494,7 +494,7 @@ def foo(**match): pass
       (pattern_list
         (identifier)
         (identifier))
-      (expression_list
+      (list_splat_or_expressions
         (integer)
         (string
           (string_content)))))
