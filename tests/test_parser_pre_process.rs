@@ -74,3 +74,13 @@ fn test_remove_comments_middle_of_def() {
         "def foo(\n    a=34,\n    \n    skip_loads=True,\n):\n    pass\n\n",
     );
 }
+
+#[test]
+fn test_remove_post_plus() {
+    test_harness(
+        "verification_report += '\\n #' + '#'
+if not self.partition_fbig_col_wipeout_map:
+    pass",
+        "verification_report += '\\n #' + '#'\nif not self.partition_fbig_col_wipeout_map:\n    pass\n",
+    );
+}

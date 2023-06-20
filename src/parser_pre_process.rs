@@ -140,7 +140,13 @@ pub fn remove_comments(input_code: String) -> String {
                     _ => state = OutsideString,
                 }
             }
-            _ => {}
+            _ => {
+                if state == InsideSingleQuotedStringEscape {
+                    state = InsideSingleQuotedString;
+                } else if state == InsideDoubleQuotedStringEscape {
+                    state = InsideDoubleQuotedString;
+                }
+            }
         }
     }
     if line_end.is_none() {
