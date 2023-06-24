@@ -1,4 +1,10 @@
 [workspace]
+
+exclude = [
+    # This directory relates to the buck build, not the cargo build.
+    "shim/third-party/rust",
+]
+
 members = [
     "macro_test_util",
     "ocamlrep",

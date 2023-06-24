@@ -3,9 +3,12 @@
 // This source code is licensed under the MIT license found in the
 // LICENSE file in the root directory of this source tree.
 
+#![allow(unused_crate_dependencies)]
 #![feature(exit_status_error)]
 
 use ocamlrep_ocamlpool::ocaml_ffi;
+use ocamlrep_ocamlpool::ocaml_registered_function;
+use ocamlrep_ocamlpool::FromOcamlRep;
 
 extern "C" {
     fn ocamlpool_enter();
@@ -23,6 +26,12 @@ extern "C" {
 //   This requirement requires some magic
 const MAGIC_MEMORY_SIZE: usize = 1053183;
 
+ocaml_registered_function! {
+    fn f_unit_to_unit();
+    fn f_one_arg_to_unit(x: i64);
+    fn f_sum_tuple(args: (i64, i64)) -> i64;
+}
+
 ocaml_ffi! {
     fn test() {
         unsafe {
@@ -32,18 +41,17 @@ ocaml_ffi! {
             ocamlpool_leave();
         }
     }
-}
 
-// Hack! Trick buck into believing that these libraries are used. See [Note:
-// Test blocks for Cargo] later in this file.
-const _: () = {
-    #[allow(unused_imports)]
-    use anyhow;
-    #[allow(unused_imports)]
-    use cargo_test_utils;
-    #[allow(unused_imports)]
-    use tempdir;
-};
+    fn test_call_ocaml_from_rust() {
+        for _ in 0..4 {
+            unsafe {
+                f_unit_to_unit();
+                f_one_arg_to_unit(3);
+                assert!(f_sum_tuple((3, 4)) == 7);
+            }
+        }
+    }
+}
 
 // [Note: Test blocks for Cargo]
 // -----------------------------
@@ -75,9 +83,9 @@ const _: () = {
 // section in `TARGETS` buck will rightly complain that `unittests=False` (so
 // how can there be `tests_deps`?).
 //
-// The workaround I employ is to "fake" use of the third-party crates in non
-// `#[cfg(test)]` code. That way they can be enumerated in the `deps` and are
-// thereby availabe for use in the `#[cfg(test)]` blocks.
+// The workaround I employ is to add `allow(unused_crate_dependencies)` to this
+// module. That way they can be enumerated in the `deps` and are thereby
+// availabe for use in the `#[cfg(test)]` blocks.
 
 #[cfg(test)]
 mod tests {
