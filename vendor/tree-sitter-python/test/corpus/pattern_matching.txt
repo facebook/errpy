@@ -1169,6 +1169,8 @@ for action in actions:
             ui.wait(duration)
         case {"sound": url, "format": "ogg"}:
             ui.play(url)
+        case {a.b: c}:
+            action()
         case {"sound": _, "format": _}:
             warning("Unsupported audio format")
 --------------------------------------------------------------------------------
@@ -1275,6 +1277,26 @@ for action in actions:
                   (identifier))
                 (argument_list
                   (identifier))))))
+        (case_clause
+          (case_pattern
+            (case_or_pattern
+              (case_closed_pattern
+                (case_mapping_pattern
+                  (case_items_pattern
+                    (case_key_value_pattern
+                      (dotted_name
+                        (identifier)
+                        (identifier))
+                      (case_pattern
+                        (case_or_pattern
+                          (case_closed_pattern
+                            (dotted_name
+                              (identifier)))))))))))
+          (block
+            (expression_statement
+              (call
+                (identifier)
+                (argument_list)))))
         (case_clause
           (case_pattern
             (case_or_pattern

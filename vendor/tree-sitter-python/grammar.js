@@ -575,7 +575,7 @@ module.exports = grammar({
     case_items_pattern: $ => seq(commaSep1($.case_key_value_pattern), optional(',')),
 
     case_key_value_pattern: $ => seq(
-      field("key", $.case_literal_pattern), ':', field("value", $.case_pattern)
+      field("key", choice($.case_literal_pattern, $.dotted_name)), ':', field("value", $.case_pattern)
     ),
 
     case_star_pattern: $ => choice(

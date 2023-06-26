@@ -989,6 +989,10 @@
           {
             "type": "case_literal_pattern",
             "named": true
+          },
+          {
+            "type": "dotted_name",
+            "named": true
           }
         ]
       },

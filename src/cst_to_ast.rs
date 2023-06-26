@@ -1002,6 +1002,9 @@ impl<'parser> FilteredCSTParser<'parser> {
         }
     }
 
+    // case_key_value_pattern: $ => seq(
+    //  field("key", choice($.case_literal_pattern, $.dotted_name)), ':', field("value", $.case_pattern)
+    // ),
     fn case_key_value_pattern<'a>(
         &mut self,
         case_items_pattern_node: &'a Node<'a>,
@@ -1015,8 +1018,23 @@ impl<'parser> FilteredCSTParser<'parser> {
             .child_by_field_name(self.filtered_cst, "value")
             .expect("value node of key value pattern");
 
-        let key_node_child = &key_node.child(self.filtered_cst, 0).unwrap();
-        keys.push(self.expression(key_node_child)?);
+        let key_expr = match key_node.kind() {
+            "dotted_name" => {
+                let mut name_parts = vec![];
+                for part in key_node.named_children(self.filtered_cst) {
+                    name_parts.push(part);
+                }
+
+                let expr_desc = self
+                    .wrap_dotted_name_into_attribute_access_for_case_patterns(name_parts, key_node);
+                self.parser.new_expr(expr_desc, key_node)
+            }
+            _ => {
+                let key_node_child = &key_node.child(self.filtered_cst, 0).unwrap();
+                self.expression(key_node_child)?
+            }
+        };
+        keys.push(key_expr);
 
         patterns.push(self.case_pattern(value_node)?);
 
