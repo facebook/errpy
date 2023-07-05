@@ -14,14 +14,8 @@ jobs:
           soft_fail: true # set to true so that if the branch doesn't exist action doesnt fail
           branches: release
       - uses: actions/checkout@v2
-      - uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-      - name: run `cargo vendor vendor_external`
-        uses: actions-rs/cargo@v1
-        with:
-          command: vendor
-          args: vendor_external
+      - uses: dtolnay/rust-toolchain@stable
+      - run: cargo vendor vendor_external
       - name: Create .cargo dir
         run: |
           mkdir -p .cargo
