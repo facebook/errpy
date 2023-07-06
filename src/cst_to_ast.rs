@@ -1229,11 +1229,9 @@ impl<'parser> FilteredCSTParser<'parser> {
             .unwrap();
 
         let pattern = self.case_maybe_star_pattern(maybe_star_pattern_node);
-        match pattern {
-            Ok(pattern) => {
-                patterns.push(pattern);
-            }
-            _ => (), // error already reported
+        if let Ok(pattern) = pattern {
+            // if not OK then this is fine as error already reported
+            patterns.push(pattern);
         }
 
         if let Some(maybe_maybe_sequence_pattern_node) =
