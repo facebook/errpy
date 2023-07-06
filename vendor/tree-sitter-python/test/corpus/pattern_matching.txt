@@ -1890,3 +1890,35 @@ match x:
                   (float)))))))
       (block
         (pass_statement)))))
+
+================================================================================
+Maybe sequence pattern right hand side precedence validation
+================================================================================
+match x:
+    case a1, *a2, a3:
+        pass
+--------------------------------------------------------------------------------
+
+(module
+  (match_statement
+    (identifier)
+    (case_clause
+      (case_open_sequence_pattern
+        (case_maybe_star_pattern
+          (case_pattern
+            (case_or_pattern
+              (case_closed_pattern
+                (dotted_name
+                  (identifier))))))
+        (case_maybe_sequence_pattern
+          (case_maybe_star_pattern
+            (case_star_pattern
+              (identifier)))
+          (case_maybe_star_pattern
+            (case_pattern
+              (case_or_pattern
+                (case_closed_pattern
+                  (dotted_name
+                    (identifier))))))))
+      (block
+        (pass_statement)))))

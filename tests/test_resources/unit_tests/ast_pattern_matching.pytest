@@ -374,3 +374,8 @@ match x:
         pass
     case  3 - 5.j:
         pass
+
+## Maybe sequence pattern right hand side precedence validation
+match a:
+    case a1, *a2, a3:
+        pass

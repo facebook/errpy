@@ -569,7 +569,7 @@ module.exports = grammar({
       field("maybe_star", $.case_maybe_star_pattern), ',', field("maybe_sequence", optional($.case_maybe_sequence_pattern))
     ),
 
-    case_maybe_sequence_pattern: $ => prec.left(seq(commaSep1($.case_maybe_star_pattern), optional(','))),
+    case_maybe_sequence_pattern: $ => prec.right(seq(commaSep1($.case_maybe_star_pattern), optional(','))),
 
     case_maybe_star_pattern: $ => prec.left(choice(
       $.case_star_pattern,

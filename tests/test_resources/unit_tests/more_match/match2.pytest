@@ -319,10 +319,6 @@ def test_illegal_type_alias(m: object):
 
 def test_negative_narrowing1(subj: tuple[Literal[0]] | tuple[Literal[1]]):
     match subj:
-        case (1,*a) | (*a):
-            reveal_type(subj, expected_text="tuple[Literal[1]] | tuple[Literal[0]]")
-            reveal_type(a, expected_text="list[int]")
-
         case b:
             reveal_type(subj, expected_text="Never")
             reveal_type(b, expected_text="Never")
