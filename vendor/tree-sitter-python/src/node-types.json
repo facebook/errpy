@@ -1050,7 +1050,7 @@
     }
   },
   {
-    "type": "case_literal_pattern",
+    "type": "case_literal_integer_or_float",
     "named": true,
     "fields": {
       "neg": {
@@ -1069,19 +1069,38 @@
       "required": true,
       "types": [
         {
-          "type": "concatenated_string",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
           "type": "float",
           "named": true
         },
         {
           "type": "integer",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "case_literal_pattern",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "case_literal_integer_or_float",
+          "named": true
+        },
+        {
+          "type": "case_literal_pattern_complex_number",
+          "named": true
+        },
+        {
+          "type": "concatenated_string",
+          "named": true
+        },
+        {
+          "type": "false",
           "named": true
         },
         {
@@ -1097,6 +1116,46 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "case_literal_pattern_complex_number",
+    "named": true,
+    "fields": {
+      "imaginary_component": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "case_literal_integer_or_float",
+            "named": true
+          }
+        ]
+      },
+      "real_component": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "case_literal_integer_or_float",
+            "named": true
+          }
+        ]
+      },
+      "sign": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "+",
+            "named": false
+          },
+          {
+            "type": "-",
+            "named": false
+          }
+        ]
+      }
     }
   },
   {

@@ -361,3 +361,16 @@ match color:
             pass
         case 3. | -3.:
             pass
+
+## Match complex numbers
+match x:
+    case  -3 + 5j:
+        pass
+    case  -3 + 5j as b2:
+        pass
+    case 3j as b1, -3 + 5j as b2:
+        pass
+    case  -3. + 5j:
+        pass
+    case  3 - 5.j:
+        pass

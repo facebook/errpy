@@ -2294,38 +2294,12 @@
           "name": "concatenated_string"
         },
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "FIELD",
-              "name": "neg",
-              "content": {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "STRING",
-                    "value": "-"
-                  },
-                  {
-                    "type": "BLANK"
-                  }
-                ]
-              }
-            },
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "integer"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "float"
-                }
-              ]
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "case_literal_pattern_complex_number"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "case_literal_integer_or_float"
         },
         {
           "type": "SYMBOL",
@@ -2338,6 +2312,78 @@
         {
           "type": "SYMBOL",
           "name": "none"
+        }
+      ]
+    },
+    "case_literal_pattern_complex_number": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "real_component",
+          "content": {
+            "type": "SYMBOL",
+            "name": "case_literal_integer_or_float"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "sign",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "+"
+              },
+              {
+                "type": "STRING",
+                "value": "-"
+              }
+            ]
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "imaginary_component",
+          "content": {
+            "type": "SYMBOL",
+            "name": "case_literal_integer_or_float"
+          }
+        }
+      ]
+    },
+    "case_literal_integer_or_float": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "neg",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "-"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "integer"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "float"
+            }
+          ]
         }
       ]
     },

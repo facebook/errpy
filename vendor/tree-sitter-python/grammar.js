@@ -539,11 +539,22 @@ module.exports = grammar({
     case_literal_pattern: $ => choice(
       $.string,
       $.concatenated_string,
-      seq(field('neg', optional('-')), choice($.integer, $.float)),
+      $.case_literal_pattern_complex_number,
+      $.case_literal_integer_or_float,
       $.true,
       $.false,
       $.none
     ),
+
+    case_literal_pattern_complex_number: $ => seq(
+      field("real_component", $.case_literal_integer_or_float),
+      field("sign", choice('+', '-')),
+      field("imaginary_component", $.case_literal_integer_or_float),
+    ),
+
+    case_literal_integer_or_float : $ => seq(
+      field('neg', optional('-')),
+      choice($.integer, $.float)),
 
     case_wildcard_pattern: $ => "_",
 

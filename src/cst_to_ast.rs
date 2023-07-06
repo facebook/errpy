@@ -743,7 +743,8 @@ impl<'parser> FilteredCSTParser<'parser> {
     // case_literal_pattern: $ => choice(
     //   $.string,
     //   $.concatenated_string,
-    //   seq(field('neg', optional('-')), $.integer),
+    //   $.case_literal_pattern_complex_number,
+    //   $._integer_or_float,
     //   $.float,
     //   $.true,
     //   $.false,
@@ -754,23 +755,16 @@ impl<'parser> FilteredCSTParser<'parser> {
         literal_pattern_node: &'a Node<'a>,
     ) -> ErrorableResult<PatternDesc> {
         // True, False, None are mapped to MatchSingleton, everything else to MatchValue
-        if literal_pattern_node
-            .child_by_field_name(self.filtered_cst, "neg")
-            .is_some()
-        {
-            // negative number
-            let child_node = &literal_pattern_node.child(self.filtered_cst, 1).unwrap();
-            let operand = self.expression(child_node)?;
-            let expr_desc = ExprDesc::UnaryOp {
-                op: Unaryop::USub,
-                operand,
-            };
-            let value = self.parser.new_expr(expr_desc, literal_pattern_node);
-            return Ok(PatternDesc::MatchValue(value));
-        }
-
         let child_node = &literal_pattern_node.child(self.filtered_cst, 0).unwrap();
         Ok(match child_node.kind() {
+            "case_literal_integer_or_float" => {
+                let case_literal_integer_or_float =
+                    self.case_literal_integer_or_float(child_node)?;
+                PatternDesc::MatchValue(case_literal_integer_or_float.0)
+            }
+            "case_literal_pattern_complex_number" => {
+                PatternDesc::MatchValue(self.case_literal_pattern_complex_number(child_node)?)
+            }
             "false" => PatternDesc::MatchSingleton(Some(ConstantDesc::Bool(false))),
             "true" => PatternDesc::MatchSingleton(Some(ConstantDesc::Bool(true))),
             "none" => PatternDesc::MatchSingleton(None),
@@ -779,6 +773,131 @@ impl<'parser> FilteredCSTParser<'parser> {
                 PatternDesc::MatchValue(value)
             }
         })
+    }
+
+    // case_literal_integer_or_float : $ => seq(
+    //  field('neg', optional('-')),
+    //  choice($.integer, $.float)),
+    // ),
+    fn case_literal_integer_or_float<'a>(
+        &mut self,
+        case_literal_integer_or_float_node: &'a Node<'a>,
+    ) -> ErrorableResult<(Expr, bool, bool)> {
+        if case_literal_integer_or_float_node
+            .child_by_field_name(self.filtered_cst, "neg")
+            .is_some()
+        {
+            let child_node = &case_literal_integer_or_float_node
+                .child(self.filtered_cst, 1)
+                .unwrap();
+            let operand = self.expression(child_node)?;
+
+            let is_complex = match *operand.desc {
+                ExprDesc::Constant {
+                    value: Some(ConstantDesc::Num(Num::Complex(_))),
+                    kind: _,
+                } => true,
+                _ => false,
+            };
+
+            let expr_desc = ExprDesc::UnaryOp {
+                op: Unaryop::USub,
+                operand,
+            };
+            Ok((
+                self.parser
+                    .new_expr(expr_desc, case_literal_integer_or_float_node),
+                is_complex,
+                true,
+            ))
+        } else {
+            let expression = self.expression(
+                case_literal_integer_or_float_node
+                    .child(self.filtered_cst, 0)
+                    .unwrap(),
+            )?;
+
+            let is_complex = match *expression.desc {
+                ExprDesc::Constant {
+                    value: Some(ConstantDesc::Num(Num::Complex(_))),
+                    kind: _,
+                } => true,
+                _ => false,
+            };
+
+            Ok((expression, is_complex, false))
+        }
+    }
+
+    // case_literal_pattern_complex_number: $ => seq(
+    //  field("real_component", $.case_literal_integer_or_float),
+    //  field("sign", choice('+', '-')),
+    //  field("imaginary_component", $.case_literal_integer_or_float),
+    // ),
+    fn case_literal_pattern_complex_number<'a>(
+        &mut self,
+        case_literal_pattern_complex_number_node: &'a Node<'a>,
+    ) -> ErrorableResult<Expr> {
+        let real_component_node = case_literal_pattern_complex_number_node
+            .child_by_field_name(self.filtered_cst, "real_component")
+            .unwrap();
+        let imaginary_component_node = case_literal_pattern_complex_number_node
+            .child_by_field_name(self.filtered_cst, "imaginary_component")
+            .unwrap();
+        let sign_node = case_literal_pattern_complex_number_node
+            .child_by_field_name(self.filtered_cst, "sign")
+            .unwrap();
+
+        let (real_component, real_is_complex, _) =
+            self.case_literal_integer_or_float(real_component_node)?;
+        let (imaginary_component, imaginary_is_complex, imaginary_is_neg) =
+            self.case_literal_integer_or_float(imaginary_component_node)?;
+
+        let op = if sign_node.kind() == "+" {
+            Operator::Add
+        } else {
+            // -
+            Operator::Sub
+        };
+
+        // we do some additional validation to ensure that the specified value is a valid complex number
+        // first part must be real, second must be complex (and positive)
+
+        if real_is_complex {
+            self.record_recoverable_error(
+                RecoverableError::SyntaxError(
+                    "first part of complex number must be real".to_string(),
+                ),
+                real_component_node,
+            );
+        }
+
+        if imaginary_is_complex {
+            if imaginary_is_neg {
+                self.record_recoverable_error(
+                    RecoverableError::SyntaxError(
+                        "second part of complex number must be a positive".to_string(),
+                    ),
+                    imaginary_component_node,
+                );
+            }
+        } else {
+            self.record_recoverable_error(
+                RecoverableError::SyntaxError(
+                    "second part of complex number must be a imaginary".to_string(),
+                ),
+                imaginary_component_node,
+            );
+        }
+
+        Ok(self.parser.new_expr(
+            ExprDesc::BinOp {
+                left: real_component,
+                op,
+                right: imaginary_component,
+            },
+            case_literal_pattern_complex_number_node,
+        ))
     }
 
     // case_class_pattern: $ => choice(
@@ -1031,7 +1150,16 @@ impl<'parser> FilteredCSTParser<'parser> {
             }
             _ => {
                 let key_node_child = &key_node.child(self.filtered_cst, 0).unwrap();
-                self.expression(key_node_child)?
+
+                match key_node_child.kind() {
+                    "case_literal_pattern_complex_number" => {
+                        self.case_literal_pattern_complex_number(key_node_child)?
+                    }
+                    "case_literal_integer_or_float" => {
+                        self.case_literal_integer_or_float(key_node_child)?.0
+                    }
+                    _ => self.expression(key_node_child)?,
+                }
             }
         };
         keys.push(key_expr);

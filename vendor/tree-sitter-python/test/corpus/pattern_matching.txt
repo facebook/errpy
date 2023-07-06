@@ -625,7 +625,8 @@ match 0:
         (case_or_pattern
           (case_closed_pattern
             (case_literal_pattern
-              (integer)))))
+              (case_literal_integer_or_float
+                (integer))))))
       (if_clause
         (false))
       (block
@@ -638,7 +639,8 @@ match 0:
         (case_or_pattern
           (case_closed_pattern
             (case_literal_pattern
-              (integer)))))
+              (case_literal_integer_or_float
+                (integer))))))
       (if_clause
         (true))
       (block
@@ -673,10 +675,12 @@ match xxx:
         (case_or_pattern
           (case_closed_pattern
             (case_literal_pattern
-              (integer)))
+              (case_literal_integer_or_float
+                (integer))))
           (case_closed_pattern
             (case_literal_pattern
-              (integer)))))
+              (case_literal_integer_or_float
+                (integer))))))
       (block
         (pass_statement)))
     (case_clause
@@ -705,10 +709,12 @@ match xxx:
         (case_or_pattern
           (case_closed_pattern
             (case_literal_pattern
-              (float)))
+              (case_literal_integer_or_float
+                (float))))
           (case_closed_pattern
             (case_literal_pattern
-              (float)))))
+              (case_literal_integer_or_float
+                (float))))))
       (block
         (pass_statement)))
     (case_clause
@@ -754,14 +760,16 @@ match (0, 1, 2):
             (case_or_pattern
               (case_closed_pattern
                 (case_literal_pattern
-                  (integer))))))
+                  (case_literal_integer_or_float
+                    (integer)))))))
         (case_maybe_sequence_pattern
           (case_maybe_star_pattern
             (case_pattern
               (case_or_pattern
                 (case_closed_pattern
                   (case_literal_pattern
-                    (integer))))))))
+                    (case_literal_integer_or_float
+                      (integer)))))))))
       (block
         (expression_statement
           (assignment
@@ -774,7 +782,8 @@ match (0, 1, 2):
             (case_or_pattern
               (case_closed_pattern
                 (case_literal_pattern
-                  (integer))))))
+                  (case_literal_integer_or_float
+                    (integer)))))))
         (case_maybe_sequence_pattern
           (case_maybe_star_pattern
             (case_star_pattern
@@ -1567,17 +1576,20 @@ match x:
                   (case_or_pattern
                     (case_closed_pattern
                       (case_literal_pattern
-                        (integer)))))
+                        (case_literal_integer_or_float
+                          (integer))))))
                 (case_pattern
                   (case_or_pattern
                     (case_closed_pattern
                       (case_literal_pattern
-                        (integer)))))
+                        (case_literal_integer_or_float
+                          (integer))))))
                 (case_pattern
                   (case_or_pattern
                     (case_closed_pattern
                       (case_literal_pattern
-                        (integer))))))))))
+                        (case_literal_integer_or_float
+                          (integer)))))))))))
       (comment)
       (block
         (expression_statement
@@ -1598,21 +1610,24 @@ match x:
                     (case_or_pattern
                       (case_closed_pattern
                         (case_literal_pattern
-                          (integer))))))
+                          (case_literal_integer_or_float
+                            (integer)))))))
                 (case_keyword_pattern
                   (identifier)
                   (case_pattern
                     (case_or_pattern
                       (case_closed_pattern
                         (case_literal_pattern
-                          (integer))))))
+                          (case_literal_integer_or_float
+                            (integer)))))))
                 (case_keyword_pattern
                   (identifier)
                   (case_pattern
                     (case_or_pattern
                       (case_closed_pattern
                         (case_literal_pattern
-                          (integer)))))))))))
+                          (case_literal_integer_or_float
+                            (integer))))))))))))
       (comment)
       (block
         (expression_statement
@@ -1631,7 +1646,8 @@ match x:
                   (case_or_pattern
                     (case_closed_pattern
                       (case_literal_pattern
-                        (integer))))))
+                        (case_literal_integer_or_float
+                          (integer)))))))
               (case_keyword_patterns
                 (case_keyword_pattern
                   (identifier)
@@ -1639,21 +1655,24 @@ match x:
                     (case_or_pattern
                       (case_closed_pattern
                         (case_literal_pattern
-                          (integer))))))
+                          (case_literal_integer_or_float
+                            (integer)))))))
                 (case_keyword_pattern
                   (identifier)
                   (case_pattern
                     (case_or_pattern
                       (case_closed_pattern
                         (case_literal_pattern
-                          (integer))))))
+                          (case_literal_integer_or_float
+                            (integer)))))))
                 (case_keyword_pattern
                   (identifier)
                   (case_pattern
                     (case_or_pattern
                       (case_closed_pattern
                         (case_literal_pattern
-                          (integer)))))))))))
+                          (case_literal_integer_or_float
+                            (integer))))))))))))
       (comment)
       (block
         (expression_statement
@@ -1672,17 +1691,20 @@ match x:
                   (case_or_pattern
                     (case_closed_pattern
                       (case_literal_pattern
-                        (integer)))))
+                        (case_literal_integer_or_float
+                          (integer))))))
                 (case_pattern
                   (case_or_pattern
                     (case_closed_pattern
                       (case_literal_pattern
-                        (integer)))))
+                        (case_literal_integer_or_float
+                          (integer))))))
                 (case_pattern
                   (case_or_pattern
                     (case_closed_pattern
                       (case_literal_pattern
-                        (integer))))))))))
+                        (case_literal_integer_or_float
+                          (integer)))))))))))
       (comment)
       (block
         (expression_statement
@@ -1703,21 +1725,24 @@ match x:
                     (case_or_pattern
                       (case_closed_pattern
                         (case_literal_pattern
-                          (integer))))))
+                          (case_literal_integer_or_float
+                            (integer)))))))
                 (case_keyword_pattern
                   (identifier)
                   (case_pattern
                     (case_or_pattern
                       (case_closed_pattern
                         (case_literal_pattern
-                          (integer))))))
+                          (case_literal_integer_or_float
+                            (integer)))))))
                 (case_keyword_pattern
                   (identifier)
                   (case_pattern
                     (case_or_pattern
                       (case_closed_pattern
                         (case_literal_pattern
-                          (integer)))))))))))
+                          (case_literal_integer_or_float
+                            (integer))))))))))))
       (comment)
       (block
         (expression_statement
@@ -1736,7 +1761,8 @@ match x:
                   (case_or_pattern
                     (case_closed_pattern
                       (case_literal_pattern
-                        (integer))))))
+                        (case_literal_integer_or_float
+                          (integer)))))))
               (case_keyword_patterns
                 (case_keyword_pattern
                   (identifier)
@@ -1744,24 +1770,123 @@ match x:
                     (case_or_pattern
                       (case_closed_pattern
                         (case_literal_pattern
-                          (integer))))))
+                          (case_literal_integer_or_float
+                            (integer)))))))
                 (case_keyword_pattern
                   (identifier)
                   (case_pattern
                     (case_or_pattern
                       (case_closed_pattern
                         (case_literal_pattern
-                          (integer))))))
+                          (case_literal_integer_or_float
+                            (integer)))))))
                 (case_keyword_pattern
                   (identifier)
                   (case_pattern
                     (case_or_pattern
                       (case_closed_pattern
                         (case_literal_pattern
-                          (integer)))))))))))
+                          (case_literal_integer_or_float
+                            (integer))))))))))))
       (comment)
       (block
         (expression_statement
           (call
             (identifier)
             (argument_list)))))))
+
+================================================================================
+Complex case patterns on complex numbers
+================================================================================
+match x:
+    case  -3 + 5j:
+        pass
+    case  -3 + 5j as b2:
+        pass
+    case 3j as b1, -3 + 5j as b2:
+        pass
+    case  -3. + 5j:
+        pass
+    case  3 - 5.j:
+        pass
+--------------------------------------------------------------------------------
+
+(module
+  (match_statement
+    (identifier)
+    (case_clause
+      (case_pattern
+        (case_or_pattern
+          (case_closed_pattern
+            (case_literal_pattern
+              (case_literal_pattern_complex_number
+                (case_literal_integer_or_float
+                  (integer))
+                (case_literal_integer_or_float
+                  (integer)))))))
+      (block
+        (pass_statement)))
+    (case_clause
+      (case_pattern
+        (case_as_pattern
+          (case_or_pattern
+            (case_closed_pattern
+              (case_literal_pattern
+                (case_literal_pattern_complex_number
+                  (case_literal_integer_or_float
+                    (integer))
+                  (case_literal_integer_or_float
+                    (integer))))))
+          (identifier)))
+      (block
+        (pass_statement)))
+    (case_clause
+      (case_open_sequence_pattern
+        (case_maybe_star_pattern
+          (case_pattern
+            (case_as_pattern
+              (case_or_pattern
+                (case_closed_pattern
+                  (case_literal_pattern
+                    (case_literal_integer_or_float
+                      (integer)))))
+              (identifier))))
+        (case_maybe_sequence_pattern
+          (case_maybe_star_pattern
+            (case_pattern
+              (case_as_pattern
+                (case_or_pattern
+                  (case_closed_pattern
+                    (case_literal_pattern
+                      (case_literal_pattern_complex_number
+                        (case_literal_integer_or_float
+                          (integer))
+                        (case_literal_integer_or_float
+                          (integer))))))
+                (identifier))))))
+      (block
+        (pass_statement)))
+    (case_clause
+      (case_pattern
+        (case_or_pattern
+          (case_closed_pattern
+            (case_literal_pattern
+              (case_literal_pattern_complex_number
+                (case_literal_integer_or_float
+                  (float))
+                (case_literal_integer_or_float
+                  (integer)))))))
+      (block
+        (pass_statement)))
+    (case_clause
+      (case_pattern
+        (case_or_pattern
+          (case_closed_pattern
+            (case_literal_pattern
+              (case_literal_pattern_complex_number
+                (case_literal_integer_or_float
+                  (integer))
+                (case_literal_integer_or_float
+                  (float)))))))
+      (block
+        (pass_statement)))))
