@@ -20,7 +20,7 @@ let () =
   match Errpyparser.parse_module Sys.argv.(1) with
   | Ok (mod_, recoverable_errors) ->
       Printf.printf
-        "Parser produced AST:\n%s\nRecoverable Errors:\n%s\n"
+        "\nParser produced AST:\n%s\n\nRecoverable Errors:\n%s\n"
         (Errpyast.show_mod_ mod_)
         (print_recoverable_errors recoverable_errors)
   | Error err -> Printf.eprintf "Parser error: %s\n" err
