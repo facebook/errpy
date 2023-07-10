@@ -34,6 +34,6 @@ fn main() {
     if errors.is_empty() {
         println!("{}", ast);
     } else {
-        println!("{}{}", ast, errors);
+        print!("{}\n{}", ast, errors);
     }
 }
