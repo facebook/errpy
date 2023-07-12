@@ -6,7 +6,6 @@
 pub mod ast_pretty_print;
 pub mod ast_pretty_print_helper;
 pub mod ast_print;
-
 use ast_pretty_print_helper::PrintHelper;
 use cst_to_ast::get_node_text;
 use cst_to_ast::ASTAndMetaData;

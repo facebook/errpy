@@ -5,7 +5,7 @@
 
 import ast
 
-from python.errpy.src import ffi_python
+from python.errpy import ffi_python
 
 
 def _do_format_ast_with_indentation(to_format: str, indent: int) -> str:

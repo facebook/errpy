@@ -17,7 +17,7 @@
  (action
   (progn
    (run cargo build --release)
-   (run cp ../../../target/release/libffi_ocaml.a libffi_ocaml.a))))
+   (run cp ../../target/release/libffi_ocaml.a libffi_ocaml.a))))
 
 (library
  (name errpy)

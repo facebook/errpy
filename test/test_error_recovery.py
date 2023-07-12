@@ -6,7 +6,7 @@
 
 import unittest
 
-from python.errpy.tests.utils.error_recovery_common import ErrorRecoveryCommon
+from python.errpy.test.utils.error_recovery_common import ErrorRecoveryCommon
 
 
 class AllLargeInputTests(ErrorRecoveryCommon):

@@ -6,7 +6,7 @@
 
 import unittest
 
-from python.errpy.tests.utils.test_common import ASTTestCommon, PRETTY_PRINTER_TESTS_DIR
+from python.errpy.test.utils.test_common import ASTTestCommon, PRETTY_PRINTER_TESTS_DIR
 
 
 class AllGrammarTests(ASTTestCommon):

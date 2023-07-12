@@ -6,8 +6,8 @@
 
 import unittest
 
-from python.errpy.tests.utils.error_recovery_common import ErrorRecoveryCommon
-from python.errpy.tests.utils.test_common import INVALID_SYNTAX_TESTS_DIR
+from python.errpy.test.utils.error_recovery_common import ErrorRecoveryCommon
+from python.errpy.test.utils.test_common import INVALID_SYNTAX_TESTS_DIR
 
 
 class ExpectedFailureTests(ErrorRecoveryCommon):

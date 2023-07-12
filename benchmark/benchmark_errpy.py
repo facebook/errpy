@@ -8,7 +8,7 @@
 import ast
 import time
 
-from python.errpy.src import ffi_python
+from python.errpy import ffi_python
 
 RESOURCES_DIR = "errpy/benchmark/benchmark_resources/"
 NANO_TO_MS = 1e-6
