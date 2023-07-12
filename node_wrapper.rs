@@ -17,11 +17,11 @@ use tree_sitter::TreeCursor;
 /// This means that in theory our code needs to handle the possibility of a comment
 /// or error node being present anywhere in the CST! This is not really practical
 /// to implement in `cst_to_ast.rs` so instead here we add `node_wrapper` to filter
-/// out ERROR and COMMENT notes in a new `Node` struct which wrapps around
+/// out ERROR and COMMENT notes in a new `Node` struct which wraps around
 /// the Tree sitter `TSNode`.
 ///
 /// We make use of an arena based tree allocator within `FilteredCST` for ease of
-/// understandig and future maintenance.
+/// understanding and future maintenance.
 ///
 /// The methods exposed here are a subset of those on the `TSNode` API visible at:
 /// https://docs.rs/tree-sitter/latest/src/tree_sitter/lib.rs.html
@@ -33,7 +33,6 @@ pub struct FilteredCST<'tree> {
 
 pub struct Node<'a> {
     ts_node: TSNode<'a>,
-
     parent_idx: Option<usize>,
     children: Vec<usize>,
     named_children: Vec<usize>,
@@ -75,7 +74,7 @@ pub fn build_node_tree(root_ts_node: TSNode) -> FilteredCST {
         if let Some((parent_position, field_name, ts_node)) = to_process.pop_front() {
             let mut current_node = Node::new(ts_node);
             current_node.parent_idx = parent_position;
-            let current_node_idx = arena.allocate(current_node);
+            let current_node_idx: usize = arena.allocate(current_node);
 
             if let Some(parent_position) = parent_position {
                 arena.nodes[parent_position].children.push(current_node_idx);
@@ -134,7 +133,6 @@ impl<'tree> Node<'tree> {
     fn new(ts_node: TSNode<'tree>) -> Self {
         Self {
             ts_node,
-
             parent_idx: None,
             children: vec![],
             named_children: vec![],
