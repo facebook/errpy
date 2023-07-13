@@ -10,10 +10,10 @@ import unittest
 from os.path import exists
 from typing import List, Optional, Tuple
 
-import python.errpy.test.utils.ast_utils as ast_utils
+import python.errpy.tests.utils.ast_utils as ast_utils
 
 EXPECTED_FAILS_POSTFIX: str = ".expect_fails"
-RESOURCES_DIR: str = "python/errpy/test/test_resources/"
+RESOURCES_DIR: str = "python/errpy/tests/test_resources/"
 UNIT_TESTS_DIR: str = "unit_tests/"
 PRETTY_PRINTER_TESTS_DIR: str = "pretty_printer_tests/"
 ERROR_RECOVERY_TESTS_DIR: str = "error_recovery/"

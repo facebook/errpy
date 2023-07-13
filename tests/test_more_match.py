@@ -6,7 +6,7 @@
 
 import unittest
 
-from python.errpy.test.utils.test_common import ASTTestCommon
+from python.errpy.tests.utils.test_common import ASTTestCommon
 
 
 class AllGrammarTests(ASTTestCommon):

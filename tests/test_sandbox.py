@@ -8,9 +8,9 @@ import unittest
 from difflib import unified_diff
 from typing import Optional
 
-import python.errpy.test.utils.ast_utils as ast_utils
+import python.errpy.tests.utils.ast_utils as ast_utils
 
-from python.errpy.test.utils.test_common import read_code
+from python.errpy.tests.utils.test_common import read_code
 
 
 class TestSandbox(unittest.TestCase):

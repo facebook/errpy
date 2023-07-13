@@ -9,8 +9,8 @@ from dataclasses import astuple, dataclass
 from difflib import unified_diff
 from typing import Callable, Iterator, List, Optional
 
-import python.errpy.test.utils.ast_utils as ast_utils
-from python.errpy.test.utils.test_common import (
+import python.errpy.tests.utils.ast_utils as ast_utils
+from python.errpy.tests.utils.test_common import (
     ASTTestCommon,
     ERROR_RECOVERY_SPECIFIC_TESTS_DIR,
     ERROR_RECOVERY_TESTS_DIR,
