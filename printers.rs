@@ -16,6 +16,7 @@ use node_wrapper::build_node_tree;
 use node_wrapper::Node;
 use parser_pre_process::remove_comments;
 use tree_sitter::Parser as TreeSitterParser;
+use tree_sitter::TreeCursor;
 
 use crate::cst_to_ast;
 use crate::errors;
@@ -155,18 +156,28 @@ impl CSTPrinter {
     }
 
     // Prints the sitter nodes in their "derived `Debug` form"
-    pub fn print_cst(&self) {
+    pub fn print_cst(&self, is_filter_errors: bool) {
         let mut parser = TreeSitterParser::new();
         parser
             .set_language(tree_sitter_python::language())
             .expect("Fail to initialize TreeSitter");
         let tree = parser.parse(&self.code, None).expect("Fail to parse file");
-        let filtered_cst = build_node_tree(tree.root_node());
-        println!(">>> Tree-Sitter CST Nodes:\n");
-        self.print_cst_node(&filtered_cst, filtered_cst.get_root(), "");
+
+        println!(
+            ">>> Tree-Sitter CST Nodes{}:\n",
+            if is_filter_errors { " (filtered)" } else { "" }
+        );
+
+        if is_filter_errors {
+            let filtered_cst = build_node_tree(tree.root_node());
+            self.print_filtered_cst_node(&filtered_cst, filtered_cst.get_root(), "");
+        } else {
+            let mut tree_cursor_root = tree.walk();
+            self.print_cst_node(&mut tree_cursor_root, "");
+        }
     }
 
-    fn print_cst_node(&self, filtered_cst: &FilteredCST, node: &Node, indent: &str) {
+    fn print_filtered_cst_node(&self, filtered_cst: &FilteredCST, node: &Node, indent: &str) {
         println!(
             "{}{:?} :: {}",
             indent,
@@ -175,7 +186,31 @@ impl CSTPrinter {
         );
         for child in node.children(filtered_cst) {
             let new_indent = format!("  {}", indent);
-            self.print_cst_node(filtered_cst, child, new_indent.as_str());
+            self.print_filtered_cst_node(filtered_cst, child, new_indent.as_str());
+        }
+    }
+
+    fn print_cst_node(&self, tree_cursor: &mut TreeCursor<'_>, indent: &str) {
+        println!(
+            "{}{:?} :: {}",
+            indent,
+            tree_cursor.node(),
+            tree_cursor
+                .node()
+                .utf8_text(self.code.as_bytes())
+                .expect("Invalid Identifier")
+                .to_string()
+                .replace('\n', "\\n")
+        );
+
+        // Preorder traversal of the tree to print out the nodes
+        if tree_cursor.goto_first_child() {
+            let new_indent = format!("  {}", indent);
+            self.print_cst_node(tree_cursor, new_indent.as_str());
+            while tree_cursor.goto_next_sibling() {
+                self.print_cst_node(tree_cursor, new_indent.as_str());
+            }
+            tree_cursor.goto_parent();
         }
     }
 }

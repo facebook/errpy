@@ -6,6 +6,7 @@
 #[macro_use]
 extern crate rust_to_ocaml_attr;
 
+use clap::ArgAction;
 use clap::Parser as ClapParser;
 
 use crate::printers::CSTPrinter;
@@ -25,10 +26,17 @@ pub mod string_helpers;
 struct Args {
     /// Python code to generate CST for
     input_code: String,
+
+    /// If the error nodes should be filtered in the output CST
+    /// (default is to include all nodes)
+    #[clap(long, short, action=ArgAction::SetTrue)]
+    filter_errors: bool,
 }
 
 fn main() {
     let args = <Args as clap::Parser>::parse();
     let input_code = args.input_code;
-    CSTPrinter::new(input_code).print_cst();
+    let filter_errors = args.filter_errors;
+
+    CSTPrinter::new(input_code).print_cst(filter_errors);
 }

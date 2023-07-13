@@ -130,7 +130,7 @@ fn extract_child_field_names<'a>(ts_node: TSNode<'a>) -> Vec<Option<&str>> {
 }
 
 impl<'tree> Node<'tree> {
-    fn new(ts_node: TSNode<'tree>) -> Self {
+    pub fn new(ts_node: TSNode<'tree>) -> Self {
         Self {
             ts_node,
             parent_idx: None,
