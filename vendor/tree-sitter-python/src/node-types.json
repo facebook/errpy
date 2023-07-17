@@ -116,10 +116,6 @@
         "named": true
       },
       {
-        "type": "await",
-        "named": true
-      },
-      {
         "type": "boolean_operator",
         "named": true
       },
@@ -227,6 +223,10 @@
     "subtypes": [
       {
         "type": "attribute",
+        "named": true
+      },
+      {
+        "type": "await",
         "named": true
       },
       {
@@ -620,7 +620,7 @@
       "required": true,
       "types": [
         {
-          "type": "expression",
+          "type": "primary_expression",
           "named": true
         }
       ]
@@ -1757,6 +1757,10 @@
         "required": true,
         "types": [
           {
+            "type": "identifier",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           }
@@ -1933,6 +1937,10 @@
           },
           {
             "type": "expression_list",
+            "named": true
+          },
+          {
+            "type": "pattern_list",
             "named": true
           },
           {
@@ -2227,6 +2235,10 @@
           },
           {
             "type": "expression_list",
+            "named": true
+          },
+          {
+            "type": "pattern_list",
             "named": true
           },
           {
@@ -2857,8 +2869,8 @@
         "required": true,
         "types": [
           {
-            "type": "\"",
-            "named": false
+            "type": "string_start",
+            "named": true
           }
         ]
       },
@@ -2877,8 +2889,8 @@
         "required": true,
         "types": [
           {
-            "type": "\"",
-            "named": false
+            "type": "string_end",
+            "named": true
           }
         ]
       }
@@ -3250,10 +3262,6 @@
     "named": false
   },
   {
-    "type": "\"",
-    "named": false
-  },
-  {
     "type": "%",
     "named": false
   },
@@ -3558,6 +3566,10 @@
     "named": false
   },
   {
+    "type": "line_continuation",
+    "named": true
+  },
+  {
     "type": "match",
     "named": false
   },
@@ -3596,6 +3608,14 @@
   {
     "type": "return",
     "named": false
+  },
+  {
+    "type": "string_end",
+    "named": true
+  },
+  {
+    "type": "string_start",
+    "named": true
   },
   {
     "type": "true",

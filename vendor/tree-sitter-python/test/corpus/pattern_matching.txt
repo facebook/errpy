@@ -34,14 +34,18 @@ match command.split():
                       (case_closed_pattern
                         (case_literal_pattern
                           (string
-                            (string_content))))))))))))
+                            (string_start)
+                            (string_content)
+                            (string_end))))))))))))
       (block
         (expression_statement
           (call
             (identifier)
             (argument_list
               (string
-                (string_content)))))
+                (string_start)
+                (string_content)
+                (string_end)))))
         (expression_statement
           (call
             (identifier)
@@ -58,7 +62,9 @@ match command.split():
                       (case_closed_pattern
                         (case_literal_pattern
                           (string
-                            (string_content))))))))))))
+                            (string_start)
+                            (string_content)
+                            (string_end))))))))))))
       (block
         (expression_statement
           (call
@@ -78,7 +84,9 @@ match command.split():
                       (case_closed_pattern
                         (case_literal_pattern
                           (string
-                            (string_content)))))))
+                            (string_start)
+                            (string_content)
+                            (string_end)))))))
                 (case_maybe_star_pattern
                   (case_pattern
                     (case_or_pattern
@@ -106,7 +114,9 @@ match command.split():
                       (case_closed_pattern
                         (case_literal_pattern
                           (string
-                            (string_content)))))))
+                            (string_start)
+                            (string_content)
+                            (string_end)))))))
                 (case_maybe_star_pattern
                   (case_pattern
                     (case_or_pattern
@@ -154,7 +164,9 @@ match command.split():
                       (case_closed_pattern
                         (case_literal_pattern
                           (string
-                            (string_content)))))))
+                            (string_start)
+                            (string_content)
+                            (string_end)))))))
                 (case_maybe_star_pattern
                   (case_star_pattern
                     (identifier))))))))
@@ -206,7 +218,9 @@ match command.split():
                       (case_closed_pattern
                         (case_literal_pattern
                           (string
-                            (string_content))))))))))))
+                            (string_start)
+                            (string_content)
+                            (string_end))))))))))))
       (block
         (expression_statement
           (ellipsis))
@@ -223,7 +237,9 @@ match command.split():
                       (case_closed_pattern
                         (case_literal_pattern
                           (string
-                            (string_content)))))))
+                            (string_start)
+                            (string_content)
+                            (string_end)))))))
                 (case_maybe_star_pattern
                   (case_pattern
                     (case_or_pattern
@@ -244,7 +260,9 @@ match command.split():
                       (case_closed_pattern
                         (case_literal_pattern
                           (string
-                            (string_content)))))))
+                            (string_start)
+                            (string_content)
+                            (string_end)))))))
                 (case_maybe_star_pattern
                   (case_star_pattern
                     (identifier))))))))
@@ -261,10 +279,12 @@ match command.split():
             (identifier)
             (argument_list
               (string
+                (string_start)
                 (string_content)
                 (interpolation
                   (identifier)
-                  (type_conversion))))))))))
+                  (type_conversion))
+                (string_end)))))))))
 
 ================================================================================
 Or patterns
@@ -296,7 +316,9 @@ match command.split():
                       (case_closed_pattern
                         (case_literal_pattern
                           (string
-                            (string_content))))))))))
+                            (string_start)
+                            (string_content)
+                            (string_end))))))))))
           (case_closed_pattern
             (case_sequence_pattern
               (case_maybe_sequence_pattern
@@ -306,14 +328,18 @@ match command.split():
                       (case_closed_pattern
                         (case_literal_pattern
                           (string
-                            (string_content)))))))
+                            (string_start)
+                            (string_content)
+                            (string_end)))))))
                 (case_maybe_star_pattern
                   (case_pattern
                     (case_or_pattern
                       (case_closed_pattern
                         (case_literal_pattern
                           (string
-                            (string_content))))))))))))
+                            (string_start)
+                            (string_content)
+                            (string_end))))))))))))
       (block
         (expression_statement
           (assignment
@@ -324,7 +350,9 @@ match command.split():
                 (identifier))
               (argument_list
                 (string
-                  (string_content))))))))
+                  (string_start)
+                  (string_content)
+                  (string_end))))))))
     (case_clause
       (case_pattern
         (case_or_pattern
@@ -337,7 +365,9 @@ match command.split():
                       (case_closed_pattern
                         (case_literal_pattern
                           (string
-                            (string_content)))))))
+                            (string_start)
+                            (string_content)
+                            (string_end)))))))
                 (case_maybe_star_pattern
                   (case_pattern
                     (case_or_pattern
@@ -353,14 +383,18 @@ match command.split():
                       (case_closed_pattern
                         (case_literal_pattern
                           (string
-                            (string_content)))))))
+                            (string_start)
+                            (string_content)
+                            (string_end)))))))
                 (case_maybe_star_pattern
                   (case_pattern
                     (case_or_pattern
                       (case_closed_pattern
                         (case_literal_pattern
                           (string
-                            (string_content)))))))
+                            (string_start)
+                            (string_content)
+                            (string_end)))))))
                 (case_maybe_star_pattern
                   (case_pattern
                     (case_or_pattern
@@ -376,7 +410,9 @@ match command.split():
                       (case_closed_pattern
                         (case_literal_pattern
                           (string
-                            (string_content)))))))
+                            (string_start)
+                            (string_content)
+                            (string_end)))))))
                 (case_maybe_star_pattern
                   (case_pattern
                     (case_or_pattern
@@ -389,7 +425,9 @@ match command.split():
                       (case_closed_pattern
                         (case_literal_pattern
                           (string
-                            (string_content))))))))))))
+                            (string_start)
+                            (string_content)
+                            (string_end))))))))))))
       (block
         (pass_statement)))))
 
@@ -421,7 +459,9 @@ match command.split():
                       (case_closed_pattern
                         (case_literal_pattern
                           (string
-                            (string_content)))))))
+                            (string_start)
+                            (string_content)
+                            (string_end)))))))
                 (case_maybe_star_pattern
                   (case_pattern
                     (case_as_pattern
@@ -433,19 +473,27 @@ match command.split():
                                 (case_closed_pattern
                                   (case_literal_pattern
                                     (string
-                                      (string_content))))
+                                      (string_start)
+                                      (string_content)
+                                      (string_end))))
                                 (case_closed_pattern
                                   (case_literal_pattern
                                     (string
-                                      (string_content))))
+                                      (string_start)
+                                      (string_content)
+                                      (string_end))))
                                 (case_closed_pattern
                                   (case_literal_pattern
                                     (string
-                                      (string_content))))
+                                      (string_start)
+                                      (string_content)
+                                      (string_end))))
                                 (case_closed_pattern
                                   (case_literal_pattern
                                     (string
-                                      (string_content)))))))))
+                                      (string_start)
+                                      (string_content)
+                                      (string_end)))))))))
                       (identifier)))))))))
       (block
         (expression_statement
@@ -497,7 +545,9 @@ def foo(**match): pass
       (list_splat_or_expressions
         (integer)
         (string
-          (string_content)))))
+          (string_start)
+          (string_content)
+          (string_end)))))
   (expression_statement
     (assignment
       (pattern_list
@@ -554,7 +604,9 @@ field = call(match=r".*\.txt$")
           (keyword_argument
             (identifier)
             (string
-              (string_content))))))))
+              (string_start)
+              (string_content)
+              (string_end))))))))
 
 ================================================================================
 Match kwargs 2
@@ -689,7 +741,9 @@ match xxx:
           (case_closed_pattern
             (case_literal_pattern
               (string
-                (string_content))))))
+                (string_start)
+                (string_content)
+                (string_end))))))
       (block
         (pass_statement)))
     (case_clause
@@ -699,9 +753,13 @@ match xxx:
             (case_literal_pattern
               (concatenated_string
                 (string
-                  (string_content))
+                  (string_start)
+                  (string_content)
+                  (string_end))
                 (string
-                  (string_content)))))))
+                  (string_start)
+                  (string_content)
+                  (string_end)))))))
       (block
         (pass_statement)))
     (case_clause
@@ -898,7 +956,9 @@ if match := re.fullmatch(r"(-)?(\d+:)?\d?\d:\d\d(\.\d*)?", time, flags=re.ASCII)
           (identifier))
         (argument_list
           (string
-            (string_content))
+            (string_start)
+            (string_content)
+            (string_end))
           (identifier)
           (keyword_argument
             (identifier)
@@ -983,7 +1043,9 @@ match event.get():
                       (case_closed_pattern
                         (case_literal_pattern
                           (string
-                            (string_content))))))))))
+                            (string_start)
+                            (string_content)
+                            (string_end))))))))))
           (case_closed_pattern
             (case_class_pattern
               (dotted_name
@@ -1010,7 +1072,9 @@ match event.get():
                       (case_closed_pattern
                         (case_literal_pattern
                           (string
-                            (string_content))))))))))))
+                            (string_start)
+                            (string_content)
+                            (string_end))))))))))))
       (block
         (expression_statement
           (call
@@ -1042,9 +1106,11 @@ match event.get():
             (identifier)
             (argument_list
               (string
+                (string_start)
                 (string_content)
                 (interpolation
-                  (identifier))))))))))
+                  (identifier))
+                (string_end)))))))))
 
 ================================================================================
 Positional arguments
@@ -1163,8 +1229,8 @@ match event.get():
               (dotted_name
                 (identifier))))))
       (block
-        (pass_statement))))
-  (comment))
+        (pass_statement)
+        (comment)))))
 
 ================================================================================
 Dict mappings
@@ -1200,7 +1266,9 @@ for action in actions:
                     (case_key_value_pattern
                       (case_literal_pattern
                         (string
-                          (string_content)))
+                          (string_start)
+                          (string_content)
+                          (string_end)))
                       (case_pattern
                         (case_or_pattern
                           (case_closed_pattern
@@ -1209,7 +1277,9 @@ for action in actions:
                     (case_key_value_pattern
                       (case_literal_pattern
                         (string
-                          (string_content)))
+                          (string_start)
+                          (string_content)
+                          (string_end)))
                       (case_pattern
                         (case_or_pattern
                           (case_closed_pattern
@@ -1239,7 +1309,9 @@ for action in actions:
                     (case_key_value_pattern
                       (case_literal_pattern
                         (string
-                          (string_content)))
+                          (string_start)
+                          (string_content)
+                          (string_end)))
                       (case_pattern
                         (case_or_pattern
                           (case_closed_pattern
@@ -1262,7 +1334,9 @@ for action in actions:
                     (case_key_value_pattern
                       (case_literal_pattern
                         (string
-                          (string_content)))
+                          (string_start)
+                          (string_content)
+                          (string_end)))
                       (case_pattern
                         (case_or_pattern
                           (case_closed_pattern
@@ -1271,13 +1345,17 @@ for action in actions:
                     (case_key_value_pattern
                       (case_literal_pattern
                         (string
-                          (string_content)))
+                          (string_start)
+                          (string_content)
+                          (string_end)))
                       (case_pattern
                         (case_or_pattern
                           (case_closed_pattern
                             (case_literal_pattern
                               (string
-                                (string_content))))))))))))
+                                (string_start)
+                                (string_content)
+                                (string_end))))))))))))
           (block
             (expression_statement
               (call
@@ -1315,7 +1393,9 @@ for action in actions:
                     (case_key_value_pattern
                       (case_literal_pattern
                         (string
-                          (string_content)))
+                          (string_start)
+                          (string_content)
+                          (string_end)))
                       (case_pattern
                         (case_or_pattern
                           (case_closed_pattern
@@ -1323,7 +1403,9 @@ for action in actions:
                     (case_key_value_pattern
                       (case_literal_pattern
                         (string
-                          (string_content)))
+                          (string_start)
+                          (string_content)
+                          (string_end)))
                       (case_pattern
                         (case_or_pattern
                           (case_closed_pattern
@@ -1334,7 +1416,9 @@ for action in actions:
                 (identifier)
                 (argument_list
                   (string
-                    (string_content)))))))))))
+                    (string_start)
+                    (string_content)
+                    (string_end)))))))))))
 
 ================================================================================
 Builtin classes
@@ -1368,7 +1452,9 @@ for action in actions:
                     (case_key_value_pattern
                       (case_literal_pattern
                         (string
-                          (string_content)))
+                          (string_start)
+                          (string_content)
+                          (string_end)))
                       (case_pattern
                         (case_or_pattern
                           (case_closed_pattern
@@ -1384,7 +1470,9 @@ for action in actions:
                     (case_key_value_pattern
                       (case_literal_pattern
                         (string
-                          (string_content)))
+                          (string_start)
+                          (string_content)
+                          (string_end)))
                       (case_pattern
                         (case_or_pattern
                           (case_closed_pattern
@@ -1421,7 +1509,9 @@ for action in actions:
                     (case_key_value_pattern
                       (case_literal_pattern
                         (string
-                          (string_content)))
+                          (string_start)
+                          (string_content)
+                          (string_end)))
                       (case_pattern
                         (case_or_pattern
                           (case_closed_pattern
@@ -1451,7 +1541,9 @@ for action in actions:
                     (case_key_value_pattern
                       (case_literal_pattern
                         (string
-                          (string_content)))
+                          (string_start)
+                          (string_content)
+                          (string_end)))
                       (case_pattern
                         (case_or_pattern
                           (case_closed_pattern
@@ -1467,13 +1559,17 @@ for action in actions:
                     (case_key_value_pattern
                       (case_literal_pattern
                         (string
-                          (string_content)))
+                          (string_start)
+                          (string_content)
+                          (string_end)))
                       (case_pattern
                         (case_or_pattern
                           (case_closed_pattern
                             (case_literal_pattern
                               (string
-                                (string_content))))))))))))
+                                (string_start)
+                                (string_content)
+                                (string_end))))))))))))
           (block
             (expression_statement
               (call
@@ -1491,7 +1587,9 @@ for action in actions:
                     (case_key_value_pattern
                       (case_literal_pattern
                         (string
-                          (string_content)))
+                          (string_start)
+                          (string_content)
+                          (string_end)))
                       (case_pattern
                         (case_or_pattern
                           (case_closed_pattern
@@ -1499,7 +1597,9 @@ for action in actions:
                     (case_key_value_pattern
                       (case_literal_pattern
                         (string
-                          (string_content)))
+                          (string_start)
+                          (string_content)
+                          (string_end)))
                       (case_pattern
                         (case_or_pattern
                           (case_closed_pattern
@@ -1510,7 +1610,9 @@ for action in actions:
                 (identifier)
                 (argument_list
                   (string
-                    (string_content)))))))))))
+                    (string_start)
+                    (string_content)
+                    (string_end)))))))))))
 
 ================================================================================
 Complex case patterns on classes

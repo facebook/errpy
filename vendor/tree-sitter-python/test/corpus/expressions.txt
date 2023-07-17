@@ -95,6 +95,10 @@ Await expressions
 
 await i(j, 5)
 return await i(j, 5)
+async def region_exists(region: str) -> bool:
+    return region in await all_regions()
+
+assert await a(b) == c
 
 --------------------------------------------------------------------------------
 
@@ -112,7 +116,32 @@ return await i(j, 5)
         (identifier)
         (argument_list
           (identifier)
-          (integer))))))
+          (integer)))))
+  (function_definition
+    (identifier)
+    (parameters
+      (typed_parameter
+        (identifier)
+        (type
+          (identifier))))
+    (type
+      (identifier))
+    (block
+      (return_statement
+        (comparison_operator
+          (identifier)
+          (await
+            (call
+              (identifier)
+              (argument_list)))))))
+  (assert_statement
+    (comparison_operator
+      (await
+        (call
+          (identifier)
+          (argument_list
+            (identifier))))
+      (identifier))))
 
 ================================================================================
 Call expressions
@@ -281,13 +310,17 @@ exec("""exec _code_ in _globs_, _locs_""")
       (identifier)
       (argument_list
         (string
+          (string_start)
           (string_content
             (escape_sequence)
-            (escape_sequence)))
+            (escape_sequence))
+          (string_end))
         (dictionary
           (pair
             (string
-              (string_content))
+              (string_start)
+              (string_content)
+              (string_end))
             (none)))
         (identifier))))
   (expression_statement
@@ -295,7 +328,9 @@ exec("""exec _code_ in _globs_, _locs_""")
       (identifier)
       (argument_list
         (string
-          (string_content))))))
+          (string_start)
+          (string_content)
+          (string_end))))))
 
 ================================================================================
 Async / await used as identifiers
@@ -773,7 +808,9 @@ foo(x := 3, cat='vector')
         (keyword_argument
           (identifier)
           (string
-            (string_content))))))
+            (string_start)
+            (string_content)
+            (string_end))))))
   (expression_statement
     (parenthesized_expression
       (named_expression
@@ -853,7 +890,9 @@ lambda (a, b): (a, b)
         (argument_list
           (binary_operator
             (string
-              (string_content))
+              (string_start)
+              (string_content)
+              (string_end))
             (identifier))))))
   (expression_statement
     (lambda
@@ -1013,3 +1052,36 @@ def a():
           (identifier)
           (list
             (integer)))))))
+
+================================================================================
+Splat Inside of Expression List
+================================================================================
+
+a,c = [1,2],3
+w, x, y, z = 0, *a, c
+
+--------------------------------------------------------------------------------
+
+(module
+  (expression_statement
+    (assignment
+      (pattern_list
+        (identifier)
+        (identifier))
+      (list_splat_or_expressions
+        (list
+          (integer)
+          (integer))
+        (integer))))
+  (expression_statement
+    (assignment
+      (pattern_list
+        (identifier)
+        (identifier)
+        (identifier)
+        (identifier))
+      (list_splat_or_expressions
+        (integer)
+        (list_splat
+          (identifier))
+        (identifier)))))

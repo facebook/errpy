@@ -103,7 +103,7 @@ pub fn build_node_tree(root_ts_node: TSNode) -> FilteredCST {
             let walker = &mut ts_node.walk();
             for (child, child_field_name) in ts_node.children(walker).zip(field_names.iter()) {
                 let kind = child.kind();
-                if kind == "ERROR" || kind == "comment" {
+                if kind == "ERROR" || kind == "comment" || kind == "line_continuation" {
                     continue;
                 }
 

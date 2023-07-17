@@ -3073,7 +3073,6 @@ impl<'parser> FilteredCSTParser<'parser> {
     //   $.comparison_operator,
     //   $.not_operator,
     //   $.boolean_operator,
-    //   $.await,
     //   $.lambda,
     //   $.primary_expression,
     //   $.conditional_expression,
@@ -3097,10 +3096,6 @@ impl<'parser> FilteredCSTParser<'parser> {
                 BOOLEAN_OPERATOR => {
                     let bool_op_desc = self.bool_op(rule.node)?;
                     self.parser.new_expr(bool_op_desc, rule.node)
-                }
-                AWAIT => {
-                    let await_desc = self.await_expr(rule.node)?;
-                    self.parser.new_expr(await_desc, rule.node)
                 }
                 LAMBDA => {
                     let lambda_desc = self.lambda(rule.node)?;
@@ -3156,6 +3151,7 @@ impl<'parser> FilteredCSTParser<'parser> {
 
     // Process a Primary ExprDesc
     // primary_expression: $ => choice(
+    //   $.await,
     //   $.binary_operator,
     //   $.identifier,
     //   alias("match", $.identifier),
@@ -3180,13 +3176,14 @@ impl<'parser> FilteredCSTParser<'parser> {
     //   $.tuple,
     //   $.parenthesized_expression,
     //   $.generator_expression,
-    //   $.ellipsis
+    //   $.ellipsis,
     // ),
     fn primary_expression(&mut self, node_type: &NodeType, node: &Node) -> ErrorableResult<Expr> {
         use ProductionKind::*;
 
         let exprdesc: ExprDesc = match node_type {
             NodeType::Production(rule) => match &rule.production_kind {
+                AWAIT => self.await_expr(rule.node)?,
                 BINARY_OPERATOR => self.binary_op(rule.node)?,
                 // TODO: soft keywords like `match` and that story with python and tree-sitter
                 IDENTIFIER => self.name(rule.node),
@@ -3765,7 +3762,9 @@ impl<'parser> FilteredCSTParser<'parser> {
         let function = node
             .child_by_field_name(self.filtered_cst, "function")
             .expect("missing function in call");
-        let func = self.expression(function)?;
+
+        let function_type = &get_node_type(function);
+        let func = self.primary_expression(function_type, function)?;
 
         let argument_or_generator = node
             .child_by_field_name(self.filtered_cst, "arguments")
@@ -5139,12 +5138,12 @@ impl<'parser> FilteredCSTParser<'parser> {
     }
 
     // string: $ => seq(
-    //  field('prefix', alias($._string_start, '"')),
+    //  field('prefix', $.string_start),
     //  repeat(choice(
     //    field('interpolation', $.interpolation),
     //    field('string_content', $.string_content)
     //  )),
-    //  field('suffix', alias($._string_end, '"'))
+    //  field('suffix', $.string_end)
     //),
     fn string(&mut self, const_value: String, is_byte_string: bool) -> ExprDesc {
         ExprDesc::Constant {
