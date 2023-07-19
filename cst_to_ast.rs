@@ -76,10 +76,10 @@ pub struct RecoverableErrorWithLocation {
 
 #[derive(Debug)]
 pub struct RecoverableErrorLocation {
-    pub lineno: isize,
-    pub col_offset: isize,
-    pub end_lineno: isize,
-    pub end_col_offset: isize,
+    pub lineno: usize,
+    pub col_offset: usize,
+    pub end_lineno: usize,
+    pub end_col_offset: usize,
 }
 
 ///
@@ -306,10 +306,10 @@ impl Parser {
             let end_position = node.end_position();
 
             let location = RecoverableErrorLocation {
-                lineno: start_position.row as isize + 1,
-                col_offset: start_position.column as isize + 1,
-                end_lineno: end_position.row as isize + 1,
-                end_col_offset: end_position.column as isize + 1,
+                lineno: start_position.row + 1,
+                col_offset: start_position.column + 1,
+                end_lineno: end_position.row + 1,
+                end_col_offset: end_position.column + 1,
             };
 
             let stack = self.assemble_node_stack_tsnode(&node);
@@ -403,10 +403,10 @@ impl<'parser> FilteredCSTParser<'parser> {
         let end_position = node.end_position();
 
         let location = RecoverableErrorLocation {
-            lineno: start_position.row as isize + 1,
-            col_offset: start_position.column as isize + 1,
-            end_lineno: end_position.row as isize + 1,
-            end_col_offset: end_position.column as isize + 1,
+            lineno: start_position.row + 1,
+            col_offset: start_position.column + 1,
+            end_lineno: end_position.row + 1,
+            end_col_offset: end_position.column + 1,
         };
 
         let stack = self.assemble_node_stack(node);
@@ -5321,7 +5321,7 @@ impl<'parser> FilteredCSTParser<'parser> {
 
     ///
     /// Will record a recoverable error if the identifier
-    /// is invalid (e.g. keyword, empty sapce etc)
+    /// is invalid (e.g. keyword, empty space etc)
     ///
     fn check_identifier_valid(&mut self, identifier: &String, node: &Node) {
         if self.python_keywords.contains(identifier) {

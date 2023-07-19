@@ -14,10 +14,10 @@ use serde::Serialize;
 #[rust_to_ocaml(attr = "deriving show")]
 pub struct RecoverableErrorWithLocation {
     pub error: String,
-    pub lineno: isize,
-    pub col_offset: isize,
-    pub end_lineno: isize,
-    pub end_col_offset: isize,
+    pub lineno: usize,
+    pub col_offset: usize,
+    pub end_lineno: usize,
+    pub end_col_offset: usize,
 }
 
 #[derive(Clone, Debug, PartialEq, PartialOrd)]

@@ -8,6 +8,7 @@ use phf::phf_map;
 pub static SPECIAL_CHARS: [char; 13] = [
     'a', 'b', 'f', 'n', 'r', 't', 'u', 'v', 'x', 'N', 'U', '\'', '\"',
 ];
+
 pub static HEXA_CONVERSION: phf::Map<char, &'static str> = phf_map! {
     'a' => "x07",
     'b' => "x08",
