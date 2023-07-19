@@ -34,6 +34,7 @@ Output AST is not valid according to CPython: invalid syntax (<unknown>, line 9)
 
 ##M2 - Autocomplete on trailing `.`
 def myfunc():
+    thing = slice_elements.AUTOCOMPLETE
 
 1 Recoverable error detected:
 SyntaxError: invalid syntax at [3:5 - 3:28]
@@ -41,11 +42,10 @@ CST Stack:
     {Node ERROR (2, 4) - (2, 27)}
     {Node function_definition (1, 0) - (2, 27)}
     {Node module (1, 0) - (3, 0)}
-Output AST is not valid according to CPython: expected an indented block after function definition on line 1 (<unknown>, line 2)
 
 ##M2 - autocomplete common case
 def myfunc():
-    thing = slice_elements.pop()
+    thing = slice_elements.AUTOCOMPLETE.pop()
     return thing
 
 1 Recoverable error detected:

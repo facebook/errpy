@@ -23,6 +23,7 @@ CST Stack:
 ##test_if_else
 code = before
 if x:
+    f.AUTOCOMPLETE
 2 Recoverable errors detected:
 SyntaxError: invalid syntax at [4:5 - 4:7]
 CST Stack:
@@ -35,10 +36,11 @@ CST Stack:
     {Node else_clause (4, 0) - (7, 12)}
     {Node if_statement (2, 0) - (7, 12)}
     {Node module (0, 0) - (8, 0)}
-Output AST is not valid according to CPython: expected an indented block after 'if' statement on line 2 (<unknown>, line 2)
 
 ##test_if_stmt
 code = before
+if x:
+    f.AUTOCOMPLETE
 1 Recoverable error detected:
 SyntaxError: invalid syntax at [3:1 - 6:13]
 CST Stack:

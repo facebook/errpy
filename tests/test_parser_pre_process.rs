@@ -7,7 +7,6 @@ use parser_pre_process::remove_comments;
 
 fn test_harness(input_code: &str, expected: &str) {
     let actual = remove_comments(input_code.to_string());
-
     assert_eq!(expected.to_string(), actual);
 }
 

@@ -13096,14 +13096,14 @@ CST Stack:
     {Node block (15, 4) - (15, 46)}
     {Node function_definition (14, 0) - (15, 46)}
     {Node module (0, 0) - (25, 0)}
-SyntaxError: keyword: "def" cannot be used as identifier at [16:17 - 16:20]
+SyntaxError: keyword: "def" cannot be used as identifier at [16:16 - 16:19]
 CST Stack:
-    {Node identifier (15, 16) - (15, 19)}
-    {Node attribute (15, 11) - (15, 19)}
-    {Node call (15, 11) - (15, 46)}
-    {Node return_statement (15, 4) - (15, 46)}
-    {Node block (15, 4) - (15, 46)}
-    {Node function_definition (14, 0) - (15, 46)}
+    {Node identifier (15, 15) - (15, 18)}
+    {Node attribute (15, 11) - (15, 18)}
+    {Node call (15, 11) - (15, 45)}
+    {Node return_statement (15, 4) - (15, 45)}
+    {Node block (15, 4) - (15, 45)}
+    {Node function_definition (14, 0) - (15, 45)}
     {Node module (0, 0) - (25, 0)}
 Output AST is not valid according to CPython: invalid syntax (<unknown>, line 16)
 ERRPY Recovered AST diff:

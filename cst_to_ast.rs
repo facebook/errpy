@@ -265,19 +265,26 @@ impl Parser {
 
         // Error in first parse -> mutate source file and reparse
         if tree.root_node().has_error() {
+            self.find_error_nodes(tree.root_node());
             let parser_post_processor = ParserPostprocessor::new();
-            let mutated_input = parser_post_processor.postprocess(&self.code);
-            tree = match cst_to_ast.parse(mutated_input, None) {
+
+            // Collect lines that will be mutated
+            let mut err_lines: HashSet<usize> = HashSet::new();
+            for err in &self.ast_and_metadata.recoverable_errors {
+                for line_no in err.location.lineno..=err.location.end_lineno {
+                    err_lines.insert(line_no - 1);
+                }
+            }
+
+            self.code = parser_post_processor.postprocess(&self.code, err_lines);
+            tree = match cst_to_ast.parse(&self.code, None) {
                 Some(t) => t,
                 None => return Err(ParserError::DidNotComplete),
             };
         };
 
-        let tree_sitter_root_node = tree.root_node();
-        self.find_error_nodes(tree_sitter_root_node);
-
         // Tree-sitter CST to FilteredCST (without ERROR or COMMENT nodes)
-        let filtered_cst = build_node_tree(tree_sitter_root_node);
+        let filtered_cst = build_node_tree(tree.root_node());
         let mut filtered_cst_parser = FilteredCSTParser::new(self, &filtered_cst);
 
         // FilteredCST to AST
