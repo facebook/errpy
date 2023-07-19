@@ -41,6 +41,7 @@ use errors::RecoverableError;
 use itertools::join;
 use node_wrapper::build_node_tree;
 use node_wrapper::Node;
+use parser_post_process::ParserPostprocessor;
 use sitter::get_node_type;
 use sitter::AugAssignOperator;
 use sitter::BinaryOperator;
@@ -60,6 +61,7 @@ use crate::constants;
 use crate::errors;
 use crate::node_wrapper;
 use crate::node_wrapper::FilteredCST;
+use crate::parser_post_process;
 use crate::sitter;
 use crate::string_helpers;
 
@@ -254,16 +256,31 @@ impl Parser {
     pub fn parse(&mut self) -> Result<(), ParserError> {
         let mut cst_to_ast = SitterParser::new();
         cst_to_ast.set_language(tree_sitter_python::language())?;
-        let tree = match cst_to_ast.parse(&self.code, None) {
+
+        // Source file to CST via Tree-sitter
+        let mut tree = match cst_to_ast.parse(&self.code, None) {
             Some(t) => t,
             None => return Err(ParserError::DidNotComplete),
+        };
+
+        // Error in first parse -> mutate source file and reparse
+        if tree.root_node().has_error() {
+            let parser_post_processor = ParserPostprocessor::new();
+            let mutated_input = parser_post_processor.postprocess(&self.code);
+            tree = match cst_to_ast.parse(mutated_input, None) {
+                Some(t) => t,
+                None => return Err(ParserError::DidNotComplete),
+            };
         };
 
         let tree_sitter_root_node = tree.root_node();
         self.find_error_nodes(tree_sitter_root_node);
 
+        // Tree-sitter CST to FilteredCST (without ERROR or COMMENT nodes)
         let filtered_cst = build_node_tree(tree_sitter_root_node);
         let mut filtered_cst_parser = FilteredCSTParser::new(self, &filtered_cst);
+
+        // FilteredCST to AST
         filtered_cst_parser.parse_module(filtered_cst.get_root());
         Ok(())
     }

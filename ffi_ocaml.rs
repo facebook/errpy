@@ -16,6 +16,7 @@ pub mod constants;
 pub mod cst_to_ast;
 pub mod errors;
 pub mod node_wrapper;
+pub mod parser_post_process;
 pub mod parser_pre_process;
 pub mod sitter;
 pub mod string_helpers;
@@ -26,6 +27,7 @@ ocamlrep_ocamlpool::ocaml_ffi! {
         let input_without_comments = remove_comments(input_code_as_rust_string);
 
         let mut cst_to_ast = CSTToASTParser::new(input_without_comments);
+
         match cst_to_ast.parse() {
             Ok(_) => {
                 let ast_and_metadata = cst_to_ast.ast_and_metadata;

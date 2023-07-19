@@ -14,6 +14,7 @@ pub mod constants;
 pub mod cst_to_ast;
 pub mod errors;
 pub mod node_wrapper;
+pub mod parser_post_process;
 pub mod parser_pre_process;
 pub mod printers;
 pub mod sitter;
