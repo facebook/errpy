@@ -34,7 +34,7 @@ Output AST is not valid according to CPython: invalid syntax (<unknown>, line 9)
 
 ##M2 - Autocomplete on trailing `.`
 def myfunc():
-    thing = slice_elements.AUTOCOMPLETE
+    thing = slice_elements.
 
 1 Recoverable error detected:
 SyntaxError: invalid syntax at [3:5 - 3:28]
@@ -42,10 +42,11 @@ CST Stack:
     {Node ERROR (2, 4) - (2, 27)}
     {Node function_definition (1, 0) - (2, 27)}
     {Node module (1, 0) - (3, 0)}
+Output AST is not valid according to CPython: invalid syntax (<unknown>, line 2)
 
 ##M2 - autocomplete common case
 def myfunc():
-    thing = slice_elements.AUTOCOMPLETE.pop()
+    thing = slice_elements..pop()
     return thing
 
 1 Recoverable error detected:
@@ -59,6 +60,7 @@ CST Stack:
     {Node block (3, 4) - (4, 16)}
     {Node function_definition (2, 0) - (4, 16)}
     {Node module (2, 0) - (5, 0)}
+Output AST is not valid according to CPython: invalid syntax (<unknown>, line 2)
 
 ##Milestone 3 - Signature help for Function and Method Signatures
 class Thing:

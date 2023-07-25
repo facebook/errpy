@@ -23,7 +23,7 @@ CST Stack:
 ##test_if_else
 code = before
 if x:
-    f.AUTOCOMPLETE
+    f.
 2 Recoverable errors detected:
 SyntaxError: invalid syntax at [4:5 - 4:7]
 CST Stack:
@@ -36,16 +36,18 @@ CST Stack:
     {Node else_clause (4, 0) - (7, 12)}
     {Node if_statement (2, 0) - (7, 12)}
     {Node module (0, 0) - (8, 0)}
+Output AST is not valid according to CPython: invalid syntax (<unknown>, line 3)
 
 ##test_if_stmt
 code = before
 if x:
-    f.AUTOCOMPLETE
+    f.
 1 Recoverable error detected:
 SyntaxError: invalid syntax at [3:1 - 6:13]
 CST Stack:
     {Node ERROR (2, 0) - (5, 12)}
     {Node module (0, 0) - (6, 0)}
+Output AST is not valid according to CPython: invalid syntax (<unknown>, line 3)
 
 ##test_invalid_token
 code = before

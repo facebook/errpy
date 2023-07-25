@@ -50,11 +50,12 @@ pub fn parse_module_print_ast_code(
     };
 
     let parsing_and_printer = ParsingAndPrinter::new(input_code);
-
     let pprint_output = &mut String::new();
+
     if print_ast {
         pprint_output.push_str(parsing_and_printer.get_print_ast().as_str());
     }
+
     if pretty_print_ast {
         pprint_output.push_str(parsing_and_printer.get_pretty_print_ast().as_str());
     }

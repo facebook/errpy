@@ -42,6 +42,7 @@ use itertools::join;
 use node_wrapper::build_node_tree;
 use node_wrapper::Node;
 use parser_post_process::ParserPostprocessor;
+use parser_post_process::AUTOCOMPLETE_TOKEN;
 use sitter::get_node_type;
 use sitter::AugAssignOperator;
 use sitter::BinaryOperator;
@@ -734,7 +735,7 @@ impl<'parser> FilteredCSTParser<'parser> {
                             name: Some(self.get_valid_identifier(name_parts.pop().unwrap())),
                         },
                         _ => {
-                            // numtiple dot namess: `a.b.c` treated as a MatchValue of Attribute accesses
+                            // multiple dot names: `a.b.c` treated as a MatchValue of Attribute accesses
                             let expr_desc = self
                                 .wrap_dotted_name_into_attribute_access_for_case_patterns(
                                     name_parts, one_child,
@@ -3554,7 +3555,14 @@ impl<'parser> FilteredCSTParser<'parser> {
         let rhs = node
             .child_by_field_name(self.filtered_cst, "attribute")
             .expect("missing right hand side (attribute.attribute)");
-        let attr = self.get_valid_identifier(rhs);
+        let raw_attr = self.get_valid_identifier(rhs);
+
+        // Handle AUTOCOMPLETE token
+        let attr = if raw_attr == AUTOCOMPLETE_TOKEN {
+            String::from("")
+        } else {
+            raw_attr
+        };
 
         Ok(ExprDesc::Attribute {
             value,
