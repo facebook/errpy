@@ -36,8 +36,11 @@ It is recommended to use dune as your build system. To use errpy in your dune pr
 ### For local development
 If you want to test your changes to errpy locally and use them in another OCaml project (.e.g. Pyre) you can try the following,
 
+First clone the repo with: `$ git clone https://github.com/facebook/errpy.git`
+
+Or use `$ git clone --branch release https://github.com/facebook/errpy.git` if you're operating within an `offline` rust enviroment.
+
 ```
-$ git clone <github repo location>
 ... make the required changed ...
 $ cd errpy
 $ dune build @install          # Build the errpy library
