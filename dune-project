@@ -2,7 +2,7 @@
 
 (name errpy)
 
-(version 0.0.8)
+(version 0.0.9)
 
 (generate_opam_files true)
 
