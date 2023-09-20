@@ -6,7 +6,10 @@
 #[macro_use]
 extern crate rust_to_ocaml_attr;
 
+use std::path::PathBuf;
+
 use crate::printers::parse_module_print_ast_code;
+use crate::printers::read_stdin_or_file;
 use crate::printers::PrintingMode;
 
 pub mod ast;
@@ -24,13 +27,13 @@ pub mod string_helpers;
 #[derive(clap::Parser)]
 struct Args {
     /// Python code to generate AST for input string
-    input_code: String,
+    input_code: PathBuf,
 }
 
 fn main() {
     let args = <Args as clap::Parser>::parse();
 
-    let input_code = args.input_code;
+    let input_code = read_stdin_or_file(args.input_code);
     let (ast, errors) = parse_module_print_ast_code(input_code, PrintingMode::ASTAndPrettyPrintAST);
     if errors.is_empty() {
         println!("{}", ast);

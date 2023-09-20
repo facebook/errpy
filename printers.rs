@@ -6,6 +6,11 @@
 pub mod ast_pretty_print;
 pub mod ast_pretty_print_helper;
 pub mod ast_print;
+use std::fs;
+use std::io;
+use std::io::BufRead;
+use std::path::PathBuf;
+
 use ast_pretty_print_helper::PrintHelper;
 use cst_to_ast::get_node_text;
 use cst_to_ast::ASTAndMetaData;
@@ -37,6 +42,22 @@ pub fn parse_module_print_ast_pretty_and_errors(input_code: String) -> (String, 
         parsing_and_printer.get_pretty_print_ast(),
         parsing_and_printer.get_recoverable_errors(),
     )
+}
+
+pub fn read_stdin_or_file(input_parameter: PathBuf) -> String {
+    if input_parameter == PathBuf::from("-") {
+        let lines = io::stdin().lock().lines();
+        let mut user_input = String::new();
+
+        for line in lines {
+            let last_input = line.unwrap();
+            user_input.push_str(&last_input);
+            user_input.push('\n');
+        }
+        user_input
+    } else {
+        fs::read_to_string(&input_parameter).unwrap()
+    }
 }
 
 pub fn parse_module_print_ast_code(
