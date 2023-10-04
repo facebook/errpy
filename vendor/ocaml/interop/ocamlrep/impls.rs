@@ -421,7 +421,7 @@ impl<T: ToOcamlRep> ToOcamlRep for &'_ [T] {
     fn to_ocamlrep<'a, A: Allocator>(&'a self, alloc: &'a A) -> Value<'a> {
         alloc.memoized(
             self.as_ptr() as usize,
-            self.len() * size_of::<T>(),
+            std::mem::size_of_val(*self),
             |alloc| (**self).to_ocamlrep(alloc),
         )
     }
@@ -762,94 +762,80 @@ impl<T: FromOcamlRep + Ord + Hash, S: BuildHasher + Default> FromOcamlRep for In
     }
 }
 
+#[cfg(unix)]
 impl ToOcamlRep for OsStr {
     // TODO: A Windows implementation would be nice, but what does the OCaml
     // runtime do? If we need Windows support, we'll have to find out.
-    #[cfg(unix)]
     fn to_ocamlrep<'a, A: Allocator>(&'a self, alloc: &'a A) -> Value<'a> {
         use std::os::unix::ffi::OsStrExt;
         alloc.add(self.as_bytes())
     }
-
-    #[cfg(target_arch = "wasm32")]
-    fn to_ocamlrep<'a, A: Allocator>(&'a self, alloc: &'a A) -> Value<'a> {
-        panic!()
-    }
 }
 
+#[cfg(unix)]
 impl ToOcamlRep for &'_ OsStr {
-    #[cfg(unix)]
     fn to_ocamlrep<'a, A: Allocator>(&'a self, alloc: &'a A) -> Value<'a> {
         use std::os::unix::ffi::OsStrExt;
         alloc.add(self.as_bytes())
     }
-
-    #[cfg(target_arch = "wasm32")]
-    fn to_ocamlrep<'a, A: Allocator>(&'a self, alloc: &'a A) -> Value<'a> {
-        panic!()
-    }
 }
 
+#[cfg(unix)]
 impl<'a> FromOcamlRepIn<'a> for &'a OsStr {
-    #[cfg(unix)]
     fn from_ocamlrep_in<'b>(value: Value<'b>, alloc: &'a Bump) -> Result<Self, FromError> {
         use std::os::unix::ffi::OsStrExt;
         Ok(std::ffi::OsStr::from_bytes(<&'a [u8]>::from_ocamlrep_in(
             value, alloc,
         )?))
     }
-
-    #[cfg(target_arch = "wasm32")]
-    fn from_ocamlrep_in<'b>(value: Value<'b>, alloc: &'a Bump) -> Result<Self, FromError> {
-        panic!()
-    }
 }
 
+#[cfg(unix)]
 impl ToOcamlRep for OsString {
     fn to_ocamlrep<'a, A: Allocator>(&'a self, alloc: &'a A) -> Value<'a> {
         alloc.add(self.as_os_str())
     }
 }
 
+#[cfg(unix)]
 impl FromOcamlRep for OsString {
-    #[cfg(unix)]
     fn from_ocamlrep(value: Value<'_>) -> Result<Self, FromError> {
         use std::os::unix::ffi::OsStrExt;
         Ok(OsString::from(std::ffi::OsStr::from_bytes(
             bytes_from_ocamlrep(value)?,
         )))
     }
-
-    #[cfg(target_arch = "wasm32")]
-    fn from_ocamlrep(value: Value<'_>) -> Result<Self, FromError> {
-        panic!()
-    }
 }
 
+#[cfg(unix)]
 impl ToOcamlRep for Path {
     fn to_ocamlrep<'a, A: Allocator>(&'a self, alloc: &'a A) -> Value<'a> {
         alloc.add(self.as_os_str())
     }
 }
 
+#[cfg(unix)]
 impl ToOcamlRep for &'_ Path {
     fn to_ocamlrep<'a, A: Allocator>(&'a self, alloc: &'a A) -> Value<'a> {
         alloc.add(self.as_os_str())
     }
 }
 
+#[cfg(unix)]
 impl<'a> FromOcamlRepIn<'a> for &'a Path {
     fn from_ocamlrep_in<'b>(value: Value<'b>, alloc: &'a Bump) -> Result<Self, FromError> {
         Ok(Path::new(<&'a OsStr>::from_ocamlrep_in(value, alloc)?))
     }
 }
 
+#[cfg(unix)]
 impl ToOcamlRep for PathBuf {
     fn to_ocamlrep<'a, A: Allocator>(&'a self, alloc: &'a A) -> Value<'a> {
         alloc.add(self.as_os_str())
     }
 }
 
+#[cfg(unix)]
 impl FromOcamlRep for PathBuf {
     fn from_ocamlrep(value: Value<'_>) -> Result<Self, FromError> {
         Ok(PathBuf::from(OsString::from_ocamlrep(value)?))
@@ -911,7 +897,7 @@ pub fn str_to_ocamlrep<'a, A: Allocator>(s: &str, alloc: &'a A) -> Value<'a> {
 
 /// Given an OCaml string, return a string slice pointing to its contents, if
 /// they are valid UTF-8.
-pub fn str_from_ocamlrep<'a>(value: Value<'a>) -> Result<&'a str, FromError> {
+pub fn str_from_ocamlrep(value: Value<'_>) -> Result<&str, FromError> {
     Ok(std::str::from_utf8(bytes_from_ocamlrep(value)?)?)
 }
 
@@ -990,7 +976,7 @@ pub fn bytes_to_ocamlrep<'a, A: Allocator>(bytes: &[u8], alloc: &'a A) -> Value<
 }
 
 /// Given an OCaml string, return a byte slice pointing to its contents.
-pub fn bytes_from_ocamlrep<'a>(value: Value<'a>) -> Result<&'a [u8], FromError> {
+pub fn bytes_from_ocamlrep(value: Value<'_>) -> Result<&[u8], FromError> {
     let block = from::expect_block(value)?;
     from::expect_block_tag(block, block::STRING_TAG)?;
     let block_size_in_bytes = block.size() * std::mem::size_of::<Value<'_>>();
