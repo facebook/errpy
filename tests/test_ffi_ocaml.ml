@@ -9,6 +9,8 @@ open OUnit2
 module Ast = Errpy.Ast
 module Parser = Errpy.Parser
 
+[@@@ocaml.warning "-42"]
+
 (* Simple tests to ensure we can invoke ERRPY via the FFI interface from OCaml and marshall the
    output ast to an OCaml datastructure and handle comments correctly *)
 
