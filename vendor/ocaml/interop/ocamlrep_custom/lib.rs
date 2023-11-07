@@ -198,7 +198,7 @@ impl<T: CamlSerialize> FromOcamlRep for Custom<T> {
 
 /// Helper function to fetch a reference to the `Rc` from the OCaml representation
 /// of a custom block.
-fn rc_from_value<'a, T: CamlSerialize>(value: Value<'a>) -> Result<&'a Rc<T>, FromError> {
+fn rc_from_value<T: CamlSerialize>(value: Value<'_>) -> Result<&Rc<T>, FromError> {
     let block = from::expect_block(value)?;
     from::expect_block_tag(block, CUSTOM_TAG)?;
     from::expect_block_size(block, CUSTOM_BLOCK_SIZE_IN_WORDS)?;
@@ -401,6 +401,8 @@ pub fn operations_helper<T: CamlSerialize>() -> CustomOperations {
 }
 
 /// Helper used for the `caml_serialize_default_impls` macro
+///
+/// # Safety
 ///
 /// Should not be used directly. Interacts with the OCaml runtime and is
 /// thus unsafe to call in a multi-threaded context.

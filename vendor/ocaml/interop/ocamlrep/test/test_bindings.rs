@@ -20,6 +20,8 @@ fn val<T: FromOcamlRep + ToOcamlRep>(value: T) -> usize {
     value.to_bits()
 }
 
+/// # Safety
+/// `value` must be a valid pointer to an OCaml value.
 #[no_mangle]
 pub unsafe extern "C" fn convert_to_ocamlrep(value: usize) -> usize {
     let arena = Box::leak(Box::new(ocamlrep::Arena::new()));
@@ -108,7 +110,7 @@ pub extern "C" fn get_byte_slice(_unit: usize) -> usize {
 #[no_mangle]
 pub extern "C" fn get_int_opt_slice(_unit: usize) -> usize {
     let arena = Box::leak(Box::new(ocamlrep::Arena::new()));
-    let vec = vec![None, Some(2), Some(3)];
+    let vec = [None, Some(2), Some(3)];
     let slice = &vec[..];
     arena.add(slice).to_bits()
 }
@@ -322,7 +324,7 @@ mod tests {
                 "-o",
                 "test_ocamlrep_ml.cmx",
             ],
-            Some(&tmp_dir.path()),
+            Some(tmp_dir.path()),
         );
         assert_eq!(run(compile_cmd).map_err(fmt_exit_status_err), Ok(()));
         let link_cmd = cmd(
@@ -339,7 +341,7 @@ mod tests {
                 "-cclib",
                 "-locamlrep_ocamlpool",
             ],
-            Some(&tmp_dir.path()),
+            Some(tmp_dir.path()),
         );
         assert_eq!(run(link_cmd).map_err(fmt_exit_status_err), Ok(()));
         let ocamlrep_test_cmd = cmd(
