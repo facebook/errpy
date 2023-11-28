@@ -10,4 +10,4 @@ test = false
 doctest = false
 
 [dependencies]
-proc-macro2 = { version = "1.0.64", features = ["span-locations"] }
+proc-macro2 = { version = "1.0.70", features = ["span-locations"] }
