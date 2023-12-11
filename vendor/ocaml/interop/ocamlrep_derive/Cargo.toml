@@ -4,6 +4,8 @@
 name = "ocamlrep_derive"
 version = "0.0.0"
 edition = "2021"
+repository = "https://github.com/facebook/errpy"
+license = "MIT"
 
 [lib]
 path = "lib.rs"

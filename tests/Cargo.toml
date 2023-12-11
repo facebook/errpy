@@ -4,6 +4,8 @@
 name = "python_errpy_tests"
 version = "0.0.0"
 edition = "2021"
+repository = "https://github.com/facebook/errpy"
+license = "MIT"
 
 [[test]]
 name = "test_parser_post_process"

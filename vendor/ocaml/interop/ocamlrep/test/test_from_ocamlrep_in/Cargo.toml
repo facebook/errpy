@@ -4,6 +4,8 @@
 name = "test_from_ocamlrep_in"
 version = "0.0.0"
 edition = "2021"
+repository = "https://github.com/facebook/errpy"
+license = "MIT"
 
 [lib]
 path = "../test_from_ocamlrep_in.rs"

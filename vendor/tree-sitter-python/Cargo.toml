@@ -4,6 +4,8 @@
 name = "tree_sitter_python"
 version = "0.0.0"
 edition = "2021"
+repository = "https://github.com/facebook/errpy"
+license = "MIT"
 build = "bindings/rust/build.rs"
 include = ["bindings/rust/*", "grammar.js", "queries/*", "src/*"]
 
