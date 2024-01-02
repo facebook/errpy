@@ -25,11 +25,13 @@ pub mod printers;
 pub mod sitter;
 pub mod string_helpers;
 
-/// Python Parser which will output Tree-sitter CST
+/// Python Parser which will output CST pretty printed.
+/// Usage: `print_cst file.py` or `echo "print('hello')" | print_cst`.
+/// With a build system such as buck, `buck run //path/to/errpy:print_cst -- file.py` and `echo "print('test')" | buck run //path/to/errpy:print_cst -`
 #[derive(ClapParser)]
 struct Args {
-    /// Python code to generate CST for
-    input_code: PathBuf,
+    /// Python file to generate CST for
+    input_file: PathBuf,
 
     /// If the error nodes should be filtered in the output CST
     /// (default is to include all nodes)
@@ -40,9 +42,9 @@ struct Args {
 fn main() {
     let args = <Args as clap::Parser>::parse();
 
-    let input_code = read_stdin_or_file(args.input_code);
+    let input_file = read_stdin_or_file(args.input_file);
 
     let filter_errors = args.filter_errors;
 
-    CSTPrinter::new(input_code).print_cst(filter_errors);
+    CSTPrinter::new(input_file).print_cst(filter_errors);
 }

@@ -23,18 +23,20 @@ pub mod printers;
 pub mod sitter;
 pub mod string_helpers;
 
-/// Python Parser which will output AST and optional pretty print of input code from derived AST
+/// Python Parser which will output AST pretty printed.
+/// Usage: `print_ast file.py` or `echo "print('hello')" | print_ast`.
+/// With a build system such as buck, `buck run //path/to/errpy:print_ast -- file.py` and `echo "print('test')" | buck run //path/to/errpy:print_ast -`
 #[derive(clap::Parser)]
 struct Args {
-    /// Python code to generate AST for input string
-    input_code: PathBuf,
+    /// Python file to generate AST for
+    input_file: PathBuf,
 }
 
 fn main() {
     let args = <Args as clap::Parser>::parse();
 
-    let input_code = read_stdin_or_file(args.input_code);
-    let (ast, errors) = parse_module_print_ast_code(input_code, PrintingMode::ASTAndPrettyPrintAST);
+    let input_file = read_stdin_or_file(args.input_file);
+    let (ast, errors) = parse_module_print_ast_code(input_file, PrintingMode::ASTAndPrettyPrintAST);
     if errors.is_empty() {
         println!("{}", ast);
     } else {
