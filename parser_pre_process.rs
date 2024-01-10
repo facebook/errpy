@@ -70,7 +70,6 @@ fn handle_quote_character(
 ///
 /// For now this function is only used on in the context of AST production
 /// so it's fit for purpose.
-///
 pub fn remove_comments(input_code: String) -> String {
     use StringCommentState::*;
 

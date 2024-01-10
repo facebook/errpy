@@ -35,7 +35,6 @@ impl ParserPostprocessor {
     /// * It begins with a letter or an underscore.
     /// * It is not followed by any punctuation.
     /// * It is not a reserved keyword.
-    ///
     fn valid_tokens_preceding_dot(&self, line: &str) -> bool {
         let preceding_tokens = match line.rsplit_once([' ', '.', ')', '\'', '}', ']', '\"']) {
             Some((_, identifier_and_trailing_dot)) => identifier_and_trailing_dot,
@@ -55,7 +54,6 @@ impl ParserPostprocessor {
     ///
     /// Injects a `AUTOCOMPLETE_TOKEN` to the input code if a valid identifier
     /// followed by a trailing dot is found.
-    ///
     fn process_trailing_dots(&self, line: &str) -> String {
         let re = Regex::new(r"\.\s").expect("Invalid Regex");
         let mut result = Vec::new();

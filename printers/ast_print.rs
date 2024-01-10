@@ -848,7 +848,6 @@ impl fmt::Display for Cmpop {
 /// Attempt to replicate PyOS_double_to_string function used by float_repr
 /// in floatobject.c for representing floats as strings
 /// https://github.com/python/cpython/blob/df81d2892eed3a256eb61ce59304f2173fb0c945/Python/pystrtod.c
-///
 pub fn cpython_float_to_string(value: &f64, is_complex: bool) -> String {
     if value.log10().ceil() >= 17. {
         // 17 digits or more requires exponent representation with + after the e

@@ -23,7 +23,6 @@ use crate::node_wrapper::Node;
 
 ///
 /// Token supertype after extraction from Tree-sitter CST
-///
 #[derive(Debug)]
 pub enum NodeType<'a> {
     Error,
@@ -158,7 +157,6 @@ pub enum Delimiter {
 ///
 /// A production is a node to traverse and it carries a
 /// reference to the sitter node
-///
 #[derive(Debug)]
 pub struct Production<'a> {
     pub production_kind: ProductionKind,
@@ -167,7 +165,6 @@ pub struct Production<'a> {
 
 ///
 /// Various forms of ProductionKind
-///
 #[derive(Debug, PartialEq)]
 #[allow(non_camel_case_types)]
 pub enum ProductionKind {
@@ -282,7 +279,6 @@ impl<'a> Production<'a> {
 
 ///
 /// Wrap a sitter `Node` into its structured wrapper (`NodeType`)
-///
 pub fn get_node_type<'a>(node: &'a Node<'a>) -> NodeType<'a> {
     match node.kind() {
         // keywords

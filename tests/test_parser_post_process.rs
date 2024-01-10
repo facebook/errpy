@@ -5,7 +5,6 @@
 
 ///
 /// Tests the process_trailing_dots method of the `parser_post_process` module.
-///
 
 #[cfg(test)]
 mod process_trailing_dots_tests {

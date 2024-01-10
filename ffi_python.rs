@@ -58,7 +58,6 @@ fn py_parse_module_print_ast_pretty_and_errors(
 
 ///
 /// run errpy but ignore result - useful for benchmarking
-///
 #[pyfunction]
 fn py_parse_module(input_code: String) -> PyResult<()> {
     let mut cst_to_ast = CSTToASTParser::new(input_code);

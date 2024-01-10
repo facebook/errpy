@@ -306,7 +306,6 @@ fn format_vec_pattern(choices: &[Pattern], pprint_output: &mut PrintHelper) {
 ///
 /// Function will format output without a trailing newline
 /// the caller is to add newline after the block if appropriate
-///
 fn format_block(body: &[Stmt], pprint_output: &mut PrintHelper) {
     pprint_output.inc_ident();
     for item in body.iter() {

@@ -87,7 +87,6 @@ pub struct RecoverableErrorLocation {
 /// Parser is responsible for driving parsing of a python code String into an internal CST representation
 /// before lowering to an AST. The AST is expected to match 1:1 with CPython. The AST is held within an
 /// `ASTAndMetaData` instance (and potentitally additional metadata)
-///
 #[derive(Debug)]
 pub struct Parser {
     code: String,
@@ -107,7 +106,6 @@ pub struct FilteredCSTParser<'a> {
 
 ///
 /// `ASTAndMetaData` presently just holds the lowered AST
-///
 #[derive(Debug)]
 pub struct ASTAndMetaData {
     // AST root for what was parsed correctly
@@ -253,7 +251,6 @@ impl Parser {
     /// Public entry point to parse code.
     /// Code is defined at construction time (`new`) but it could also be passed
     /// to this function. We could also pass a delta
-    ///
     pub fn parse(&mut self) -> Result<(), ParserError> {
         let mut cst_to_ast = SitterParser::new();
         cst_to_ast.set_language(tree_sitter_python::language())?;
@@ -305,7 +302,6 @@ impl Parser {
 
     ///
     /// Mark all error nodes from the Tree-sitter CST as SyntaxErrors
-    ///
     fn find_error_nodes(&mut self, node: TSNode) {
         if node.kind() == "ERROR" {
             let parser_error = RecoverableError::SyntaxError("invalid syntax".to_string());
@@ -5062,7 +5058,6 @@ impl<'parser> FilteredCSTParser<'parser> {
     ///  6. We add escape characters again if needed (' -> \' or " -> \"). In practice,
     ///  this is relevant only when the the string contains both single (') and double
     ///  (") quotes.
-    ///
     fn process_string(&mut self, string_contents: String, node: &Node) -> ExprDesc {
         // TODO: this method is getting quite unweildly, we should refactor it.
         let mut string_contents = string_contents;
@@ -5327,7 +5322,6 @@ impl<'parser> FilteredCSTParser<'parser> {
     /// Will return an identifier as a String and will record a
     /// recoverable error if the identifier is invalid
     /// (e.g. keyword, empty space etc)
-    ///
     fn get_valid_identifier(&mut self, node: &Node) -> String {
         let identifier: String = self.get_text(node);
         self.check_identifier_valid(&identifier, node);
@@ -5337,7 +5331,6 @@ impl<'parser> FilteredCSTParser<'parser> {
     ///
     /// Will record a recoverable error if the identifier
     /// is invalid (e.g. keyword, empty space etc)
-    ///
     fn check_identifier_valid(&mut self, identifier: &String, node: &Node) {
         if self.python_keywords.contains(identifier) {
             self.record_recoverable_error(

@@ -125,7 +125,6 @@ impl ParsingAndPrinter {
 
 ///
 /// Will return an empty string if there are no errors
-///
 fn extract_errors(metadata: &ASTAndMetaData) -> String {
     let mut errors = String::new();
     if !metadata.recoverable_errors.is_empty() {
