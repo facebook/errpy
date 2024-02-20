@@ -1,6 +1,6 @@
 aliases:
   - &is_main_branch
-      equal: [ main, << pipeline.git.branch >> ]
+    equal: [ main, << pipeline.git.branch >> ]
 
 commands:
   install_rust_toolchain:
@@ -84,7 +84,6 @@ commands:
             zstd -d buck2-<<parameters.triple>>.zst -o buck2
             chmod +x buck2
             sudo ln -s $(pwd)/buck2 /usr/local/bin/buck2
-
 
   install_reindeer:
     description: Use cargo to install reindeer
