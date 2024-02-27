@@ -11,7 +11,7 @@ license = "MIT"
 path = "ffi_ocaml.rs"
 test = false
 doctest = false
-crate-type = ["lib", "staticlib"]
+crate-type = ["cdylib", "staticlib", "lib"]
 
 [[bin]]
 name = "print_ast"
