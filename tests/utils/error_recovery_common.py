@@ -72,7 +72,7 @@ class ErrorRecoveryCommon(ASTTestCommon):
         expected_results_fname = many_fname + EXPECTED_RESULTS_POSTFIX
 
         got_results = ""
-        for (code_title, test_body) in self.splitmany_test_cases(many_fname, test_dir):
+        for code_title, test_body in self.splitmany_test_cases(many_fname, test_dir):
             if code_title.startswith("#"):
                 continue  # skip copywrite notice
 
@@ -153,7 +153,7 @@ class ErrorRecoveryCommon(ASTTestCommon):
         ) -> Iterator[ErrorRecoveryTestIteratorStep]:
             last_few_chars_input = []
             in_comment = False
-            for (character_number, current_character) in enumerate(test_body):
+            for character_number, current_character in enumerate(test_body):
                 # we progress char by char
                 last_few_chars_input.append(current_character)
                 if len(last_few_chars_input) > 30:
@@ -279,7 +279,7 @@ class ErrorRecoveryCommon(ASTTestCommon):
 
         fail_cases = []
 
-        for (code_title, test_body) in sanitized_test_cases:
+        for code_title, test_body in sanitized_test_cases:
             if code_title.startswith("#"):
                 continue  # skip copywrite notice
 

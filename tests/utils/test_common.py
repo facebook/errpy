@@ -193,7 +193,7 @@ class ASTTestCommon(unittest.TestCase):
         # split into individual tests
         sanitized_test_cases = self.splitmany_test_cases(many_fname, flavour)
 
-        for (code_title, test_body) in sanitized_test_cases:
+        for code_title, test_body in sanitized_test_cases:
             expected_ast = ast_utils.get_cpython_ast(test_body).strip()
             (got_ast, errors), _ = ast_utils.run_errpy(test_body)
 

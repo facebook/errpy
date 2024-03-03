@@ -17,9 +17,9 @@ class TestSandbox(unittest.TestCase):
     """The sandbox area can be used in order to test ERRPY syntax and compare
     the output AST with that produced by CPython."""
 
-    maxDiff: Optional[
-        int
-    ] = None  # this is to display large diffs which we want for this tool
+    maxDiff: Optional[int] = (
+        None  # this is to display large diffs which we want for this tool
+    )
 
     def check_ast_file(self, fname: str, pretty_print: bool, flat_ast: bool) -> None:
         code = read_code(fname)
