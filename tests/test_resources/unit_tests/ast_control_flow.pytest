@@ -4,7 +4,7 @@
 # LICENSE file in the root directory of this source tree
 
 # Ensure correct AST creation given units defined under: https://docs.python.org/3/library/ast.html :: 3.10.7 grammar
-# Note: the guide referenced above is not complete, so we've extended it here wher appropriate
+# Note: the guide referenced above is not complete, so we've extended it here where appropriate
 
 
 ## If(test, body, orelse)
@@ -64,19 +64,19 @@ for a in y:
 else:
     ysss()
 
-## For - taget being list
+## For - target being list
 for [name, request] in items:
     pass
 
-## For - taget being tuple
+## For - target being tuple
 for (name, request) in items:
     pass
 
-## For - taget tuple with one item only
+## For - target tuple with one item only
 for (name, ) in items:
     pass
 
-## For - taget list with one item only
+## For - target list with one item only
 for [name, ] in items:
     pass
 
@@ -175,23 +175,23 @@ with open('file_path', 'w') as file:
 with A() as a, B() as b, C() as c:
     doSomething(a,b,c)
 
-## With - taget being list
+## With - target being list
 with something() as [a, b]:
     pass
 
-## With - taget being tuple
+## With - target being tuple
 with something() as (a, b):
     pass
 
-## With - taget being tuple with one item only
+## With - target being tuple with one item only
 with something() as (a, ):
     pass
 
-## With - taget being list with one item only
+## With - target being list with one item only
 with something() as [a, ]:
     pass
 
-## With - taget attribute access
+## With - target attribute access
 with something() as a.b:
     pass
 

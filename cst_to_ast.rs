@@ -1449,7 +1449,8 @@ impl<'parser> FilteredCSTParser<'parser> {
                 name,
                 args: parameters,
                 body,
-                decorator_list, // decorators are added by wrapping code
+                decorator_list,      // decorators are added by wrapping code
+                type_params: vec![], // TODO: pep 695
                 returns: return_annotation_expr,
                 type_comment: None,
             })
@@ -1458,7 +1459,8 @@ impl<'parser> FilteredCSTParser<'parser> {
                 name,
                 args: parameters,
                 body,
-                decorator_list, // decorators are added by wrapping code
+                decorator_list,      // decorators are added by wrapping code
+                type_params: vec![], // TODO: pep 695
                 returns: return_annotation_expr,
                 type_comment: None,
             })
@@ -1845,6 +1847,7 @@ impl<'parser> FilteredCSTParser<'parser> {
             keywords,
             body,
             decorator_list,
+            type_params: vec![], // TODO: pep 695
         })
     }
 
@@ -4304,7 +4307,7 @@ impl<'parser> FilteredCSTParser<'parser> {
         from_string.replace("{{", "{").replace("}}", "}")
     }
 
-    fn is_triple_quote_multiline(&mut self, string: &String) -> bool {
+    fn is_triple_quote_multiline(&mut self, string: &str) -> bool {
         // possible to have "\"" - double brackets inside double brackets as input
         string.starts_with("\"\"\"") && string.ends_with("\"\"\"") && string.len() >= 6
             || string.starts_with("\'\'\'") && string.ends_with("\'\'\'") && string.len() >= 6
@@ -4381,17 +4384,18 @@ impl<'parser> FilteredCSTParser<'parser> {
     fn handle_format_string_interpolation_node_inplace<'a>(
         &mut self,
         maybe_interpolation_node: &'a Node<'a>,
-        origin_node: &'a Node<'a>,
         expressions: &mut Vec<Expr>,
         base_col: usize,
         base_row: usize,
         unicode_offset: &mut usize,
+        unicode_offset_since_last_interpolation: &mut usize,
         prev_idx: &mut usize,
         is_multiline: bool,
         node_text: &str,
         apostrophe_or_quote: &String,
         multiline_offsets: &HashMap<usize, usize>,
         current_row: &mut Option<usize>,
+        prev_end_row: &mut usize,
     ) -> ErrorableResult<()> {
         let start_row = maybe_interpolation_node.start_position().row;
 
@@ -4400,6 +4404,7 @@ impl<'parser> FilteredCSTParser<'parser> {
         if let Some(some_current_row) = current_row {
             if start_row != *some_current_row {
                 *unicode_offset = 0;
+                *unicode_offset_since_last_interpolation = 0;
                 *current_row = Some(start_row);
             }
         } else {
@@ -4410,8 +4415,9 @@ impl<'parser> FilteredCSTParser<'parser> {
             for maybe_escape_sequence in maybe_interpolation_node.named_children(self.filtered_cst)
             {
                 if maybe_escape_sequence.kind() == "escape_sequence" {
-                    *unicode_offset +=
-                        self.handle_format_string_escape_sequence(maybe_escape_sequence);
+                    let offset = self.handle_format_string_escape_sequence(maybe_escape_sequence);
+                    *unicode_offset += offset;
+                    *unicode_offset_since_last_interpolation += offset;
                 }
             }
         } else if maybe_interpolation_node.kind() == "interpolation" {
@@ -4428,7 +4434,7 @@ impl<'parser> FilteredCSTParser<'parser> {
                 start_col += multiline_offsets.get(&start_row).unwrap();
                 end_col += multiline_offsets.get(&end_row).unwrap();
             } else if is_multiline && start_row == base_row && start_row != end_row {
-                // if multiline and interpoaltion brackets begin in first line and
+                // if multiline and interpolation brackets begin in first line and
                 // end in further lines, we need line column adjustment for ending row
                 start_col -= base_col;
                 end_col += multiline_offsets.get(&end_row).unwrap();
@@ -4451,27 +4457,32 @@ impl<'parser> FilteredCSTParser<'parser> {
             // format_specifier and/or type_conversion may be specified for interpolation_node
             self.extract_interpolation_node_optionals(
                 maybe_interpolation_node,
-                origin_node,
                 &mut format_spec,
                 &mut conversion,
                 &mut has_equals,
             );
 
+            let value = self.expression(interpolation_expression)?;
+            let start_offset = if base_row == start_row { base_col } else { 0 };
+            let end_offset = if base_row == end_row { base_col } else { 0 };
             if start_col > *prev_idx {
                 // indicates that there is a string at one of the following two locations
                 // start of the f-string before the first {} (formatted value)
                 // in between two {}'s
                 // strings after the last {} are handled after iterating through
-                //the interpolation nodes
+                // the interpolation nodes
                 let mut string_before_tidy_braces =
                     self.tidy_double_braces(node_text[*prev_idx..start_col].to_string());
 
+                // foo{x=} expands to foox={x}, so the end position of the prefix string needs to be extended
+                let mut equals_offset = 0;
                 if has_equals {
-                    string_before_tidy_braces = string_before_tidy_braces
-                        + interpolation_expression
-                            .utf8_text(self.parser.code.as_bytes())
-                            .expect("Could not fetch param name")
-                        + "="
+                    let interpolation_contents_equals = interpolation_expression
+                        .utf8_text(self.parser.code.as_bytes())
+                        .expect("Could not fetch param name");
+                    string_before_tidy_braces =
+                        string_before_tidy_braces + interpolation_contents_equals + "=";
+                    equals_offset = interpolation_contents_equals.len() as isize + 2;
                 }
                 // in multiline string allowed to have " inside """ """
                 // so we have to "\"" or '\'' respectively to correctly preprocess substring
@@ -4488,31 +4499,60 @@ impl<'parser> FilteredCSTParser<'parser> {
                     ),
                     maybe_interpolation_node,
                 );
-                expressions.push(self.parser.new_expr(string_desc, origin_node));
+                let start_offset = if base_row == *prev_end_row {
+                    base_col
+                } else {
+                    0
+                };
+                // unicode_offset includes the unicode characters in the substring immediately preceding the current interpolation
+                let prefix_unicode_offset =
+                    *unicode_offset - *unicode_offset_since_last_interpolation;
+                expressions.push(Expr::new(
+                    string_desc,
+                    *prev_end_row as isize + 1,
+                    (*prev_idx - multiline_offsets.get(prev_end_row).unwrap_or(&0)
+                        + start_offset
+                        + prefix_unicode_offset) as isize,
+                    start_row as isize + 1,
+                    maybe_interpolation_node.start_position().column as isize + equals_offset,
+                ));
             } else if has_equals {
-                // Create new const expression
+                // Create new const expression for cases like {x=} with no preceding literal substring
+                // the new const expression has the same position as the variable name except the ending
+                // column is incremented by 1 to account for the =
                 let expr = interpolation_expression
                     .utf8_text(self.parser.code.as_bytes())
                     .expect("Could not fetch param name")
                     .to_string()
                     + "=";
-
                 let expr = self.string(format!("'{}'", expr), false);
-                expressions.push(self.parser.new_expr(expr, origin_node));
+                expressions.push(Expr::new(
+                    expr,
+                    value.lineno,
+                    value.col_offset,
+                    value.end_lineno.unwrap(),
+                    value.end_col_offset.unwrap() + 1,
+                ));
             }
-
-            let value = self.expression(interpolation_expression)?;
-
-            expressions.push(self.parser.new_expr(
+            let formatted_value = Expr::new(
                 ExprDesc::FormattedValue {
                     value,
                     conversion,
                     format_spec,
                 },
-                origin_node,
-            ));
-
+                start_row as isize + 1,
+                (start_col - multiline_offsets.get(&start_row).unwrap_or(&0)
+                    + start_offset
+                    + *unicode_offset) as isize,
+                end_row as isize + 1,
+                (end_col - multiline_offsets.get(&end_row).unwrap_or(&0)
+                    + end_offset
+                    + *unicode_offset) as isize,
+            );
+            expressions.push(formatted_value);
+            *prev_end_row = end_row;
             *prev_idx = end_col;
+            *unicode_offset_since_last_interpolation = 0;
         }
         Ok(())
     }
@@ -4582,26 +4622,27 @@ impl<'parser> FilteredCSTParser<'parser> {
         let mut has_interpolation_nodes = false;
 
         let mut unicode_offset: usize = 0;
+        let mut unicode_offset_since_last_interpolation: usize = 0;
         let mut current_row = None;
-
+        let mut prev_end_row = base_row;
         for interpolation_node in format_node.named_children(self.filtered_cst) {
             if interpolation_node.kind() == "interpolation" {
                 has_interpolation_nodes = true;
             }
-
             self.handle_format_string_interpolation_node_inplace(
                 interpolation_node,
-                origin_node,
                 &mut expressions,
                 base_col,
                 base_row,
                 &mut unicode_offset,
+                &mut unicode_offset_since_last_interpolation,
                 &mut prev_idx,
                 is_multiline,
                 &node_text,
                 &apostrophe_or_quote,
                 &multiline_offsets,
                 &mut current_row,
+                &mut prev_end_row,
             )?;
         }
         // adjusted_node_text is only required in case if there is leftover string
@@ -4633,12 +4674,37 @@ impl<'parser> FilteredCSTParser<'parser> {
                     ),
                     origin_node,
                 );
-                self.parser.new_expr(string_desc, origin_node)
+                let start_offset = if prev_end_row == base_row {
+                    base_col
+                } else {
+                    0
+                };
+                // don't add the unicode characters inside the current substring to the start position
+                let prefix_unicode_offset =
+                    unicode_offset - unicode_offset_since_last_interpolation;
+                let end_offset = if is_multiline { 3 } else { 1 };
+                Expr::new(
+                    string_desc,
+                    prev_end_row as isize + 1,
+                    (prev_idx + prefix_unicode_offset
+                        - *multiline_offsets.get(&prev_end_row).unwrap_or(&0)
+                        + start_offset) as isize,
+                    format_node.end_position().row as isize + 1,
+                    format_node.end_position().column as isize - end_offset,
+                )
             } else {
                 // no interpolation nodes, just treat as normal string and cut of f from start
                 let normal_string = self.tidy_double_braces(node_text[1..].to_string());
-                let string_desc = self.process_string(normal_string, origin_node);
-                self.parser.new_expr(string_desc, origin_node)
+                let string_desc = self.process_string(normal_string, format_node);
+                let start_offset = if is_multiline { 4 } else { 2 };
+                let end_offset = if is_multiline { 3 } else { 1 };
+                Expr::new(
+                    string_desc,
+                    format_node.start_position().row as isize + 1,
+                    start_offset + format_node.start_position().column as isize,
+                    format_node.end_position().row as isize + 1,
+                    format_node.end_position().column as isize - end_offset,
+                )
             };
 
             expressions.push(expr);
@@ -4658,7 +4724,6 @@ impl<'parser> FilteredCSTParser<'parser> {
     fn extract_interpolation_node_optionals(
         &mut self,
         interpolation_node: &Node,
-        origin_node: &Node,
         format_spec: &mut Option<Expr>,
         conversion: &mut Option<isize>,
         has_equals: &mut bool,
@@ -4677,13 +4742,18 @@ impl<'parser> FilteredCSTParser<'parser> {
                             self.get_text(interpolation_component_node)[1..].to_string();
                         let string_desc =
                             self.string(format!("'{}'", interpolation_node_str,), false);
-                        format_spec_expressions
-                            .push(self.parser.new_expr(string_desc, origin_node));
-                        *format_spec =
-                            Some(self.parser.new_expr(
-                                ExprDesc::JoinedStr(format_spec_expressions),
-                                origin_node,
-                            ));
+                        format_spec_expressions.push(Expr::new(
+                            string_desc,
+                            interpolation_component_node.start_position().row as isize + 1,
+                            // +1 to skip the colon
+                            interpolation_component_node.start_position().column as isize + 1,
+                            interpolation_component_node.end_position().row as isize + 1,
+                            interpolation_component_node.end_position().column as isize,
+                        ));
+                        *format_spec = Some(self.parser.new_expr(
+                            ExprDesc::JoinedStr(format_spec_expressions),
+                            interpolation_component_node,
+                        ));
                     }
                     "type_conversion" => {
                         // the following magic numbers are defined in the Python
@@ -4756,7 +4826,7 @@ impl<'parser> FilteredCSTParser<'parser> {
         self.process_string(one_big_string, conc_str_node)
     }
 
-    fn extract_concatinated_strings<'a>(
+    fn extract_concatenated_strings<'a>(
         &mut self,
         conc_str_node: &'a Node<'a>,
         strings: &mut Vec<Expr>,
@@ -4780,8 +4850,8 @@ impl<'parser> FilteredCSTParser<'parser> {
     /// of other strings apread across multiple consecutive lines and
     /// delimited by a \ followed by a newline.
     /// most of the time, if all nodes are regular strings then we need
-    /// just return a concatinated string.
-    /// BUT if any nodes are an f string then return one big concatinated f string
+    /// just return a concatenated string.
+    /// BUT if any nodes are an f string then return one big concatenated f string
     /// must be returned. This is achieved by creating a new f string and adding all
     /// f string and regular string components into one large expression list
     /// when joining f strings it is expected that string nodes are to be
@@ -4793,7 +4863,7 @@ impl<'parser> FilteredCSTParser<'parser> {
         conc_str_node: &'a Node<'a>,
     ) -> ErrorableResult<ExprDesc> {
         let mut strings: Vec<Expr> = vec![];
-        let contains_f_string = self.extract_concatinated_strings(conc_str_node, &mut strings)?;
+        let contains_f_string = self.extract_concatenated_strings(conc_str_node, &mut strings)?;
         if contains_f_string {
             let mut expressions: Vec<Expr> = vec![];
 
@@ -4813,11 +4883,17 @@ impl<'parser> FilteredCSTParser<'parser> {
                             } = &*to_add_first_item.desc
                             {
                                 // last item and first are strings, so we need to sew these together
+                                let start_line = last_item.lineno;
+                                let start_col = last_item.col_offset;
+                                let end_line = to_add_first_item.end_lineno.unwrap();
+                                let end_col = to_add_first_item.end_col_offset.unwrap();
                                 let mut to_sew = vec![];
                                 to_sew.push(expressions.pop().unwrap());
                                 to_sew.push(child_expressions.remove(0));
                                 let sewn_desc = self.sew_strings_together(to_sew, conc_str_node);
-                                expressions.push(self.parser.new_expr(sewn_desc, conc_str_node));
+                                expressions.push(Expr::new(
+                                    sewn_desc, start_line, start_col, end_line, end_col,
+                                ));
                                 // and the rest of the items can be extended into the expressions list
                             }
                         }
@@ -4838,14 +4914,18 @@ impl<'parser> FilteredCSTParser<'parser> {
                         } = &*last_item.desc
                         {
                             // last item was a string, so lets sew them together
+                            let start_line = last_item.lineno;
+                            let start_col = last_item.col_offset;
+                            let end_line = child_string.end_lineno.unwrap();
+                            let end_col = child_string.end_col_offset.unwrap();
                             let mut to_sew = vec![];
                             to_sew.push(expressions.pop().unwrap());
                             to_sew.push(child_string);
                             let sewn_desc = self.sew_strings_together(to_sew, conc_str_node);
-                            child_string = self.parser.new_expr(sewn_desc, conc_str_node)
+                            child_string =
+                                Expr::new(sewn_desc, start_line, start_col, end_line, end_col);
                         }
                     }
-
                     expressions.push(child_string);
                 }
             }
@@ -4923,7 +5003,7 @@ impl<'parser> FilteredCSTParser<'parser> {
     fn escape_decode_text(
         &mut self,
         raw_string_node: &Node,
-        escape_sequences: &Vec<(String, usize, usize)>,
+        escape_sequences: &[(String, usize, usize)],
     ) -> String {
         let original_contents = self.get_text(raw_string_node);
 

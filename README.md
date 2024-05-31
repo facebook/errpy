@@ -51,7 +51,7 @@ $ opam install errpy --verbose # install local build as errpy in opam
 
 ## Formatting
 When making Ocaml changes you can run `ocamlformat` in order to ensure code is
-formmated in a conistent manner. This is invoked as follows:
+formatted in a conistent manner. This is invoked as follows:
 ```
 $ dune build @fmt
 $ dune promote

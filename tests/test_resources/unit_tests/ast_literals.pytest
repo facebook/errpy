@@ -4,7 +4,7 @@
 # LICENSE file in the root directory of this source tree
 
 # Ensure correct AST creation given units defined under: https://docs.python.org/3/library/ast.html :: 3.10.7 grammar
-# Note: the guide referenced above is not complete, so we've extended it here wher appropriate
+# Note: the guide referenced above is not complete, so we've extended it here where appropriate
 
 
 ## Constant(value)
@@ -227,7 +227,7 @@ f"""something{(
     here
 )}and there"""
 
-## string concatinated - regular strings
+## string concatenated - regular strings
 
 message = "something " \
           "another {a} line"
@@ -241,7 +241,7 @@ message = 'something ' \
 message = 'something ' \
           'another \' line' # stored with double quote " in ast
 
-## string concatinated - byte strings
+## string concatenated - byte strings
 
 message = b"something " \
           b"another {a} line"
@@ -255,7 +255,7 @@ message = b'something ' \
 message = b'something ' \
           b'another \' line' # stored with double quote " in ast
 
-## string concatinated - f strings
+## string concatenated - f strings
 message = f"something " \
           f"another ' {a} line"
 
@@ -272,13 +272,13 @@ message = "something " \
           f"another ' {a} line"
 
 
-## f-string concatinated
+## f-string concatenated
 
 message = f"Hi {name}. " \
           f"You are a {profession}. " \
           f"You were in {affiliation}."
 
-## f-string concatinated tricky cases with {} escape formatting
+## f-string concatenated tricky cases with {} escape formatting
 
 message = f"something " \
           "another {{a}} line"

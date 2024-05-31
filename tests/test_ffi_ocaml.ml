@@ -137,6 +137,7 @@ let expected_output_comments =
                       };
                     ];
                   decorator_list = [];
+                  type_params = [];
                   returns = None;
                   type_comment = None;
                 };
@@ -295,6 +296,7 @@ let expected_ast_nullable_kw_defaults =
                       };
                     ];
                   decorator_list = [];
+                  type_params = [];
                   returns = None;
                   type_comment = None;
                 };

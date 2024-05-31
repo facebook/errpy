@@ -147,7 +147,7 @@ class ErrorRecoveryCommon(ASTTestCommon):
 
         self._check_error_recovery(many_fname, ".tailtest.", generator)
 
-    def make_progressive_test_gennerator(
+    def make_progressive_test_generator(
         self, insert_chars: Optional[str] = None
     ) -> Callable[[str, bool], Iterator[ErrorRecoveryTestIteratorStep]]:
         def generator(
@@ -224,33 +224,33 @@ class ErrorRecoveryCommon(ASTTestCommon):
         self._check_error_recovery(
             many_fname,
             ".insert_keyword.",
-            self.make_progressive_test_gennerator(" def "),
+            self.make_progressive_test_generator(" def "),
         )
 
     def check_error_recovery_insert_garbage(self, many_fname: str) -> None:
         self._check_error_recovery(
             many_fname,
             ".insert_garbage.",
-            self.make_progressive_test_gennerator(" garbage "),
+            self.make_progressive_test_generator(" garbage "),
         )
 
     def check_error_recovery_insert_whitespace(self, many_fname: str) -> None:
         self._check_error_recovery(
             many_fname,
             ".insert_whitespace.",
-            self.make_progressive_test_gennerator(" "),
+            self.make_progressive_test_generator(" "),
         )
 
     def check_error_recovery_nth_removed(self, many_fname: str) -> None:
         self._check_error_recovery(
-            many_fname, ".nth_removed.", self.make_progressive_test_gennerator()
+            many_fname, ".nth_removed.", self.make_progressive_test_generator()
         )
 
     def _check_error_recovery(
         self,
         many_fname: str,
         test_name: str,
-        gennerator: Callable[[str, bool], Iterator[ErrorRecoveryTestIteratorStep]],
+        generator: Callable[[str, bool], Iterator[ErrorRecoveryTestIteratorStep]],
         flavour: str = ERROR_RECOVERY_TESTS_DIR,
         skip_comments_and_whitespace: bool = True,
     ) -> None:
@@ -308,7 +308,7 @@ class ErrorRecoveryCommon(ASTTestCommon):
             did_errpy_panics = []  # we want to avoid these
             empty_asts = []  # this is usually a bad thing
 
-            for iteration in gennerator(test_body, skip_comments_and_whitespace):
+            for iteration in generator(test_body, skip_comments_and_whitespace):
                 (
                     character_number,
                     current_character,

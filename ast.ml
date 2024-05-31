@@ -67,6 +67,7 @@ and stmt_desc =
       args: arguments;
       body: stmt list;
       decorator_list: expr list;
+      type_params: expr list;
       returns: expr option;
       type_comment: string option;
     }
@@ -75,6 +76,7 @@ and stmt_desc =
       args: arguments;
       body: stmt list;
       decorator_list: expr list;
+      type_params: expr list;
       returns: expr option;
       type_comment: string option;
     }
@@ -84,6 +86,7 @@ and stmt_desc =
       keywords: keyword list;
       body: stmt list;
       decorator_list: expr list;
+      type_params: expr list;
     }
   | Return of expr option
   | Delete of expr list

@@ -255,6 +255,7 @@ impl fmt::Display for StmtDesc {
                 args,
                 body,
                 decorator_list,
+                type_params,
                 returns,
                 type_comment: _,
             } => {
@@ -265,12 +266,13 @@ impl fmt::Display for StmtDesc {
 
                 write!(
                     f,
-                    "FunctionDef(name='{}', args={}, body=[{}], decorator_list=[{}]{}, ",
+                    "FunctionDef(name='{}', args={}, body=[{}], decorator_list=[{}]{}, type_params=[{}], ",
                     name,
                     args,
                     format_vec(body),
                     format_vec(decorator_list),
-                    rets
+                    rets,
+                    format_vec(type_params)
                 )
             }
             StmtDesc::AsyncFunctionDef {
@@ -278,6 +280,7 @@ impl fmt::Display for StmtDesc {
                 args,
                 body,
                 decorator_list,
+                type_params,
                 returns,
                 type_comment: _,
             } => {
@@ -288,12 +291,13 @@ impl fmt::Display for StmtDesc {
 
                 write!(
                     f,
-                    "AsyncFunctionDef(name='{}', args={}, body=[{}], decorator_list=[{}]{}, ",
+                    "AsyncFunctionDef(name='{}', args={}, body=[{}], decorator_list=[{}]{}, type_params=[{}], ",
                     name,
                     args,
                     format_vec(body),
                     format_vec(decorator_list),
-                    rets
+                    rets,
+                    format_vec(type_params)
                 )
             }
             StmtDesc::ClassDef {
@@ -302,15 +306,17 @@ impl fmt::Display for StmtDesc {
                 keywords,
                 body,
                 decorator_list,
+                type_params,
             } => {
                 write!(
                     f,
-                    "ClassDef(name='{}', bases=[{}], keywords=[{}], body=[{}], decorator_list=[{}], ",
+                    "ClassDef(name='{}', bases=[{}], keywords=[{}], body=[{}], decorator_list=[{}], type_params=[{}], ",
                     name,
                     format_vec(bases),
                     format_vec(keywords),
                     format_vec(body),
                     format_vec(decorator_list),
+                    format_vec(type_params),
                 )
             }
             StmtDesc::Match { subject, cases } => {

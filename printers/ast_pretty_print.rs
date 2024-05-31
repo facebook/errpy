@@ -327,7 +327,8 @@ impl Stmt {
                 type_comment: _,
             } => {
                 for targ_elm in targets.iter() {
-                    (*targ_elm.desc).pprint(pprint_output);
+                    (*targ_elm.desc)
+                        .pprint_with_priority_level(pprint_output, PriorityLevel::NamedExpr);
                     pprint_output.push_str(" = ");
                 }
                 pprint_output.pop_many(3);
@@ -495,6 +496,7 @@ impl Stmt {
                 args,
                 body,
                 decorator_list,
+                type_params,
                 returns,
                 type_comment,
             } => format_funcdef(
@@ -503,6 +505,7 @@ impl Stmt {
                 args,
                 body,
                 decorator_list,
+                type_params,
                 returns,
                 type_comment,
                 pprint_output,
@@ -512,6 +515,7 @@ impl Stmt {
                 args,
                 body,
                 decorator_list,
+                type_params,
                 returns,
                 type_comment,
             } => format_funcdef(
@@ -520,6 +524,7 @@ impl Stmt {
                 args,
                 body,
                 decorator_list,
+                type_params,
                 returns,
                 type_comment,
                 pprint_output,
@@ -567,6 +572,7 @@ impl Stmt {
                 keywords,
                 body,
                 decorator_list,
+                type_params: _,
             } => format_class_def(name, bases, keywords, body, decorator_list, pprint_output),
             StmtDesc::Match { subject, cases } => {
                 pprint_output.push_str("match ");
@@ -780,6 +786,7 @@ pub fn format_funcdef(
     args: &Arguments,
     body: &[Stmt],
     decorator_list: &[Expr],
+    _type_params: &[Expr],
     returns: &Option<Expr>,
     _type_comment: &Option<String>,
     pprint_output: &mut PrintHelper,
@@ -937,7 +944,7 @@ pub fn format_for_stmt(
         pprint_output.push_str("async ");
     }
     pprint_output.push_str("for ");
-    (*target.desc).pprint(pprint_output);
+    (*target.desc).pprint_with_priority_level(pprint_output, PriorityLevel::Tuple);
     pprint_output.push_str(" in ");
     (*iter.desc).pprint(pprint_output);
     pprint_output.push_str(":\n");
@@ -1053,7 +1060,7 @@ impl ExprDesc {
                 if count > 0 {
                     pprint_output.pop();
                     if count > 1 {
-                        // leave the last comma if ther is only one item in the tuple
+                        // leave the last comma if there is only one item in the tuple
                         pprint_output.pop();
                     }
                 }
@@ -1124,6 +1131,9 @@ impl ExprDesc {
 
                 if atleastone {
                     pprint_output.pop_many(2);
+                } else {
+                    // remove the space after the lambda
+                    pprint_output.pop();
                 }
 
                 pprint_output.push_str(": ");
@@ -1451,6 +1461,9 @@ impl ExprDesc {
                     }
                 }
 
+                // if a constant part of the f-string contains single quotes
+                // we surround the string with double quotes
+                let mut needs_double_quote = false;
                 let f_string_output_start = pprint_output.current_length();
                 for expr in exprs.iter() {
                     pprint_output.ignore_next_n_chars(1);
@@ -1461,6 +1474,8 @@ impl ExprDesc {
                     } = &*expr.desc
                     {
                         let formatted_output = const_string.replace('{', "{{").replace('}', "}}");
+                        needs_double_quote |=
+                            const_string[1..const_string.len() - 1].contains('\'');
                         pprint_output.push_str(&formatted_output);
                     } else {
                         (*expr.desc).pprint(pprint_output);
@@ -1469,12 +1484,7 @@ impl ExprDesc {
                     pprint_output.pop();
                 }
 
-                let quote_type = if pprint_output.substring_contains(f_string_output_start, "'") {
-                    "\""
-                } else {
-                    "'"
-                };
-
+                let quote_type = if needs_double_quote { "\"" } else { "'" };
                 pprint_output.insert_at(f_string_output_start, quote_type);
                 pprint_output.push_str(quote_type);
             }
@@ -1578,7 +1588,9 @@ fn handle_assign_rhs_yield(value: &ExprDesc, pprint_output: &mut PrintHelper) {
 impl Comprehension {
     pub fn pprint(&self, pprint_output: &mut PrintHelper) {
         pprint_output.push_str(if self.is_async { "async for " } else { "for " });
-        self.target.desc.pprint(pprint_output);
+        self.target
+            .desc
+            .pprint_with_priority_level(pprint_output, PriorityLevel::Tuple);
         pprint_output.push_str(" in ");
         self.iter.desc.pprint(pprint_output);
         pprint_output.push_str(" ");
