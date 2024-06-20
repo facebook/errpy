@@ -133,7 +133,6 @@ struct TSLanguage {
 #define START_LEXER()           \
   bool result = false;          \
   bool skip = false;            \
-  bool eof = false;             \
   int32_t lookahead;            \
   goto start;                   \
   next_state:                   \
