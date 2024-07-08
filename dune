@@ -1,4 +1,3 @@
-
 (env
  (dev
   (flags
@@ -12,12 +11,13 @@
 
 (rule
  (targets libffi_ocaml.a)
- (mode fallback)
  (locks /cargo)
+ (deps (source_tree .))
  (action
-  (progn
-   (run cargo build --release)
-   (run cp ../../target/release/libffi_ocaml.a libffi_ocaml.a))))
+  (no-infer
+   (progn
+    (run cargo build --release)
+    (copy target/release/libffi_ocaml.a libffi_ocaml.a)))))
 
 (library
  (name errpy)
