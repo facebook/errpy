@@ -11,7 +11,6 @@ from difflib import unified_diff
 from typing import Optional
 
 import python.errpy.tests.utils.ast_utils as ast_utils
-
 from python.errpy.tests.utils.test_common import read_code
 
 
