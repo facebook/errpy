@@ -22,7 +22,7 @@ name = "print_cst"
 path = "print_cst.rs"
 
 [dependencies]
-bstr = { version = "1.4.0", features = ["serde", "std", "unicode"] }
+bstr = { version = "1.6.2", features = ["serde", "std", "unicode"] }
 clap = { version = "3.2.25", features = ["derive", "env", "regex", "unicode", "wrap_help"] }
 itertools = "0.11.0"
 num_enum = "0.5"
