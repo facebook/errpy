@@ -8928,7 +8928,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
 
 static bool ts_lex_keywords(TSLexer *lexer, TSStateId state) {
   START_LEXER();
-  bool eof = lexer->eof(lexer);
+  lexer->eof(lexer);
   switch (state) {
     case 0:
       if (lookahead == '\t' ||
